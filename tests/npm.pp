@@ -1,6 +1,6 @@
 include 'nodejs'
 
 nodejs::npm { '/tmp/npm:express':
-  ensure => present,
+  ensure  => present,
   version => '2.5.9',
 }
