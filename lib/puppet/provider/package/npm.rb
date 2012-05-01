@@ -1,17 +1,16 @@
 require 'puppet/provider/package'
 
 Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package do
-  desc "npm is package management for node.js."
+  desc "npm is package management for node.js. This provider only handles global packages."
 
   has_feature :versionable
-  #has_feature :upgradeable
 
-  commands :npm => 'npm'
+  optional_commands :npm => 'npm'
 
   def self.npmlist
     begin
+      output = npm('list', '--json', '--global')
       # ignore any npm output lines to be a bit more robust
-      output = npm('list', '--json')
       output = PSON.parse(output.lines.select{ |l| l =~ /^((?!^npm).*)$/}.join("\n"))
       @npmlist = output['dependencies'] || {}
     rescue Exception => e
@@ -31,10 +30,10 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
   end
 
   def query
-    @npmlist = npmlist
+    list = npmlist
 
-    if @npmlist.has_key?(resource[:name]) and @npmlist[resource[:name]].has_key?('version')
-      version = @npmlist[resource[:name]]['version']
+    if list.has_key?(resource[:name]) and list[resource[:name]].has_key?('version')
+      version = list[resource[:name]]['version']
       { :ensure => version, :name => resource[:name] }
     else
       { :ensure => :absent, :name => resource[:name] }
@@ -42,7 +41,7 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
   end
 
   def latest
-    if /#{resource[:name]}@([\d\.]+)/ =~ npm('outdated', resource[:name])
+    if /#{resource[:name]}@([\d\.]+)/ =~ npm('outdated', '--global',  resource[:name])
       @latest = $1
     else
       @property_hash[:ensure] unless @property_hash[:ensure].is_a? Symbol
@@ -60,11 +59,15 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
     else
       package = "#{resource[:name]}@#{resource[:ensure]}"
     end
-    npm('install', package)
+
+    if resource[:source]
+      npm('install', '--global', resource[:source])
+    else
+      npm('install', '--global', package)
+    end
   end
 
   def uninstall
-    npm('uninstall', resource[:name])
+    npm('uninstall', '--global', resource[:name])
   end
-
 end

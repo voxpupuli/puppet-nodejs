@@ -20,7 +20,15 @@ You may want to use apt::pin to pin package installation priority. See [puppet-a
 
 ### npm package
 
-npm package provider is an extension of puppet package type which supports versionable and upgradeable.
+Two types of npm packages are supported.
+
+* npm global packages are supported via ruby provider for puppet package type.
+* npm local packages are supported via puppet define type nodejs::npm.
+
+For more information regarding global vs. local installation see [nodejs blog](http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/)
+
+### package
+npm package provider is an extension of puppet package type which supports versionable and upgradeable. The package provider only handles global installation:
 
 Example:
 
@@ -33,6 +41,22 @@ Example:
       ensure   => '1.2.4',
       provider => 'npm',
     }
+
+### nodejs::npm
+nodejs::npm is suitalbe for local installation of npm packages:
+
+    nodejs::npm { '/opt/razor:express':
+      ensure  => present,
+      version => '2.5.9',
+    }
+
+nodejs::npm title consists of filepath and package name seperate via ':', and support the following attributes:
+
+* ensure: present, absent.
+* version: package version (optional).
+* source: package source (optional).
+* install_opt: option flags invoked during installation such as --link (optional).
+* remove_opt: option flags invoked during removal (optional).
 
 ## Supported Platforms
 
