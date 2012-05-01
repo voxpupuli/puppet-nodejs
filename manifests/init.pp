@@ -34,6 +34,10 @@ class nodejs {
         before => Package['nodejs'],
       }
     }
+
+    default: {
+      fail("Class nodejs does not support $::operatingsystem")
+    }
   }
 
   package { 'nodejs':
@@ -46,7 +50,7 @@ class nodejs {
 
   # npm installation is a hack since there's no packages:
   exec { 'install_npm':
-    command  => 'curl http://npmjs.org/install.sh | sed "s/<\/dev\/tty//g" > /tmp/install_$$.sh; chmod 755 /tmp/install_$$.sh; /tmp/install_$$.sh',
+    command   => 'curl http://npmjs.org/install.sh | sed "s/<\/dev\/tty//g" > /tmp/install_$$.sh; chmod 755 /tmp/install_$$.sh; /tmp/install_$$.sh',
     unless    => 'which npm',
     path      => $::path,
     logoutput => 'on_failure',
