@@ -39,6 +39,7 @@ define nodejs::npm (
       unless  => "npm list -p -l | grep '${validate}'",
       cwd     => $npm_dir,
       path    => $::path,
+      require => Class['nodejs'],
     }
   } else {
     exec { "npm_remove_${name}":
@@ -46,6 +47,7 @@ define nodejs::npm (
       onlyif  => "npm list -p -l | grep '${validate}'",
       cwd     => $npm_dir,
       path    => $::path,
+      require => Class['nodejs'],
     }
   }
 }
