@@ -26,8 +26,10 @@ class nodejs {
     'Ubuntu': {
       class { 'apt': }
 
-      package { 'python-software-properties':
-        ensure => present,
+      if !defined(Package["python-software-properties"]) {
+        package { 'python-software-properties':
+          ensure => present,
+        }
       }
 
       apt::ppa { 'ppa:chris-lea/node.js':
