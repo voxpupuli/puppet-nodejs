@@ -12,7 +12,7 @@ class nodejs {
 
   case $::operatingsystem {
     'Debian': {
-      class { 'apt': }
+      include 'apt'
 
       apt::source { 'sid':
         location    => 'http://ftp.us.debian.org/debian/',
@@ -24,11 +24,7 @@ class nodejs {
     }
 
     'Ubuntu': {
-      class { 'apt': }
-
-      package { 'python-software-properties':
-        ensure => present,
-      }
+      include 'apt'
 
       apt::ppa { 'ppa:chris-lea/node.js':
         before => Package['nodejs'],
