@@ -1,2 +1,5 @@
-0.1.0 2012-04-30 Nan Liu <nan@puppetlabs.com>
-* Initial publish of module.
+0.1.1 2012-05-04 Puppet Labs <info@puppetlabs.com>
+* Use include for apt class and add spec tests.
+
+0.1.0 2012-04-30 Puppet Labs <info@puppetlabs.com>
+* Initial module release.
