@@ -2,19 +2,21 @@
 
 ## Overview
 
-Install nodejs package and npm package provider for Debian.
+Install nodejs package and npm package provider for Debian, Ubuntu, Fedora, and RedHat.
 
 ## Usage
 
 ### class nodejs
 
-Installs nodejs via sid repo per [nodejs documentation](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager) and npm via the bash script per [npm documentation](https://github.com/isaacs/npm).
+Installs nodejs and npm per [nodejs documentation](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager).
+
+* dev_package: whether to install optional dev packages. dev packages not available on all platforms, default: false.
 
 Example:
 
     include nodejs
 
-You may want to use apt::pin to pin package installation priority. See [puppet-apt](https://github.com/puppetlabs/puppet-apt) for more information.
+You may want to use apt::pin to pin package installation priority on sqeeze. See [puppet-apt](https://github.com/puppetlabs/puppet-apt) for more information.
 
     apt::pin { 'sid': priority => 100 }
 
@@ -62,4 +64,5 @@ nodejs::npm title consists of filepath and package name seperate via ':', and su
 
 The module have been tested on the following operating systems. Testing and patches for other platforms are welcomed.
 
-* Debian Wheezy
+* Debian Wheezy.
+* RedHat EL5.

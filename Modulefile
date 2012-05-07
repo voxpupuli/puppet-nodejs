@@ -10,3 +10,4 @@ project_page 'https://github.com/puppetlabs/puppetlabs-nodejs'
 ## Add dependencies, if any:
 # dependency 'username/name', '>= 1.2.0'
 dependency 'puppetlabs/apt', '>= 0.0.3'
+dependency 'puppetlabs/stdlib', '>= 2.0.0'
