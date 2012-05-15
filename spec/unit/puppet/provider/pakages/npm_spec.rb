@@ -39,9 +39,9 @@ describe Puppet::Type.type(:package).provider(:npm) do
   describe "when npm packages are installed globally" do
     it "should return a list of npm packages installed globally" do
       @provider.class.stubs(:npm).with('list', '--json', '--global').returns(my_fixture_read('npm_global'))
-      @provider.class.instances.map {|p| p.properties}.should == [
+      @provider.class.instances.map {|p| p.properties}.sort_by{|res| res[:name]}.should == [
+        {:ensure => '2.5.9' , :provider => 'npm', :name => 'express'},
         {:ensure => '1.1.15', :provider => 'npm', :name => 'npm'    },
-        {:ensure => '2.5.9' , :provider => 'npm', :name => 'express' },
       ]
     end
   end
