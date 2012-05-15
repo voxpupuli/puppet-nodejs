@@ -20,6 +20,7 @@ class nodejs(
         location    => 'http://ftp.us.debian.org/debian/',
         release     => 'sid',
         repos       => 'main',
+        pin         => 100,
         include_src => false,
         before      => Anchor['nodejs::repo'],
       }
