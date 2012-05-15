@@ -8,7 +8,9 @@
 #
 # Usage:
 #
-class nodejs {
+class nodejs(
+  $dev_package = false
+) inherits nodejs::params {
 
   case $::operatingsystem {
     'Debian': {
@@ -18,39 +20,56 @@ class nodejs {
         location    => 'http://ftp.us.debian.org/debian/',
         release     => 'sid',
         repos       => 'main',
+        pin         => 100,
         include_src => false,
-        before      => Package['nodejs'],
+        before      => Anchor['nodejs::repo'],
       }
+
     }
 
     'Ubuntu': {
       include 'apt'
 
       apt::ppa { 'ppa:chris-lea/node.js':
-        before => Package['nodejs'],
+        before => Anchor['nodejs::repo'],
+      }
+    }
+
+    'Fedora', 'RedHat', 'CentOS', 'Amazon': {
+      package { 'nodejs-stable-release':
+        ensure   => present,
+        source   => $nodejs::params::pkg_src,
+        provider => 'rpm',
+        before   => Anchor['nodejs::repo'],
       }
     }
 
     default: {
-      fail("Class nodejs does not support $::operatingsystem")
+      fail("Class nodejs does not support ${::operatingsystem}")
     }
   }
 
+  # anchor resource provides a consistent dependency for prereq.
+  anchor { 'nodejs::repo': }
+
   package { 'nodejs':
+    name    => $nodejs::params::node_pkg,
     ensure  => present,
+    require => Anchor['nodejs::repo']
   }
 
-  package { 'curl':
-    ensure => present,
+  package { 'npm':
+    name    => $nodejs::params::npm_pkg,
+    ensure  => present,
+    require => Anchor['nodejs::repo']
   }
 
-  # npm installation is a hack since there's no packages:
-  exec { 'install_npm':
-    command   => 'curl http://npmjs.org/install.sh | sed "s/<\/dev\/tty//g" > /tmp/install_$$.sh; chmod 755 /tmp/install_$$.sh; /tmp/install_$$.sh',
-    unless    => 'which npm',
-    path      => $::path,
-    logoutput => 'on_failure',
-    require   => Package['nodejs', 'curl'],
+  if $dev_package and $nodejs::params::dev_pkg {
+    package { 'nodejs-dev':
+      name    => $nodejs::params::dev_pkg,
+      ensure  => present,
+      require => Anchor['nodejs::repo']
+    }
   }
 
 }
