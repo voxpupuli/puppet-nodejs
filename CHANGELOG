@@ -1,3 +1,8 @@
+0.2.0 2012-05-22 Puppet Labs <info@puppetlabs.com>
+* Add RedHat family support
+* Use npm package instead of exec script.
+* Remove ppa repo for Ubuntu Precise.
+
 0.1.1 2012-05-04 Puppet Labs <info@puppetlabs.com>
 * Use include for apt class and add spec tests.
 
