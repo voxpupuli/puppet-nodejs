@@ -30,8 +30,11 @@ class nodejs(
     'Ubuntu': {
       include 'apt'
 
-      apt::ppa { 'ppa:chris-lea/node.js':
-        before => Anchor['nodejs::repo'],
+      # Only use PPA for when necessary.
+      if $lsbdistcodename != 'Precise'{
+        apt::ppa { 'ppa:chris-lea/node.js':
+          before => Anchor['nodejs::repo'],
+        }
       }
     }
 
