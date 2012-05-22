@@ -15,6 +15,8 @@ define nodejs::npm (
   $install_opt = undef,
   $remove_opt  = undef
 ) {
+  include nodejs
+
   $npm = split($name, ':')
   $npm_dir = $npm[0]
   $npm_pkg = $npm[1]
