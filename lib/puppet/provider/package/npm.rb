@@ -15,6 +15,7 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
       @npmlist = output['dependencies'] || {}
     rescue Exception => e
       Puppet.debug("Error: npm list --json command error #{e.message}")
+      @npmlist = {}
     end
   end
 
