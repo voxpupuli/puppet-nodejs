@@ -9,7 +9,8 @@
 # Usage:
 #
 class nodejs(
-  $dev_package = false
+  $dev_package = false,
+  $proxy       = ''
 ) inherits nodejs::params {
 
   case $::operatingsystem {
@@ -65,6 +66,14 @@ class nodejs(
     name    => $nodejs::params::npm_pkg,
     ensure  => present,
     require => Anchor['nodejs::repo']
+  }
+
+  if $proxy {
+    exec { 'npm_proxy':
+      command => "npm config set proxy ${proxy}",
+      path    => $::path,
+      require => Package['npm'],
+    }
   }
 
   if $dev_package and $nodejs::params::dev_pkg {
