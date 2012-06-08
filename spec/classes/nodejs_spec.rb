@@ -33,6 +33,10 @@ describe 'nodejs', :type => :class do
       }
     end
 
+    let :params do
+      { :dev_package => true, }
+    end
+
     it { should contain_class('apt') }
     it { should contain_apt__ppa('ppa:chris-lea/node.js') }
     it { should contain_package('nodejs') }
@@ -40,6 +44,7 @@ describe 'nodejs', :type => :class do
       'name'    => 'nodejs',
       'require' => 'Anchor[nodejs::repo]',
     }) }
+    it { should contain_package('nodejs-dev') }
     it { should contain_package('npm').with({
       'name'    => 'npm',
       'require' => 'Anchor[nodejs::repo]',
@@ -76,5 +81,29 @@ describe 'nodejs', :type => :class do
       it { should_not contain_package('nodejs-dev') }
     end
   end
+
+  describe 'when deploying with proxy' do
+    let :facts do
+      {
+        :operatingsystem => 'Ubuntu',
+        :lsbdistcodename => 'edgy',
+      }
+    end
+
+    let :params do
+      { :proxy => 'http://proxy.puppetlabs.lan:80/' }
+    end
+
+    it { should contain_package('npm').with({
+      'name'    => 'npm',
+      'require' => 'Anchor[nodejs::repo]',
+    }) }
+    it { should contain_exec('npm_proxy').with({
+      'command' => 'npm config set proxy http://proxy.puppetlabs.lan:80/',
+      'require' => 'Package[npm]',
+    }) }
+    it { should_not contain_package('nodejs-stable-release') }
+  end
+
 end
 
