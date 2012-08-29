@@ -38,31 +38,31 @@ define nodejs::npm (
     }
   } else {
 
-  if $version {
-    $validate = "${npm_dir}/node_modules/${npm_pkg}:${npm_pkg}@${version}"
-  } else {
-    $validate = "${npm_dir}/node_modules/${npm_pkg}"
-  }
-
-  if $ensure == present {
-    exec { "npm_install_${name}":
-      command => "npm install ${install_opt} ${install_pkg}",
-      unless  => "npm list -p -l | grep '${validate}'",
-      cwd     => $npm_dir,
-      path    => $::path,
-      require => Class['nodejs'],
+    if $version {
+      $validate = "${npm_dir}/node_modules/${npm_pkg}:${npm_pkg}@${version}"
+    } else {
+      $validate = "${npm_dir}/node_modules/${npm_pkg}"
     }
-
-    # Conditionally require npm_proxy only if resource exists.
-    Exec<| title=='npm_proxy' |> -> Exec["npm_install_${name}"]
-  } else {
-    exec { "npm_remove_${name}":
-      command => "npm remove ${npm_pkg}",
-      onlyif  => "npm list -p -l | grep '${validate}'",
-      cwd     => $npm_dir,
-      path    => $::path,
-      require => Class['nodejs'],
+  
+    if $ensure == present {
+      exec { "npm_install_${name}":
+        command => "npm install ${install_opt} ${install_pkg}",
+        unless  => "npm list -p -l | grep '${validate}'",
+        cwd     => $npm_dir,
+        path    => $::path,
+        require => Class['nodejs'],
+      }
+  
+      # Conditionally require npm_proxy only if resource exists.
+      Exec<| title=='npm_proxy' |> -> Exec["npm_install_${name}"]
+    } else {
+      exec { "npm_remove_${name}":
+        command => "npm remove ${npm_pkg}",
+        onlyif  => "npm list -p -l | grep '${validate}'",
+        cwd     => $npm_dir,
+        path    => $::path,
+        require => Class['nodejs'],
+      }
     }
-  }
   }
 }
