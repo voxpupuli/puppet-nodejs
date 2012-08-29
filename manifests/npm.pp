@@ -29,6 +29,15 @@ define nodejs::npm (
     $install_pkg = $npm_pkg
   }
 
+  if !$npm_pkg {
+    exec { "npm_install_${name}":
+      command => "npm install ${install_opt}",
+      cwd     => $npm_dir,
+      path    => $::path,
+      require => Class['nodejs'],
+    }
+  } else {
+
   if $version {
     $validate = "${npm_dir}/node_modules/${npm_pkg}:${npm_pkg}@${version}"
   } else {
@@ -54,5 +63,6 @@ define nodejs::npm (
       path    => $::path,
       require => Class['nodejs'],
     }
+  }
   }
 }
