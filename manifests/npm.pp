@@ -13,7 +13,9 @@ define nodejs::npm (
   $version     = undef,
   $source      = undef,
   $install_opt = undef,
-  $remove_opt  = undef
+  $remove_opt  = undef,
+  $user        = root,
+  $group       = root
 ) {
   include nodejs
 
@@ -29,30 +31,46 @@ define nodejs::npm (
     $install_pkg = $npm_pkg
   }
 
-  if $version {
-    $validate = "${npm_dir}/node_modules/${npm_pkg}:${npm_pkg}@${version}"
-  } else {
-    $validate = "${npm_dir}/node_modules/${npm_pkg}"
-  }
-
-  if $ensure == present {
+  if !$npm_pkg {
     exec { "npm_install_${name}":
-      command => "npm install ${install_opt} ${install_pkg}",
-      unless  => "npm list -p -l | grep '${validate}'",
+      command => "npm install ${install_opt}",
       cwd     => $npm_dir,
       path    => $::path,
+      user    => $user,
+      group   => $group,
       require => Class['nodejs'],
     }
-
-    # Conditionally require npm_proxy only if resource exists.
-    Exec<| title=='npm_proxy' |> -> Exec["npm_install_${name}"]
   } else {
-    exec { "npm_remove_${name}":
-      command => "npm remove ${npm_pkg}",
-      onlyif  => "npm list -p -l | grep '${validate}'",
-      cwd     => $npm_dir,
-      path    => $::path,
-      require => Class['nodejs'],
+
+    if $version {
+      $validate = "${npm_dir}/node_modules/${npm_pkg}:${npm_pkg}@${version}"
+    } else {
+      $validate = "${npm_dir}/node_modules/${npm_pkg}"
+    }
+  
+    if $ensure == present {
+      exec { "npm_install_${name}":
+        command => "npm install ${install_opt} ${install_pkg}",
+        unless  => "npm list -p -l | grep '${validate}'",
+        cwd     => $npm_dir,
+        path    => $::path,
+        require => Class['nodejs'],
+        user    => $user,
+        group   => $group,
+      }
+  
+      # Conditionally require npm_proxy only if resource exists.
+      Exec<| title=='npm_proxy' |> -> Exec["npm_install_${name}"]
+    } else {
+      exec { "npm_remove_${name}":
+        command => "npm remove ${npm_pkg}",
+        onlyif  => "npm list -p -l | grep '${validate}'",
+        cwd     => $npm_dir,
+        path    => $::path,
+        require => Class['nodejs'],
+        user    => $user,
+        group   => $group,
+      }
     }
   }
 }
