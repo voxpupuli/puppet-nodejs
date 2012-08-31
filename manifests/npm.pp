@@ -13,7 +13,9 @@ define nodejs::npm (
   $version     = undef,
   $source      = undef,
   $install_opt = undef,
-  $remove_opt  = undef
+  $remove_opt  = undef,
+  $user        = root,
+  $group       = root
 ) {
   include nodejs
 
@@ -34,6 +36,8 @@ define nodejs::npm (
       command => "npm install ${install_opt}",
       cwd     => $npm_dir,
       path    => $::path,
+      user    => $user,
+      group   => $group,
       require => Class['nodejs'],
     }
   } else {
@@ -51,6 +55,8 @@ define nodejs::npm (
         cwd     => $npm_dir,
         path    => $::path,
         require => Class['nodejs'],
+        user    => $user,
+        group   => $group,
       }
   
       # Conditionally require npm_proxy only if resource exists.
@@ -62,6 +68,8 @@ define nodejs::npm (
         cwd     => $npm_dir,
         path    => $::path,
         require => Class['nodejs'],
+        user    => $user,
+        group   => $group,
       }
     }
   }
