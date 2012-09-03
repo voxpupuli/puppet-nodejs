@@ -31,12 +31,12 @@ class nodejs(
     'Ubuntu': {
       include 'apt'
 
-      # Only use PPA when necessary.
-      if $::lsbdistcodename != 'Precise'{
+      # Precise repo is no longer being updated, revert back to PPA # Only use PPA when necessary.
+      #if $::lsbdistcodename != 'Precise'{
         apt::ppa { 'ppa:chris-lea/node.js':
           before => Anchor['nodejs::repo'],
         }
-      }
+      #}
     }
 
     'Fedora', 'RedHat', 'CentOS', 'Amazon': {
