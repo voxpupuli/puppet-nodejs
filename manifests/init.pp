@@ -39,7 +39,7 @@ class nodejs(
       }
     }
 
-    'Fedora', 'RedHat', 'CentOS', 'Amazon': {
+    'Fedora', 'RedHat', 'CentOS', 'OracleLinux', 'Amazon': {
       package { 'nodejs-stable-release':
         ensure   => present,
         source   => $nodejs::params::pkg_src,
