@@ -105,5 +105,21 @@ describe 'nodejs', :type => :class do
     it { should_not contain_package('nodejs-stable-release') }
   end
 
+  describe 'when pkg_src is specified' do
+    let :facts do 
+      {
+        :operatingsystem => 'RedHat'
+      }
+    end
+
+    let :params do
+      {
+        :pkg_src => 'http://pkg.puppetlabs.com/nodejs-release.noarch.rpm'
+      }
+    end
+    it { should contain_package('nodejs-stable-release').with({
+      'source' => 'http://pkg.puppetlabs.com/nodejs-release.noarch.rpm'
+    }) }
+  end
 end
 
