@@ -45,7 +45,7 @@ Example:
     }
 
 ### nodejs::npm
-nodejs::npm is suitalbe for local installation of npm packages:
+nodejs::npm is suitable for local installation of npm packages:
 
     nodejs::npm { '/opt/razor:express':
       ensure  => present,
