@@ -23,7 +23,7 @@ class nodejs::params {
       $dev_pkg  = 'nodejs-devel'
     }
 
-    'RedHat', 'CentOS': {
+    'RedHat', 'CentOS', 'Scientific': {
       $node_pkg = 'nodejs-compat-symlinks'
       $npm_pkg  = 'npm'
       $pkg_src  = 'http://nodejs.tchol.org/repocfg/el/nodejs-stable-release.noarch.rpm'
