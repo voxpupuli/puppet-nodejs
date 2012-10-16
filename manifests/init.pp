@@ -13,33 +13,35 @@ class nodejs(
   $proxy       = ''
 ) inherits nodejs::params {
 
-  case $::operatingsystem {
+
+  case $::osfamily {
     'Debian': {
-      include 'apt'
+      case $::operatingsystem {
+        'Debian': {
+          include 'apt'
 
-      apt::source { 'sid':
-        location    => 'http://ftp.us.debian.org/debian/',
-        release     => 'sid',
-        repos       => 'main',
-        pin         => 100,
-        include_src => false,
-        before      => Anchor['nodejs::repo'],
-      }
-
-    }
-
-    'Ubuntu': {
-      include 'apt'
-
-      # Only use PPA when necessary.
-      if $::lsbdistcodename != 'Precise'{
-        apt::ppa { 'ppa:chris-lea/node.js':
-          before => Anchor['nodejs::repo'],
+          apt::source { 'sid':
+            location    => 'http://ftp.us.debian.org/debian/',
+            release     => 'sid',
+            repos       => 'main',
+            pin         => 100,
+            include_src => false,
+            before      => Anchor['nodejs::repo'],
+          }
+        }
+        'Ubuntu': {
+          include 'apt'
+    
+          # Only use PPA when necessary.
+          if $::lsbdistcodename != 'Precise'{
+            apt::ppa { 'ppa:chris-lea/node.js':
+              before => Anchor['nodejs::repo'],
+            }
+          }
         }
       }
     }
-
-    'Fedora', 'RedHat', 'CentOS', 'Scientific', 'Amazon': {
+    'RedHat': {
       package { 'nodejs-stable-release':
         ensure   => present,
         source   => $nodejs::params::pkg_src,
@@ -47,7 +49,6 @@ class nodejs(
         before   => Anchor['nodejs::repo'],
       }
     }
-
     default: {
       fail("Class nodejs does not support ${::operatingsystem}")
     }
