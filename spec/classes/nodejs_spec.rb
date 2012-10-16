@@ -54,6 +54,7 @@ describe 'nodejs', :type => :class do
 
   { 'Redhat' => 'el',
     'CentOS' => 'el',
+    'Scientific' => 'el',
     'Fedora' => 'fedora',
     'Amazon' => 'amzn1'
   }.each do |os, repo|
