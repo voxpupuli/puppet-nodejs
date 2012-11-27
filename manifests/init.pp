@@ -10,7 +10,8 @@
 #
 class nodejs(
   $dev_package = false,
-  $proxy       = ''
+  $proxy       = '',
+  $pkg_src     = ''
 ) inherits nodejs::params {
 
   case $::operatingsystem {
@@ -40,9 +41,14 @@ class nodejs(
     }
 
     'Fedora', 'RedHat', 'CentOS', 'Amazon': {
+      $r_pkg_src = $pkg_src ? {
+        ''      => $nodejs::params::pkg_src,
+        default => $pkg_src
+      }
+
       package { 'nodejs-stable-release':
         ensure   => present,
-        source   => $nodejs::params::pkg_src,
+        source   => $r_pkg_src,
         provider => 'rpm',
         before   => Anchor['nodejs::repo'],
       }
