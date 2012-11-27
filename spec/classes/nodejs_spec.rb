@@ -5,6 +5,7 @@ describe 'nodejs', :type => :class do
   describe 'when deploying on debian' do
     let :facts do
       {
+        :osfamily => 'Debian',
         :operatingsystem => 'Debian',
         :lsbdistcodename => 'sid',
       }
@@ -28,6 +29,7 @@ describe 'nodejs', :type => :class do
   describe 'when deploying on ubuntu' do
     let :facts do
       {
+        :osfamily => 'Debian',
         :operatingsystem => 'Ubuntu',
         :lsbdistcodename => 'edgy',
       }
@@ -54,12 +56,14 @@ describe 'nodejs', :type => :class do
 
   { 'Redhat' => 'el',
     'CentOS' => 'el',
+    'Scientific' => 'el',
     'Fedora' => 'fedora',
     'Amazon' => 'amzn1'
   }.each do |os, repo|
     describe 'when deploying on RedHat' do
       let :facts do
-        { :operatingsystem => os, }
+        { :osfamily => 'Redhat',
+          :operatingsystem => os, }
       end
 
       let :params do
@@ -85,6 +89,7 @@ describe 'nodejs', :type => :class do
   describe 'when deploying with proxy' do
     let :facts do
       {
+        :osfamily => 'Debian',
         :operatingsystem => 'Ubuntu',
         :lsbdistcodename => 'edgy',
       }
