@@ -9,14 +9,22 @@
 # Usage:
 #
 class nodejs::params {
-  case $::osfamily {
+
+  # Work around issue: http://projects.puppetlabs.com/issues/15792
+  if $::operatingsystem == 'Amazon' {
+    $osfamily = 'RedHat'
+  } else {
+    $osfamily = $::osfamily
+  }
+
+  case $osfamily {
     'RedHat': {
       $node_pkg = 'nodejs-compat-symlinks'
       $npm_pkg  = 'npm'
       case $::operatingsystem {
-        'Fedora': { $pkg_src  = 'http://nodejs.tchol.org/repocfg/fedora/nodejs-stable-release.noarch.rpm' }
-        'Amazon': { $pkg_src  = 'http://nodejs.tchol.org/repocfg/amzn1/nodejs-stable-release.noarch.rpm' }
-        default: { $pkg_src = 'http://nodejs.tchol.org/repocfg/el/nodejs-stable-release.noarch.rpm' }
+        'Fedora': { $pkg_src = 'http://nodejs.tchol.org/repocfg/fedora/nodejs-stable-release.noarch.rpm' }
+        'Amazon': { $pkg_src = 'http://nodejs.tchol.org/repocfg/amzn1/nodejs-stable-release.noarch.rpm' }
+        default:  { $pkg_src = 'http://nodejs.tchol.org/repocfg/el/nodejs-stable-release.noarch.rpm' }
       }
     }
     'Debian': {
