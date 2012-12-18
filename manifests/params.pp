@@ -8,7 +8,7 @@
 #
 # Usage:
 #
-class nodejs::params {
+class nodejs::params($version = '0.8.16') {
 
   case $::operatingsystem {
     'Debian', 'Ubuntu': {
@@ -23,22 +23,14 @@ class nodejs::params {
       $dev_pkg  = 'nodejs-devel'
     }
 
-    'RedHat', 'CentOS': {
-      $node_pkg = 'nodejs-compat-symlinks'
-      $npm_pkg  = 'npm'
-      $pkg_src  = 'http://nodejs.tchol.org/repocfg/el/nodejs-stable-release.noarch.rpm'
-    }
-
-    'Fedora': {
-      $node_pkg = 'nodejs-compat-symlinks'
-      $npm_pkg  = 'npm'
-      $pkg_src  = 'http://nodejs.tchol.org/repocfg/fedora/nodejs-stable-release.noarch.rpm'
-    }
-
-    'Amazon': {
-      $node_pkg = 'nodejs-compat-symlinks'
-      $npm_pkg  = 'npm'
-      $pkg_src  = 'http://nodejs.tchol.org/repocfg/amzn1/nodejs-stable-release.noarch.rpm'
+    'RedHat', 'CentOS', 'Fedora', 'Amazon': {
+      $node_arch = $::architecture ? { 'x86_64' => 'x64', default => 'x86' }
+      # These pkg names will not be needed until a new repo becomes available
+      $node_pkg       = 'nodejs-compat-symlinks'
+      $npm_pkg        = 'npm'
+      $pkg_src        = "http://nodejs.org/dist/v${version}/node-v${version}-linux-${node_arch}.tar.gz"
+      $nodejs_tarball = "/usr/local/src/node-v${version}-linux-${node_arch}.tar.gz"
+      $install_dir    = "/usr/local/node-v${version}-linux-${node_arch}"
     }
 
     default: {

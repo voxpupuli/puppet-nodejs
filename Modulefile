@@ -11,3 +11,5 @@ project_page 'https://github.com/puppetlabs/puppetlabs-nodejs'
 # dependency 'username/name', '>= 1.2.0'
 dependency 'puppetlabs/apt', '>= 0.0.3'
 dependency 'puppetlabs/stdlib', '>= 2.0.0'
+dependency 'maestrodev/wget', '>= 1.0.0'
+
