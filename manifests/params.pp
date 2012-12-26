@@ -23,22 +23,32 @@ class nodejs::params {
       $dev_pkg  = 'nodejs-devel'
     }
 
-    'RedHat', 'CentOS': {
+    'RedHat', 'CentOS', 'OEL', 'OracleLinux': {
+      $majdistrelease = $::lsbmajdistrelease ? {
+        ''      => regsubst($::operatingsystemrelease,'^(\d+)\.(\d+)','\1'),
+        default => $::lsbmajdistrelease,
+      }
       $node_pkg = 'nodejs-compat-symlinks'
       $npm_pkg  = 'npm'
-      $pkg_src  = 'http://nodejs.tchol.org/repocfg/el/nodejs-stable-release.noarch.rpm'
+      $baseurl  = 'http://patches.fedorapeople.org/oldnode/stable/el$releasever/$basearch/'
+      $gpgcheck = $majdistrelease ? {
+        '5'     => 0,
+        default => 1,
+      }
     }
 
     'Fedora': {
       $node_pkg = 'nodejs-compat-symlinks'
       $npm_pkg  = 'npm'
-      $pkg_src  = 'http://nodejs.tchol.org/repocfg/fedora/nodejs-stable-release.noarch.rpm'
+      $gpgcheck = 1
+      $baseurl  = 'http://patches.fedorapeople.org/oldnode/stable/f$releasever/$basearch/'
     }
 
     'Amazon': {
       $node_pkg = 'nodejs-compat-symlinks'
       $npm_pkg  = 'npm'
-      $pkg_src  = 'http://nodejs.tchol.org/repocfg/amzn1/nodejs-stable-release.noarch.rpm'
+      $gpgcheck = 1
+      $baseurl  = 'http://patches.fedorapeople.org/oldnode/stable/amzn1/$basearch/'
     }
 
     default: {
