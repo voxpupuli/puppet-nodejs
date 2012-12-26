@@ -46,7 +46,7 @@ class nodejs(
       }
 
       yumrepo { 'nodejs-stable':
-        name     => 'Stable releases of Node.js',
+        descr    => 'Stable releases of Node.js',
         baseurl  => $nodejs::params::baseurl,
         enabled  => 1,
         gpgcheck => $nodejs::params::gpgcheck,
