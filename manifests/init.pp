@@ -39,11 +39,18 @@ class nodejs(
       }
     }
 
-    'Fedora', 'RedHat', 'CentOS', 'Amazon': {
+    'Fedora', 'RedHat', 'CentOS', 'OEL', 'OracleLinux', 'Amazon': {
       package { 'nodejs-stable-release':
-        ensure   => present,
-        source   => $nodejs::params::pkg_src,
-        provider => 'rpm',
+        ensure => absent,
+        before => Yumrepo['nodejs-stable'],
+      }
+
+      yumrepo { 'nodejs-stable':
+        descr    => 'Stable releases of Node.js',
+        baseurl  => $nodejs::params::baseurl,
+        enabled  => 1,
+        gpgcheck => $nodejs::params::gpgcheck,
+        gpgkey   => 'http://patches.fedorapeople.org/oldnode/stable/RPM-GPG-KEY-tchol',
         before   => Anchor['nodejs::repo'],
       }
     }
