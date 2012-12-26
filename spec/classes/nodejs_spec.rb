@@ -66,6 +66,9 @@ describe 'nodejs', :type => :class do
         { :dev_package => true, }
       end
 
+      it { should contain_package('nodejs-stable-release').with({
+        'ensure' => 'absent',
+      }) }
       it { should contain_yumrepo('nodejs-stable').with({
         'baseurl'  => "http://patches.fedorapeople.org/oldnode/stable/#{repo}/$basearch/",
         'gpgcheck' => '1',

@@ -40,6 +40,11 @@ class nodejs(
     }
 
     'Fedora', 'RedHat', 'CentOS', 'OEL', 'OracleLinux', 'Amazon': {
+      package { 'nodejs-stable-release':
+        ensure => absent,
+        before => Yumrepo['nodejs-stable'],
+      }
+
       yumrepo { 'nodejs-stable':
         name     => 'Stable releases of Node.js',
         baseurl  => $nodejs::params::baseurl,
