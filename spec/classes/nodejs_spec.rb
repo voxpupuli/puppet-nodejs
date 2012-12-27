@@ -52,9 +52,9 @@ describe 'nodejs', :type => :class do
     it { should_not contain_package('nodejs-stable-release') }
   end
 
-  { 'Redhat' => 'el',
-    'CentOS' => 'el',
-    'Fedora' => 'fedora',
+  { 'Redhat' => 'el$releasever',
+    'CentOS' => 'el$releasever',
+    'Fedora' => 'f$releasever',
     'Amazon' => 'amzn1'
   }.each do |os, repo|
     describe 'when deploying on RedHat' do
@@ -67,8 +67,12 @@ describe 'nodejs', :type => :class do
       end
 
       it { should contain_package('nodejs-stable-release').with({
-        'source'   => "http://nodejs.tchol.org/repocfg/#{repo}/nodejs-stable-release.noarch.rpm",
-        'provider' => 'rpm',
+        'ensure' => 'absent',
+      }) }
+      it { should contain_yumrepo('nodejs-stable').with({
+        'baseurl'  => "http://patches.fedorapeople.org/oldnode/stable/#{repo}/$basearch/",
+        'gpgcheck' => '1',
+        'before'   => 'Anchor[nodejs::repo]',
       }) }
       it { should contain_package('nodejs').with({
         'name'    => 'nodejs-compat-symlinks',
