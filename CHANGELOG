@@ -1,3 +1,6 @@
+0.2.1 2012-12-28 Puppet Labs <info@puppetlabs.com>
+* Updated EL RPM repositories
+
 0.2.0 2012-05-22 Puppet Labs <info@puppetlabs.com>
 * Add RedHat family support
 * Use npm package instead of exec script.
