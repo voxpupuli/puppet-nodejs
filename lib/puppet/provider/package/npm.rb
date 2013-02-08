@@ -62,9 +62,9 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
     end
 
     if resource[:source]
-      npm('install', '--global', resource[:source])
+      npm('install', '--global', '--force', resource[:source])
     else
-      npm('install', '--global', package)
+      npm('install', '--global', '--force', package)
     end
   end
 
