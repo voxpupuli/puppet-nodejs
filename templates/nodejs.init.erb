@@ -1,0 +1,77 @@
+### BEGIN INIT INFO
+# Provides:          nodejs-mobile
+# Required-Start:    $remote_fs $network $syslog
+# Required-Stop:     $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Runs nodejs instance
+# Description:       Runs nodejs scripte '<%= @root_dir %>/<%= @script %>'
+#                    as user '<%= @user %>'.
+### END INIT INFO
+
+NAME=nodejs-<%= @name %>
+DAEMON=/usr/bin/node
+USER=<%= @user %>
+ROOT_DIR=<%= @root_dir %>
+SCRIPT=$ROOT_DIR/<%= @script %>
+
+[ -x $DAEMON ] || exit 5
+
+. /lib/lsb/init-functions
+
+case $1 in
+  start)
+    echo -n "Starting $NAME"
+
+    start_daemon -u $USER "$DAEMON $SCRIPT &"
+
+    RETVAL=$?
+
+    case $RETVAL in
+      0) log_success_msg ;;
+      1) log_warning_msg ;;
+      *) log_failure_msg ;;
+    esac
+    ;;
+  stop)
+    echo -n "Stopping $NAME"
+
+    killproc "$DAEMON $SCRIPT"
+
+    RETVAL=$?
+
+    case $RETVAL in
+      0) log_success_msg ;;
+      1) log_warning_msg ;;
+      *) log_failure_msg ;;
+    esac
+    ;;
+  status)
+    echo -n "Status of $NAME"
+
+    pidofproc "$DAEMON $SCRIPT" > /dev/null
+
+    RETVAL=$?
+
+    case $RETVAL in
+      0)
+        log_success_msg
+        exit 0
+        ;;
+      1)
+        log_warning_msg
+        exit 0
+        ;;
+      *)
+        log_failure_msg
+        exit 2
+        ;;
+    esac
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|status}"
+    exit 2
+    ;;
+esac
+
+exit $RETVAL
