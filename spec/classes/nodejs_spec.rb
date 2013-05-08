@@ -45,10 +45,7 @@ describe 'nodejs', :type => :class do
       'require' => 'Anchor[nodejs::repo]',
     }) }
     it { should contain_package('nodejs-dev') }
-    it { should contain_package('npm').with({
-      'name'    => 'npm',
-      'require' => 'Anchor[nodejs::repo]',
-    }) }
+    it { should_not contain_package('npm') }
     it { should_not contain_package('nodejs-stable-release') }
   end
 
@@ -98,10 +95,7 @@ describe 'nodejs', :type => :class do
       { :proxy => 'http://proxy.puppetlabs.lan:80/' }
     end
 
-    it { should contain_package('npm').with({
-      'name'    => 'npm',
-      'require' => 'Anchor[nodejs::repo]',
-    }) }
+    it { should_not contain_package('npm') }
     it { should contain_exec('npm_proxy').with({
       'command' => 'npm config set proxy http://proxy.puppetlabs.lan:80/',
       'require' => 'Package[npm]',
