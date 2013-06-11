@@ -5,7 +5,10 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
 
   has_feature :versionable
 
-  optional_commands :npm => 'npm'
+  has_command(:npm, 'npm') do
+      is_optional
+      environment :HOME => '/root'
+  end
 
   def self.npmlist
     begin
