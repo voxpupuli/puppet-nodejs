@@ -34,13 +34,9 @@ class nodejs::params {
           $gpgcheck = 0
           $node_pkg = 'nodejs-compat-symlinks'
         }
-        '6': {
+        default: {
           $gpgcheck = 1
           $node_pkg = 'nodejs'
-        }
-        default: {
-          $gpgcheck = 0
-          $node_pkg = 'nodejs-compat-symlinks'
         }
       }
       $npm_pkg  = 'npm'
