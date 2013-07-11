@@ -10,7 +10,7 @@
 #
 class nodejs(
   $dev_package = false,
-  $manage_repo = true,
+  $manage_repo = false,
   $proxy       = ''
 ) inherits nodejs::params {
   #input validation
@@ -62,10 +62,12 @@ class nodejs(
         }
         file {'nodejs_repofile':
           ensure  => 'file',
+          before  => Anchor['nodejs::repo'],
           group   => 'root',
           mode    => '0444',
           owner   => 'root',
-          path    => '/etc/yum.repos.d/nodejs-stable.repo'
+          path    => '/etc/yum.repos.d/nodejs-stable.repo',
+          require => Yumrepo['nodejs-stable']
         }
       }
     }
