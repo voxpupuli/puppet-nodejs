@@ -1,5 +1,5 @@
 name    'puppetlabs-nodejs'
-version '0.2.1'
+version '0.3.0'
 source  'git://github.com/puppetlabs/puppetlabs-nodejs'
 author  'Puppet Labs'
 license 'Apache 2.0'
