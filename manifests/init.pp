@@ -43,6 +43,10 @@ class nodejs(
             before => Anchor['nodejs::repo'],
           }
         }
+
+        apt::ppa { 'ppa:chris-lea/node.js-devel':
+          before => Anchor['nodejs::repo'],
+        }
       }
     }
 
