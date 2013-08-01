@@ -2,6 +2,22 @@ require 'spec_helper'
 
 describe 'nodejs', :type => :class do
 
+  describe 'input validation' do
+    let :facts  do {} end
+    let :params do {} end
+    it 'when deploying on an unsupported os' do
+      facts.merge!({:operatingsystem => 'SparklePony'})
+      params.merge!({:dev_package => true, :manage_repo => true })
+       expect { subject }.to raise_error(Puppet::Error, /Class nodejs does not support SparklePony/)
+    end
+    ['dev_package','manage_repo'].each do |boolz|
+      it "should fail when #{boolz} is not a boolean" do
+        facts.merge!({:operatingsystem => 'Debian'})
+        params.merge!({boolz => 'BOGON'})
+        expect { subject }.to raise_error(Puppet::Error, /"BOGON" is not a boolean.  It looks to be a String/)
+      end
+    end
+  end
   describe 'when deploying on debian' do
     let :facts do
       {
@@ -9,11 +25,23 @@ describe 'nodejs', :type => :class do
         :lsbdistcodename => 'sid',
       }
     end
-
-    it { should contain_class('apt') }
-    it { should contain_apt__source('sid').with({
-      'location' => 'http://ftp.us.debian.org/debian/',
-    }) }
+    let :params do
+      { :dev_package => true, :manage_repo => true }
+    end
+    context 'when manage_repo is true' do
+      it { should contain_class('apt') }
+      it 'should contain the apt source' do
+        should contain_apt__source('sid').with({
+          'location' => 'http://ftp.us.debian.org/debian/',
+        })
+      end
+    end
+    context 'when manage_repo is false' do
+      it 'should not contain the apt source' do
+        params.merge!({:manage_repo => false})
+        should_not contain_apt__source('sid')
+      end
+    end
     it { should contain_package('nodejs').with({
       'name'    => 'nodejs',
       'require' => 'Anchor[nodejs::repo]',
@@ -34,11 +62,19 @@ describe 'nodejs', :type => :class do
     end
 
     let :params do
-      { :dev_package => true, }
+      { :dev_package => true, :manage_repo => true }
     end
-
-    it { should contain_class('apt') }
-    it { should contain_apt__ppa('ppa:chris-lea/node.js') }
+    context 'when manage_repo is true' do
+      it { should contain_class('apt') }
+      it { should contain_apt__ppa('ppa:chris-lea/node.js') }
+    end
+    context 'when manage_repo is false' do
+      it 'should not create the ppa' do
+        params.merge!({:manage_repo => false})
+        should_not contain_class('apt')
+        should_not contain_apt__ppa('ppa:chris-lea/node.js')
+      end
+    end
     it { should contain_package('nodejs') }
     it { should contain_package('nodejs').with({
       'name'    => 'nodejs',
@@ -50,27 +86,104 @@ describe 'nodejs', :type => :class do
   end
 
   { 'Redhat' => 'el$releasever',
-    'CentOS' => 'el$releasever',
-    'Fedora' => 'f$releasever',
+    'CentOS' => 'el$releasever'
+  }.each do |os, repo|
+    { '5' => 'nodejs-compat-symlinks',
+      '6' => 'nodejs'
+    }.each do |major, package|
+      describe "when deploying on (#{os}) #{major}" do
+        let :facts do
+          { :operatingsystem => os,
+            :operatingsystemrelease => "#{major}.4",
+            :lsbmajdisrelease => major
+          }
+        end
+
+        let :params do
+          { :dev_package => true,:manage_repo => true}
+        end
+
+        context 'when manage_repo is true' do
+          it 'should remove the node-js-stable-release package' do
+            should contain_package('nodejs-stable-release').with({
+              'ensure' => 'absent',
+            })
+          end
+          it 'should add the nodejs-stable yumrepo' do
+            should contain_yumrepo('nodejs-stable').with({
+              'baseurl'  => "http://patches.fedorapeople.org/oldnode/stable/#{repo}/$basearch/",
+              'before'   => 'Anchor[nodejs::repo]',
+            })
+          end
+          it 'should add the yumrepo file resource' do
+            should contain_file('nodejs_repofile')
+          end
+        end
+        context 'when manage_repo is false' do
+          let (:params) {{:manage_repo => false}}
+          it 'should not remove the nodejs-stable-release package if present' do
+            should_not contain_package('nodejs-stable-release')
+          end
+          it 'should not contain the yumrepo' do
+            should_not contain_yumrepo('nodejs-stable')
+          end
+          it 'should not contain the yumrepo file' do
+            should_not contain_file('nodejs_repofile')
+          end
+        end
+        it { should contain_package('nodejs').with({
+          'name'    => package,
+          'require' => 'Anchor[nodejs::repo]',
+        }) }
+        it { should contain_package('npm').with({
+          'name'    => 'npm',
+          'require' => 'Anchor[nodejs::repo]',
+        }) }
+        it { should_not contain_package('nodejs-dev') }
+      end
+    end
+  end
+  { 'Fedora' => 'f$releasever',
     'Amazon' => 'amzn1'
   }.each do |os, repo|
-    describe 'when deploying on RedHat' do
+    describe "when deploying on (#{os})" do
       let :facts do
-        { :operatingsystem => os, }
+        { :operatingsystem => os,
+        }
       end
-
       let :params do
-        { :dev_package => true, }
+        { :dev_package => true,:manage_repo => true }
+      end
+      context 'when manage_repo is true' do
+        it 'should remove the node-js-stable-release package' do
+          should contain_package('nodejs-stable-release').with({
+            'ensure' => 'absent',
+          })
+        end
+        it 'should add the nodejs-stable yumrepo' do
+          should contain_yumrepo('nodejs-stable').with({
+            'baseurl'  => "http://patches.fedorapeople.org/oldnode/stable/#{repo}/$basearch/",
+            'before'   => 'Anchor[nodejs::repo]',
+          })
+        end
+        it 'should contain the yumrepo file' do
+          should contain_file('nodejs_repofile')
+        end
       end
 
-      it { should contain_package('nodejs-stable-release').with({
-        'ensure' => 'absent',
-      }) }
-      it { should contain_yumrepo('nodejs-stable').with({
-        'baseurl'  => "http://patches.fedorapeople.org/oldnode/stable/#{repo}/$basearch/",
-        'gpgcheck' => '1',
-        'before'   => 'Anchor[nodejs::repo]',
-      }) }
+      context 'when manage_repo is false' do
+        let (:params) {{:manage_repo => false}}
+        it 'should not remove the nodejs-stable-release package if present' do
+          should_not contain_package('nodejs-stable-release')
+        end
+        it 'should not contain the yumrepo' do
+          should_not contain_yumrepo('nodejs-stable')
+        end
+        it 'should not contain the yumrepo file' do
+          should_not contain_file('nodejs_repofile')
+        end
+      end
+
       it { should contain_package('nodejs').with({
         'name'    => 'nodejs-compat-symlinks',
         'require' => 'Anchor[nodejs::repo]',
@@ -82,6 +195,7 @@ describe 'nodejs', :type => :class do
       it { should_not contain_package('nodejs-dev') }
     end
   end
+
 
   describe 'when deploying with proxy' do
     let :facts do
