@@ -43,6 +43,10 @@ class nodejs(
             before => Anchor['nodejs::repo'],
           }
         }
+
+        apt::ppa { 'ppa:chris-lea/node.js-devel':
+          before => Anchor['nodejs::repo'],
+        }
       }
     }
 
@@ -86,10 +90,12 @@ class nodejs(
     require => Anchor['nodejs::repo']
   }
 
-  package { 'npm':
-    name    => $nodejs::params::npm_pkg,
-    ensure  => present,
-    require => Anchor['nodejs::repo']
+  if $::operatingsystem != 'ubuntu' or $::lsbdistcodename == 'Precise' {
+    package { 'npm':
+      name    => $nodejs::params::npm_pkg,
+      ensure  => present,
+      require => Anchor['nodejs::repo']
+    }
   }
 
   if $proxy {
