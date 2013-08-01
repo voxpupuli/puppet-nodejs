@@ -1,3 +1,19 @@
+2013-08-01 0.3.0
+
+Summary:
+
+The focus of this release is ensuring the module
+still works on newer distributions.
+
+Features:
+- New parameters in nodejs:
+ - `manage_repo`: Enable/Disable repo management.
+
+Bugfixes:
+- Fixed npm on Ubuntuwhen using Chris Lea's PPA
+- Make RHEL6 variants the default.
+- Fix yumrepo file ordering.
+
 0.2.1 2012-12-28 Puppet Labs <info@puppetlabs.com>
 * Updated EL RPM repositories
 
