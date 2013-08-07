@@ -50,6 +50,25 @@ class nodejs(
       }
     }
 
+    'SLES', 'OpenSuSE': {
+      if $manage_repo {
+        #only add zypper source if we're managing the repo
+        include 'zypprepo'
+
+        zypprepo { 'Cloud_OpenStack_Grizzly':
+          baseurl => 'http://download.opensuse.org/repositories/Cloud:/OpenStack:/Grizzly/SLE_11_SP2/',
+          enabled => 1,
+          autorefresh => 1,
+          name => 'OpenStack Grizzly (Stable branch) (SLE_11_SP2)',
+          gpgcheck => 0,
+          gpgkey => 'http://download.opensuse.org/repositories/Cloud:/OpenStack:/Grizzly/SLE_11_SP2/repodata/repomd.xml.key',
+          keeppackages => 1,
+          type => 'rpm-md',
+          before   => Anchor['nodejs::repo']
+        }
+      }
+    } 
+
     'Fedora', 'RedHat', 'CentOS', 'OEL', 'OracleLinux', 'Amazon': {
       if $manage_repo {
         package { 'nodejs-stable-release':
@@ -90,8 +109,8 @@ class nodejs(
     require => Anchor['nodejs::repo']
   }
 
-  if $::operatingsystem != 'ubuntu' or $::lsbdistcodename == 'Precise' {
-    package { 'npm':
+  if $nodejs::params::node_pkg != $nodejs::params::npm_pkg {
+    package { $nodejs::params::npm_pkg:
       name    => $nodejs::params::npm_pkg,
       ensure  => present,
       require => Anchor['nodejs::repo']
@@ -102,7 +121,7 @@ class nodejs(
     exec { 'npm_proxy':
       command => "npm config set proxy ${proxy}",
       path    => $::path,
-      require => Package['npm'],
+      require => Package[$nodejs::params::npm_pkg],
     }
   }
 
