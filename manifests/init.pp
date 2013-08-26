@@ -85,15 +85,15 @@ class nodejs(
   anchor { 'nodejs::repo': }
 
   package { 'nodejs':
-    name    => $nodejs::params::node_pkg,
     ensure  => present,
+    name    => $nodejs::params::node_pkg,
     require => Anchor['nodejs::repo']
   }
 
-  if $::operatingsystem != 'ubuntu' or $::lsbdistcodename == 'Precise' {
+  if $::operatingsystem != 'ubuntu' or $::lsbdistcodename != 'Precise' {
     package { 'npm':
-      name    => $nodejs::params::npm_pkg,
       ensure  => present,
+      name    => $nodejs::params::npm_pkg,
       require => Anchor['nodejs::repo']
     }
   }
@@ -108,8 +108,8 @@ class nodejs(
 
   if $dev_package and $nodejs::params::dev_pkg {
     package { 'nodejs-dev':
-      name    => $nodejs::params::dev_pkg,
       ensure  => present,
+      name    => $nodejs::params::dev_pkg,
       require => Anchor['nodejs::repo']
     }
   }
