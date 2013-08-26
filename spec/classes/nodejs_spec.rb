@@ -85,7 +85,24 @@ describe 'nodejs', :type => :class do
       'require' => 'Anchor[nodejs::repo]',
     }) }
     it { should contain_package('nodejs-dev') }
-    it { should_not contain_package('npm') }
+    context "When not on precise" do
+      let :facts do
+        {
+          :operatingsystem => 'Ubuntu',
+          :lsbdistcodename => 'edgy',
+        }
+      end
+      it { should contain_package('npm') }
+    end
+    context "When on precise" do
+      let :facts do
+        {
+          :operatingsystem => 'Ubuntu',
+          :lsbdistcodename => 'precise',
+        }
+      end
+      it { should_not contain_package('npm') }
+    end
     it { should_not contain_package('nodejs-stable-release') }
   end
 
@@ -213,7 +230,7 @@ describe 'nodejs', :type => :class do
       { :proxy => 'http://proxy.puppetlabs.lan:80/' }
     end
 
-    it { should_not contain_package('npm') }
+    it { should contain_package('npm') }
     it { should contain_exec('npm_proxy').with({
       'command' => 'npm config set proxy http://proxy.puppetlabs.lan:80/',
       'require' => 'Package[npm]',
