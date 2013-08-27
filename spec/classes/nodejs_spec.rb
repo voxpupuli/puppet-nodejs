@@ -45,6 +45,7 @@ describe 'nodejs', :type => :class do
     it { should contain_package('nodejs').with({
       'name'    => 'nodejs',
       'require' => 'Anchor[nodejs::repo]',
+      'ensure'  => 'present',
     }) }
     it { should contain_package('npm').with({
       'name'    => 'npm',
@@ -221,5 +222,23 @@ describe 'nodejs', :type => :class do
     it { should_not contain_package('nodejs-stable-release') }
   end
 
+  describe 'when deploying with version' do
+    let :facts do
+      {
+        :operatingsystem => 'Ubuntu',
+        :lsbdistcodename => 'edgy',
+      }
+    end
+
+    let :params do
+      { :version => '0.8.16-1chl1~precise1' }
+    end
+
+    it { should contain_package('nodejs').with({
+      'name'    => 'nodejs',
+      'ensure' => '0.8.16-1chl1~precise1',
+    }) }
+
+  end
 end
 
