@@ -36,13 +36,11 @@ class nodejs(
 
     'Ubuntu': {
       if $manage_repo {
-        #only add apt source if we're managing the repo
+        # Only add apt source if we're managing the repo
         include 'apt'
         # Only use PPA when necessary.
-        if $::lsbdistcodename != 'Precise'{
-          apt::ppa { 'ppa:chris-lea/node.js':
-            before => Anchor['nodejs::repo'],
-          }
+        apt::ppa { 'ppa:chris-lea/node.js':
+          before => Anchor['nodejs::repo'],
         }
 
         apt::ppa { 'ppa:chris-lea/node.js-devel':
@@ -91,7 +89,9 @@ class nodejs(
     require => Anchor['nodejs::repo']
   }
 
-  if $::operatingsystem != 'ubuntu' or $::lsbdistcodename == 'Precise' {
+  if $::operatingsystem != 'ubuntu' {
+    # The PPA we are using on Ubuntu includes NPM in the nodejs package, hence
+    # we must not install it separately
     package { 'npm':
       name    => $nodejs::params::npm_pkg,
       ensure  => present,
