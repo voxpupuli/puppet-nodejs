@@ -11,7 +11,8 @@
 class nodejs(
   $dev_package = false,
   $manage_repo = false,
-  $proxy       = ''
+  $proxy       = '',
+  $version     = 'present'
 ) inherits nodejs::params {
   #input validation
   validate_bool($dev_package)
@@ -86,7 +87,7 @@ class nodejs(
 
   package { 'nodejs':
     name    => $nodejs::params::node_pkg,
-    ensure  => present,
+    ensure  => $version,
     require => Anchor['nodejs::repo']
   }
 
@@ -109,7 +110,7 @@ class nodejs(
   if $dev_package and $nodejs::params::dev_pkg {
     package { 'nodejs-dev':
       name    => $nodejs::params::dev_pkg,
-      ensure  => present,
+      ensure  => $version,
       require => Anchor['nodejs::repo']
     }
   }
