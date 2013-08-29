@@ -1,3 +1,15 @@
+2013-08-29 0.4.0
+
+Summary:
+
+This release removes the precise special handling
+and adds the ability to pass in $version.
+
+Features:
+ - Precise uses the same ppa as every other release.
+ - New parameters in nodejs:
+  - `version`: Set the version to install.
+
 2013-08-01 0.3.0
 
 Summary:
