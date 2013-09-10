@@ -35,7 +35,7 @@ npm package provider is an extension of puppet package type which supports versi
 Example:
 
     package { 'express':
-      ensure   => latest,
+      ensure   => present,
       provider => 'npm',
     }
     
