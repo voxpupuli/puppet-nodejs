@@ -240,5 +240,19 @@ describe 'nodejs', :type => :class do
     }) }
 
   end
+
+  describe 'when not deploying with npm' do
+    let :facts do
+      {
+        :operatingsystem => 'Fedora'
+      }
+    end
+
+    let :params do
+      { :install_npm => false }
+    end
+
+    it { should_not contain_package('npm') }
+  end
 end
 

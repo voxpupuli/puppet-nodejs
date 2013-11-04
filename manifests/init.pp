@@ -12,11 +12,13 @@ class nodejs(
   $dev_package = false,
   $manage_repo = false,
   $proxy       = '',
-  $version     = 'present'
+  $version     = 'present',
+  $install_npm = $nodejs::params::install_npm,
 ) inherits nodejs::params {
   #input validation
   validate_bool($dev_package)
   validate_bool($manage_repo)
+  validate_bool($install_npm)
 
   case $::operatingsystem {
     'Debian': {
@@ -89,9 +91,7 @@ class nodejs(
     require => Anchor['nodejs::repo']
   }
 
-  if $::operatingsystem != 'ubuntu' {
-    # The PPA we are using on Ubuntu includes NPM in the nodejs package, hence
-    # we must not install it separately
+  if $install_npm {
     package { 'npm':
       name    => $nodejs::params::npm_pkg,
       ensure  => present,
