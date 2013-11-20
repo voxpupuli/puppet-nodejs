@@ -8,12 +8,14 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
   optional_commands :npm => 'npm'
 
   def self.npmlist
+    # Ignore non-zero exit codes as they can be minor, just try and parse JSON
+    output = execute([command(:npm), 'list', '--json', '--global'], {:combine => false})
+    Puppet.debug("Warning: npm list --json exited with code #{$CHILD_STATUS.exitstatus}") unless $CHILD_STATUS.success?
     begin
-      output = npm('list', '--json', '--global')
       # ignore any npm output lines to be a bit more robust
       output = PSON.parse(output.lines.select{ |l| l =~ /^((?!^npm).*)$/}.join("\n"))
       @npmlist = output['dependencies'] || {}
-    rescue Exception => e
+    rescue PSON::ParserError => e
       Puppet.debug("Error: npm list --json command error #{e.message}")
       @npmlist = {}
     end
