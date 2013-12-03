@@ -5,7 +5,14 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
 
   has_feature :versionable
 
-  optional_commands :npm => 'npm'
+  if Puppet::Util::Package.versioncmp(Puppet.version, '3.0') >= 0
+    has_command(:npm, 'npm') do
+      is_optional
+      environment :HOME => "/root"
+    end
+  else
+    optional_commands :npm => 'npm'
+  end
 
   def self.npmlist
     # Ignore non-zero exit codes as they can be minor, just try and parse JSON
