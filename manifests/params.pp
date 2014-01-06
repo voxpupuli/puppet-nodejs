@@ -51,7 +51,7 @@ class nodejs::params {
     }
 
     'Amazon': {
-      $node_pkg = 'nodejs-compat-symlinks'
+      $node_pkg = 'nodejs'
       $npm_pkg  = 'npm'
       $gpgcheck = 1
       $baseurl  = 'http://patches.fedorapeople.org/oldnode/stable/amzn1/$basearch/'
