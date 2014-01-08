@@ -9,10 +9,11 @@
 # Usage:
 #
 class nodejs(
-  $dev_package = false,
-  $manage_repo = false,
-  $proxy       = '',
-  $version     = 'present'
+  $dev_package         = false,
+  $manage_repo         = false,
+  $proxy               = '',
+  $version             = 'present',
+  $nodejs_includes_npm = $::nodejs::params::nodejs_includes_npm
 ) inherits nodejs::params {
   #input validation
   validate_bool($dev_package)
@@ -89,9 +90,7 @@ class nodejs(
     require => Anchor['nodejs::repo']
   }
 
-  if $::operatingsystem != 'ubuntu' {
-    # The PPA we are using on Ubuntu includes NPM in the nodejs package, hence
-    # we must not install it separately
+  if $nodejs_includes_npm == false {
     package { 'npm':
       name    => $nodejs::params::npm_pkg,
       ensure  => present,

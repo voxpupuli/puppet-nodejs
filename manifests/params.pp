@@ -11,16 +11,26 @@
 class nodejs::params {
 
   case $::operatingsystem {
-    'Debian', 'Ubuntu': {
+    'Ubuntu': {
       $node_pkg = 'nodejs'
       $npm_pkg  = 'npm'
       $dev_pkg  = 'nodejs-dev'
+      # The PPA we are using on Ubuntu includes NPM in the nodejs package, hence
+      # we must not install it separately
+      $nodejs_includes_npm = true
+    }
+    'Debian': {
+      $node_pkg = 'nodejs'
+      $npm_pkg  = 'npm'
+      $dev_pkg  = 'nodejs-dev'
+      $nodejs_includes_npm = false
     }
 
     'SLES', 'OpenSuSE': {
       $node_pkg = 'nodejs'
       $npm_pkg  = 'npm'
       $dev_pkg  = 'nodejs-devel'
+      $nodejs_includes_npm = false
     }
 
     'RedHat', 'CentOS', 'OEL', 'OracleLinux': {
@@ -41,6 +51,7 @@ class nodejs::params {
       }
       $npm_pkg  = 'npm'
       $baseurl  = 'http://patches.fedorapeople.org/oldnode/stable/el$releasever/$basearch/'
+      $nodejs_includes_npm = false
     }
 
     'Fedora': {
@@ -48,6 +59,7 @@ class nodejs::params {
       $npm_pkg  = 'npm'
       $gpgcheck = 1
       $baseurl  = 'http://patches.fedorapeople.org/oldnode/stable/f$releasever/$basearch/'
+      $nodejs_includes_npm = false
     }
 
     'Amazon': {
@@ -55,6 +67,7 @@ class nodejs::params {
       $npm_pkg  = 'npm'
       $gpgcheck = 1
       $baseurl  = 'http://patches.fedorapeople.org/oldnode/stable/amzn1/$basearch/'
+      $nodejs_includes_npm = false
     }
 
     default: {
