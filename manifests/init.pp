@@ -75,6 +75,10 @@ class nodejs(
       }
     }
 
+    'Darwin': {
+        Package { provider => macports }
+    }
+
     default: {
       fail("Class nodejs does not support ${::operatingsystem}")
     }
