@@ -49,7 +49,7 @@ class nodejs(
       }
     }
 
-    'Fedora', 'RedHat', 'CentOS', 'OEL', 'OracleLinux', 'Amazon': {
+    'Fedora', 'RedHat', 'Scientific', 'CentOS', 'OEL', 'OracleLinux', 'Amazon': {
       if $manage_repo {
         package { 'nodejs-stable-release':
           ensure => absent,

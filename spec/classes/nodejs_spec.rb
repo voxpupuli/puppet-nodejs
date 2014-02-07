@@ -91,6 +91,7 @@ describe 'nodejs', :type => :class do
   end
 
   { 'Redhat' => 'el$releasever',
+    'Scientific' => 'el$releasever',
     'CentOS' => 'el$releasever'
   }.each do |os, repo|
     { '5' => 'nodejs-compat-symlinks',

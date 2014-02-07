@@ -23,7 +23,7 @@ class nodejs::params {
       $dev_pkg  = 'nodejs-devel'
     }
 
-    'RedHat', 'CentOS', 'OEL', 'OracleLinux': {
+    'RedHat', 'Scientific', 'CentOS', 'OEL', 'OracleLinux': {
       $majdistrelease = $::lsbmajdistrelease ? {
         ''      => regsubst($::operatingsystemrelease,'^(\d+)\.(\d+)','\1'),
         default => $::lsbmajdistrelease,
