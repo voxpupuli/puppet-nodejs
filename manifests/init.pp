@@ -43,8 +43,12 @@ class nodejs(
           before => Anchor['nodejs::repo'],
         }
 
-        apt::ppa { 'ppa:chris-lea/node.js-devel':
-          before => Anchor['nodejs::repo'],
+        if $dev_package {
+          # Only enable the development repo if dev_package is true
+          # This repo installs the 0.11.x unstable branch of node
+          apt::ppa { 'ppa:chris-lea/node.js-devel':
+            before => Anchor['nodejs::repo'],
+          }
         }
       }
     }
