@@ -89,7 +89,7 @@ class nodejs(
     require => Anchor['nodejs::repo']
   }
 
-  if $::operatingsystem != 'ubuntu' {
+  if $::operatingsystem != 'Ubuntu' {
     # The PPA we are using on Ubuntu includes NPM in the nodejs package, hence
     # we must not install it separately
     package { 'npm':
