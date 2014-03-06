@@ -13,7 +13,8 @@ define nodejs::npm (
   $version     = undef,
   $source      = undef,
   $install_opt = undef,
-  $remove_opt  = undef
+  $remove_opt  = undef,
+  $exec_as_user = undef
 ) {
   include nodejs
 
@@ -34,6 +35,20 @@ define nodejs::npm (
   } else {
     $validate = "${npm_dir}/node_modules/${npm_pkg}"
   }
+  
+  if $exec_as_user == undef {
+     $exec_env = undef
+  } else {
+    case $::operatingsystem {
+      'Debian','Ubuntu','RedHat','SLEL','Fedora','CentOS': {
+        $exec_env = "HOME=/home/$exec_as_user"
+      }
+      default: {
+       fail("unsupported operating system") 
+      }
+    }
+     
+  }
 
   if $ensure == present {
     exec { "npm_install_${name}":
@@ -42,6 +57,8 @@ define nodejs::npm (
       cwd     => $npm_dir,
       path    => $::path,
       require => Class['nodejs'],
+      user => $exec_as_user,
+      environment => $exec_env,
     }
 
     # Conditionally require npm_proxy only if resource exists.
@@ -53,6 +70,8 @@ define nodejs::npm (
       cwd     => $npm_dir,
       path    => $::path,
       require => Class['nodejs'],
+      user => $exec_as_user,
+      environment => $exec_env,
     }
   }
 }
