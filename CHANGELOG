@@ -1,3 +1,24 @@
+2014-03-20 0.5.0
+
+Summary:
+
+This release is just a wrap up of a number of submitted PRs, mostly around
+improvements to operating system support, as well as some improvements to
+handling npm.
+
+Features:
+- Update travis to test more recent versions of Puppet.
+- Changed package name for Amazon Linux.
+- Add support for Scientific Linux.
+
+Bugfixes:
+- Ubuntu uses uppercase for the operatingsystem fact.
+- Ignore exit codes from "npm list --json" as they can be misleading, and instead just parse the JSON.
+- Set $HOME for npm commands.
+- Don't include development version accidently.
+- Fix for chrislea ppa that already installs npm.
+
+
 2013-08-29 0.4.0
 
 Summary:
