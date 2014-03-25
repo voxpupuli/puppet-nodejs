@@ -9,10 +9,13 @@
 # Usage:
 #
 class nodejs(
-  $dev_package = false,
-  $manage_repo = false,
-  $proxy       = '',
-  $version     = 'present'
+  $dev_package         = false,
+  $manage_repo         = false,
+  $proxy               = '',
+  $version             = 'present',
+  $node_package_name   = $nodejs::params::node_pkg,
+  $npm_package_name    = $nodejs::params::npm_pkg,
+  $install_npm_package = true
 ) inherits nodejs::params {
   #input validation
   validate_bool($dev_package)
@@ -86,16 +89,14 @@ class nodejs(
   anchor { 'nodejs::repo': }
 
   package { 'nodejs':
-    name    => $nodejs::params::node_pkg,
+    name    => $node_package_name,
     ensure  => $version,
     require => Anchor['nodejs::repo']
   }
 
-  if $::operatingsystem != 'Ubuntu' {
-    # The PPA we are using on Ubuntu includes NPM in the nodejs package, hence
-    # we must not install it separately
+  if $install_npm_package {
     package { 'npm':
-      name    => $nodejs::params::npm_pkg,
+      name    => $npm_package_name,
       ensure  => present,
       require => Anchor['nodejs::repo']
     }
