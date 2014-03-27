@@ -117,4 +117,18 @@ class nodejs(
     }
   }
 
+  # Install npms defined in Hiera (if enabled and present)
+  #
+  # NOTE: We must use 'include' here to avoid circular dependencies with
+  #   nodejs::npm
+  # NOTE: There is no way to detect the existence of hiera. This functionality
+  #   is therefore made exclusive to Puppet 3+ (hiera is embedded) in order
+  #   to preserve backwards compatibility.
+  #
+  # http://projects.puppetlabs.com/issues/12345
+  #
+  if (versioncmp($::puppetversion, '3') != -1) {
+    include 'nodejs::npms'
+  }
+
 }

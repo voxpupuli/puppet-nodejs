@@ -14,51 +14,121 @@ Installs nodejs and npm per [nodejs documentation](https://github.com/joyent/nod
 
 Example:
 
-    include nodejs
+```puppet
+include nodejs
+```
 
 You may want to use apt::pin to pin package installation priority on sqeeze. See [puppetlabs-apt](https://github.com/puppetlabs/puppetlabs-apt) for more information.
 
-    apt::pin { 'sid': priority => 100 }
+```puppet
+apt::pin { 'sid': priority => 100 }
+```
 
-### npm package
+### npm Package Installation
 
-Two types of npm packages are supported.
-
-* npm global packages are supported via ruby provider for puppet package type.
-* npm local packages are supported via puppet define type nodejs::npm.
+Both global and local package installations are supported.
 
 For more information regarding global vs. local installation see [nodejs blog](http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/)
 
-### package
-npm package provider is an extension of puppet package type which supports versionable and upgradeable. The package provider only handles global installation:
 
-Example:
+#### Global Packages
 
-    package { 'express':
-      ensure   => present,
-      provider => 'npm',
-    }
-    
-    package { 'mime':
-      ensure   => '1.2.4',
-      provider => 'npm',
-    }
+npm global packages are supported via the ruby provider **npm**.
 
-### nodejs::npm
-nodejs::npm is suitable for local installation of npm packages:
+The **npm** provider is an extension of the puppet package type and supports versionable and upgradeable features.
 
-    nodejs::npm { '/opt/razor:express':
-      ensure  => present,
-      version => '2.5.9',
-    }
+#### Using Code
 
-nodejs::npm title consists of filepath and package name seperate via ':', and support the following attributes:
+```puppet
+package { 'express':
+  ensure   => present,
+  provider => 'npm',
+}
 
-* ensure: present, absent.
-* version: package version (optional).
-* source: package source (optional).
-* install_opt: option flags invoked during installation such as --link (optional).
-* remove_opt: option flags invoked during removal (optional).
+package { 'mime':
+  ensure   => '1.2.4',
+  provider => 'npm',
+}
+```
+
+#### Using Hiera
+
+Hiera may also be used to manage global npm packages.
+The **npm* package provider will be used in conjunction with the hiera metadata to perform the installation.
+
+Global packages are expressed using the `global` hash under the `nodejs::npms` hash.
+Packages which accept all defaults should use an empty hash `{}` as the value.
+Default overrides and/or additional package installation arguments may be used: see the [Puppet Package Type](http://docs.puppetlabs.com/references/latest/type.html#package) for supported arguments.
+
+Package Default Arguments:
+
+```yaml
+ensure   : 'present'
+provider : 'npm'
+```
+
+The following example Hiera YAML configuration will:
+
+- install the **express** package globally using defaults
+- install the **mime** package globally using **version 1.2.4**
+
+```yaml
+nodejs::npms:
+    global:
+        express: {}
+        mime:
+            ensure: '1.2.4'
+```
+
+#### Local Packages
+
+npm local packages are supported via the puppet defined type `nodejs::npm`
+
+The `nodejs::npm` title consists of filepath and package name seperate via ':', and support the following attributes:
+
+| Parameter   | Type    | Default | Required | Description |
+| :-----------| :------ |:------- | :------: | :---------- |
+| ensure      | string  | present | YES      | package present or absent |
+| version     | string  | NONE    | NO       | package version |
+| source      | string  | NONE    | NO       | package source |
+| install_opt | string  | NONE    | NO       | option flags invoked during installation such as --link |
+| remove_opt  | string  | NONE    | NO       | option flags invoked during removal |
+
+#### Using Code
+
+```puppet
+nodejs::npm { '/opt/razor:express':
+  ensure  => present,
+  version => '2.5.9',
+}
+```
+
+#### Using Hiera
+
+Hiera may also be used to manage local npm packages.
+The `nodejs::npm` defined type will be used in conjunction with the hiera metadata to perform the installation.
+
+Local packages are expressed using the `local` hash under the `nodejs::npms` hash.
+Packages which accept all defaults should use an empty hash `{}` as the value.
+Default overrides and/or additional package installation arguments supported by the `nodejs::npm` defined type may be used.
+
+Package Default Arguments:
+
+```yaml
+ensure : 'present'
+```
+
+The following example Hiera YAML configuration will:
+
+- install the **express** package into the **/opt/razor** directory using **version 2.5.9**
+
+```yaml
+nodejs::npms:
+    local:
+        '/opt/razor:express':
+            version: '2.5.9'
+```
+
 
 ## Supported Platforms
 
