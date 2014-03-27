@@ -35,7 +35,7 @@ For more information regarding global vs. local installation see [nodejs blog](h
 
 npm global packages are supported via the ruby provider **npm**.
 
-The **npm** provider is an extension of the puppet package type and supports versionable and upgradeable features.
+The **npm** provider is an extension of the [Puppet Package Type](http://docs.puppetlabs.com/references/latest/type.html#package) and supports versionable and upgradeable features.
 
 #### Using Code
 
@@ -54,11 +54,11 @@ package { 'mime':
 #### Using Hiera
 
 Hiera may also be used to manage global npm packages.
-The **npm* package provider will be used in conjunction with the hiera metadata to perform the installation.
+The **npm** package provider will be used in conjunction with the hiera metadata to perform the installation.
 
-Global packages are expressed using the `global` hash under the `nodejs::npms` hash.
-Packages which accept all defaults should use an empty hash `{}` as the value.
-Default overrides and/or additional package installation arguments may be used: see the [Puppet Package Type](http://docs.puppetlabs.com/references/latest/type.html#package) for supported arguments.
+- Global packages are expressed using the `global` hash under the `nodejs::npms` hash.
+- Packages which accept all defaults should use an empty hash `{}` as the value.
+- Default overrides and/or additional package installation arguments may be used: see the [Puppet Package Type](http://docs.puppetlabs.com/references/latest/type.html#package) for supported arguments.
 
 Package Default Arguments:
 
@@ -108,9 +108,9 @@ nodejs::npm { '/opt/razor:express':
 Hiera may also be used to manage local npm packages.
 The `nodejs::npm` defined type will be used in conjunction with the hiera metadata to perform the installation.
 
-Local packages are expressed using the `local` hash under the `nodejs::npms` hash.
-Packages which accept all defaults should use an empty hash `{}` as the value.
-Default overrides and/or additional package installation arguments supported by the `nodejs::npm` defined type may be used.
+- Local packages are expressed using the `local` hash under the `nodejs::npms` hash.
+- Packages which accept all defaults should use an empty hash `{}` as the value.
+- Default overrides and/or additional package installation arguments supported by the `nodejs::npm` defined type may be used.
 
 Package Default Arguments:
 
@@ -120,7 +120,7 @@ ensure : 'present'
 
 The following example Hiera YAML configuration will:
 
-- install the **express** package into the **/opt/razor** directory using **version 2.5.9**
+- install the **express** package **version 2.5.9** using **/opt/razor** as the current working directory
 
 ```yaml
 nodejs::npms:
