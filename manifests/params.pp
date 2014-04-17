@@ -57,6 +57,12 @@ class nodejs::params {
       $baseurl  = 'http://patches.fedorapeople.org/oldnode/stable/amzn1/$basearch/'
     }
 
+    'Darwin': {
+      $node_pkg = 'nodejs'
+      $npm_pkg  = 'npm'
+      $dev_pkg  = 'nodejs-devel'
+    }
+
     default: {
       fail("Class nodejs does not support ${::operatingsystem}")
     }
