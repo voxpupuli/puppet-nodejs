@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'nodejs', :type => :class do
 
   describe 'input validation' do
-    let :facts  do {} end
+    let :facts  do { :operatingsystem => 'Debian' } end
     let :params do {} end
     it 'when deploying on an unsupported os' do
       facts.merge!({:operatingsystem => 'SparklePony'})
@@ -12,7 +12,7 @@ describe 'nodejs', :type => :class do
     end
     ['dev_package','manage_repo'].each do |boolz|
       it "should fail when #{boolz} is not a boolean" do
-        facts.merge!({:operatingsystem => 'Debian'})
+        facts.merge!({:osfamily => 'Debian'})
         params.merge!({boolz => 'BOGON'})
         expect { subject }.to raise_error(Puppet::Error, /"BOGON" is not a boolean.  It looks to be a String/)
       end
@@ -21,8 +21,10 @@ describe 'nodejs', :type => :class do
   describe 'when deploying on debian' do
     let :facts do
       {
+        :osfamily => 'Debian',
         :operatingsystem => 'Debian',
-        :lsbdistcodename => 'sid',
+        :lsbdistcodename => 'wheezy',
+        :lsbdistid => 'Debian',
       }
     end
     let :params do
@@ -58,7 +60,9 @@ describe 'nodejs', :type => :class do
     let :facts do
       {
         :operatingsystem => 'Ubuntu',
-        :lsbdistcodename => 'edgy',
+        :osfamily        => 'Debian',
+        :lsbdistcodename => 'trusty',
+        :lsbdistid       => 'Ubuntu',
       }
     end
 
@@ -191,7 +195,6 @@ describe 'nodejs', :type => :class do
       end
 
       it { should contain_package('nodejs').with({
-        'name'    => 'nodejs-compat-symlinks',
         'require' => 'Anchor[nodejs::repo]',
       }) }
       it { should contain_package('npm').with({
@@ -208,6 +211,7 @@ describe 'nodejs', :type => :class do
       {
         :operatingsystem => 'Ubuntu',
         :lsbdistcodename => 'edgy',
+        :lsbdistid       => 'Ubuntu',
       }
     end
 
@@ -228,6 +232,7 @@ describe 'nodejs', :type => :class do
       {
         :operatingsystem => 'Ubuntu',
         :lsbdistcodename => 'edgy',
+        :lsbdistid       => 'Ubuntu',
       }
     end
 
