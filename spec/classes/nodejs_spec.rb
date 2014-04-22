@@ -246,5 +246,24 @@ describe 'nodejs', :type => :class do
     }) }
 
   end
+
+  describe 'when deploying on gentoo' do
+    let :facts do
+      {
+        :operatingsystem => 'Gentoo',
+      }
+    end
+
+    it { should contain_package_use('net-libs/nodejs').with({
+      'ensure'  => 'present',
+      'use'     => 'npm',
+      'require' => 'Anchor[nodejs::repo]',
+    }) }
+    it { should contain_package('nodejs').with({
+      'ensure'  => 'present',
+      'name'    => 'net-libs/nodejs',
+      'require' => 'Anchor[nodejs::repo]',
+    }) }
+  end
 end
 
