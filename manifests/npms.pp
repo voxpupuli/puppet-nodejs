@@ -8,6 +8,8 @@
 #
 class nodejs::npms {
 
+  Class['nodejs'] -> Class[$name]
+
   # NOTE: hiera_hash does not work as expected in a parameterized class
   #   definition; so we call it here.
   #
