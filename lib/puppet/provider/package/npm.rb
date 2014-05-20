@@ -3,7 +3,7 @@ require 'puppet/provider/package'
 Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package do
   desc "npm is package management for node.js. This provider only handles global packages."
 
-  has_feature :versionable
+  has_feature :versionable, :install_options
 
   if Puppet::Util::Package.versioncmp(Puppet.version, '3.0') >= 0
     has_command(:npm, 'npm') do
