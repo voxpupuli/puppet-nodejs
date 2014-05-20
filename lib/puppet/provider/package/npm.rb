@@ -72,11 +72,9 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
 
     extraopts = []
 
-    if resource[:install_options]
-      resource[:install_options].collect do |k,v|
-        if k == 'registry'
-          extraopts += [ "--registry" , "#{v}" ]
-        end
+    extraopts += resource[:install_options].collect do |k,v|
+      if k == 'registry'
+        extraopts += [ "--registry" , v ]
       end
     end
 
