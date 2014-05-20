@@ -70,12 +70,12 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
       package = "#{resource[:name]}@#{resource[:ensure]}"
     end
 
-    extraopts = nil
+    extraopts = []
 
     if resource[:install_options]
       resource[:install_options].collect do |k,v|
         if k == 'registry'
-          extraopts = "--registry #{v}"
+          extraopts += [ "--registry" , "#{v}" ]
         end
       end
     end
@@ -83,7 +83,7 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
     if resource[:source]
       npm('install', '--global', resource[:source])
     else
-      if extraopts.nil?
+      if extraopts.empty?
         npm('install', '--global', package)
       else
         npm('install', '--global', extraopts, package)
