@@ -70,10 +70,16 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
       package = "#{resource[:name]}@#{resource[:ensure]}"
     end
 
+    extraopts = nil
+
     if resource[:source]
       npm('install', '--global', resource[:source])
     else
-      npm('install', '--global', package)
+      if extraopts.nil?
+        npm('install', '--global', package)
+      else
+        npm('install', '--global', extraopts, package)
+      end
     end
   end
 
