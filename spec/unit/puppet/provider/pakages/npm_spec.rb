@@ -28,7 +28,7 @@ describe Puppet::Type.type(:package).provider(:npm) do
       @provider.install
     end
 
-    describe "and a install options are specified" do
+    describe "and install options are specified" do
       it "should use the given registry" do
         @resource[:source] = {'registry'=>'http://custom.registry/npm'}
         @provider.expects(:npm).with('install', '--global', '--registry', 'http://custom.registry/npm', 'express')
