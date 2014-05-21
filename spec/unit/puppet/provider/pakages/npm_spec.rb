@@ -28,6 +28,14 @@ describe Puppet::Type.type(:package).provider(:npm) do
       @provider.install
     end
 
+    describe "and install options are specified" do
+      it "should use the given registry" do
+        @resource[:source] = {'registry'=>'http://custom.registry/npm'}
+        @provider.expects(:npm).with('install', '--global', '--registry', 'http://custom.registry/npm', 'express')
+        @provider.install
+      end
+    end
+
     describe "and a source is specified" do
       it "should use the source instead of the gem name" do
         @resource[:source] = "/tmp/express.tar.gz"
