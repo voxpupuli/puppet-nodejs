@@ -11,14 +11,37 @@ Install nodejs package and npm package provider for Debian, Ubuntu, Fedora, and 
 Installs nodejs and npm per [nodejs documentation](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager).
 
 * dev_package: whether to install optional dev packages. dev packages not available on all platforms, default: false.
+* install_npm_package: whether to install npm package, default: true
+* node_package_name: name of nodejs package to install, default: nodejs
+* npm_package_name: name of npm package to install, default: npm
 
-Example:
+Recognize OS and install node and npm packages:
 
-    include nodejs
+```puppet
+include nodejs
+```
+
+To ignore npm package:
+
+```puppet
+class { '::nodejs':
+  install_npm_package => false
+}
+```
+Change name of npm and/or node package:
+
+```puppet
+class { '::nodejs':
+  node_package_name => 'nodejs-0.8.15',
+  npm_package_name  => 'npm-1.1'
+}
+```
 
 You may want to use apt::pin to pin package installation priority on sqeeze. See [puppetlabs-apt](https://github.com/puppetlabs/puppetlabs-apt) for more information.
 
-    apt::pin { 'sid': priority => 100 }
+```puppet
+apt::pin { 'sid': priority => 100 }
+```
 
 ### npm package
 
@@ -34,23 +57,29 @@ npm package provider is an extension of puppet package type which supports versi
 
 Example:
 
-    package { 'express':
-      ensure   => present,
-      provider => 'npm',
-    }
-    
-    package { 'mime':
-      ensure   => '1.2.4',
-      provider => 'npm',
-    }
+```puppet
+package { 'express':
+  ensure   => present,
+  provider => 'npm',
+}
+```
+
+```puppet
+package { 'mime':
+  ensure   => '1.2.4',
+  provider => 'npm',
+}
+```
 
 ### nodejs::npm
 nodejs::npm is suitable for local installation of npm packages:
 
-    nodejs::npm { '/opt/razor:express':
-      ensure  => present,
-      version => '2.5.9',
-    }
+```puppet
+nodejs::npm { '/opt/razor:express':
+  ensure  => present,
+  version => '2.5.9',
+}
+```
 
 nodejs::npm title consists of filepath and package name seperate via ':', and support the following attributes:
 
@@ -66,3 +95,9 @@ The module have been tested on the following operating systems. Testing and patc
 
 * Debian Wheezy.
 * RedHat EL5.
+* Ubuntu
+* SLES
+* Scientific
+* CentOS
+* OEL
+* OracleLinux

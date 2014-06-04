@@ -9,10 +9,13 @@
 # Usage:
 #
 class nodejs(
-  $dev_package = false,
-  $manage_repo = false,
-  $proxy       = '',
-  $version     = 'present'
+  $dev_package         = false,
+  $manage_repo         = false,
+  $proxy               = '',
+  $version             = 'present',
+  $node_package_name   = $::nodejs::params::node_pkg,
+  $npm_package_name    = $::nodejs::params::npm_pkg,
+  $install_npm_package = $::nodejs::params::install_npm_package
 ) inherits nodejs::params {
   #input validation
   validate_bool($dev_package)
@@ -90,7 +93,7 @@ class nodejs(
   anchor { 'nodejs::repo': }
 
   package { 'nodejs':
-    name    => $nodejs::params::node_pkg,
+    name    => $node_package_name,
     ensure  => $version,
     require => Anchor['nodejs::repo']
   }
@@ -113,10 +116,12 @@ class nodejs(
     }
 
     default: {
-      package { 'npm':
-        name    => $nodejs::params::npm_pkg,
-        ensure  => present,
-        require => Anchor['nodejs::repo']
+      if $install_npm_package {
+        package { 'npm':
+          name    => $nodejs::params::npm_pkg,
+          ensure  => present,
+          require => Anchor['nodejs::repo']
+        }
       }
     }
   }
