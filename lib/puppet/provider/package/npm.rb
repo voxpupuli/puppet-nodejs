@@ -51,8 +51,17 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
   end
 
   def latest
-    if /#{resource[:name]}@([\d\.]+)/ =~ npm('outdated', '--global',  resource[:name])
-      @latest = $1
+    begin
+      output = npm('outdated', '--json', '--global', resource[:name])
+      # ignore any npm output lines to be a bit more robust
+      output = PSON.parse(output.lines.select{ |l| l =~ /^((?!^npm).*)$/}.join("\n"))
+      @outdated = output[resource[:name]] || {}
+    rescue Exception => e
+      Puppet.debug("Error: npm outdated --json --global #{resource[:name]} command error #{e.message}")
+      @outdated = {}
+    end
+    if @outdated["current"] != @outdated["latest"]
+      @latest = @outdated["latest"]
     else
       @property_hash[:ensure] unless @property_hash[:ensure].is_a? Symbol
     end
