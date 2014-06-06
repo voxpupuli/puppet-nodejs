@@ -74,10 +74,10 @@ The following example Hiera YAML configuration will:
 
 ```yaml
 nodejs::npms:
-    global:
-        express: {}
-        mime:
-            ensure: '1.2.4'
+  global:
+    express: {}
+      mime:
+        ensure: '1.2.4'
 ```
 
 #### Local Packages
@@ -124,9 +124,9 @@ The following example Hiera YAML configuration will:
 
 ```yaml
 nodejs::npms:
-    local:
-        '/opt/razor:express':
-            version: '2.5.9'
+  local:
+    '/opt/razor:express':
+      version: '2.5.9'
 ```
 
 
