@@ -1,12 +1,18 @@
 # Class: nodejs::npms
 #
+# PRIVATE CLASS: do not call directly
+#
 # This class enables support for installing both global and local npm packages
-# via Hiera. This functionality is auto enabled during the initial nodejs
-# module load; this class is not intended to be loaded directly.
+#   via user defined hash param 'npms' to the nodejs class.
 #
 # See the primary nodejs module documentation for usage and examples.
 #
-class nodejs::npms {
+class nodejs::npms(
+
+  $npms       = $::nodejs::npms,
+  $hieramerge = $::nodejs::hieramerge
+
+) {
 
   Class['nodejs'] -> Class[$name]
 
@@ -16,16 +22,23 @@ class nodejs::npms {
   #   http://docs.puppetlabs.com/hiera/1/puppet.html#limitations
   #   https://tickets.puppetlabs.com/browse/HI-118
   #
-  $npms = hiera_hash('nodejs::npms', undef)
+  if $hieramerge {
+    $x_npms = hiera_hash('nodejs::npms', $npms)
 
-  if $npms {
+  # Fall back to user defined param
+  } else {
+    $x_npms = $npms
+  }
 
-    # Install local npms
+  if $x_npms {
+    validate_hash($x_npms)
+
+    # Install any local npms
     if $npms['local'] {
       create_resources('::nodejs::npm', $npms['local'])
     }
 
-    # Install global npms
+    # Install any global npms
     if $npms['global'] {
       $defaults = {
         'ensure'    => 'present',
