@@ -57,6 +57,10 @@ class nodejs::params {
       $baseurl  = 'http://patches.fedorapeople.org/oldnode/stable/amzn1/$basearch/'
     }
 
+    'Gentoo': {
+      $node_pkg = 'net-libs/nodejs'
+    }
+
     default: {
       fail("Class nodejs does not support ${::operatingsystem}")
     }
