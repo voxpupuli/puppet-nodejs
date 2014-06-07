@@ -19,6 +19,7 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
     output = execute([command(:npm), 'list', '--json', '--global'], {:combine => false})
     Puppet.debug("Warning: npm list --json exited with code #{$CHILD_STATUS.exitstatus}") unless $CHILD_STATUS.success?
     begin
+      output = npm('list', '--json', '--global')
       # ignore any npm output lines to be a bit more robust
       output = PSON.parse(output.lines.select{ |l| l =~ /^((?!^npm).*)$/}.join("\n"))
       @npmlist = output['dependencies'] || {}
@@ -52,23 +53,17 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
 
   def latest
     begin
-      output = npm('outdated', '--json', '--global', resource[:name])
+      output = npm('info', '--json', '--global', resource[:name])
       # ignore any npm output lines to be a bit more robust
       output = PSON.parse(output.lines.select{ |l| l =~ /^((?!^npm).*)$/}.join("\n"))
-      @outdated = output[resource[:name]] || {}
-    rescue Exception => e
-      Puppet.debug("Error: npm outdated --json --global #{resource[:name]} command error #{e.message}")
-      @outdated = {}
-    end
-    if @outdated["current"] != @outdated["latest"]
-      @latest = @outdated["latest"]
-    else
-      @property_hash[:ensure] unless @property_hash[:ensure].is_a? Symbol
+      @latest = output["version"] || ""
+    rescue PSON::ParserError => e
+      Puppet.debug("Error: npm info --json --global #{resource[:name]} command error #{e.message}")
+      @latest = ""
     end
   end
 
   def update
-    resource[:ensure] = @latest
     self.install
   end
 
