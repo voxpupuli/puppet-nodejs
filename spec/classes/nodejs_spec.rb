@@ -265,5 +265,18 @@ describe 'nodejs', :type => :class do
       'require' => 'Anchor[nodejs::repo]',
     }) }
   end
+
+  describe 'when deploying on openbsd' do
+    let :facts do
+      {
+        :operatingsystem => 'OpenBSD',
+      }
+    end
+
+    it { should contain_package('nodejs').with({
+      'name'    => 'node',
+      'ensure'  => 'present',
+    }) }
+  end
 end
 
