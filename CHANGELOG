@@ -1,3 +1,16 @@
+2014-06-18 0.6.0
+
+Summary:
+
+This release primarily has improved support for Gentoo and testing
+improvements.
+
+Features:
+- Improved Gentoo support.
+- Test updates
+
+Bugfixes:
+
 2014-03-20 0.5.0
 
 Summary:
