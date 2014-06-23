@@ -97,8 +97,17 @@ class nodejs(
 
   case $::operatingsystem {
     'Ubuntu': {
-      # The PPA we are using on Ubuntu includes NPM in the nodejs package, hence
-      # we must not install it separately
+      if $manage_repo {
+        # The PPA we are using on Ubuntu includes NPM in the nodejs package, hence
+        # we must not install it separately
+      } else {
+        # Base Ubuntu (checked 12.04LTS and 14.04LTS has separate packages)
+        package { 'npm':
+          ensure  => present,
+          name    => $nodejs::params::npm_pkg,
+          require => Anchor['nodejs::repo']
+        }
+      }
     }
 
     'Gentoo': {
