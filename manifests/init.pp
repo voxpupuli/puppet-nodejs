@@ -102,10 +102,12 @@ class nodejs(
         # we must not install it separately
       } else {
         # Base Ubuntu (checked 12.04LTS and 14.04LTS has separate packages)
-        package { 'npm':
-          ensure  => present,
-          name    => $nodejs::params::npm_pkg,
-          require => Anchor['nodejs::repo']
+        if ! defined(Apt::Ppa ['ppa:chris-lea/node.js']) { 
+          package { 'npm':
+            ensure  => present,
+            name    => $nodejs::params::npm_pkg,
+            require => Anchor['nodejs::repo']
+          }
         }
       }
     }
