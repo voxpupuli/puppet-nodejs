@@ -1,23 +1,24 @@
 {
-  "project_page": "https://github.com/puppetlabs/puppetlabs-nodejs",
+  "name": "puppetlabs-nodejs",
+  "version": "0.6.1",
+  "author": "puppetlabs",
+  "summary": "Nodejs & NPM Puppet Module",
   "license": "Apache License, Version 2.0",
   "source": "https://github.com/puppetlabs/puppetlabs-nodejs",
-  "dependencies": [
-  {
-    "name": "puppetlabs/stdlib",
-    "version_requirement": ">=2.0.0"
-  },
-  {
-    "name": "puppetlabs/apt",
-    "version_requirement": ">=0.0.3"
-  }
-  ],
+  "project_page": "https://github.com/puppetlabs/puppetlabs-nodejs",
+  "issues_url": "https://github.com/puppetlabs/puppetlabs-nodejs/issues",
   "types": [
-
+  
   ],
   "description": "Nodejs & NPM Puppet Module",
-  "summary": "Nodejs & NPM Puppet Module",
-  "name": "puppetlabs-nodejs",
-  "author": "puppetlabs",
-  "version": "0.6.0"
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">=2.0.0"
+    },
+    {
+      "name": "puppetlabs/apt",
+      "version_requirement": ">=0.0.3"
+    }
+  ]
 }
