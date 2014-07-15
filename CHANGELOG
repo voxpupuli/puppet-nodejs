@@ -1,3 +1,10 @@
+2014-07-15 0.6.1
+
+Summary:
+
+This release merely updates metadata.json so the module can be uninstalled and
+upgraded via the puppet module command.
+
 2014-06-18 0.6.0
 
 Summary:
