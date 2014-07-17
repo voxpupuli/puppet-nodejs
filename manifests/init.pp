@@ -29,10 +29,12 @@ class nodejs(
   if $software_collections {
     $real_node_pkg = $::nodejs::params::scl_node_pkg
     $real_npm_pkg  = $::nodejs::params::scl_npm_pkg
+    $real_npm_cmd  = $::nodejs::params::scl_npm_cmd
     $real_dev_pkg  = $::nodejs::params::scl_dev_pkg
   } else {
     $real_node_pkg = $node_pkg
     $real_npm_pkg  = $npm_pkg
+    $real_npm_cmd  = 'npm'
     $real_dev_pkg  = $dev_pkg
   }
 
@@ -162,14 +164,6 @@ class nodejs(
       ensure  => link,
       target  => '/opt/rh/nodejs010/enable',
       require => Package['nodejs'],
-    }
-
-    # if we just installed nodejs from SCL, then the binaries
-    # will not yet in our path.
-    exec { 'nodejs010 enable':
-      command => '/bin/true && source /opt/rh/nodejs010/enable',
-      unless  => '/bin/echo $PATH | /bin/grep -q node',
-      path    => '/bin:/usr/bin'
     }
   }
 

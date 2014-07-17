@@ -46,6 +46,7 @@ class nodejs::params {
       $scl_enable = false
       $scl_node_pkg = 'nodejs010'
       $scl_npm_pkg = 'nodejs010-npm'
+      $scl_npm_cmd = '/usr/bin/scl enable nodejs010'
     }
 
     'Fedora': {

@@ -37,7 +37,7 @@ define nodejs::npm (
 
   if $ensure == present {
     exec { "npm_install_${name}":
-      command => "npm install ${install_opt} ${install_pkg}",
+      command => "${real_npm_cmd} install ${install_opt} ${install_pkg}",
       unless  => "npm list -p -l | grep '${validate}'",
       cwd     => $npm_dir,
       path    => $::path,
@@ -48,8 +48,8 @@ define nodejs::npm (
     Exec<| title=='npm_proxy' |> -> Exec["npm_install_${name}"]
   } else {
     exec { "npm_remove_${name}":
-      command => "npm remove ${npm_pkg}",
-      onlyif  => "npm list -p -l | grep '${validate}'",
+      command => "${real_npm_cmd} remove ${npm_pkg}",
+      onlyif  => "${real_npm_cmd} list -p -l | grep '${validate}'",
       cwd     => $npm_dir,
       path    => $::path,
       require => Class['nodejs'],
