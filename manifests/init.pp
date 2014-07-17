@@ -9,14 +9,32 @@
 # Usage:
 #
 class nodejs(
-  $dev_package = false,
-  $manage_repo = false,
-  $proxy       = '',
-  $version     = 'present'
+  $node_pkg             = $::nodejs::params::node_pkg,
+  $npm_pkg              = $::nodejs::params::npm_pkg,
+  $dev_pkg              = $::nodejs::params::dev_pkg,
+  $dev_package          = false,
+  $manage_repo          = false,
+  $proxy                = '',
+  $version              = 'present',
+  $software_collections = $::nodejs::params::software_collections,
+  $scl_enable           = $::nodejs::params::scl_enable,
 ) inherits nodejs::params {
   #input validation
   validate_bool($dev_package)
   validate_bool($manage_repo)
+  validate_bool($software_collections)
+  validate_bool($scl_enable)
+
+  # Software Collections use a different name
+  if $software_collections {
+    $real_node_pkg = $::nodejs::params::scl_node_pkg
+    $real_npm_pkg  = $::nodejs::params::scl_npm_pkg
+    $real_dev_pkg  = $::nodejs::params::scl_dev_pkg
+  } else {
+    $real_node_pkg = $node_pkg
+    $real_npm_pkg  = $npm_pkg
+    $real_dev_pkg  = $dev_pkg
+  }
 
   case $::operatingsystem {
     'Debian': {
@@ -90,8 +108,8 @@ class nodejs(
   anchor { 'nodejs::repo': }
 
   package { 'nodejs':
-    name    => $nodejs::params::node_pkg,
     ensure  => $version,
+    name    => $real_node_pkg,
     require => Anchor['nodejs::repo']
   }
 
@@ -102,7 +120,7 @@ class nodejs(
     }
 
     'Gentoo': {
-      # Gentoo installes npm with the nodejs package when configured properly.
+      # Gentoo installs npm with the nodejs package when configured properly.
       # We use the gentoo/portage module since it is expected to be
       # available on all gentoo installs.
       package_use { $nodejs::params::node_pkg:
@@ -114,8 +132,8 @@ class nodejs(
 
     default: {
       package { 'npm':
-        name    => $nodejs::params::npm_pkg,
         ensure  => present,
+        name    => $real_npm_pkg,
         require => Anchor['nodejs::repo']
       }
     }
@@ -129,11 +147,29 @@ class nodejs(
     }
   }
 
-  if $dev_package and $nodejs::params::dev_pkg {
+  if $dev_package and $real_dev_pkg {
     package { 'nodejs-dev':
-      name    => $nodejs::params::dev_pkg,
       ensure  => $version,
+      name    => $real_dev_pkg,
       require => Anchor['nodejs::repo']
+    }
+  }
+
+  if $software_collections and $scl_enable {
+    # create a symlink in /etc/profile.d to run the
+    # Software Collections enable script for node
+    file { '/etc/profile.d/nodejs.sh':
+      ensure  => link,
+      target  => '/opt/rh/nodejs010/enable',
+      require => Package['nodejs'],
+    }
+
+    # if we just installed nodejs from SCL, then the binaries
+    # will not yet in our path.
+    exec { 'nodejs010 enable':
+      command => '/bin/true && source /opt/rh/nodejs010/enable',
+      unless  => '/bin/echo $PATH | /bin/grep -q node',
+      path    => '/bin:/usr/bin'
     }
   }
 
