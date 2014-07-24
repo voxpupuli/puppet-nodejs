@@ -103,11 +103,12 @@ class nodejs(
       } else {
         # Base Ubuntu (checked 12.04LTS and 14.04LTS has separate packages)
         if ! defined(Apt::Ppa ['ppa:chris-lea/node.js']) { 
-          package { 'npm':
-            ensure  => present,
-            name    => $nodejs::params::npm_pkg,
-            require => Anchor['nodejs::repo']
-          }
+          #for some reason this is returning true every thou it's defined and installed.....
+          #package { 'npm':
+          #  ensure  => present,
+          #  name    => $nodejs::params::npm_pkg,
+          #  require => [ Anchor['nodejs::repo'], Notify['fuck you'] ],
+          #}
         }
       }
     }
