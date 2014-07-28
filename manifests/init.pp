@@ -102,13 +102,15 @@ class nodejs(
         # we must not install it separately
       } else {
         # Base Ubuntu (checked 12.04LTS and 14.04LTS has separate packages)
-        if ! defined(Apt::Ppa['ppa:chris-lea/node.js']) { 
-          #for some reason this is returning true every thou it's defined and installed.....
-          package { 'npm':
-            ensure  => present,
-            name    => $nodejs::params::npm_pkg,
-            require => Anchor['nodejs::repo'], 
-          }
+        if defined(Apt::Ppa['ppa:chris-lea/node.js']) {
+          #do nothing
+        } else {
+          #our apt 'stuff' happens in the stage pre which means this 'defined' will never know about it.
+          #package { 'npm':
+          #  ensure  => present,
+          #  name    => $nodejs::params::npm_pkg,
+          #  require => Anchor['nodejs::repo'],
+          #}
         }
       }
     }
