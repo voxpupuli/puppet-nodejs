@@ -77,8 +77,8 @@ class nodejs(
       }
     }
 
-    'Gentoo': {
-      # Gentoo does not need any special repos for nodejs
+    'Gentoo', 'OpenBSD': {
+      # Gentoo and OpenBSD do not need any special repos for nodejs
     }
 
     default: {
@@ -99,6 +99,10 @@ class nodejs(
     'Ubuntu': {
       # The PPA we are using on Ubuntu includes NPM in the nodejs package, hence
       # we must not install it separately
+    }
+
+    'OpenBSD': {
+      # On OpenBSD npm is included in the node package.
     }
 
     'Gentoo': {

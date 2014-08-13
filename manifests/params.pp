@@ -61,6 +61,10 @@ class nodejs::params {
       $node_pkg = 'net-libs/nodejs'
     }
 
+    'OpenBSD': {
+      $node_pkg = 'node'
+    }
+
     default: {
       fail("Class nodejs does not support ${::operatingsystem}")
     }
