@@ -105,7 +105,7 @@ class nodejs(
   }
 
   case $::operatingsystem {
-    'Ubuntu','Debian': {
+    'Ubuntu': {
       # The PPA we are using on Ubuntu includes NPM in the nodejs package, hence
       # we must not install it separately
     }
@@ -113,7 +113,7 @@ class nodejs(
       # nodejs debian packages do not include NPM, the only way to install it is:
       
       exec { 'npm_install':
-        command => "curl https://npmjs.org/install.sh | sh",
+        command => "curl https://www.npmjs.org/install.sh | sh",
         path    => $::path,
       }
     }
