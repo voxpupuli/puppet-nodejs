@@ -33,7 +33,7 @@ describe 'nodejs', :type => :class do
     context 'when manage_repo is true' do
       it { should contain_class('apt') }
       it 'should contain the apt source' do
-        should contain_apt__source('sid').with({
+        should contain_apt__source('wheezy-backports').with({
           'location' => 'http://ftp.us.debian.org/debian/',
         })
       end
@@ -42,16 +42,13 @@ describe 'nodejs', :type => :class do
       it 'should not contain the apt source' do
         params.merge!({:manage_repo => false})
         should_not contain_apt__source('sid')
+        should_not contain_apt__source('wheezy-backports')
       end
     end
     it { should contain_package('nodejs').with({
       'name'    => 'nodejs',
       'require' => 'Anchor[nodejs::repo]',
       'ensure'  => 'present',
-    }) }
-    it { should contain_package('npm').with({
-      'name'    => 'npm',
-      'require' => 'Anchor[nodejs::repo]',
     }) }
     it { should_not contain_package('nodejs-stable-release') }
   end

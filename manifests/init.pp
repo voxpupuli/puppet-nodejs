@@ -23,13 +23,22 @@ class nodejs(
       if $manage_repo {
         #only add apt source if we're managing the repo
         include 'apt'
-        apt::source { 'sid':
-          location    => 'http://ftp.us.debian.org/debian/',
-          release     => 'sid',
-          repos       => 'main',
-          pin         => 100,
-          include_src => false,
-          before      => Anchor['nodejs::repo'],
+	
+	case $::lsbdistcodename {
+ 	  'wheezy': {
+            apt::source { 'wheezy-backports':
+              location    => 'http://ftp.us.debian.org/debian/',
+              release     => 'wheezy-backports',
+              repos       => 'main',
+              pin         => 100,
+              include_src => false,
+              before      => Anchor['nodejs::repo'],
+            }
+          }
+	
+ 	  default : {
+	    fail("Class nodejs does not support your Debian version ${::lsbdistcodename}")
+	  }
         }
       }
     }
@@ -99,6 +108,21 @@ class nodejs(
     'Ubuntu': {
       # The PPA we are using on Ubuntu includes NPM in the nodejs package, hence
       # we must not install it separately
+    }
+    'Debian': {
+      # nodejs debian packages do not include NPM, the only way to install it is:
+      
+      # newer npm install script searches only for command node
+      # so we have to create a symbolic link to be able to run npm_install
+      exec { 'node_link_to_nodejs':
+        command => "ln -s /usr/bin/nodejs /usr/bin/node",
+        path    => $::path,
+      }
+      exec { 'npm_install':
+        command => "curl https://www.npmjs.org/install.sh | sh",
+        path    => $::path,
+	require => Exec['node_link_to_nodejs']
+      }
     }
 
     'Gentoo': {
