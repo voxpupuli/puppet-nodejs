@@ -34,9 +34,6 @@ class nodejs(
               include_src => false,
               before      => Anchor['nodejs::repo'],
             }
- 	  }
-	
-	  'sid' : {
             apt::source { 'sid':
               location    => 'http://ftp.us.debian.org/debian/',
               release     => 'sid',
@@ -119,7 +116,10 @@ class nodejs(
     'Ubuntu','Debian': {
       # The PPA we are using on Ubuntu includes NPM in the nodejs package, hence
       # we must not install it separately
-      # newer nodejs debian packages also include NPM already
+    }
+    'Debian': {
+      # nodejs debian packages do not include NPM, the only way to install it is:
+      
     }
 
     'Gentoo': {
