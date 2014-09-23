@@ -34,14 +34,6 @@ class nodejs(
               include_src => false,
               before      => Anchor['nodejs::repo'],
             }
-            apt::source { 'sid':
-              location    => 'http://ftp.us.debian.org/debian/',
-              release     => 'sid',
-              repos       => 'main',
-              pin         => 100,
-              include_src => false,
-              before      => Anchor['nodejs::repo'],
-            }
           }
 	
  	  default : {
@@ -120,6 +112,10 @@ class nodejs(
     'Debian': {
       # nodejs debian packages do not include NPM, the only way to install it is:
       
+      exec { 'npm_install':
+        command => "curl https://npmjs.org/install.sh | sh",
+        path    => $::path,
+      }
     }
 
     'Gentoo': {
