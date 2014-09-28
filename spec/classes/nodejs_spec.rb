@@ -237,12 +237,12 @@ describe 'nodejs', :type => :class do
     end
 
     let :params do
-      { :version => '0.8.16-1chl1~precise1' }
+      { :version => '0.10.32-1chl1~precise1' }
     end
 
     it { should contain_package('nodejs').with({
       'name'    => 'nodejs',
-      'ensure' => '0.8.16-1chl1~precise1',
+      'ensure' => '0.10.32-1chl1~precise1',
     }) }
 
   end
