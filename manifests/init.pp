@@ -10,7 +10,7 @@
 #
 class nodejs(
   $dev_package = false,
-  $manage_repo = false,
+  $manage_repo = true,
   $proxy       = '',
   $version     = 'present'
 ) inherits nodejs::params {
