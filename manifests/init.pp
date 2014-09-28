@@ -81,6 +81,10 @@ class nodejs(
       # Gentoo does not need any special repos for nodejs
     }
 
+    'Archlinux': {
+      # Archlinux does not need any special repos for nodejs
+    }
+
     default: {
       fail("Class nodejs does not support ${::operatingsystem}")
     }
@@ -110,6 +114,10 @@ class nodejs(
         use     => 'npm',
         require => Anchor['nodejs::repo'],
       }
+    }
+
+    'Archlinux': {
+      # Archlinux installes npm with the nodejs package.
     }
 
     default: {

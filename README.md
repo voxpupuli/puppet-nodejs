@@ -2,7 +2,7 @@
 
 ## Overview
 
-Install nodejs package and npm package provider for Debian, Ubuntu, Fedora, and RedHat.
+Install nodejs package and npm package provider for Debian, Ubuntu, Fedora, RedHat, Gentoo and Archlinux.
 
 ## Usage
 
