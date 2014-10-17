@@ -61,6 +61,10 @@ class nodejs::params {
       $node_pkg = 'net-libs/nodejs'
     }
 
+    'Archlinux': {
+      $node_pkg = 'nodejs'
+    }
+
     default: {
       fail("Class nodejs does not support ${::operatingsystem}")
     }

@@ -265,5 +265,16 @@ describe 'nodejs', :type => :class do
       'require' => 'Anchor[nodejs::repo]',
     }) }
   end
+
+  describe 'when deploying on Archlinux' do
+    let :facts do
+      {
+        :operatingsystem => 'Archlinux',
+      }
+    end
+
+    it { should contain_package('nodejs') }
+    it { should_not contain_package('npm') }
+  end
 end
 
