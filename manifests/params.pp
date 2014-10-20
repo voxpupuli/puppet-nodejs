@@ -41,6 +41,12 @@ class nodejs::params {
       }
       $npm_pkg  = 'npm'
       $baseurl  = 'http://patches.fedorapeople.org/oldnode/stable/el$releasever/$basearch/'
+
+      $software_collections = false
+      $scl_enable = false
+      $scl_node_pkg = 'nodejs010'
+      $scl_npm_pkg = 'nodejs010-npm'
+      $scl_npm_cmd = '/usr/bin/scl enable nodejs010'
     }
 
     'Fedora': {
