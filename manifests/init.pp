@@ -137,7 +137,9 @@ class nodejs(
     }
   }
 
-  if $dev_package and $nodejs::params::dev_pkg {
+  # Chris Lea's dev repos for Ubuntu do not include the nodejs-dev package,
+  # it was merged into the nodejs package.
+  if $dev_package and $nodejs::params::dev_pkg and !($::operatingsystem == 'Ubuntu' and $manage_repo) {
     package { 'nodejs-dev':
       name    => $nodejs::params::dev_pkg,
       ensure  => $version,
