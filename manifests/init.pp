@@ -2,13 +2,40 @@
 #
 # Parameters:
 #
+# node_pkg: (string) the name of the package to install
+# npm_pkg : (string) the name of the package that provides npm
+# dev_pkg : (string) the name of the NodeJS development package to install
+# dev_package: (bool) whether to install the dev_pkg or not
+# manage_repo: (bool) whether to manage the repository
+# proxy: (string) the HTTP proxy to use
+# version: (string) the version of NodeJS (and associated packages) to install
+#
 # Actions:
 #
 # Requires:
 #
 # Usage:
+# To install the default NodeJS packages as determined by your operating system
+# (and as codified in nodejs::params), you can accept the default values:
+#
+# include nodejs
+# class { 'nodejs': }
+#
+# To install a specific package name, you can override the parameter values. The
+# following example installs NodeJS from Software Collections on a Red Hat-derived
+# system:
+#
+# class { 'nodejs':
+#   node_pkg    => 'nodejs010',
+#   npm_pkg     => 'nodejs010-npm',
+#   dev_pkg     => 'nodejs010-devel',
+#   dev_package => true,
+# }
 #
 class nodejs(
+  $node_pkg    = $::nodejs::params::node_pkg,
+  $npm_pkg     = $::nodejs::params::npm_pkg,
+  $dev_pkg     = $::nodejs::params::dev_pkg,
   $dev_package = false,
   $manage_repo = false,
   $proxy       = '',
@@ -94,8 +121,8 @@ class nodejs(
   anchor { 'nodejs::repo': }
 
   package { 'nodejs':
-    name    => $nodejs::params::node_pkg,
     ensure  => $version,
+    name    => $node_pkg,
     require => Anchor['nodejs::repo']
   }
 
@@ -122,8 +149,8 @@ class nodejs(
 
     default: {
       package { 'npm':
-        name    => $nodejs::params::npm_pkg,
         ensure  => present,
+        name    => $npm_pkg,
         require => Anchor['nodejs::repo']
       }
     }
@@ -137,10 +164,10 @@ class nodejs(
     }
   }
 
-  if $dev_package and $nodejs::params::dev_pkg {
+  if $dev_package and $dev_pkg {
     package { 'nodejs-dev':
-      name    => $nodejs::params::dev_pkg,
       ensure  => $version,
+      name    => $dev_pkg,
       require => Anchor['nodejs::repo']
     }
   }

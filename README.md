@@ -10,11 +10,26 @@ Install nodejs package and npm package provider for Debian, Ubuntu, Fedora, RedH
 
 Installs nodejs and npm per [nodejs documentation](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager).
 
+* node_pkg: the package to install that provides nodejs.
+* npm_pkg: the package to install that provides `npm`.
+* dev_pkg: the package to install that provides the nodejs development libraries.
 * dev_package: whether to install optional dev packages. dev packages not available on all platforms, default: false.
+* manage_repo: whether to manage the repository that provides the packages for nodejs. Defaults to "false".
+* proxy: the HTTP proxy to use for nodejs.
+* version: the version of nodejs packages to install. Defaults to "present".
 
-Example:
+Examples:
 
     include nodejs
+
+Red Hat Enterprise Linux (and derivatives) may want to install nodejs from Software Collections:
+
+    class { 'nodejs':
+      node_pkg    => 'nodejs010',
+      npm_pkg     => 'nodejs010-npm',
+      dev_pkg     => 'nodejs010-devel',
+      dev_package => true,
+    }
 
 You may want to use apt::pin to pin package installation priority on sqeeze. See [puppetlabs-apt](https://github.com/puppetlabs/puppetlabs-apt) for more information.
 
@@ -64,5 +79,6 @@ nodejs::npm title consists of filepath and package name seperate via ':', and su
 
 The module have been tested on the following operating systems. Testing and patches for other platforms are welcomed.
 
-* Debian Wheezy.
-* RedHat EL5.
+* Debian Wheezy
+* Red Hat Enterprise Linux 5
+* Red Hat Enterprise Linux 6
