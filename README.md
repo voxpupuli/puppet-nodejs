@@ -16,7 +16,7 @@ Example:
 
     include nodejs
 
-You may want to use apt::pin to pin package installation priority on sqeeze. See [puppetlabs-apt](https://github.com/puppetlabs/puppetlabs-apt) for more information.
+You may want to use apt::pin to pin package installation priority on squeeze. See [puppetlabs-apt](https://github.com/puppetlabs/puppetlabs-apt) for more information.
 
     apt::pin { 'sid': priority => 100 }
 
