@@ -1,3 +1,47 @@
+##2015-02-27 0.8.0
+###Backwards-incompatible changes
+- Debian Squeeze and Fedora version 18 and below are explicitly no longer
+  supported
+- Parameter naming changes to node_pkg, npm_pkg, dev_pkg, manage_repo,
+  dev_pkg to approximate equivalents: nodejs_package_name, npm_package_name,
+  nodejs_dev_package_name, manage_package_repo, nodejs_dev_package_ensure
+- RedHat-family operating systems now use the NodeSource repository by default
+  rather than the Fedora People repositories
+- Debian Wheezy now uses the NodeSource repository by default rather than the
+  Debian Sid repository
+- The proxy parameter has been removed. Equivalent functionality can be
+  obtained by using the nodejs::npm::global_config_entry defined type
+- The version parameter has been removed. The approximate equivalent is
+  nodejs_package_ensure (or nodejs_dev_package_ensure)
+- The nodejs::npm defined type title is now an arbitary unique string rather
+  than 'destination_dir:package'. The same functionality is now done with
+  the target and package parameters.
+- The nodejs::npm version parameter has been removed. The same functionality
+  can now be performed with the ensure parameter
+- Parameter naming changes to install_opt, remove_opt in nodejs::npm to
+  approximate equivalents install_options and uninstall_options. Both must
+  now be an array of strings and not strings.
+
+###Summary
+
+This release performs major API changes and defaults to using the NodeSource
+repository where possible.
+
+####Features
+- Defaults to using the NodeSource repositories where possible, but allows
+  native packages to be installed when appropriate parameters are set
+- Introduces a parameter repo_class, which allows one to use alternative
+  repositories like EPEL for the Node.js packages
+- Adds Windows installation support via Chocolatey
+- Adds FreeBSD and OpenBSD installation support
+- Adds tag and scope support to the defined type nodejs::npm
+- Adds a defined type nodejs::npm::global_config_entry, which allows one to
+  set and delete global npm config options
+
+####Bugfixes
+- Supercedes PRs 99 (MODULES-1075), 97, 96, 94, 93, 85, 82, 80, 79, 51, 69, 66
+  and 102
+
 ##2015-01-21 - Release 0.7.1
 ###Summary
 
@@ -62,9 +106,9 @@ This release removes the precise special handling
 and adds the ability to pass in $version.
 
 ####Features
- - Precise uses the same ppa as every other release.
- - New parameters in nodejs:
-  - `version`: Set the version to install.
+- Precise uses the same ppa as every other release.
+- New parameters in nodejs:
+- `version`: Set the version to install.
 
 ##2013-08-01 - Release 0.3.0
 ###Summary
@@ -74,7 +118,7 @@ still works on newer distributions.
 
 ####Features
 - New parameters in nodejs:
- - `manage_repo`: Enable/Disable repo management.
+- `manage_repo`: Enable/Disable repo management.
 
 ####Bugfixes
 - Fixed npm on Ubuntuwhen using Chris Lea's PPA
@@ -82,15 +126,15 @@ still works on newer distributions.
 - Fix yumrepo file ordering.
 
 ##0.2.1 2012-12-28 Puppet Labs <info@puppetlabs.com>
-* Updated EL RPM repositories
+- Updated EL RPM repositories
 
 ##0.2.0 2012-05-22 Puppet Labs <info@puppetlabs.com>
-* Add RedHat family support
-* Use npm package instead of exec script.
-* Remove ppa repo for Ubuntu Precise.
+- Add RedHat family support
+- Use npm package instead of exec script.
+- Remove ppa repo for Ubuntu Precise.
 
 ##0.1.1 2012-05-04 Puppet Labs <info@puppetlabs.com>
-* Use include for apt class and add spec tests.
+- Use include for apt class and add spec tests.
 
 ##0.1.0 2012-04-30 Puppet Labs <info@puppetlabs.com>
-* Initial module release.
+- Initial module release.

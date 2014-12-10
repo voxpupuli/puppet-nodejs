@@ -65,10 +65,4 @@ describe Puppet::Type.type(:package).provider(:npm) do
     end
   end
 
-#  describe "when no npm packages are installed globally" do
-#    it "should return nothing is installed" do
-#      @provider.class.stubs(:npm).with('list', '--json', '--global').returns("{}\n")
-#      @provider.class.instances.should == []
-#    end
-#  end
 end

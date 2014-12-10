@@ -1,188 +1,59 @@
-# Class: nodejs
-#
-# Parameters:
-#
-# node_pkg: (string) the name of the package to install
-# npm_pkg : (string) the name of the package that provides npm
-# dev_pkg : (string) the name of the NodeJS development package to install
-# dev_package: (bool) whether to install the dev_pkg or not
-# manage_repo: (bool) whether to manage the repository
-# proxy: (string) the HTTP proxy to use
-# version: (string) the version of NodeJS (and associated packages) to install
-#
-# Actions:
-#
-# Requires:
-#
-# Usage:
-# To install the default NodeJS packages as determined by your operating system
-# (and as codified in nodejs::params), you can accept the default values:
-#
-# include nodejs
-# class { 'nodejs': }
-#
-# To install a specific package name, you can override the parameter values. The
-# following example installs NodeJS from Software Collections on a Red Hat-derived
-# system:
-#
-# class { 'nodejs':
-#   node_pkg    => 'nodejs010',
-#   npm_pkg     => 'nodejs010-npm',
-#   dev_pkg     => 'nodejs010-devel',
-#   dev_package => true,
-# }
-#
+# == Class: nodejs: See README.md for documentation.
 class nodejs(
-  $node_pkg    = $::nodejs::params::node_pkg,
-  $npm_pkg     = $::nodejs::params::npm_pkg,
-  $dev_pkg     = $::nodejs::params::dev_pkg,
-  $dev_package = false,
-  $manage_repo = false,
-  $proxy       = '',
-  $version     = 'present'
+  $cmd_exe_path                = $nodejs::params::cmd_exe_path,
+  $legacy_debian_symlinks      = $nodejs::params::legacy_debian_symlinks,
+  $manage_package_repo         = $nodejs::params::manage_package_repo,
+  $nodejs_debug_package_ensure = $nodejs::params::nodejs_debug_package_ensure,
+  $nodejs_debug_package_name   = $nodejs::params::nodejs_debug_package_name,
+  $nodejs_dev_package_ensure   = $nodejs::params::nodejs_dev_package_ensure,
+  $nodejs_dev_package_name     = $nodejs::params::nodejs_dev_package_name,
+  $nodejs_package_ensure       = $nodejs::params::nodejs_package_ensure,
+  $nodejs_package_name         = $nodejs::params::nodejs_package_name,
+  $npm_package_ensure          = $nodejs::params::npm_package_ensure,
+  $npm_package_name            = $nodejs::params::npm_package_name,
+  $npm_path                    = $nodejs::params::npm_path,
+  $repo_class                  = $nodejs::params::repo_class,
+  $repo_enable_src             = $nodejs::params::repo_enable_src,
+  $repo_ensure                 = $nodejs::params::repo_ensure,
+  $repo_pin                    = $nodejs::params::repo_pin,
+  $repo_priority               = $nodejs::params::repo_priority,
+  $repo_proxy                  = $nodejs::params::repo_proxy,
+  $repo_proxy_password         = $nodejs::params::repo_proxy_password,
+  $repo_proxy_username         = $nodejs::params::repo_proxy_username,
+  $use_flags                   = $nodejs::params::use_flags,
 ) inherits nodejs::params {
-  #input validation
-  validate_bool($dev_package)
-  validate_bool($manage_repo)
 
-  case $::operatingsystem {
-    'Debian': {
-      if $manage_repo {
-        #only add apt source if we're managing the repo
-        include 'apt'
-        apt::source { 'sid':
-          location    => 'http://ftp.us.debian.org/debian/',
-          release     => 'sid',
-          repos       => 'main',
-          pin         => 100,
-          include_src => false,
-          before      => Anchor['nodejs::repo'],
-        }
-      }
-    }
+  validate_bool($legacy_debian_symlinks)
+  validate_bool($manage_package_repo)
 
-    'Ubuntu': {
-      if $manage_repo {
-        # Only add apt source if we're managing the repo
-        include 'apt'
-        # Add the NodeSource repo
-        apt::source { 'nodesource':
-          location   => 'https://deb.nodesource.com/node',
-          repos      => 'main',
-          key        => '68576280',
-          key_source => 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key',
-          before     => Anchor['nodejs::repo'],
-        }
-
-        if $dev_package {
-            # Add the NodeSource devel repo
-            apt::source { 'nodesource-devel':
-              location   => 'https://deb.nodesource.com/node-devel',
-              repos      => 'main',
-              key        => '68576280',
-              key_source => 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key',
-              before     => Anchor['nodejs::repo'],
-            }
-        }
-      }
-    }
-
-    'Fedora', 'RedHat', 'Scientific', 'CentOS', 'OEL', 'OracleLinux', 'Amazon': {
-      if $manage_repo {
-        package { 'nodejs-stable-release':
-          ensure => absent,
-          before => Yumrepo['nodejs-stable'],
-        }
-        yumrepo { 'nodejs-stable':
-          descr    => 'Stable releases of Node.js',
-          baseurl  => $nodejs::params::baseurl,
-          enabled  => 1,
-          gpgcheck => $nodejs::params::gpgcheck,
-          gpgkey   => 'http://patches.fedorapeople.org/oldnode/stable/RPM-GPG-KEY-tchol',
-          before   => Anchor['nodejs::repo'],
-        }
-        file {'nodejs_repofile':
-          ensure  => 'file',
-          before  => Anchor['nodejs::repo'],
-          group   => 'root',
-          mode    => '0444',
-          owner   => 'root',
-          path    => '/etc/yum.repos.d/nodejs-stable.repo',
-          require => Yumrepo['nodejs-stable']
-        }
-      }
-    }
-
-    'Gentoo': {
-      # Gentoo does not need any special repos for nodejs
-    }
-
-    'Archlinux': {
-      # Archlinux does not need any special repos for nodejs
-    }
-
-    default: {
-      fail("Class nodejs does not support ${::operatingsystem}")
-    }
+  if $manage_package_repo and !$repo_class {
+    fail("${module_name}: The manage_package_repo parameter was set to true but no repo_class was provided.")
   }
 
-  # anchor resource provides a consistent dependency for prereq.
-  anchor { 'nodejs::repo': }
-
-  package { 'nodejs':
-    ensure  => $version,
-    name    => $node_pkg,
-    require => Anchor['nodejs::repo']
+  if $nodejs_debug_package_name {
+    validate_string($nodejs_debug_package_name)
   }
 
-  case $::operatingsystem {
-    'Ubuntu': {
-      # The PPA we are using on Ubuntu includes NPM in the nodejs package, hence
-      # we must not install it separately
-      $npm_require = 'Package[nodejs]'
-    }
-
-    'Gentoo': {
-      # Gentoo installes npm with the nodejs package when configured properly.
-      # We use the gentoo/portage module since it is expected to be
-      # available on all gentoo installs.
-      $npm_require = 'Package[nodejs]'
-      package_use { $nodejs::params::node_pkg:
-        ensure  => present,
-        use     => 'npm',
-        require => Anchor['nodejs::repo'],
-      }
-    }
-
-    'Archlinux': {
-      $npm_require = 'Package[nodejs]'
-      # Archlinux installes npm with the nodejs package.
-    }
-
-    default: {
-      package { 'npm':
-        ensure  => present,
-        name    => $npm_pkg,
-        require => Anchor['nodejs::repo']
-      }
-      $npm_require = 'Package[npm]'
-    }
+  if $nodejs_dev_package_name {
+    validate_string($nodejs_dev_package_name)
   }
 
-  if $proxy {
-    exec { 'npm_proxy':
-      command => "npm config set proxy ${proxy}",
-      path    => $::path,
-      require => $npm_require,
-    }
+  if $npm_package_name {
+    validate_string($npm_package_name)
   }
 
-  if $dev_package and $dev_pkg {
-    package { 'nodejs-dev':
-      ensure  => $version,
-      name    => $dev_pkg,
-      require => Anchor['nodejs::repo']
-    }
-  }
+  validate_array($use_flags)
 
+  include '::nodejs::install'
+
+  anchor { '::nodejs::begin': }
+  anchor { '::nodejs::end': }
+
+  if $manage_package_repo {
+    include $repo_class
+    Anchor['::nodejs::begin'] ->
+    Class[$repo_class] ->
+    Class['::nodejs::install'] ->
+    Anchor['::nodejs::end']
+  }
 }
