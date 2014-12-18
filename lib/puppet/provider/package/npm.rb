@@ -20,7 +20,7 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
     Puppet.debug("Warning: npm list --json exited with code #{$CHILD_STATUS.exitstatus}") unless $CHILD_STATUS.success?
     begin
       # ignore any npm output lines to be a bit more robust
-      output = PSON.parse(output.lines.select{ |l| l =~ /^((?!^npm).*)$/}.join("\n"))
+      output = PSON.parse(output.lines.select{ |l| l =~ /^((?!^npm).*)$/}.join("\n"), {:max_nesting => 100} )
       @npmlist = output['dependencies'] || {}
     rescue PSON::ParserError => e
       Puppet.debug("Error: npm list --json command error #{e.message}")
