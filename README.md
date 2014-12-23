@@ -31,7 +31,7 @@ Red Hat Enterprise Linux (and derivatives) may want to install nodejs from Softw
       dev_package => true,
     }
 
-You may want to use apt::pin to pin package installation priority on sqeeze. See [puppetlabs-apt](https://github.com/puppetlabs/puppetlabs-apt) for more information.
+Debian users may want to use apt::pin to pin package installation priority on squeeze. See [puppetlabs-apt](https://github.com/puppetlabs/puppetlabs-apt) for more information.
 
     apt::pin { 'sid': priority => 100 }
 

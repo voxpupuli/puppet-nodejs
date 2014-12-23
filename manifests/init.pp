@@ -65,14 +65,23 @@ class nodejs(
       if $manage_repo {
         # Only add apt source if we're managing the repo
         include 'apt'
-        # Only use PPA when necessary.
-        apt::ppa { 'ppa:chris-lea/node.js':
-          before => Anchor['nodejs::repo'],
+        # Add the NodeSource repo
+        apt::source { 'nodesource':
+          location   => 'https://deb.nodesource.com/node',
+          repos      => 'main',
+          key        => '68576280',
+          key_source => 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key',
+          before     => Anchor['nodejs::repo'],
         }
 
         if $dev_package {
-            apt::ppa { 'ppa:chris-lea/node.js-devel':
-              before => Anchor['nodejs::repo'],
+            # Add the NodeSource devel repo
+            apt::source { 'nodesource-devel':
+              location   => 'https://deb.nodesource.com/node-devel',
+              repos      => 'main',
+              key        => '68576280',
+              key_source => 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key',
+              before     => Anchor['nodejs::repo'],
             }
         }
       }

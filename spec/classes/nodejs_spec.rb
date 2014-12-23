@@ -71,19 +71,19 @@ describe 'nodejs', :type => :class do
     end
     context 'when manage_repo is true' do
       it { should contain_class('apt') }
-      it { should contain_apt__ppa('ppa:chris-lea/node.js') }
+      it { should contain_apt__source('nodesource') }
     end
     context 'when manage_repo is false' do
       it 'should not create the ppa' do
         params.merge!({:manage_repo => false})
         should_not contain_class('apt')
-        should_not contain_apt__ppa('ppa:chris-lea/node.js')
+        should_not contain_apt__source('nodesource')
       end
     end
 
     it { should contain_class('apt') }
-    it { should contain_apt__ppa('ppa:chris-lea/node.js') }
-    it { should contain_apt__ppa('ppa:chris-lea/node.js-devel') }
+    it { should contain_apt__source('nodesource') }
+    it { should contain_apt__source('nodesource-devel') }
     it { should contain_package('nodejs') }
     it { should contain_package('nodejs').with({
       'name'    => 'nodejs',
