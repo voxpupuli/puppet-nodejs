@@ -110,7 +110,7 @@ describe 'nodejs', :type => :class do
         end
 
         let :params do
-          { :dev_package => true,:manage_repo => true}
+          { :manage_repo => true}
         end
 
         context 'when manage_repo is true' do
@@ -141,6 +141,32 @@ describe 'nodejs', :type => :class do
             should_not contain_file('nodejs_repofile')
           end
         end
+
+        context 'when dev_package is true' do
+          let (:params) {{:dev_package => true}}
+          it { should contain_package('nodejs-dev') }
+        end
+
+        context 'when node_pkg is set' do
+          let (:params) {{:node_pkg => 'nodejs010'}}
+          it { should contain_package('nodejs').with({
+            'name' => 'nodejs010',
+            'require' => 'Anchor[nodejs::repo]',
+          }) }
+        end
+
+        context 'when node_pkg and npm_pkg are set' do
+          let (:params) {{:node_pkg => 'nodejs010',:npm_pkg => 'nodejs010-npm'}}
+          it { should contain_package('nodejs').with({
+            'name' => 'nodejs010',
+            'require' => 'Anchor[nodejs::repo]',
+          }) }
+          it { should contain_package('npm').with({
+            'name' => 'nodejs010-npm',
+            'require' => 'Anchor[nodejs::repo]',
+          }) }
+        end
+            
         it { should contain_package('nodejs').with({
           'name'    => package,
           'require' => 'Anchor[nodejs::repo]',
@@ -162,7 +188,7 @@ describe 'nodejs', :type => :class do
         }
       end
       let :params do
-        { :dev_package => true,:manage_repo => true }
+        { :manage_repo => true }
       end
       context 'when manage_repo is true' do
         it 'should remove the node-js-stable-release package' do
@@ -194,6 +220,10 @@ describe 'nodejs', :type => :class do
         end
       end
 
+      context 'when dev_package is true' do
+        let (:params) {{:dev_package => true}}
+        it { should contain_package('nodejs-dev') }
+      end
       it { should contain_package('nodejs').with({
         'require' => 'Anchor[nodejs::repo]',
       }) }

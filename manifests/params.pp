@@ -1,8 +1,10 @@
 # Class: nodejs::parms
 #
 # Parameters:
+# None!
 #
 # Actions:
+# None!
 #
 # Requires:
 #
@@ -40,12 +42,14 @@ class nodejs::params {
         }
       }
       $npm_pkg  = 'npm'
+      $dev_pkg  = 'nodejs-devel'
       $baseurl  = 'http://patches.fedorapeople.org/oldnode/stable/el$releasever/$basearch/'
     }
 
     'Fedora': {
       $node_pkg = 'nodejs-compat-symlinks'
       $npm_pkg  = 'npm'
+      $dev_pkg  = 'nodejs-devel'
       $gpgcheck = 1
       $baseurl  = 'http://patches.fedorapeople.org/oldnode/stable/f$releasever/$basearch/'
     }
@@ -53,6 +57,7 @@ class nodejs::params {
     'Amazon': {
       $node_pkg = 'nodejs'
       $npm_pkg  = 'npm'
+      $dev_pkg  = 'nodejs-devel'
       $gpgcheck = 1
       $baseurl  = 'http://patches.fedorapeople.org/oldnode/stable/amzn1/$basearch/'
     }
