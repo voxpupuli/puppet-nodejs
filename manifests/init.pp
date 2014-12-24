@@ -38,7 +38,7 @@ class nodejs(
   $dev_pkg     = $::nodejs::params::dev_pkg,
   $dev_package = false,
   $manage_repo = false,
-  $proxy       = '',
+  $proxy       = undef,
   $version     = 'present'
 ) inherits nodejs::params {
   #input validation
@@ -139,6 +139,7 @@ class nodejs(
     'Ubuntu': {
       # The PPA we are using on Ubuntu includes NPM in the nodejs package, hence
       # we must not install it separately
+      $npm_require = Package['nodejs']
     }
 
     'Gentoo': {
@@ -150,10 +151,12 @@ class nodejs(
         use     => 'npm',
         require => Anchor['nodejs::repo'],
       }
+      $npm_require = [$nodejs::params::node_pkg]
     }
 
     'Archlinux': {
       # Archlinux installes npm with the nodejs package.
+      $npm_require = Package['nodejs']
     }
 
     default: {
@@ -162,6 +165,7 @@ class nodejs(
         name    => $npm_pkg,
         require => Anchor['nodejs::repo']
       }
+      $npm_require = Package['npm']
     }
   }
 
@@ -169,7 +173,7 @@ class nodejs(
     exec { 'npm_proxy':
       command => "npm config set proxy ${proxy}",
       path    => $::path,
-      require => Package['npm'],
+      require => $npm_require
     }
   }
 
