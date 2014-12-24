@@ -39,7 +39,9 @@ class nodejs(
   $dev_package = false,
   $manage_repo = false,
   $proxy       = '',
-  $version     = 'present'
+  $version     = 'present',
+  $npms        = undef,
+  $hieramerge  = false
 ) inherits nodejs::params {
   #input validation
   validate_bool($dev_package)
@@ -180,5 +182,8 @@ class nodejs(
       require => Anchor['nodejs::repo']
     }
   }
+
+  # Install npms
+  include '::nodejs::npms'
 
 }
