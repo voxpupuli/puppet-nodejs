@@ -252,7 +252,7 @@ describe 'nodejs', :type => :class do
     it { should_not contain_package('npm') }
     it { should contain_exec('npm_proxy').with({
       'command' => 'npm config set proxy http://proxy.puppetlabs.lan:80/',
-      'require' => 'Package[npm]',
+      'require' => 'Package[nodejs]',
     }) }
     it { should_not contain_package('nodejs-stable-release') }
   end

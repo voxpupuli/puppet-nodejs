@@ -139,6 +139,7 @@ class nodejs(
     'Ubuntu': {
       # The PPA we are using on Ubuntu includes NPM in the nodejs package, hence
       # we must not install it separately
+      $npm_package = 'nodejs'
     }
 
     'Gentoo': {
@@ -150,10 +151,12 @@ class nodejs(
         use     => 'npm',
         require => Anchor['nodejs::repo'],
       }
+      $npm_package = 'nodejs'
     }
 
     'Archlinux': {
       # Archlinux installes npm with the nodejs package.
+      $npm_package = 'nodejs'
     }
 
     default: {
@@ -162,16 +165,17 @@ class nodejs(
         name    => $npm_pkg,
         require => Anchor['nodejs::repo']
       }
+      $npm_package = 'npm'
     }
   }
 
-  if $proxy {
-    exec { 'npm_proxy':
-      command => "npm config set proxy ${proxy}",
-      path    => $::path,
-      require => Package['npm'],
-    }
-  }
+  # if $proxy {
+  #   exec { 'npm_proxy':
+  #     command => "npm config set proxy ${proxy}",
+  #     path    => $::path,
+  #     require => Package[$npm_package],
+  #   }
+  # }
 
   if $dev_package and $dev_pkg {
     package { 'nodejs-dev':
