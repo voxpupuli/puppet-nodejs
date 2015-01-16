@@ -45,7 +45,7 @@ define nodejs::npm (
     }
 
     # Conditionally require npm_proxy only if resource exists.
-    Exec<| title=='npm_proxy' |> -> Exec["npm_install_${name}"]
+    # Exec<| title=='npm_proxy' |> -> Exec["npm_install_${name}"]
   } else {
     exec { "npm_remove_${name}":
       command => "npm remove ${npm_pkg}",

@@ -169,13 +169,13 @@ class nodejs(
     }
   }
 
-  if $proxy {
-    exec { 'npm_proxy':
-      command => "npm config set proxy ${proxy}",
-      path    => $::path,
-      require => Package[$npm_package],
-    }
-  }
+  # if $proxy {
+  #   exec { 'npm_proxy':
+  #     command => "npm config set proxy ${proxy}",
+  #     path    => $::path,
+  #     require => Package[$npm_package],
+  #   }
+  # }
 
   if $dev_package and $dev_pkg {
     package { 'nodejs-dev':
