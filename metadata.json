@@ -1,24 +1,14 @@
 {
   "name": "puppetlabs-nodejs",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "author": "puppetlabs",
   "summary": "Install nodejs package and npm package provider for Debian, Ubuntu, Fedora, RedHat, Gentoo, and Archlinux.",
-  "license": "Apache License, Version 2.0",
+  "license": "Apache-2.0",
   "source": "https://github.com/puppetlabs/puppetlabs-nodejs",
   "project_page": "https://github.com/puppetlabs/puppetlabs-nodejs",
-  "issues_url": "https://github.com/puppetlabs/puppetlabs-nodejs/issues",
-  "types": [
-  
-  ],
-  "description": "Nodejs & NPM Puppet Module",
+  "issues_url": "https://tickets.puppetlabs.com/browse/MODULES",
   "dependencies": [
-    {
-      "name": "puppetlabs/stdlib",
-      "version_requirement": ">=2.0.0"
-    },
-    {
-      "name": "puppetlabs/apt",
-      "version_requirement": ">=0.0.3"
-    }
+    {"name":"puppetlabs/stdlib","version_requirement":">=2.0.0"},
+    {"name":"puppetlabs/apt","version_requirement":">=0.0.3"}
   ]
 }
