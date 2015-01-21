@@ -39,7 +39,7 @@ class nodejs(
   $dev_package = false,
   $manage_repo = false,
   $proxy       = '',
-  $version     = 'present'
+  $version     = '0.10.32-1chl1~precise1'
 ) inherits nodejs::params {
   #input validation
   validate_bool($dev_package)
