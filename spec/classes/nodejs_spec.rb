@@ -236,7 +236,27 @@ describe 'nodejs', :type => :class do
   end
 
 
-  describe 'when deploying with proxy' do
+  describe 'when deploying with proxy on CentOS' do
+    let :facts do
+      {
+        :operatingsystem => 'CentOS',
+        :lsbdistcodename => 'Final',
+        :lsbdistid       => 'CentOS',
+      }
+    end
+
+    let :params do
+      { :proxy => 'http://proxy.puppetlabs.lan:80/' }
+    end
+
+    it { should contain_exec('npm_proxy').with({
+      'command' => 'npm config set proxy http://proxy.puppetlabs.lan:80/',
+      'require' => 'Package[npm]',
+    }) }
+    it { should_not contain_package('nodejs-stable-release') }
+  end
+
+  describe 'when deploying with proxy on Ubuntu' do
     let :facts do
       {
         :operatingsystem => 'Ubuntu',
@@ -252,7 +272,7 @@ describe 'nodejs', :type => :class do
     it { should_not contain_package('npm') }
     it { should contain_exec('npm_proxy').with({
       'command' => 'npm config set proxy http://proxy.puppetlabs.lan:80/',
-      'require' => 'Package[npm]',
+      'require' => 'Package[nodejs]',
     }) }
     it { should_not contain_package('nodejs-stable-release') }
   end
