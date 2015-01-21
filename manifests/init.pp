@@ -139,12 +139,14 @@ class nodejs(
     'Ubuntu': {
       # The PPA we are using on Ubuntu includes NPM in the nodejs package, hence
       # we must not install it separately
+      $npm_require = 'Package[nodejs]'
     }
 
     'Gentoo': {
       # Gentoo installes npm with the nodejs package when configured properly.
       # We use the gentoo/portage module since it is expected to be
       # available on all gentoo installs.
+      $npm_require = 'Package[nodejs]'
       package_use { $nodejs::params::node_pkg:
         ensure  => present,
         use     => 'npm',
@@ -153,6 +155,7 @@ class nodejs(
     }
 
     'Archlinux': {
+      $npm_require = 'Package[nodejs]'
       # Archlinux installes npm with the nodejs package.
     }
 
@@ -162,11 +165,8 @@ class nodejs(
         name    => $npm_pkg,
         require => Anchor['nodejs::repo']
       }
+      $npm_require = 'Package[npm]'
     }
-    $npm_require = 'Package[npm]'
-  } else
-  {
-    $npm_require = 'Package[nodejs]'
   }
 
   if $proxy {
