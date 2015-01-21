@@ -139,6 +139,14 @@ class nodejs(
     'Ubuntu': {
       # The PPA we are using on Ubuntu includes NPM in the nodejs package, hence
       # we must not install it separately
+      if ! $manage_repo {
+        #however if using the ubuntu repos (trusty) it is not
+        package { 'npm':
+          name    => $nodejs::params::npm_pkg,
+          ensure  => present,
+          require => Anchor['nodejs::repo']
+        }
+      }
     }
 
     'Gentoo': {
