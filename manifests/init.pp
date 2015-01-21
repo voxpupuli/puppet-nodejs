@@ -37,7 +37,7 @@ class nodejs(
   $npm_pkg     = $::nodejs::params::npm_pkg,
   $dev_pkg     = $::nodejs::params::dev_pkg,
   $dev_package = false,
-  $manage_repo = false,
+  $manage_repo = true,
   $proxy       = '',
   $version     = 'present'
 ) inherits nodejs::params {
