@@ -1,3 +1,8 @@
+##2015-01-21 - Release 0.7.1
+###Summary
+
+This fixes the incorrect application of https://github.com/puppetlabs/puppetlabs-nodejs/pull/70 so that the code will actually run.
+
 ##2015-01-20 - Release 0.7.0
 ###Summary
 
