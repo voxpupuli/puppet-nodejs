@@ -1,6 +1,6 @@
 {
   "name": "puppetlabs-nodejs",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "author": "puppetlabs",
   "summary": "Install nodejs package and npm package provider for Debian, Ubuntu, Fedora, RedHat, Gentoo, and Archlinux.",
   "license": "Apache-2.0",
