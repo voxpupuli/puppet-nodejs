@@ -3,7 +3,7 @@ require 'puppet/provider/package'
 Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package do
   desc "npm is package management for node.js. This provider only handles global packages."
 
-  has_feature :versionable
+  has_feature :versionable, :install_options
 
   if Puppet::Util::Package.versioncmp(Puppet.version, '3.0') >= 0
     has_command(:npm, 'npm') do
@@ -70,10 +70,24 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
       package = "#{resource[:name]}@#{resource[:ensure]}"
     end
 
+    extraopts = []
+
+    if resource[:install_options]
+      extraopts += resource[:install_options][0].collect do |k,v|
+        if k == 'registry'
+          extraopts += [ "--registry" , v ]
+        end
+      end
+    end
+
     if resource[:source]
       npm('install', '--global', resource[:source])
     else
-      npm('install', '--global', package)
+      if extraopts.empty?
+        npm('install', '--global', package)
+      else
+        npm('install', '--global', extraopts, package)
+      end
     end
   end
 
