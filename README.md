@@ -39,7 +39,7 @@ Debian users may want to use apt::pin to pin package installation priority on sq
 
 Two types of npm packages are supported.
 
-* npm global packages are supported via ruby provider for puppet package type.
+* npm global packages are supported via npm provider for puppet package type.
 * npm local packages are supported via puppet define type nodejs::npm.
 
 For more information regarding global vs. local installation see [nodejs blog](http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/)
