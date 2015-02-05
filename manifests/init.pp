@@ -10,6 +10,10 @@
 # proxy: (string) the HTTP proxy to use
 # version: (string) the version of NodeJS (and associated packages) to install
 #
+# [*nodejs_repo*]
+#   Boolean. If set to true installs nodejs via repository at nodesource.com.
+#   Only for Enterprise Linux distributions.
+#
 # Actions:
 #
 # Requires:
@@ -38,12 +42,15 @@ class nodejs(
   $dev_pkg     = $::nodejs::params::dev_pkg,
   $dev_package = false,
   $manage_repo = false,
+  $nodejs_repo = false,
   $proxy       = '',
   $version     = 'present'
 ) inherits nodejs::params {
   #input validation
   validate_bool($dev_package)
   validate_bool($manage_repo)
+  validate_bool($nodejs_repo)
+
 
   case $::operatingsystem {
     'Debian': {
@@ -93,14 +100,25 @@ class nodejs(
           ensure => absent,
           before => Yumrepo['nodejs-stable'],
         }
+
+        # if using nodesource.com repository, set yum baseurl and gpgkey
+        if $nodejs_repo {
+          $baseurl = "https://rpm.nodesource.com/pub/el/${::operatingsystemmajrelease}/${::architecture}"
+          $gpgkey = 'https://rpm.nodesource.com/pub/el/NODESOURCE-GPG-SIGNING-KEY-EL'
+        } else {
+          $baseurl = $nodejs::params::baseurl
+          $gpgkey = $nodejs::params::gpgkey
+        }
+
         yumrepo { 'nodejs-stable':
           descr    => 'Stable releases of Node.js',
-          baseurl  => $nodejs::params::baseurl,
+          baseurl  => $baseurl,
           enabled  => 1,
           gpgcheck => $nodejs::params::gpgcheck,
-          gpgkey   => 'http://patches.fedorapeople.org/oldnode/stable/RPM-GPG-KEY-tchol',
+          gpgkey   => $gpgkey,
           before   => Anchor['nodejs::repo'],
         }
+
         file {'nodejs_repofile':
           ensure  => 'file',
           before  => Anchor['nodejs::repo'],
@@ -160,12 +178,16 @@ class nodejs(
     }
 
     default: {
+      if $nodejs_repo {
+        notice "npm is installed as part of nodejs package"
+      } else {
       package { 'npm':
         ensure  => present,
         name    => $npm_pkg,
         require => Anchor['nodejs::repo']
       }
       $npm_require = 'Package[npm]'
+      }
     }
   }
 

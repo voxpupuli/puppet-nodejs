@@ -44,6 +44,7 @@ class nodejs::params {
       $npm_pkg  = 'npm'
       $dev_pkg  = 'nodejs-devel'
       $baseurl  = 'http://patches.fedorapeople.org/oldnode/stable/el$releasever/$basearch/'
+      $gpgkey   = 'http://patches.fedorapeople.org/oldnode/stable/RPM-GPG-KEY-tchol'
     }
 
     'Fedora': {
@@ -52,6 +53,7 @@ class nodejs::params {
       $dev_pkg  = 'nodejs-devel'
       $gpgcheck = 1
       $baseurl  = 'http://patches.fedorapeople.org/oldnode/stable/f$releasever/$basearch/'
+      $gpgkey   = 'http://patches.fedorapeople.org/oldnode/stable/RPM-GPG-KEY-tchol'
     }
 
     'Amazon': {
