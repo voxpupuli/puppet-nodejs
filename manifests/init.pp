@@ -160,12 +160,14 @@ class nodejs(
     }
 
     default: {
-      package { 'npm':
-        ensure  => present,
-        name    => $npm_pkg,
-        require => Anchor['nodejs::repo']
+      if $npm_pkg != $node_pkg {
+        package { 'npm':
+          ensure  => present,
+          name    => $npm_pkg,
+          require => Anchor['nodejs::repo']
+        }
+        $npm_require = 'Package[npm]'
       }
-      $npm_require = 'Package[npm]'
     }
   }
 
