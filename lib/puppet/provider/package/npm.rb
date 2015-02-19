@@ -1,7 +1,7 @@
 require 'puppet/provider/package'
 
 Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package do
-  desc "npm is package management for node.js. This provider only handles global packages."
+  desc "npm is the package manager for Node.js. This provider only handles global packages."
 
   has_feature :versionable
 
