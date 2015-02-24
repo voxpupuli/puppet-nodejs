@@ -48,10 +48,13 @@ To install Node.js and npm (using the NodeSource repository if possible):
 Install Node.js and npm using the native packages provided by the distribution:
 (Only applicable for Ubuntu 12.04/14.04 and Fedora operating systems).
 
+On Ubuntu 14+ the dev package needs to be installed as a dependency for npm:
+
 ```puppet
 class { '::nodejs':
   manage_package_repo => false,
   npm_package_ensure  => 'present',
+  nodejs_dev_package_ensure => 'present',
 }
 ```
 
