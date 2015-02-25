@@ -45,16 +45,17 @@ To install Node.js and npm (using the NodeSource repository if possible):
 
 ## Usage
 
-Install Node.js and npm using the native packages provided by the distribution:
-(Only applicable for Ubuntu 12.04/14.04 and Fedora operating systems).
+When a separate npm package exists (natively or via EPEL) the Node.js development
+package also needs to be installed as it is a dependency for npm.
 
-On Ubuntu 14+ the dev package needs to be installed as a dependency for npm:
+Install Node.js and npm using the native packages provided by the distribution:
+(Only applicable for Ubuntu 12.04/14.04 and Fedora operating systems):
 
 ```puppet
 class { '::nodejs':
-  manage_package_repo => false,
-  npm_package_ensure  => 'present',
+  manage_package_repo       => false,
   nodejs_dev_package_ensure => 'present',
+  npm_package_ensure        => 'present',
 }
 ```
 
@@ -62,8 +63,9 @@ Install Node.js and npm using the packages from EPEL:
 
 ```puppet
 class { '::nodejs':
-  npm_package_ensure => 'present',
-  repo_class         => '::epel',
+  nodejs_dev_package_ensure => 'present',
+  npm_package_ensure        => 'present',
+  repo_class                => '::epel',
 }
 ```
 
