@@ -73,7 +73,7 @@ class { '::nodejs':
 
 Two types of npm packages are supported:
 
-* npm global packages are supported via the Ruby provider for the puppet
+* npm global packages are supported via the `npm` provider for the puppet
   package type.
 * npm local packages are supported via the Puppet defined type nodejs::npm.
 
