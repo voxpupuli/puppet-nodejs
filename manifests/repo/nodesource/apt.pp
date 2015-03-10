@@ -10,7 +10,7 @@ class nodejs::repo::nodesource::apt {
   if ($ensure == 'present') {
     apt::source { 'nodesource':
       include_src       => $enable_src,
-      key               => '1655A0AB68576280',
+      key               => '68576280',
       key_source        => 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key',
       location          => 'https://deb.nodesource.com/node',
       pin               => $pin,
