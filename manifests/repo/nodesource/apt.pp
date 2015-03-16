@@ -4,6 +4,7 @@ class nodejs::repo::nodesource::apt {
   $enable_src = $nodejs::repo::nodesource::enable_src
   $ensure     = $nodejs::repo::nodesource::ensure
   $pin        = $nodejs::repo::nodesource::pin
+  $version    = $nodejs::repo::nodesource::version
 
   include ::apt
 
@@ -12,7 +13,7 @@ class nodejs::repo::nodesource::apt {
       include_src       => $enable_src,
       key               => '9FD3B784BC1C6FC31A8A0A1C1655A0AB68576280',
       key_source        => 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key',
-      location          => 'https://deb.nodesource.com/node',
+      location          => "https://deb.nodesource.com/node_${version}",
       pin               => $pin,
       release           => $::lsbdistcodename,
       repos             => 'main',
