@@ -11,7 +11,7 @@ describe 'nodejs', :type => :class do
     end
 
     it 'should fail' do
-      expect { subject }.to raise_error(Puppet::Error, /The nodejs module is not supported on Debian Squeeze./)
+      expect { catalogue }.to raise_error(Puppet::Error, /The nodejs module is not supported on Debian Squeeze./)
     end
   end
 
@@ -305,8 +305,8 @@ describe 'nodejs', :type => :class do
       }
     end
 
-    it 'should fail' do
-      expect { subject }.to raise_error(Puppet::Error, /The nodejs module is not supported on Fedora 18./)
+    it do
+      expect { catalogue }.to raise_error(Puppet::Error, /The nodejs module is not supported on Fedora 18./)
     end
   end
 

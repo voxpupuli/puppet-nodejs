@@ -56,9 +56,7 @@ describe 'nodejs::npm::global_config_entry', :type => :define do
       let (:params) { { :ensure => 'invalid_value' } }
 
       it 'should fail' do
-        expect {
-          should raise_error(Puppet::Error, /nodejs::npm::global_config_entry : Ensure parameter must be present or absent/)
-        }
+        expect { catalogue }.to raise_error(Puppet::Error, /nodejs::npm::global_config_entry : Ensure parameter must be present or absent/)
       end
     end
   end
