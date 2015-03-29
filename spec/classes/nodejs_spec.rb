@@ -464,10 +464,10 @@ describe 'nodejs', :type => :class do
 
           it 'the nodesource yum repo files should not exist' do
             should contain_yumrepo('nodesource').with({
-              'ensure' => 'absent',
+              'enabled' => 'absent',
             })
             should contain_yumrepo('nodesource-source').with({
-              'ensure' => 'absent',
+              'enabled' => 'absent',
             })
           end
         end
@@ -1151,10 +1151,10 @@ describe 'nodejs', :type => :class do
 
         it 'the nodesource yum repo files should not exist' do
           should contain_yumrepo('nodesource').with({
-            'ensure' => 'absent',
+            'enabled' => 'absent',
           })
           should contain_yumrepo('nodesource-source').with({
-            'ensure' => 'absent',
+            'enabled' => 'absent',
           })
         end
       end
