@@ -43,7 +43,16 @@ via Chocolatey.
 To install Node.js and npm (using the NodeSource repository if possible):
 
 ```puppet
-    class { 'nodejs': }
+class { 'nodejs': }
+```
+
+If you wish to install a Node.js 0.12.x release from the NodeSource repository
+rather than 0.10.x on Debian platforms:
+
+```puppet
+class { 'nodejs':
+  repo_url_suffix => 'node_0.12',
+}
 ```
 
 ## Usage
@@ -395,6 +404,12 @@ Password for the proxy used by the repository, if required.
 #### `repo_proxy_username`
 
 User for the proxy used by the repository, if required.
+
+#### `repo_url_suffix`
+
+This module defaults to installing the latest NodeSource 0.10.x release on
+Debian platforms. If you wish to install a 0.12.x release you will need to
+set this parameter to `node_0.12` instead.
 
 #### `use_flags`
 

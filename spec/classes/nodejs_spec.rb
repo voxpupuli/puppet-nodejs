@@ -148,6 +148,20 @@ describe 'nodejs', :type => :class do
           end
         end
 
+        context 'and repo_url_suffix set to node_0.12' do
+          let :params do
+            default_params.merge!({
+              :repo_url_suffix => 'node_0.12',
+            })
+          end
+
+          it 'the repo apt::source resource should contain location = https://deb.nodesource.com/node_0.12' do
+            should contain_apt__source('nodesource').with({
+              'location' => 'https://deb.nodesource.com/node_0.12'
+            })
+          end
+        end
+
         context 'and repo_ensure set to present' do
           let :params do
             default_params.merge!({
