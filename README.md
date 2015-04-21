@@ -21,9 +21,12 @@ and configures global npm configuration settings. A defined type nodejs::npm
 is used for the local installation of npm packages.
 
 By default this module installs packages from the [NodeSource](https://nodesource.com)
-repository on Debian and RedHat platforms. On SUSE, ArchLinux, FreeBSD, OpenBSD
-and Gentoo, native packages are used. On Darwin, the MacPorts package is used.
-On Windows the packages are installed via Chocolatey.
+repository on Debian and RedHat platforms. The NodeSource Node.js package
+includes the npm binary, which makes a separate npm package unnecessary.
+
+On SUSE, ArchLinux, FreeBSD, OpenBSD and Gentoo, native packages are used. On
+Darwin, the MacPorts package is used. On Windows the packages are installed
+via Chocolatey.
 
 ## Setup
 
