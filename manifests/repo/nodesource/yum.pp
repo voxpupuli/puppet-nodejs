@@ -61,11 +61,11 @@ class nodejs::repo::nodesource::yum {
   else {
 
     yumrepo { 'nodesource':
-      ensure => 'absent',
+      enabled => 'absent',
     }
 
     yumrepo { 'nodesource-source':
-      ensure => 'absent',
+      enabled => 'absent',
     }
   }
 }
