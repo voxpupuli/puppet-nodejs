@@ -12,7 +12,7 @@ class nodejs::repo::nodesource {
   case $::osfamily {
     'RedHat': {
       if $::operatingsystemrelease =~ /^5\.(\d+)/ {
-        include '::epel'
+        include ::epel
         $dist_version  = '5'
         $name_string   = 'Enterprise Linux 5'
       }
@@ -51,6 +51,13 @@ class nodejs::repo::nodesource {
       $source_baseurl = "https://rpm.nodesource.com/pub/${dist_type}/${dist_version}/SRPMS"
 
       class { '::nodejs::repo::nodesource::yum': }
+      contain '::nodejs::repo::nodesource::yum'
+
+      if $::operatingsystemrelease =~ /^5\.(\d+)/ {
+        # On EL 5, EPEL needs to be applied first
+        Class['::epel'] -> Class['::nodejs::repo::nodesource::yum']
+      }
+
     }
     'Linux': {
       if $::operatingsystem == 'Amazon' {
@@ -76,6 +83,7 @@ class nodejs::repo::nodesource {
         $source_baseurl = "https://rpm.nodesource.com/pub/${dist_type}/${dist_version}/SRPMS"
 
         class { '::nodejs::repo::nodesource::yum': }
+        contain '::nodejs::repo::nodesource::yum'
       }
 
       else {
@@ -85,7 +93,8 @@ class nodejs::repo::nodesource {
       }
     }
     'Debian': {
-      class { 'nodejs::repo::nodesource::apt': }
+      class { '::nodejs::repo::nodesource::apt': }
+      contain '::nodejs::repo::nodesource::apt'
     }
     default: {
       if ($ensure == 'present') {

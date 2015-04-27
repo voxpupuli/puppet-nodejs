@@ -1,5 +1,6 @@
 ##2015-02-27 0.8.0
 ###Backwards-incompatible changes
+- Puppet versions below 3.4.0 are no longer supported
 - Debian Squeeze and Fedora version 18 and below are explicitly no longer
   supported
 - Parameter naming changes to node_pkg, npm_pkg, dev_pkg, manage_repo,

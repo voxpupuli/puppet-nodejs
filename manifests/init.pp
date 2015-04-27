@@ -47,14 +47,11 @@ class nodejs(
 
   include '::nodejs::install'
 
-  anchor { '::nodejs::begin': }
-  anchor { '::nodejs::end': }
-
   if $manage_package_repo {
     include $repo_class
-    Anchor['::nodejs::begin'] ->
+    anchor { '::nodejs::begin': } ->
     Class[$repo_class] ->
     Class['::nodejs::install'] ->
-    Anchor['::nodejs::end']
+    anchor { '::nodejs::end': }
   }
 }
