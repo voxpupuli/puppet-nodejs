@@ -16,12 +16,12 @@ class nodejs::repo::nodesource::apt {
         'source' => 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key',
       },
       include           => {
+        'deb' => 'true',
         'src' => $enable_src,
       },
       pin               => $pin,
       release           => $::lsbdistcodename,
       repos             => 'main',
-      required_packages => 'apt-transport-https ca-certificates',
     }
   }
   else {
