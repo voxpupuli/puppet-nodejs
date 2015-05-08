@@ -28,7 +28,7 @@ RSpec.configure do |c|
     hosts.each do |host|
       copy_module_to(host, :source => proj_root, :module_name => 'nodejs')
       shell("/bin/touch #{default['puppetpath']}/hiera.yaml")
-      on host, puppet('module install puppetlabs-apt --version 1.5.0'), { :acceptable_exit_codes => [0,1] }
+      on host, puppet('module install puppetlabs-apt --version 1.8.0'), { :acceptable_exit_codes => [0,1] }
       on host, puppet('module install gentoo-portage --version 2.0.1'), { :acceptable_exit_codes => [0,1] }
       on host, puppet('module install rismoney-chocolatey --version 0.0.3'), { :acceptable_exit_codes => [0,1] }
       on host, puppet('module install stahnma-epel --version 1.0.0'), { :acceptable_exit_codes => [0,1] }
