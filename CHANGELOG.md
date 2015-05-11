@@ -1,4 +1,4 @@
-##2015-02-27 0.8.0
+##2015-05-12 0.8.0
 ###Backwards-incompatible changes
 - Puppet versions below 3.4.0 are no longer supported
 - Debian Squeeze and Fedora version 18 and below are explicitly no longer
@@ -42,6 +42,11 @@ repository where possible.
 ####Bugfixes
 - Supercedes PRs 99 (MODULES-1075), 97, 96, 94, 93, 85, 82, 80, 79, 51, 69, 66
   and 102
+- apt: update. pin to version. change key to 40 characters.
+- Debian: Handle NodeSource. Improve Repository handling.
+- windows: dont use deprecated chocolately module.
+- testing: Pin RSpec version.
+
 
 ##2015-01-21 - Release 0.7.1
 ###Summary
