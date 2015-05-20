@@ -1,3 +1,8 @@
+##2015-05-20 1.0.0
+###Summary
+
+Module donated by Puppetlabs to Puppet Community
+
 ##2015-05-12 0.8.0
 ###Backwards-incompatible changes
 - Puppet versions below 3.4.0 are no longer supported
