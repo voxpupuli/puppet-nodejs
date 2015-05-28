@@ -2,14 +2,16 @@
 define nodejs::npm (
   $target,
   $ensure            = 'present',
-  $cmd_exe_path      = $nodejs::cmd_exe_path,
+  $cmd_exe_path      = undef,
   $install_options   = [],
-  $npm_path          = $nodejs::npm_path,
+  $npm_path          = undef,
   $package           = $title,
   $source            = 'registry',
   $uninstall_options = [],
   $user              = undef,
 ) {
+
+  include '::nodejs::params'
 
   validate_re($ensure, '^[^<>=]', "The ${module_name}::npm defined type does not accept version ranges")
   validate_array($install_options)
@@ -37,10 +39,14 @@ define nodejs::npm (
     $package_string = "${package}@${ensure}"
   }
 
+  $cmd_exe_path = $nodejs::params::cmd_exe_path
+
   $grep_command = $::osfamily ? {
     'Windows' => "${cmd_exe_path} /c findstr /l",
     default   => 'grep',
   }
+
+  $npm_path = $nodejs::params::npm_path
 
   $install_check = $::osfamily ? {
     'Windows' => "${npm_path} ls --long --parseable | ${grep_command} \"${target}\\node_modules\\${install_check_package_string}\"",
