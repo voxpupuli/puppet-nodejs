@@ -11,7 +11,7 @@ define nodejs::npm (
   $user              = undef,
 ) {
 
-  include '::nodejs::params'
+  include nodejs::params
 
   validate_re($ensure, '^[^<>=]', "The ${module_name}::npm defined type does not accept version ranges")
   validate_array($install_options)
@@ -58,7 +58,7 @@ define nodejs::npm (
       onlyif  => $install_check,
       user    => $user,
       cwd     => $target,
-      require => Class['nodejs'],
+      require => Package[$nodejs::params::npm_package_name],
     }
   } else {
     $npm_command = 'install'
@@ -72,7 +72,7 @@ define nodejs::npm (
       unless  => $install_check,
       user    => $user,
       cwd     => $target,
-      require => Class['nodejs'],
+      require => Package[$nodejs::params::npm_package_name],
     }
   }
 }
