@@ -22,11 +22,6 @@ class nodejs::repo::nodesource::apt {
       release           => $::lsbdistcodename,
       repos             => 'main',
     }
-
-    ensure_resource('package', ['apt-transport-https', 'ca-certificates'], {
-      ensure => 'present',
-      before => Apt::Source['nodesource'],
-    })
   }
 
   else {
