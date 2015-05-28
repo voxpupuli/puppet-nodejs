@@ -39,18 +39,14 @@ define nodejs::npm (
     $package_string = "${package}@${ensure}"
   }
 
-  $cmd_exe_path = $nodejs::params::cmd_exe_path
-
   $grep_command = $::osfamily ? {
-    'Windows' => "${cmd_exe_path} /c findstr /l",
+    'Windows' => "${nodejs::params::cmd_exe_path} /c findstr /l",
     default   => 'grep',
   }
 
-  $npm_path = $nodejs::params::npm_path
-
   $install_check = $::osfamily ? {
-    'Windows' => "${npm_path} ls --long --parseable | ${grep_command} \"${target}\\node_modules\\${install_check_package_string}\"",
-    default   => "${npm_path} ls --long --parseable | ${grep_command} \"${target}/node_modules/${install_check_package_string}\"",
+    'Windows' => "${nodejs::params::npm_path} ls --long --parseable | ${grep_command} \"${target}\\node_modules\\${install_check_package_string}\"",
+    default   => "${nodejs::params::npm_path} ls --long --parseable | ${grep_command} \"${target}/node_modules/${install_check_package_string}\"",
   }
 
   if $ensure == 'absent' {
@@ -58,7 +54,7 @@ define nodejs::npm (
     $options = $uninstall_options_string
 
     exec { "npm_${npm_command}_${name}":
-      command => "${npm_path} ${npm_command} ${package_string} ${options}",
+      command => "${nodejs::params::npm_path} ${npm_command} ${package_string} ${options}",
       onlyif  => $install_check,
       user    => $user,
       cwd     => $target,
@@ -72,7 +68,7 @@ define nodejs::npm (
     Nodejs::Npm::Global_config_entry<| title == 'proxy' |> -> Exec["npm_install_${name}"]
 
     exec { "npm_${npm_command}_${name}":
-      command => "${npm_path} ${npm_command} ${package_string} ${options}",
+      command => "${nodejs::params::npm_path} ${npm_command} ${package_string} ${options}",
       unless  => $install_check,
       user    => $user,
       cwd     => $target,
