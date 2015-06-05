@@ -2,7 +2,7 @@
 class nodejs(
   $cmd_exe_path                = $nodejs::params::cmd_exe_path,
   $legacy_debian_symlinks      = $nodejs::params::legacy_debian_symlinks,
-  $manage_package_repo         = params_lookup('manage_package_repo', $nodejs::params::manage_package_repo),
+  $manage_package_repo         = $nodejs::params::manage_package_repo,
   $nodejs_debug_package_ensure = $nodejs::params::nodejs_debug_package_ensure,
   $nodejs_debug_package_name   = $nodejs::params::nodejs_debug_package_name,
   $nodejs_dev_package_ensure   = $nodejs::params::nodejs_dev_package_ensure,
