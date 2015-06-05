@@ -2,14 +2,16 @@
 define nodejs::npm (
   $target,
   $ensure            = 'present',
-  $cmd_exe_path      = $nodejs::cmd_exe_path,
+  $cmd_exe_path      = undef,
   $install_options   = [],
-  $npm_path          = $nodejs::npm_path,
+  $npm_path          = undef,
   $package           = $title,
   $source            = 'registry',
   $uninstall_options = [],
   $user              = undef,
 ) {
+
+  include nodejs::params
 
   validate_re($ensure, '^[^<>=]', "The ${module_name}::npm defined type does not accept version ranges")
   validate_array($install_options)
@@ -38,13 +40,13 @@ define nodejs::npm (
   }
 
   $grep_command = $::osfamily ? {
-    'Windows' => "${cmd_exe_path} /c findstr /l",
+    'Windows' => "${nodejs::params::cmd_exe_path} /c findstr /l",
     default   => 'grep',
   }
 
   $install_check = $::osfamily ? {
-    'Windows' => "${npm_path} ls --long --parseable | ${grep_command} \"${target}\\node_modules\\${install_check_package_string}\"",
-    default   => "${npm_path} ls --long --parseable | ${grep_command} \"${target}/node_modules/${install_check_package_string}\"",
+    'Windows' => "${nodejs::params::npm_path} ls --long --parseable | ${grep_command} \"${target}\\node_modules\\${install_check_package_string}\"",
+    default   => "${nodejs::params::npm_path} ls --long --parseable | ${grep_command} \"${target}/node_modules/${install_check_package_string}\"",
   }
 
   if $ensure == 'absent' {
@@ -52,11 +54,11 @@ define nodejs::npm (
     $options = $uninstall_options_string
 
     exec { "npm_${npm_command}_${name}":
-      command => "${npm_path} ${npm_command} ${package_string} ${options}",
+      command => "${nodejs::params::npm_path} ${npm_command} ${package_string} ${options}",
       onlyif  => $install_check,
       user    => $user,
       cwd     => $target,
-      require => Class['nodejs'],
+      require => Package[$nodejs::params::npm_package_name],
     }
   } else {
     $npm_command = 'install'
@@ -66,11 +68,11 @@ define nodejs::npm (
     Nodejs::Npm::Global_config_entry<| title == 'proxy' |> -> Exec["npm_install_${name}"]
 
     exec { "npm_${npm_command}_${name}":
-      command => "${npm_path} ${npm_command} ${package_string} ${options}",
+      command => "${nodejs::params::npm_path} ${npm_command} ${package_string} ${options}",
       unless  => $install_check,
       user    => $user,
       cwd     => $target,
-      require => Class['nodejs'],
+      require => Package[$nodejs::params::npm_package_name],
     }
   }
 }
