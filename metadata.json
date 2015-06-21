@@ -1,6 +1,6 @@
 {
   "name": "puppet-nodejs",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "puppetcommunity",
   "summary": "Install Node.js package and npm package provider.",
   "license": "Apache-2.0",
