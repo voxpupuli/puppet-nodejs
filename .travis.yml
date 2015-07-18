@@ -10,14 +10,15 @@ matrix:
     env: PUPPET_GEM_VERSION="~> 3.0"
   - rvm: 1.9.3
     env: PUPPET_GEM_VERSION="~> 3.0"
-  - rvm: 1.9.3
-    env: PUPPET_GEM_VERSION="~> 3.0" FUTURE_PARSER="yes"
   - rvm: 2.1.5
     env: PUPPET_GEM_VERSION="~> 3.0"
   - rvm: 2.1.5
     env: PUPPET_GEM_VERSION="~> 3.0" FUTURE_PARSER="yes"
-  - rvm: 2.1.5
-    env: PUPPET_GEM_VERSION="~> 3.0" STRICT_VARIABLES="yes"
+  - rvm: 2.1.6
+    env: PUPPET_GEM_VERSION="~> 4.0" STRICT_VARIABLES="yes"
+  allow_failures:
+    - rvm: 2.1.6
+      env: PUPPET_GEM_VERSION="~> 4.0" STRICT_VARIABLES="yes"
 notifications:
   email: false
 
@@ -32,3 +33,4 @@ deploy:
     all_branches: true
     # Only publish if our main Ruby target builds
     rvm: 2.1.5
+    env: PUPPET_GEM_VERSION="~> 3.0"
