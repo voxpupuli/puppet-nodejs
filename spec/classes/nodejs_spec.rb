@@ -54,10 +54,10 @@ describe 'nodejs', :type => :class do
         let (:params) { { :legacy_debian_symlinks => true,} }
 
         it 'the file resource /usr/bin/node should be in the catalog' do
-          should contain_file('/usr/bin/node')
+          is_expected.to contain_file('/usr/bin/node')
         end
         it 'the file resource /usr/share/man/man1/node.1.gz should be in the catalog' do
-          should contain_file('/usr/share/man/man1/node.1.gz')
+          is_expected.to contain_file('/usr/share/man/man1/node.1.gz')
         end
       end
 
@@ -65,10 +65,10 @@ describe 'nodejs', :type => :class do
         let (:params) { { :legacy_debian_symlinks => false,} }
       
         it 'the file resource /usr/bin/node should not be in the catalog' do
-          should_not contain_file('/usr/bin/node')
+          is_expected.not_to contain_file('/usr/bin/node')
         end
         it 'the file resource /usr/share/man/man1/node.1.gz should not be in the catalog' do
-          should_not contain_file('/usr/share/man/man1/node.1.gz')
+          is_expected.not_to contain_file('/usr/share/man/man1/node.1.gz')
         end
       end
 
@@ -84,11 +84,11 @@ describe 'nodejs', :type => :class do
           end
 
           it '::nodejs::repo::nodesource should be in the catalog' do
-            should contain_class('nodejs::repo::nodesource')
+            is_expected.to contain_class('nodejs::repo::nodesource')
           end
 
           it '::nodejs::repo::nodesource::apt should be in the catalog' do
-            should contain_class('nodejs::repo::nodesource::apt')
+            is_expected.to contain_class('nodejs::repo::nodesource::apt')
           end
         end
 
@@ -100,7 +100,7 @@ describe 'nodejs', :type => :class do
           end
 
           it 'the repo apt::source resource should contain include => { src => true}' do
-            should contain_apt__source('nodesource').with({
+            is_expected.to contain_apt__source('nodesource').with({
               'include' => { 'src' => true, },
             })
           end
@@ -114,7 +114,7 @@ describe 'nodejs', :type => :class do
           end
 
           it 'the repo apt::source resource should contain include => { src => false}' do
-            should contain_apt__source('nodesource').with({
+            is_expected.to contain_apt__source('nodesource').with({
               'include' => { 'src' => false, },
             })
           end
@@ -128,7 +128,7 @@ describe 'nodejs', :type => :class do
           end
 
           it 'the repo apt::source resource should contain pin = 10' do
-            should contain_apt__source('nodesource').with({
+            is_expected.to contain_apt__source('nodesource').with({
               'pin' => '10'
             })
           end
@@ -142,7 +142,7 @@ describe 'nodejs', :type => :class do
           end
 
           it 'the repo apt::source resource should contain pin = false' do
-            should contain_apt__source('nodesource').with({
+            is_expected.to contain_apt__source('nodesource').with({
               'pin' => 'false'
             })
           end
@@ -156,7 +156,7 @@ describe 'nodejs', :type => :class do
           end
 
           it 'the repo apt::source resource should contain location = https://deb.nodesource.com/node_0.12' do
-            should contain_apt__source('nodesource').with({
+            is_expected.to contain_apt__source('nodesource').with({
               'location' => 'https://deb.nodesource.com/node_0.12'
             })
           end
@@ -170,7 +170,7 @@ describe 'nodejs', :type => :class do
           end
 
           it 'the nodesource apt sources file should exist' do
-            should contain_apt__source('nodesource')
+            is_expected.to contain_apt__source('nodesource')
           end
         end
 
@@ -182,7 +182,7 @@ describe 'nodejs', :type => :class do
           end
 
           it 'the nodesource apt sources file should not exist' do
-            should contain_apt__source('nodesource').with({
+            is_expected.to contain_apt__source('nodesource').with({
               'ensure' => 'absent',
             }) 
           end
@@ -195,7 +195,7 @@ describe 'nodejs', :type => :class do
         }}
 
         it '::nodejs::repo::nodesource should not be in the catalog' do
-          should_not contain_class('::nodejs::repo::nodesource')
+          is_expected.not_to contain_class('::nodejs::repo::nodesource')
         end
       end
 
@@ -204,7 +204,7 @@ describe 'nodejs', :type => :class do
         let (:params) { { :nodejs_debug_package_ensure => 'present',} }
 
         it 'the nodejs package with debugging symbols should be installed' do
-          should contain_package('nodejs-dbg').with({
+          is_expected.to contain_package('nodejs-dbg').with({
             'ensure' => 'present',
           })
         end
@@ -214,7 +214,7 @@ describe 'nodejs', :type => :class do
         let (:params) { { :nodejs_debug_package_ensure => 'absent',} }
 
         it 'the nodejs package with debugging symbols should not be present' do
-          should contain_package('nodejs-dbg').with({
+          is_expected.to contain_package('nodejs-dbg').with({
             'ensure' => 'absent',
           })
         end
@@ -226,11 +226,11 @@ describe 'nodejs', :type => :class do
 
         if operatingsystemrelease == '10.04' or operatingsystemrelease == '7.0'
           it 'the nodejs development package resource should not be present' do
-            should_not contain_package('nodejs-dev')
+            is_expected.not_to contain_package('nodejs-dev')
           end
         else
           it 'the nodejs development package should be installed' do
-            should contain_package('nodejs-dev').with({
+            is_expected.to contain_package('nodejs-dev').with({
               'ensure' => 'present',
             })
           end
@@ -242,11 +242,11 @@ describe 'nodejs', :type => :class do
 
         if operatingsystemrelease =~ /^(7\.0)|(10\.04)/
           it 'the nodejs development package resource should not be present' do
-            should_not contain_package('nodejs-dev')
+            is_expected.not_to contain_package('nodejs-dev')
           end
         else
           it 'the nodejs development package should not be present' do
-            should contain_package('nodejs-dev').with({
+            is_expected.to contain_package('nodejs-dev').with({
               'ensure' => 'absent',
             })
           end
@@ -258,7 +258,7 @@ describe 'nodejs', :type => :class do
         let (:params) { { :nodejs_package_ensure => 'present',} }
 
         it 'the nodejs package should be present' do
-          should contain_package('nodejs').with({
+          is_expected.to contain_package('nodejs').with({
             'ensure' => 'present',
           })
         end
@@ -268,7 +268,7 @@ describe 'nodejs', :type => :class do
         let (:params) { { :nodejs_package_ensure => 'absent',} }
 
         it 'the nodejs package should be absent' do
-          should contain_package('nodejs').with({
+          is_expected.to contain_package('nodejs').with({
             'ensure' => 'absent',
           })
         end
@@ -280,11 +280,11 @@ describe 'nodejs', :type => :class do
 
         if operatingsystemrelease =~ /^(7\.0)|(10\.04)/
           it 'the npm package resource should not be present' do
-            should_not contain_package('npm')
+            is_expected.not_to contain_package('npm')
           end
         else
           it 'the npm package should be present' do
-            should contain_package('npm').with({
+            is_expected.to contain_package('npm').with({
               'ensure' => 'present',
             })
           end
@@ -296,11 +296,11 @@ describe 'nodejs', :type => :class do
 
         if operatingsystemrelease =~ /^(7\.0)|(10\.04)/
           it 'the npm package resource should not be present' do
-            should_not contain_package('npm')
+            is_expected.not_to contain_package('npm')
           end
         else
           it 'the npm package should be absent' do
-            should contain_package('npm').with({
+            is_expected.to contain_package('npm').with({
               'ensure' => 'absent',
             })
           end
@@ -366,20 +366,20 @@ describe 'nodejs', :type => :class do
           end
 
           it '::nodejs::repo::nodesource should be in the catalog' do
-            should contain_class('nodejs::repo::nodesource')
+            is_expected.to contain_class('nodejs::repo::nodesource')
           end
 
           it '::nodejs::repo::nodesource::yum should be in the catalog' do
-            should contain_class('nodejs::repo::nodesource::yum')
+            is_expected.to contain_class('nodejs::repo::nodesource::yum')
           end
 
           it 'the nodesource and nodesource-source repos should contain the right description and baseurl' do
-            should contain_yumrepo('nodesource').with({
+            is_expected.to contain_yumrepo('nodesource').with({
               'baseurl' => repo_baseurl,
               'descr'   => repo_descr,
             })
 
-            should contain_yumrepo('nodesource-source').with({
+            is_expected.to contain_yumrepo('nodesource-source').with({
               'baseurl' => repo_source_baseurl,
               'descr'   => repo_source_descr,
             })
@@ -394,7 +394,7 @@ describe 'nodejs', :type => :class do
           end
 
           it 'the yumrepo resource nodesource-source should contain enabled = 1' do
-            should contain_yumrepo('nodesource-source').with({
+            is_expected.to contain_yumrepo('nodesource-source').with({
               'enabled' => '1',
             })
           end
@@ -408,7 +408,7 @@ describe 'nodejs', :type => :class do
           end
 
           it 'the yumrepo resource should contain enabled = 0' do
-            should contain_yumrepo('nodesource-source').with({
+            is_expected.to contain_yumrepo('nodesource-source').with({
               'enabled' => '0',
             })
           end
@@ -422,7 +422,7 @@ describe 'nodejs', :type => :class do
           end
 
           it 'the yumrepo resource nodesource-source should contain priority = 50' do
-            should contain_yumrepo('nodesource-source').with({
+            is_expected.to contain_yumrepo('nodesource-source').with({
               'priority' => '50',
             })
           end
@@ -436,7 +436,7 @@ describe 'nodejs', :type => :class do
           end
 
           it 'the yumrepo resource nodesource-source should contain priority = absent' do
-            should contain_yumrepo('nodesource-source').with({
+            is_expected.to contain_yumrepo('nodesource-source').with({
               'priority' => 'absent',
             })
           end
@@ -450,8 +450,8 @@ describe 'nodejs', :type => :class do
           end
 
           it 'the nodesource yum repo files should exist' do
-            should contain_yumrepo('nodesource')
-            should contain_yumrepo('nodesource-source')
+            is_expected.to contain_yumrepo('nodesource')
+            is_expected.to contain_yumrepo('nodesource-source')
           end
         end
 
@@ -463,10 +463,10 @@ describe 'nodejs', :type => :class do
           end
 
           it 'the nodesource yum repo files should not exist' do
-            should contain_yumrepo('nodesource').with({
+            is_expected.to contain_yumrepo('nodesource').with({
               'enabled' => 'absent',
             })
-            should contain_yumrepo('nodesource-source').with({
+            is_expected.to contain_yumrepo('nodesource-source').with({
               'enabled' => 'absent',
             })
           end
@@ -480,10 +480,10 @@ describe 'nodejs', :type => :class do
           end
 
           it 'the yumrepo resource should contain proxy = absent' do
-            should contain_yumrepo('nodesource').with({
+            is_expected.to contain_yumrepo('nodesource').with({
               'proxy' => 'absent',
             })
-            should contain_yumrepo('nodesource-source').with({
+            is_expected.to contain_yumrepo('nodesource-source').with({
               'proxy' => 'absent',
             })
           end
@@ -497,10 +497,10 @@ describe 'nodejs', :type => :class do
           end
 
           it 'the yumrepo resource should contain proxy = http://proxy.localdomain.com' do
-            should contain_yumrepo('nodesource').with({
+            is_expected.to contain_yumrepo('nodesource').with({
               'proxy' => 'http://proxy.localdomain.com',
             })
-            should contain_yumrepo('nodesource-source').with({
+            is_expected.to contain_yumrepo('nodesource-source').with({
               'proxy' => 'http://proxy.localdomain.com',
             })
           end
@@ -514,10 +514,10 @@ describe 'nodejs', :type => :class do
           end
 
           it 'the yumrepo resource should contain proxy_password = absent' do
-            should contain_yumrepo('nodesource').with({
+            is_expected.to contain_yumrepo('nodesource').with({
               'proxy_password' => 'absent',
             })
-            should contain_yumrepo('nodesource-source').with({
+            is_expected.to contain_yumrepo('nodesource-source').with({
               'proxy_password' => 'absent',
             })
           end
@@ -531,10 +531,10 @@ describe 'nodejs', :type => :class do
           end
 
           it 'the yumrepo resource should contain proxy_password = password' do
-            should contain_yumrepo('nodesource').with({
+            is_expected.to contain_yumrepo('nodesource').with({
               'proxy_password' => 'password',
             })
-            should contain_yumrepo('nodesource-source').with({
+            is_expected.to contain_yumrepo('nodesource-source').with({
               'proxy_password' => 'password',
             })
           end
@@ -548,10 +548,10 @@ describe 'nodejs', :type => :class do
           end
 
           it 'the yumrepo resource should contain proxy_username = absent' do
-            should contain_yumrepo('nodesource').with({
+            is_expected.to contain_yumrepo('nodesource').with({
               'proxy_username' => 'absent',
             })
-            should contain_yumrepo('nodesource-source').with({
+            is_expected.to contain_yumrepo('nodesource-source').with({
               'proxy_username' => 'absent',
             })
           end
@@ -565,10 +565,10 @@ describe 'nodejs', :type => :class do
           end
 
           it 'the yumrepo resource should contain proxy_username = proxyuser' do
-            should contain_yumrepo('nodesource').with({
+            is_expected.to contain_yumrepo('nodesource').with({
               'proxy_username' => 'proxyuser',
             })
-            should contain_yumrepo('nodesource-source').with({
+            is_expected.to contain_yumrepo('nodesource-source').with({
               'proxy_username' => 'proxyuser',
             })
           end
@@ -581,7 +581,7 @@ describe 'nodejs', :type => :class do
         }}
 
         it '::nodejs::repo::nodesource should not be in the catalog' do
-          should_not contain_class('::nodejs::repo::nodesource')
+          is_expected.not_to contain_class('::nodejs::repo::nodesource')
         end
       end
 
@@ -590,7 +590,7 @@ describe 'nodejs', :type => :class do
         let (:params) { { :nodejs_debug_package_ensure => 'present',} }
 
         it 'the nodejs package with debugging symbols should be installed' do
-          should contain_package('nodejs-debuginfo').with({
+          is_expected.to contain_package('nodejs-debuginfo').with({
             'ensure' => 'present',
           })
         end
@@ -600,7 +600,7 @@ describe 'nodejs', :type => :class do
         let (:params) { { :nodejs_debug_package_ensure => 'absent',} }
 
         it 'the nodejs package with debugging symbols should not be present' do
-          should contain_package('nodejs-debuginfo').with({
+          is_expected.to contain_package('nodejs-debuginfo').with({
             'ensure' => 'absent',
           })
         end
@@ -611,7 +611,7 @@ describe 'nodejs', :type => :class do
         let (:params) { { :nodejs_dev_package_ensure => 'present',} }
 
         it 'the nodejs development package should be installed' do
-          should contain_package('nodejs-devel').with({
+          is_expected.to contain_package('nodejs-devel').with({
             'ensure' => 'present',
           })
         end
@@ -621,7 +621,7 @@ describe 'nodejs', :type => :class do
         let (:params) { { :nodejs_dev_package_ensure => 'absent',} }
 
         it 'the nodejs development package should not be present' do
-          should contain_package('nodejs-devel').with({
+          is_expected.to contain_package('nodejs-devel').with({
             'ensure' => 'absent',
           })
         end
@@ -632,7 +632,7 @@ describe 'nodejs', :type => :class do
         let (:params) { { :nodejs_package_ensure => 'present',} }
 
         it 'the nodejs package should be present' do
-          should contain_package('nodejs').with({
+          is_expected.to contain_package('nodejs').with({
             'ensure' => 'present',
           })
         end
@@ -642,7 +642,7 @@ describe 'nodejs', :type => :class do
         let (:params) { { :nodejs_package_ensure => 'absent',} }
 
         it 'the nodejs package should be absent' do
-          should contain_package('nodejs').with({
+          is_expected.to contain_package('nodejs').with({
             'ensure' => 'absent',
           })
         end
@@ -653,7 +653,7 @@ describe 'nodejs', :type => :class do
         let (:params) { { :npm_package_ensure => 'present',} }
 
         it 'the npm package should be present' do
-          should contain_package('npm').with({
+          is_expected.to contain_package('npm').with({
             'ensure' => 'present',
           })
         end
@@ -663,7 +663,7 @@ describe 'nodejs', :type => :class do
         let (:params) { { :npm_package_ensure => 'absent',} }
 
         it 'the npm package should be absent' do
-          should contain_package('npm').with({
+          is_expected.to contain_package('npm').with({
             'ensure' => 'absent',
           })
         end
@@ -685,7 +685,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_debug_package_ensure => 'present',} }
 
       it 'the nodejs package with debugging symbols should be installed' do
-        should contain_package('nodejs-debuginfo').with({
+        is_expected.to contain_package('nodejs-debuginfo').with({
           'ensure' => 'present',
         })
       end
@@ -695,7 +695,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_debug_package_ensure => 'absent',} }
 
       it 'the nodejs package with debugging symbols should not be present' do
-        should contain_package('nodejs-debuginfo').with({
+        is_expected.to contain_package('nodejs-debuginfo').with({
           'ensure' => 'absent',
         })
       end
@@ -706,7 +706,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_dev_package_ensure => 'present',} }
 
       it 'the nodejs development package should be installed' do
-        should contain_package('nodejs-devel').with({
+        is_expected.to contain_package('nodejs-devel').with({
           'ensure' => 'present',
         })
       end
@@ -716,7 +716,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_dev_package_ensure => 'absent',} }
 
       it 'the nodejs development package should not be present' do
-        should contain_package('nodejs-devel').with({
+        is_expected.to contain_package('nodejs-devel').with({
           'ensure' => 'absent',
         })
       end
@@ -727,7 +727,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_package_ensure => 'present',} }
 
       it 'the nodejs package should be present' do
-        should contain_package('nodejs').with({
+        is_expected.to contain_package('nodejs').with({
           'ensure' => 'present',
         })
       end
@@ -737,7 +737,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_package_ensure => 'absent',} }
 
       it 'the nodejs package should be absent' do
-        should contain_package('nodejs').with({
+        is_expected.to contain_package('nodejs').with({
           'ensure' => 'absent',
         })
       end
@@ -748,7 +748,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :npm_package_ensure => 'present',} }
 
       it 'the npm package should be present' do
-        should contain_package('npm').with({
+        is_expected.to contain_package('npm').with({
           'ensure' => 'present',
         })
       end
@@ -758,7 +758,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :npm_package_ensure => 'absent',} }
 
       it 'the npm package should be absent' do
-        should contain_package('npm').with({
+        is_expected.to contain_package('npm').with({
           'ensure' => 'absent',
         })
       end
@@ -778,7 +778,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_package_ensure => 'present',} }
 
       it 'the nodejs package should be present' do
-        should contain_package('nodejs').with({
+        is_expected.to contain_package('nodejs').with({
           'ensure' => 'present',
         })
       end
@@ -788,7 +788,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_package_ensure => 'absent',} }
 
       it 'the nodejs package should be absent' do
-        should contain_package('nodejs').with({
+        is_expected.to contain_package('nodejs').with({
           'ensure' => 'absent',
         })
       end
@@ -808,7 +808,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_dev_package_ensure => 'present',} }
 
       it 'the nodejs development package should be installed' do
-        should contain_package('www/node-devel').with({
+        is_expected.to contain_package('www/node-devel').with({
           'ensure' => 'present',
         })
       end
@@ -818,7 +818,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_dev_package_ensure => 'absent',} }
 
       it 'the nodejs development package should not be present' do
-        should contain_package('www/node-devel').with({
+        is_expected.to contain_package('www/node-devel').with({
           'ensure' => 'absent',
         })
       end
@@ -829,7 +829,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_package_ensure => 'present',} }
 
       it 'the nodejs package should be present' do
-        should contain_package('www/node').with({
+        is_expected.to contain_package('www/node').with({
           'ensure' => 'present',
         })
       end
@@ -839,7 +839,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_package_ensure => 'absent',} }
 
       it 'the nodejs package should be absent' do
-        should contain_package('www/node').with({
+        is_expected.to contain_package('www/node').with({
           'ensure' => 'absent',
         })
       end
@@ -850,7 +850,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :npm_package_ensure => 'present',} }
 
       it 'the npm package should be present' do
-        should contain_package('www/npm').with({
+        is_expected.to contain_package('www/npm').with({
           'ensure' => 'present',
         })
       end
@@ -860,7 +860,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :npm_package_ensure => 'absent',} }
 
       it 'the npm package should be absent' do
-        should contain_package('www/npm').with({
+        is_expected.to contain_package('www/npm').with({
           'ensure' => 'absent',
         })
       end
@@ -880,7 +880,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_package_ensure => 'present',} }
 
       it 'the nodejs package should be present' do
-        should contain_package('node').with({
+        is_expected.to contain_package('node').with({
           'ensure' => 'present',
         })
       end
@@ -890,7 +890,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_package_ensure => 'absent',} }
 
       it 'the nodejs package should be absent' do
-        should contain_package('node').with({
+        is_expected.to contain_package('node').with({
           'ensure' => 'absent',
         })
       end
@@ -910,7 +910,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_dev_package_ensure => 'present',} }
 
       it 'the nodejs development package should be installed' do
-        should contain_package('nodejs-devel').with({
+        is_expected.to contain_package('nodejs-devel').with({
           'ensure' => 'present',
         })
       end
@@ -920,7 +920,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_dev_package_ensure => 'absent',} }
 
       it 'the nodejs development package should not be present' do
-        should contain_package('nodejs-devel').with({
+        is_expected.to contain_package('nodejs-devel').with({
           'ensure' => 'absent',
         })
       end
@@ -931,7 +931,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_package_ensure => 'present',} }
 
       it 'the nodejs package should be present' do
-        should contain_package('nodejs').with({
+        is_expected.to contain_package('nodejs').with({
           'ensure' => 'present',
         })
       end
@@ -941,7 +941,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_package_ensure => 'absent',} }
 
       it 'the nodejs package should be absent' do
-        should contain_package('nodejs').with({
+        is_expected.to contain_package('nodejs').with({
           'ensure' => 'absent',
         })
       end
@@ -952,7 +952,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :npm_package_ensure => 'present',} }
 
       it 'the npm package should be present' do
-        should contain_package('npm').with({
+        is_expected.to contain_package('npm').with({
           'ensure' => 'present',
         })
       end
@@ -962,7 +962,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :npm_package_ensure => 'absent',} }
   
       it 'the npm package should be absent' do
-        should contain_package('npm').with({
+        is_expected.to contain_package('npm').with({
           'ensure' => 'absent',
         })
       end
@@ -981,7 +981,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_package_ensure => 'present',} }
 
       it 'the nodejs package should be present' do
-        should contain_package('nodejs').with({
+        is_expected.to contain_package('nodejs').with({
           'ensure' => 'present',
         })
       end
@@ -991,7 +991,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_package_ensure => 'absent',} }
 
       it 'the nodejs package should be absent' do
-        should contain_package('nodejs').with({
+        is_expected.to contain_package('nodejs').with({
           'ensure' => 'absent',
         })
       end
@@ -1002,7 +1002,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :npm_package_ensure => 'present',} }
 
       it 'the npm package should be present' do
-        should contain_package('npm').with({
+        is_expected.to contain_package('npm').with({
           'ensure' => 'present',
         })
       end
@@ -1012,7 +1012,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :npm_package_ensure => 'absent',} }
 
       it 'the npm package should be absent' do
-        should contain_package('npm').with({
+        is_expected.to contain_package('npm').with({
           'ensure' => 'absent',
         })
       end
@@ -1029,7 +1029,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_package_ensure => 'present',} }
 
       it 'the nodejs package should be present' do
-        should contain_package('net-libs/nodejs').with({
+        is_expected.to contain_package('net-libs/nodejs').with({
           'ensure' => 'present',
         })
       end
@@ -1039,7 +1039,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_package_ensure => 'absent',} }
 
       it 'the nodejs package should be absent' do
-        should contain_package('net-libs/nodejs').with({
+        is_expected.to contain_package('net-libs/nodejs').with({
           'ensure' => 'absent',
         })
       end
@@ -1049,7 +1049,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :use_flags => [ 'npm', 'snapshot' ],} }
 
       it 'the nodejs package should have npm, snapshot use flags' do
-        should contain_package_use('net-libs/nodejs').with({
+        is_expected.to contain_package_use('net-libs/nodejs').with({
           'use' => [ 'npm', 'snapshot'],
         })
       end
@@ -1081,20 +1081,20 @@ describe 'nodejs', :type => :class do
         end
 
         it '::nodejs::repo::nodesource should be in the catalog' do
-          should contain_class('nodejs::repo::nodesource')
+          is_expected.to contain_class('nodejs::repo::nodesource')
         end
 
         it '::nodejs::repo::nodesource::yum should be in the catalog' do
-          should contain_class('nodejs::repo::nodesource::yum')
+          is_expected.to contain_class('nodejs::repo::nodesource::yum')
         end
 
         it 'the nodesource and nodesource-source repos should contain the right description and baseurl' do
-          should contain_yumrepo('nodesource').with({
+          is_expected.to contain_yumrepo('nodesource').with({
             'baseurl' => repo_baseurl,
             'descr'   => repo_descr,
           })
 
-          should contain_yumrepo('nodesource-source').with({
+          is_expected.to contain_yumrepo('nodesource-source').with({
             'baseurl' => repo_source_baseurl,
             'descr'   => repo_source_descr,
           })
@@ -1109,7 +1109,7 @@ describe 'nodejs', :type => :class do
         end
 
         it 'the yumrepo resource nodesource-source should contain enabled = 1' do
-          should contain_yumrepo('nodesource-source').with({
+          is_expected.to contain_yumrepo('nodesource-source').with({
             'enabled' => '1',
           })
         end
@@ -1123,7 +1123,7 @@ describe 'nodejs', :type => :class do
         end
 
         it 'the yumrepo resource should contain enabled = 0' do
-          should contain_yumrepo('nodesource-source').with({
+          is_expected.to contain_yumrepo('nodesource-source').with({
             'enabled' => '0',
           })
         end
@@ -1137,8 +1137,8 @@ describe 'nodejs', :type => :class do
         end
 
         it 'the nodesource yum repo files should exist' do
-          should contain_yumrepo('nodesource')
-          should contain_yumrepo('nodesource-source')
+          is_expected.to contain_yumrepo('nodesource')
+          is_expected.to contain_yumrepo('nodesource-source')
         end
       end
 
@@ -1150,10 +1150,10 @@ describe 'nodejs', :type => :class do
         end
 
         it 'the nodesource yum repo files should not exist' do
-          should contain_yumrepo('nodesource').with({
+          is_expected.to contain_yumrepo('nodesource').with({
             'enabled' => 'absent',
           })
-          should contain_yumrepo('nodesource-source').with({
+          is_expected.to contain_yumrepo('nodesource-source').with({
             'enabled' => 'absent',
           })
         end
@@ -1167,10 +1167,10 @@ describe 'nodejs', :type => :class do
         end
 
         it 'the yumrepo resource should contain proxy = absent' do
-          should contain_yumrepo('nodesource').with({
+          is_expected.to contain_yumrepo('nodesource').with({
             'proxy' => 'absent',
           })
-          should contain_yumrepo('nodesource-source').with({
+          is_expected.to contain_yumrepo('nodesource-source').with({
             'proxy' => 'absent',
           })
         end
@@ -1184,10 +1184,10 @@ describe 'nodejs', :type => :class do
         end
 
         it 'the yumrepo resource should contain proxy = http://proxy.localdomain.com' do
-          should contain_yumrepo('nodesource').with({
+          is_expected.to contain_yumrepo('nodesource').with({
             'proxy' => 'http://proxy.localdomain.com',
           })
-          should contain_yumrepo('nodesource-source').with({
+          is_expected.to contain_yumrepo('nodesource-source').with({
             'proxy' => 'http://proxy.localdomain.com',
           })
         end
@@ -1201,10 +1201,10 @@ describe 'nodejs', :type => :class do
         end
 
         it 'the yumrepo resource should contain proxy_password = absent' do
-          should contain_yumrepo('nodesource').with({
+          is_expected.to contain_yumrepo('nodesource').with({
             'proxy_password' => 'absent',
           })
-          should contain_yumrepo('nodesource-source').with({
+          is_expected.to contain_yumrepo('nodesource-source').with({
             'proxy_password' => 'absent',
           })
         end
@@ -1218,10 +1218,10 @@ describe 'nodejs', :type => :class do
         end
 
         it 'the yumrepo resource should contain proxy_password = password' do
-          should contain_yumrepo('nodesource').with({
+          is_expected.to contain_yumrepo('nodesource').with({
             'proxy_password' => 'password',
           })
-          should contain_yumrepo('nodesource-source').with({
+          is_expected.to contain_yumrepo('nodesource-source').with({
             'proxy_password' => 'password',
           })
         end
@@ -1235,10 +1235,10 @@ describe 'nodejs', :type => :class do
         end
 
         it 'the yumrepo resource should contain proxy_username = absent' do
-          should contain_yumrepo('nodesource').with({
+          is_expected.to contain_yumrepo('nodesource').with({
             'proxy_username' => 'absent',
           })
-          should contain_yumrepo('nodesource-source').with({
+          is_expected.to contain_yumrepo('nodesource-source').with({
             'proxy_username' => 'absent',
           })
         end
@@ -1252,10 +1252,10 @@ describe 'nodejs', :type => :class do
         end
 
         it 'the yumrepo resource should contain proxy_username = proxyuser' do
-          should contain_yumrepo('nodesource').with({
+          is_expected.to contain_yumrepo('nodesource').with({
             'proxy_username' => 'proxyuser',
           })
-          should contain_yumrepo('nodesource-source').with({
+          is_expected.to contain_yumrepo('nodesource-source').with({
             'proxy_username' => 'proxyuser',
           })
         end
@@ -1268,7 +1268,7 @@ describe 'nodejs', :type => :class do
       }}
 
       it '::nodejs::repo::nodesource should not be in the catalog' do
-        should_not contain_class('::nodejs::repo::nodesource')
+        is_expected.not_to contain_class('::nodejs::repo::nodesource')
       end
     end
 
@@ -1277,7 +1277,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_debug_package_ensure => 'present',} }
   
       it 'the nodejs package with debugging symbols should be installed' do
-        should contain_package('nodejs-debuginfo').with({
+        is_expected.to contain_package('nodejs-debuginfo').with({
           'ensure' => 'present',
         })
       end
@@ -1287,7 +1287,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_debug_package_ensure => 'absent',} }
   
       it 'the nodejs package with debugging symbols should not be present' do
-        should contain_package('nodejs-debuginfo').with({
+        is_expected.to contain_package('nodejs-debuginfo').with({
           'ensure' => 'absent',
         })
       end
@@ -1298,7 +1298,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_dev_package_ensure => 'present',} }
   
       it 'the nodejs development package should be installed' do
-        should contain_package('nodejs-devel').with({
+        is_expected.to contain_package('nodejs-devel').with({
           'ensure' => 'present',
         })
       end
@@ -1308,7 +1308,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_dev_package_ensure => 'absent',} }
   
       it 'the nodejs development package should not be present' do
-        should contain_package('nodejs-devel').with({
+        is_expected.to contain_package('nodejs-devel').with({
           'ensure' => 'absent',
         })
       end
@@ -1319,7 +1319,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_package_ensure => 'present',} }
   
       it 'the nodejs package should be present' do
-        should contain_package('nodejs').with({
+        is_expected.to contain_package('nodejs').with({
           'ensure' => 'present',
         })
       end
@@ -1329,7 +1329,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :nodejs_package_ensure => 'absent',} }
   
       it 'the nodejs package should be absent' do
-        should contain_package('nodejs').with({
+        is_expected.to contain_package('nodejs').with({
           'ensure' => 'absent',
         })
       end
@@ -1340,7 +1340,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :npm_package_ensure => 'present',} }
   
       it 'the npm package should be present' do
-        should contain_package('npm').with({
+        is_expected.to contain_package('npm').with({
           'ensure' => 'present',
         })
       end
@@ -1350,7 +1350,7 @@ describe 'nodejs', :type => :class do
       let (:params) { { :npm_package_ensure => 'absent',} }
   
       it 'the npm package should be absent' do
-        should contain_package('npm').with({
+        is_expected.to contain_package('npm').with({
           'ensure' => 'absent',
         })
       end
