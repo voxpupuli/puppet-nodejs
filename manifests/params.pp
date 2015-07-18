@@ -88,7 +88,7 @@ class nodejs::params {
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
       }
-      elsif ($::operatingsystem == 'Fedora') and ($::operatingsystemrelease > '18') {
+      elsif ($::operatingsystem == 'Fedora') and (versioncmp($::operatingsystemrelease, '18') > 0) {
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-debuginfo'
         $nodejs_dev_package_name   = 'nodejs-devel'
