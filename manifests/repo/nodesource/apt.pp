@@ -13,7 +13,7 @@ class nodejs::repo::nodesource::apt {
   if ($ensure == 'present') {
     apt::source { 'nodesource':
       include  => {
-        'src' => $enable_src
+        'src' => $enable_src,
       },
       key      => {
         'id'     => '9FD3B784BC1C6FC31A8A0A1C1655A0AB68576280',

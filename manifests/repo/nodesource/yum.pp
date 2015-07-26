@@ -45,7 +45,7 @@ class nodejs::repo::nodesource::yum {
     }
 
     file { '/etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL':
-      ensure => present,
+      ensure => file,
       group  => 'root',
       mode   => '0644',
       owner  => 'root',
