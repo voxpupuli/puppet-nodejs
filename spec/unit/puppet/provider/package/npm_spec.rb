@@ -15,7 +15,7 @@ describe Puppet::Type.type(:package).provider(:npm) do
   def self.it_should_respond_to(*actions)
     actions.each do |action|
       it "should respond to :#{action}" do
-        @provider.should respond_to(action)
+        expect(@provider).to respond_to(action)
       end
     end
   end
@@ -44,10 +44,10 @@ describe Puppet::Type.type(:package).provider(:npm) do
 
     it "should return a list of npm packages installed globally" do
       @provider.class.expects(:execute).with(['/usr/local/bin/npm', 'list', '--json', '--global'], anything).returns(my_fixture_read('npm_global'))
-      @provider.class.instances.map {|p| p.properties}.sort_by{|res| res[:name]}.should == [
+      expect(@provider.class.instances.map {|p| p.properties}.sort_by{|res| res[:name]}).to eq([
         {:ensure => '2.5.9' , :provider => 'npm', :name => 'express'},
         {:ensure => '1.1.15', :provider => 'npm', :name => 'npm'    },
-      ]
+      ])
     end
 
     it "should log and continue if the list command has a non-zero exit code" do
@@ -55,13 +55,13 @@ describe Puppet::Type.type(:package).provider(:npm) do
       Process::Status.any_instance.expects(:success?).returns(false)
       Process::Status.any_instance.expects(:exitstatus).returns(123)
       Puppet.expects(:debug).with(regexp_matches(/123/))
-      @provider.class.instances.map {|p| p.properties}.should_not == []
+      expect(@provider.class.instances.map {|p| p.properties}).not_to eq([])
     end
 
     it "should log and return no packages if JSON isn't output" do
       @provider.class.expects(:execute).with(['/usr/local/bin/npm', 'list', '--json', '--global'], anything).returns("failure!")
       Puppet.expects(:debug).with(regexp_matches(/npm list.*failure!/))
-      @provider.class.instances.should == []
+      expect(@provider.class.instances).to eq([])
     end
   end
 

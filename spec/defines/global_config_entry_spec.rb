@@ -23,7 +23,7 @@ describe 'nodejs::npm::global_config_entry', :type => :define do
       let (:params) { { :value => 'proxy.domain' } }
 
       it 'npm config set proxy proxy.domain should be executed' do
-        should contain_exec('npm_config present proxy').with({
+        is_expected.to contain_exec('npm_config present proxy').with({
           'command' => '/usr/bin/npm config set proxy proxy.domain --global',
         })
       end
@@ -34,7 +34,7 @@ describe 'nodejs::npm::global_config_entry', :type => :define do
       let (:params) { { :value => 'proxy.domain' } }
 
       it 'npm config set https-proxy proxy.domain should be executed' do
-        should contain_exec('npm_config present https-proxy').with({
+        is_expected.to contain_exec('npm_config present https-proxy').with({
           'command' => '/usr/bin/npm config set https-proxy proxy.domain --global',
         })
       end
@@ -45,7 +45,7 @@ describe 'nodejs::npm::global_config_entry', :type => :define do
       let (:params) { { :ensure => 'absent' } }
 
       it 'npm config delete color should be executed' do
-        should contain_exec('npm_config absent color').with({
+        is_expected.to contain_exec('npm_config absent color').with({
           'command' => '/usr/bin/npm config delete color',
         })
       end
