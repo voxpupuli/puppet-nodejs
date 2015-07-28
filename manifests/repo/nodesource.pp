@@ -28,9 +28,15 @@ class nodejs::repo::nodesource {
       }
 
       # Fedora
-      elsif $::operatingsystemrelease =~ /(19)|2[01]/ {
+      elsif $::operatingsystemrelease =~ /(19)|(20)|(21)/ and $::operatingsystem == 'Fedora' {
         $dist_version  = $::operatingsystemrelease
         $name_string   = "Fedora Core ${::operatingsystemrelease}"
+      }
+
+      # newer Amazon Linux releases
+      elsif ($::operatingsystem == 'Amazon') {
+        $dist_version = '7'
+        $name_string  = 'Enterprise Linux 7'
       }
 
       else {
