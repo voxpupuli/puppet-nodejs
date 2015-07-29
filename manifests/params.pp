@@ -198,6 +198,19 @@ class nodejs::params {
           $npm_path                  = '/usr/bin/npm'
           $repo_class                = undef
         }
+        'Amazon': {
+          # this is here only for historical reasons:
+          # old facter and Amazon Linux versions will run into this code path
+          $manage_package_repo       = true
+          $nodejs_debug_package_name = 'nodejs-debuginfo'
+          $nodejs_dev_package_name   = 'nodejs-devel'
+          $nodejs_package_name       = 'nodejs'
+          $npm_package_ensure        = 'absent'
+          $npm_package_name          = 'npm'
+          $npm_path                  = '/usr/bin/npm'
+          $repo_class                = '::nodejs::repo::nodesource'
+        }
+
         default: {
           fail("The ${module_name} module is not supported on an ${::operatingsystem} distribution.")
         }
