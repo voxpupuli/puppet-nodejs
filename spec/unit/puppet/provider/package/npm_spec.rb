@@ -60,6 +60,7 @@ describe Puppet::Type.type(:package).provider(:npm) do
 
     it "should log and return no packages if JSON isn't output" do
       @provider.class.expects(:execute).with(['/usr/local/bin/npm', 'list', '--json', '--global'], anything).returns("failure!")
+      Process::Status.any_instance.expects(:success?).returns(true)
       Puppet.expects(:debug).with(regexp_matches(/npm list.*failure!/))
       expect(@provider.class.instances).to eq([])
     end
