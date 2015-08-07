@@ -283,7 +283,7 @@ nodejs::npm { 'remove all express packages':
 
 ### nodejs::npm::global_config_entry
 
-nodejs::npm::global_config_entry can be used to set global npm configuration settings.
+nodejs::npm::global_config_entry can be used to set/remove global npm configuration settings.
 
 Examples:
 
