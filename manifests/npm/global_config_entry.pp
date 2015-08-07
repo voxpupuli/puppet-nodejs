@@ -2,6 +2,7 @@
 define nodejs::npm::global_config_entry (
   $ensure         = 'present',
   $config_setting = $title,
+  $cmd_exe_path   = $::nodejs::cmd_exe_path,
   $npm_path       = $::nodejs::params::npm_path,
   $value          = undef,
 ) {
@@ -12,14 +13,14 @@ define nodejs::npm::global_config_entry (
     'absent': {
       $command        = "config delete ${config_setting} --global"
       $onlyif_command = $::osfamily ? {
-        'Windows' => "CMD /C ${npm_path} get --global| FINDSTR /B \"${config_setting}\"",
+        'Windows' => "${cmd_exe_path} /C ${npm_path} get --global| FINDSTR /B \"${config_setting}\"",
         default   => "${npm_path} get --global | /bin/grep -e \"^${config_setting}\"",
       }
     }
     default: {
       $command        = "config set ${config_setting} ${value} --global"
       $onlyif_command = $::osfamily ? {
-        'Windows' => "CMD /C FOR /F %i IN ('${npm_path} get ${config_setting} --global') DO IF \"%i\" NEQ \"${value}\" ( EXIT 0 ) ELSE ( EXIT 1 )",
+        'Windows' => "${cmd_exe_path} /C FOR /F %i IN ('${npm_path} get ${config_setting} --global') DO IF \"%i\" NEQ \"${value}\" ( EXIT 0 ) ELSE ( EXIT 1 )",
         default   => "/usr/bin/test \"$(${npm_path} get ${config_setting} --global | /usr/bin/tr -d '\n')\" != \"${value}\"",
       }
     }
