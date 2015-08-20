@@ -1,3 +1,15 @@
+## 2015-08-18 Release 1.2.0
+
+### Added
+
+- Enhanced support for Amazon Linux
+- Ability to set HOME environment variable when installing npm
+
+### Fixed
+
+- Misc lint/spec fixes
+- Metadata dependency on treydock/gpg_key
+
 ## 2015-06-23 Release 1.1.0
 
 ### Backwards-incompatible changes
