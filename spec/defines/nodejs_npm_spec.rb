@@ -47,19 +47,25 @@ describe 'nodejs::npm', :type => :define do
       it 'the command should be npm install express' do
         is_expected.to contain_exec('npm_install_express').with({
           'command' => '/usr/bin/npm install express ',
-         })
+        })
       end
 
       it 'the install_check should grep for /home/npm/packages/node_modules/express' do
         is_expected.to contain_exec('npm_install_express').with({
           'unless'  => "/usr/bin/npm ls --long --parseable | grep \"/home/npm/packages/node_modules/express\"",
-         })
+        })
       end
 
       it 'the exec directory should be /home/npm/packages' do
         is_expected.to contain_exec('npm_install_express').with({
           'cwd'  => '/home/npm/packages',
-         })
+        })
+      end
+
+      it 'the environment variable HOME should be /root' do
+        is_expected.to contain_exec('npm_install_express').with({
+          'environment'  => 'HOME=/root',
+        })
       end
     end
 

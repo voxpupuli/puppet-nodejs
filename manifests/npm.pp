@@ -8,6 +8,7 @@ define nodejs::npm (
   $package           = $title,
   $source            = 'registry',
   $uninstall_options = [],
+  $home_dir          = '/root',
   $user              = undef,
 ) {
 
@@ -66,11 +67,12 @@ define nodejs::npm (
     Nodejs::Npm::Global_config_entry<| title == 'proxy' |> -> Exec["npm_install_${name}"]
 
     exec { "npm_${npm_command}_${name}":
-      command => "${npm_path} ${npm_command} ${package_string} ${options}",
-      unless  => $install_check,
-      user    => $user,
-      cwd     => $target,
-      require => Class['nodejs'],
+      command     => "${npm_path} ${npm_command} ${package_string} ${options}",
+      unless      => $install_check,
+      user        => $user,
+      cwd         => $target,
+      environment => "HOME=${home_dir}",
+      require     => Class['nodejs'],
     }
   }
 }
