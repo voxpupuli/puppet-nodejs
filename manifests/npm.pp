@@ -24,7 +24,8 @@ define nodejs::npm (
   # Note that install_check will always return false when a remote source is
   # provided
   if $source != 'registry' {
-    $install_check_package_string = $source
+    $_source = basename($source)
+    $install_check_package_string = $_source
     $package_string = $source
   } elsif $ensure =~ /^(present|absent)$/ {
     $install_check_package_string = $package
@@ -51,9 +52,10 @@ define nodejs::npm (
   if $ensure == 'absent' {
     $npm_command = 'rm'
     $options = $uninstall_options_string
+    $_package_string = basename($package_string)
 
     exec { "npm_${npm_command}_${name}":
-      command => "${npm_path} ${npm_command} ${package_string} ${options}",
+      command => "${npm_path} ${npm_command} ${_package_string} ${options}",
       onlyif  => $install_check,
       user    => $user,
       cwd     => $target,
