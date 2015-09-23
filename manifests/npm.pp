@@ -24,7 +24,16 @@ define nodejs::npm (
   # Note that install_check will always return false when a remote source is
   # provided
   if $source != 'registry' {
-    $_source = regsubst(basename($source), '\.git', '', 'I')
+  
+    # check to see if srouce is a /local/folder/
+    if $source =~ /\/\w+\//{
+      $_source = $source
+      }else{
+    # if it is a git pull either user/package or https://git@user/package.git
+    # strip it away
+      $_source = regsubst(basename($source), '\.git', '', 'I')
+    }
+    
     $install_check_package_string = $_source
     $package_string = $source
   } elsif $ensure =~ /^(present|absent)$/ {
