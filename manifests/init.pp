@@ -20,6 +20,7 @@ class nodejs(
   $repo_proxy                  = $nodejs::params::repo_proxy,
   $repo_proxy_password         = $nodejs::params::repo_proxy_password,
   $repo_proxy_username         = $nodejs::params::repo_proxy_username,
+  $repo_url_suffix             = $nodejs::params::repo_url_suffix,
   $use_flags                   = $nodejs::params::use_flags,
 ) inherits nodejs::params {
 
@@ -46,14 +47,11 @@ class nodejs(
 
   include '::nodejs::install'
 
-  anchor { '::nodejs::begin': }
-  anchor { '::nodejs::end': }
-
   if $manage_package_repo {
     include $repo_class
-    Anchor['::nodejs::begin'] ->
+    anchor { '::nodejs::begin': } ->
     Class[$repo_class] ->
     Class['::nodejs::install'] ->
-    Anchor['::nodejs::end']
+    anchor { '::nodejs::end': }
   }
 }

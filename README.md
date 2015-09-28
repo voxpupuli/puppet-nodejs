@@ -1,6 +1,6 @@
 # puppet-nodejs module
 
-[![Build Status](https://travis-ci.org/puppetlabs/puppetlabs-nodejs.png)](http://travis-ci.org/puppetlabs/puppetlabs-nodejs)
+[![Build Status](https://travis-ci.org/puppet-community/puppet-nodejs.png)](http://travis-ci.org/puppet-community/puppet-nodejs)
 
 #### Table of Contents
 
@@ -21,9 +21,12 @@ and configures global npm configuration settings. A defined type nodejs::npm
 is used for the local installation of npm packages.
 
 By default this module installs packages from the [NodeSource](https://nodesource.com)
-repository on Debian and RedHat platforms. On SUSE, ArchLinux, FreeBSD, OpenBSD
-and Gentoo, native packages are used. On Darwin, the MacPorts package is used.
-On Windows the packages are installed via Chocolatey.
+repository on Debian and RedHat platforms. The NodeSource Node.js package
+includes the npm binary, which makes a separate npm package unnecessary.
+
+On SUSE, ArchLinux, FreeBSD, OpenBSD and Gentoo, native packages are used. On
+Darwin, the MacPorts package is used. On Windows the packages are installed
+via Chocolatey.
 
 ## Setup
 
@@ -40,7 +43,16 @@ On Windows the packages are installed via Chocolatey.
 To install Node.js and npm (using the NodeSource repository if possible):
 
 ```puppet
-    class { 'nodejs': }
+class { 'nodejs': }
+```
+
+If you wish to install a Node.js 0.12.x release from the NodeSource repository
+rather than 0.10.x on Debian platforms:
+
+```puppet
+class { 'nodejs':
+  repo_url_suffix => 'node_0.12',
+}
 ```
 
 ## Usage
@@ -271,7 +283,7 @@ nodejs::npm { 'remove all express packages':
 
 ### nodejs::npm::global_config_entry
 
-nodejs::npm::global_config_entry can be used to set global npm configuration settings.
+nodejs::npm::global_config_entry can be used to set/remove global npm configuration settings.
 
 Examples:
 
@@ -393,6 +405,12 @@ Password for the proxy used by the repository, if required.
 
 User for the proxy used by the repository, if required.
 
+#### `repo_url_suffix`
+
+This module defaults to installing the latest NodeSource 0.10.x release on
+Debian platforms. If you wish to install a 0.12.x release you will need to
+set this parameter to `node_0.12` instead.
+
 #### `use_flags`
 
 The USE flags to use for the Node.js package on Gentoo systems. Defaults to
@@ -429,7 +447,7 @@ it is installed.
 
 This modules uses `puppetlabs-apt` for the management of the NodeSource
 repository. If using an operating system of the Debian-based family, you will
-need to ensure that it is installed.
+need to ensure that `puppetlabs-apt` version 2.x is installed.
 
 If using CentoOS/RHEL 5, you will need to ensure that the `stahnma-epel`
 module is installed.
@@ -440,7 +458,7 @@ installed and is applied before this module.
 
 If using Gentoo, you will need to ensure `gentoo-portage` is installed.
 
-If using Windows, you will need to ensure that `rismoney-chocolatey` is
+If using Windows, you will need to ensure that `chocolatey-chocolatey` is
 installed.
 
 nodejs::npm has the ability to fetch npm packages from Git sources. If you
