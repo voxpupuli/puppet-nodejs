@@ -27,12 +27,14 @@ class nodejs::repo::nodesource::apt {
         Package['apt-transport-https'],
         Package['ca-certificates'],
       ],
+      notify   => Exec['apt_update'],
     }
   }
 
   else {
     apt::source { 'nodesource':
       ensure => 'absent',
+      notify => Exec['apt_update'],
     }
   }
 }
