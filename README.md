@@ -116,7 +116,7 @@ package { 'mime':
 nodejs::npm is used for the local installation of npm packages. It attempts to
 support all of the `npm install <package>` combinations shown in the
 [npm install docs](https://docs.npmjs.com/cli/install)
-except version ranges. The title simply must be a unique, arbitary value.
+except version ranges. The title simply must be a unique, arbitrary value.
 
 * If using packages directly off the npm registry, the package parameter is the
 name of the package as published on the npm registry.
