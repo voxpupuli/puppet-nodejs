@@ -24,6 +24,70 @@ class nodejs(
   $use_flags                   = $nodejs::params::use_flags,
 ) inherits nodejs::params {
 
+  # Validate repo_url_suffix. Not every versions of NodeJS are available
+  # for all distros at Nodesource. We need to check that.
+  if $repo_class == '::nodejs::repo::nodesource' {
+    $suffix_error_msg = "Var \$repo_url_suffix with value '${repo_url_suffix}' is not set correctly for ${::operatingsystem} ${::operatingsystemrelease}. See README."
+    case $::osfamily {
+      'Debian': {
+        # Nodesource repos for Ubuntu lucid and saucy only provide nodejs version 0.10
+        if $::operatingsystemrelease =~ /^10\.04|13\.10$/ {
+          validate_re($repo_url_suffix, '^0\.10$', $suffix_error_msg)
+        }
+        elsif $::operatingsystemrelease =~ /^14\.10$/ {
+          validate_re($repo_url_suffix, '^0\.1[02]$', $suffix_error_msg)
+        }
+        elsif $::operatingsystemrelease =~ /^1[245]\.04$/ {
+          validate_re($repo_url_suffix, '^0\.1[02]|[45]\.x$', $suffix_error_msg)
+        }
+        elsif $::operatingsystemrelease =~ /^15\.10$/ {
+          validate_re($repo_url_suffix, '^[45]\.x$', $suffix_error_msg)
+        }
+        # All NodeJS versions are available for Debian 7 and 8
+        else {
+          validate_re($repo_url_suffix, '^0\.1[02]|[45]\.x$', $suffix_error_msg)
+        }
+      }
+      'RedHat': {
+        # At the moment, only node v0.10 and v0.12 repos are available on
+        # nodesource for RedHat 5 and 6.
+        if $::operatingsystemrelease =~ /^[56]\.(\d+)/ {
+          validate_re($repo_url_suffix, '^0\.1[02]$', $suffix_error_msg)
+        }
+        elsif $::operatingsystemrelease =~ /^7\.(\d+)/ {
+          validate_re($repo_url_suffix, '^0\.1[02]|[45]\.x$', $suffix_error_msg)
+        }
+        # Fedora
+        elsif $::operatingsystem == 'Fedora' {
+          if $::operatingsystemrelease =~ /^19|20$/ {
+            validate_re($repo_url_suffix, '^0\.1[02]|4\.x$', $suffix_error_msg)
+          }
+          elsif $::operatingsystemrelease =~ /^21|22$/ {
+            validate_re($repo_url_suffix, '^0\.1[02]|[45]\.x$', $suffix_error_msg)
+          }
+          elsif $::operatingsystemrelease == '23' {
+            validate_re($repo_url_suffix, '^[45]\.x$', $suffix_error_msg)
+          }
+        }
+      }
+      'Linux': {
+        if $::operatingsystem == 'Amazon' {
+          # Based on RedHat 7
+          if $::operatingsystemrelease =~ /^201[4-9]\./ {
+            validate_re($repo_url_suffix, '^0\.1[02]|[45]\.x$', $suffix_error_msg)
+          }
+          # Based on Redhat 6
+          else {
+            validate_re($repo_url_suffix, '^0\.1[02]$', $suffix_error_msg)
+          }
+        }
+      }
+      default: {
+        fail("Nodesource repositories don't provide package for ${::operatingsystem} ${::operatingsystemrelease}. Try to set \$repo_class to match your needs.")
+      }
+    }
+  }
+
   validate_bool($legacy_debian_symlinks)
   validate_bool($manage_package_repo)
 

@@ -408,8 +408,25 @@ User for the proxy used by the repository, if required.
 #### `repo_url_suffix`
 
 This module defaults to installing the latest NodeSource 0.10.x release on
-Debian platforms. If you wish to install a 0.12.x release you will need to
-set this parameter to `node_0.12` instead.
+Debian and RedHat (i.e. RHEL/CentOS/Fedora/Amazon Linux) platforms. If you wish to install a
+0.12.x release or greater, you will need to set this parameter accordingly.
+Accepted values are as follows:
+
+* Debian
+  * 0.10 (default)
+  * 0.12
+  * 4.x
+  * 5.x
+* Ubuntu
+  * 0.10 (default, **Not** available for Ubuntu 15.10)
+  * 0.12 (**Not** available for Ubuntu 15.10)
+  * 4.x (**Not** available for Ubuntu 10, 11 and 13)
+  * 5.x (**Not** available for Ubuntu 10, 11 and 13)
+* RedHat (RHEL/CentOS/Fedora/Amazon Linux)
+  * 0.10 (default, **Not** available for Fedora 23)
+  * 0.12 (**Not** available for Fedora 23)
+  * 4.x (**Only** available for RedHat/CentOS/Amazon Linux 7 and Fedora 21/22/23)
+  * 5.x (**Only** available for RedHat/CentOS/Amazon Linux 7 and Fedora 21/22/23)
 
 #### `use_flags`
 
