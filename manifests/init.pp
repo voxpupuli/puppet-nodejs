@@ -26,7 +26,7 @@ class nodejs(
 
   # Validate repo_url_suffix. Not every versions of NodeJS are available
   # for all distros at Nodesource. We need to check that.
-  if $repo_class == '::nodejs::repo::nodesource' {
+  if ($manage_package_repo) and ($repo_class == '::nodejs::repo::nodesource') {
     $suffix_error_msg = "Var \$repo_url_suffix with value '${repo_url_suffix}' is not set correctly for ${::operatingsystem} ${::operatingsystemrelease}. See README."
     case $::osfamily {
       'Debian': {
@@ -38,14 +38,14 @@ class nodejs(
           validate_re($repo_url_suffix, '^0\.1[02]$', $suffix_error_msg)
         }
         elsif $::operatingsystemrelease =~ /^1[245]\.04$/ {
-          validate_re($repo_url_suffix, '^0\.1[02]|[45]\.x$', $suffix_error_msg)
+          validate_re($repo_url_suffix, '^(0\.1[02]|[45]\.x)$', $suffix_error_msg)
         }
         elsif $::operatingsystemrelease =~ /^15\.10$/ {
           validate_re($repo_url_suffix, '^[45]\.x$', $suffix_error_msg)
         }
         # All NodeJS versions are available for Debian 7 and 8
         else {
-          validate_re($repo_url_suffix, '^0\.1[02]|[45]\.x$', $suffix_error_msg)
+          validate_re($repo_url_suffix, '^(0\.1[02]|[45]\.x)$', $suffix_error_msg)
         }
       }
       'RedHat': {
@@ -55,15 +55,15 @@ class nodejs(
           validate_re($repo_url_suffix, '^0\.1[02]$', $suffix_error_msg)
         }
         elsif $::operatingsystemrelease =~ /^7\.(\d+)/ {
-          validate_re($repo_url_suffix, '^0\.1[02]|[45]\.x$', $suffix_error_msg)
+          validate_re($repo_url_suffix, '^(0\.1[02]|[45]\.x)$', $suffix_error_msg)
         }
         # Fedora
         elsif $::operatingsystem == 'Fedora' {
           if $::operatingsystemrelease =~ /^19|20$/ {
-            validate_re($repo_url_suffix, '^0\.1[02]|4\.x$', $suffix_error_msg)
+            validate_re($repo_url_suffix, '^(0\.1[02]|4\.x)$', $suffix_error_msg)
           }
           elsif $::operatingsystemrelease =~ /^21|22$/ {
-            validate_re($repo_url_suffix, '^0\.1[02]|[45]\.x$', $suffix_error_msg)
+            validate_re($repo_url_suffix, '^(0\.1[02]|[45]\.x)$', $suffix_error_msg)
           }
           elsif $::operatingsystemrelease == '23' {
             validate_re($repo_url_suffix, '^[45]\.x$', $suffix_error_msg)
@@ -74,7 +74,7 @@ class nodejs(
         if $::operatingsystem == 'Amazon' {
           # Based on RedHat 7
           if $::operatingsystemrelease =~ /^201[4-9]\./ {
-            validate_re($repo_url_suffix, '^0\.1[02]|[45]\.x$', $suffix_error_msg)
+            validate_re($repo_url_suffix, '^(0\.1[02]|[45]\.x)$', $suffix_error_msg)
           }
           # Based on Redhat 6
           else {
