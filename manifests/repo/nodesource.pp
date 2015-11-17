@@ -50,11 +50,11 @@ class nodejs::repo::nodesource {
 
       # nodesource repo
       $descr   = "Node.js Packages for ${name_string} - \$basearch"
-      $baseurl = "https://rpm.nodesource.com/pub/${dist_type}/${dist_version}/\$basearch"
+      $baseurl = "https://rpm.nodesource.com/pub_${url_suffix}/${dist_type}/${dist_version}/\$basearch"
 
       # nodesource-source repo
       $source_descr   = "Node.js for ${name_string} - \$basearch - Source"
-      $source_baseurl = "https://rpm.nodesource.com/pub/${dist_type}/${dist_version}/SRPMS"
+      $source_baseurl = "https://rpm.nodesource.com/pub_${url_suffix}/${dist_type}/${dist_version}/SRPMS"
 
       class { '::nodejs::repo::nodesource::yum': }
       contain '::nodejs::repo::nodesource::yum'
@@ -82,11 +82,11 @@ class nodejs::repo::nodesource {
 
         # nodesource repo
         $descr   = "Node.js Packages for ${name_string} - \$basearch"
-        $baseurl = "https://rpm.nodesource.com/pub/${dist_type}/${dist_version}/\$basearch"
+        $baseurl = "https://rpm.nodesource.com/pub_${url_suffix}/${dist_type}/${dist_version}/\$basearch"
 
         # nodesource-source repo
         $source_descr   = "Node.js for ${name_string} - \$basearch - Source"
-        $source_baseurl = "https://rpm.nodesource.com/pub/${dist_type}/${dist_version}/SRPMS"
+        $source_baseurl = "https://rpm.nodesource.com/pub_${url_suffix}/${dist_type}/${dist_version}/SRPMS"
 
         class { '::nodejs::repo::nodesource::yum': }
         contain '::nodejs::repo::nodesource::yum'
