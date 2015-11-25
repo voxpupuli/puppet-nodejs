@@ -157,7 +157,7 @@ describe 'nodejs', :type => :class do
 
           if operatingsystemrelease == '10.04'
             it 'NodeJS 0.12 package not provided for Ubuntu Lucid' do
-              expect { catalogue }.to raise_error(Puppet::Error, /Var \$repo_url_suffix with value '0.12' is not set correctly for Ubuntu 10.04. See README./)
+              expect { catalogue }.to raise_error(Puppet::Error, /Var \$repo_url_suffix with value '0\.12' is not set correctly for Ubuntu 10\.04\. See README\./)
             end
           else
             it 'the repo apt::source resource should contain location = https://deb.nodesource.com/node_0.12' do
@@ -165,6 +165,19 @@ describe 'nodejs', :type => :class do
                 'location' => 'https://deb.nodesource.com/node_0.12'
               })
             end
+          end
+        end
+
+        # repo_url_suffix regex checks validation
+        context 'and repo_url_suffix set to 0.1O.0' do
+          let :params do
+            default_params.merge!({
+              :repo_url_suffix => '0.10.0',
+            })
+          end
+
+          it 'repo_url_suffix regex checks should fail' do
+            expect { catalogue }.to raise_error(Puppet::Error, /Var \$repo_url_suffix with value '0\.10\.0' is not set correctly for \w+ \d+(\.\d+)+\. See README\./)
           end
         end
 
@@ -337,14 +350,16 @@ describe 'nodejs', :type => :class do
 
     if operatingsystemrelease =~ /^[5-7]\.(\d+)/
       operatingsystem     = 'CentOS'
-      repo_baseurl        = "https://rpm.nodesource.com/pub_0.10/el/#{operatingsystemmajrelease}/\$basearch"
-      repo_source_baseurl = "https://rpm.nodesource.com/pub_0.10/el/#{operatingsystemmajrelease}/SRPMS"
+      dist_type           = 'el'
+      repo_baseurl        = "https://rpm.nodesource.com/pub_0.10/#{dist_type}/#{operatingsystemmajrelease}/\$basearch"
+      repo_source_baseurl = "https://rpm.nodesource.com/pub_0.10/#{dist_type}/#{operatingsystemmajrelease}/SRPMS"
       repo_descr          = "Node.js Packages for Enterprise Linux #{operatingsystemmajrelease} - \$basearch"
       repo_source_descr   = "Node.js for Enterprise Linux #{operatingsystemmajrelease} - \$basearch - Source"
     else
       operatingsystem     = 'Fedora'
-      repo_baseurl        = "https://rpm.nodesource.com/pub_0.10/fc/#{operatingsystemmajrelease}/\$basearch"
-      repo_source_baseurl = "https://rpm.nodesource.com/pub_0.10/fc/#{operatingsystemmajrelease}/SRPMS"
+      dist_type           = 'fc'
+      repo_baseurl        = "https://rpm.nodesource.com/pub_0.10/#{dist_type}/#{operatingsystemmajrelease}/\$basearch"
+      repo_source_baseurl = "https://rpm.nodesource.com/pub_0.10/#{dist_type}/#{operatingsystemmajrelease}/SRPMS"
       repo_descr          = "Node.js Packages for Fedora Core #{operatingsystemmajrelease} - \$basearch"
       repo_source_descr   = "Node.js for Fedora Core #{operatingsystemmajrelease} - \$basearch - Source"
     end
@@ -389,6 +404,39 @@ describe 'nodejs', :type => :class do
               'baseurl' => repo_source_baseurl,
               'descr'   => repo_source_descr,
             })
+          end
+        end
+
+        context 'and repo_url_suffix set to 5.x' do
+          let :params do
+            default_params.merge!({
+              :repo_url_suffix => '5.x',
+            })
+          end
+
+          if operatingsystemrelease =~ /^([56]\.\d+|20)$/
+            it 'NodeJS 5.x package not provided for Centos 5/6 and Fedora 20' do
+              expect { catalogue }.to raise_error(Puppet::Error, /Var \$repo_url_suffix with value '5\.x' is not set correctly for \w+ \d+(\.\d+)*\. See README\./)
+            end
+          else
+            it "the yum nodesource repo resource should contain baseurl = https://rpm.nodesource.com/pub_5.x/#{dist_type}/#{operatingsystemmajrelease}/\$basearch" do
+              is_expected.to contain_yumrepo('nodesource').with({
+                'baseurl' => "https://rpm.nodesource.com/pub_5.x/#{dist_type}/#{operatingsystemmajrelease}/\$basearch"
+              })
+            end
+          end
+        end
+
+        # repo_url_suffix regex checks validation
+        context 'and repo_url_suffix set to 0.1O.0' do
+          let :params do
+            default_params.merge!({
+              :repo_url_suffix => '0.10.0',
+            })
+          end
+
+          it 'repo_url_suffix regex checks should fail' do
+            expect { catalogue }.to raise_error(Puppet::Error, /Var \$repo_url_suffix with value '0\.10\.0' is not set correctly for \w+ \d+(\.\d+)*\. See README\./)
           end
         end
 
