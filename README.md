@@ -458,10 +458,6 @@ This module is not supported on Debian Squeeze.
 
 ### Module dependencies
 
-This module uses `treydock-gpg_key` for the import of RPM GPG keys. If using
-an operating system of the RedHat-based family, you will need to ensure that
-it is installed.
-
 This modules uses `puppetlabs-apt` for the management of the NodeSource
 repository. If using an operating system of the Debian-based family, you will
 need to ensure that `puppetlabs-apt` version 2.x is installed.

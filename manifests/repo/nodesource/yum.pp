@@ -29,6 +29,7 @@ class nodejs::repo::nodesource::yum {
       proxy          => $proxy,
       proxy_password => $proxy_password,
       proxy_username => $proxy_username,
+      require        => File['/etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL'],
     }
 
     yumrepo { 'nodesource-source':
@@ -42,6 +43,7 @@ class nodejs::repo::nodesource::yum {
       proxy          => $proxy,
       proxy_password => $proxy_password,
       proxy_username => $proxy_username,
+      require        => File['/etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL'],
     }
 
     file { '/etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL':
@@ -50,11 +52,6 @@ class nodejs::repo::nodesource::yum {
       mode   => '0644',
       owner  => 'root',
       source => "puppet:///modules/${module_name}/repo/nodesource/NODESOURCE-GPG-SIGNING-KEY-EL",
-    }
-
-    gpg_key{ 'nodesource':
-      path   => '/etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL',
-      before => [ Yumrepo['nodesource'], Yumrepo['nodesource-source'], ],
     }
   }
 
