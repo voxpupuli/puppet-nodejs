@@ -54,6 +54,15 @@ class { 'nodejs':
   repo_url_suffix => 'node_0.12',
 }
 ```
+Or if you wish to install a Node.js 5.x release from the NodeSource repository:
+(node_4.x. is left as a exercise for the reader)
+
+```puppet
+class { 'nodejs':
+  repo_url_suffix => 'node_5.x',
+}
+```
+
 
 ## Usage
 
