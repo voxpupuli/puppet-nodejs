@@ -47,19 +47,19 @@ class { 'nodejs': }
 ```
 
 If you wish to install a Node.js 0.12.x release from the NodeSource repository
-rather than 0.10.x on Debian platforms:
+rather than 0.10.x on Debian/RH platforms:
 
 ```puppet
 class { 'nodejs':
-  repo_url_suffix => 'node_0.12',
+  repo_url_suffix => '0.12',
 }
 ```
 Or if you wish to install a Node.js 5.x release from the NodeSource repository:
-(node_4.x. is left as a exercise for the reader)
+(4.x. is left as a exercise for the reader)
 
 ```puppet
 class { 'nodejs':
-  repo_url_suffix => 'node_5.x',
+  repo_url_suffix => '5.x',
 }
 ```
 
