@@ -3,3 +3,4 @@
   extras:
   - rvm: 2.1.5
     env: PUPPET_GEM_VERSION="~> 3.0" STRICT_VARIABLES="yes"
+  secure: "SCQpiBB9qpZAjBRk+b9D3cSCQfYpDgHPOdOc7djfGeB5yn1UbGg7uW1zshrshb4QMLfUgvsL4LsT0CYj7ilBerghgeySF5JWuZdk05W/7Iudls4btbxdVjqtALR7p02mnk40qHTR1Tdb/j0gXW9uigU6nQU9iCP+Poa1KF6PXpk="
