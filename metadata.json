@@ -1,6 +1,6 @@
 {
   "name": "puppet-nodejs",
-  "version": "1.3.0",
+  "version": "1.3.1-rc0",
   "author": "voxpupuli",
   "summary": "Install Node.js package and npm package provider.",
   "license": "Apache-2.0",
@@ -66,7 +66,13 @@
     }
   ],
   "dependencies": [
-    {"name":"puppetlabs/stdlib","version_requirement":">=4.1.0 <5.0.0"},
-    {"name":"treydock/gpg_key","version_requirement":">=0.0.3 <1.0.0"}
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">=4.1.0 <5.0.0"
+    },
+    {
+      "name": "treydock/gpg_key",
+      "version_requirement": ">=0.0.3 <1.0.0"
+    }
   ]
 }
