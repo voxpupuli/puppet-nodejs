@@ -2,7 +2,6 @@
 # methods are designed to help when you have a conforming fixture layout so we
 # get project consistency.
 module PuppetlabsSpec::Fixtures
-
   # Returns the joined path of the global FIXTURE_DIR plus any path given to it
   def fixtures(*rest)
     File.join(PuppetlabsSpec::FIXTURE_DIR, *rest)
@@ -13,7 +12,7 @@ module PuppetlabsSpec::Fixtures
   # <project>/spec/fixture/unit/facter/foo
   def my_fixture_dir
     callers = caller
-    while line = callers.shift do
+    while line = callers.shift
       next unless found = line.match(%r{/spec/(.*)_spec\.rb:})
       return fixtures(found[1])
     end
@@ -24,10 +23,10 @@ module PuppetlabsSpec::Fixtures
   # dir as returned by my_fixture_dir.
   def my_fixture(name)
     file = File.join(my_fixture_dir, name)
-    unless File.readable? file then
+    unless File.readable? file
       fail "fixture '#{name}' for #{my_fixture_dir} is not readable"
     end
-    return file
+    file
   end
 
   # Return the contents of the file using read when given a name. Uses
@@ -40,10 +39,10 @@ module PuppetlabsSpec::Fixtures
   # area.
   def my_fixtures(glob = '*', flags = 0)
     files = Dir.glob(File.join(my_fixture_dir, glob), flags)
-    unless files.length > 0 then
+    unless files.length > 0
       fail "fixture '#{glob}' for #{my_fixture_dir} had no files!"
     end
-    block_given? and files.each do |file| yield file end
+    block_given? && files.each { |file| yield file }
     files
   end
 end
