@@ -17,7 +17,7 @@ describe 'nodejs::npm::global_config_entry', :type => :define do
     end
 
     context 'with name set to proxy and value set to proxy.domain' do
-      let (:title) { 'proxy' }
+      let(:title) { 'proxy' }
       let :params do
         {
           :value => 'proxy.domain',
@@ -29,7 +29,7 @@ describe 'nodejs::npm::global_config_entry', :type => :define do
     end
 
     context 'with name set to https-proxy and value set to proxy.domain' do
-      let (:title) { 'https-proxy' }
+      let(:title) { 'https-proxy' }
       let :params do
         {
           :value => 'proxy.domain',
@@ -41,7 +41,7 @@ describe 'nodejs::npm::global_config_entry', :type => :define do
     end
 
     context 'with name set to color and ensure set to absent' do
-      let (:title) { 'color' }
+      let(:title) { 'color' }
       let :params do
         {
           :ensure => 'absent',
@@ -53,7 +53,7 @@ describe 'nodejs::npm::global_config_entry', :type => :define do
     end
 
     context 'with name set to foo and ensure set to an invalid value' do
-      let (:title) { 'foo' }
+      let(:title) { 'foo' }
       let :params do
         {
           :ensure => 'invalid_value',
