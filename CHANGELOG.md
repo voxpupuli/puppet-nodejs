@@ -1,3 +1,20 @@
+## 2016-01-07 Release 1.3.0
+
+### Fixed
+
+- Improved documentation
+- remove dependency on `treydock/gpg_key`
+- Fix `repo_url_suffix`
+- Minimum Puppet version is now set at >= 3.7.0
+- Maximum Puppet version is set to < 5.0.0
+- Expanded `global_config_entry`, made more robust
+
+### Maintenance
+
+- Integrated now with modulesync
+- Fixed loads of Rubocop complaints
+
+
 ## 2015-08-18 Release 1.2.0
 
 ### Added
@@ -8,7 +25,7 @@
 ### Fixed
 
 - Misc lint/spec fixes
-- Metadata dependency on treydock/gpg_key
+- Metadata dependency on `treydock/gpg_key`
 
 ## 2015-06-23 Release 1.1.0
 
