@@ -18,7 +18,7 @@ module PuppetlabsSpec::Files
 
   def self.cleanup
     $global_tempfiles ||= []
-    while path = $global_tempfiles.pop do
+    while path = $global_tempfiles.pop
       fail "Not deleting tmpfile #{path} outside regular tmpdir" unless in_tmp(path)
 
       begin

@@ -4,7 +4,7 @@ module PuppetlabsSpec
   # this represents <project>/spec/fixtures. This will be used by the fixtures
   # library to find relative fixture data.
   FIXTURE_DIR = File.join(dir = File.expand_path(File.dirname(__FILE__)), \
-    "fixtures") unless defined?(FIXTURE_DIR)
+                          'fixtures') unless defined?(FIXTURE_DIR)
 end
 
 # Require all necessary helper libraries so they can be used later
