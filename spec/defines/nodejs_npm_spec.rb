@@ -17,7 +17,7 @@ describe 'nodejs::npm', :type => :define do
     end
 
     # This should only affect the exec title
-    let (:title) { 'express' }
+    let(:title) { 'express' }
 
     # su user npm install <package>
     context 'with package set to express, user set to foo and target set to /home/npm/packages' do
@@ -383,7 +383,7 @@ describe 'nodejs::npm', :type => :define do
     end
 
     # This should only affect the exec title
-    let (:title) { 'express' }
+    let(:title) { 'express' }
 
     # npm install <npm_package>
     context 'with package set to express and target set to /home/npm/packages' do
@@ -413,7 +413,7 @@ describe 'nodejs::npm', :type => :define do
     end
 
     # This should only affect the exec title
-    let (:title) { 'express' }
+    let(:title) { 'express' }
 
     # npm install <package>
     context 'with package set to express and target set to C:\packages' do
