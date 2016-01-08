@@ -1,6 +1,6 @@
 # puppet-nodejs module
 
-[![Build Status](https://travis-ci.org/puppet-community/puppet-nodejs.png)](http://travis-ci.org/puppet-community/puppet-nodejs)
+[![Build Status](https://travis-ci.org/voxpupuli/puppet-nodejs.png)](http://travis-ci.org/voxpupuli/puppet-nodejs)
 
 #### Table of Contents
 
