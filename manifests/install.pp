@@ -46,7 +46,7 @@ class nodejs::install {
   }
 
   # npm
-  if $nodejs::npm_package_name {
+  if $nodejs::npm_package_name and $nodejs::npm_package_name != false {
     package { $nodejs::npm_package_name:
       ensure => $nodejs::npm_package_ensure,
     }
