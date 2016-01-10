@@ -30,8 +30,10 @@ describe 'nodejs::npm', :type => :define do
       end
 
       it 'the npm install command should run under user foo' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install express ',
-                                                                'user'    => 'foo',)
+        is_expected.to contain_exec('npm_install_express').with(
+          'command' => '/usr/bin/npm install express ',
+          'user'    => 'foo',
+        )
       end
     end
 
