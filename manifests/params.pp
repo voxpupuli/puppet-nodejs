@@ -31,7 +31,7 @@ class nodejs::params {
         $nodejs_dev_package_name   = undef
         $nodejs_package_name       = 'nodejs'
         $npm_package_ensure        = 'absent'
-        $npm_package_name          = undef
+        $npm_package_name          = false
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
       }
@@ -41,7 +41,7 @@ class nodejs::params {
         $nodejs_dev_package_name   = undef
         $nodejs_package_name       = 'nodejs'
         $npm_package_ensure        = 'absent'
-        $npm_package_name          = undef
+        $npm_package_name          = false
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
       }
@@ -148,7 +148,7 @@ class nodejs::params {
       $nodejs_dev_package_name   = undef
       $nodejs_package_name       = 'node'
       $npm_package_ensure        = 'absent'
-      $npm_package_name          = undef
+      $npm_package_name          = false
       $npm_path                  = '/usr/local/bin/npm'
       $repo_class                = undef
     }
@@ -181,7 +181,7 @@ class nodejs::params {
       $nodejs_dev_package_name   = undef
       $nodejs_package_name       = 'net-libs/nodejs'
       $npm_package_ensure        = 'absent'
-      $npm_package_name          = undef
+      $npm_package_name          = false
       $npm_path                  = '/usr/bin/npm'
       $repo_class                = undef
     }
@@ -194,7 +194,7 @@ class nodejs::params {
           $nodejs_dev_package_name   = undef
           $nodejs_package_name       = 'net-libs/nodejs'
           $npm_package_ensure        = 'absent'
-          $npm_package_name          = undef
+          $npm_package_name          = false
           $npm_path                  = '/usr/bin/npm'
           $repo_class                = undef
         }

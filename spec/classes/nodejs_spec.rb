@@ -322,6 +322,18 @@ describe 'nodejs', :type => :class do
           end
         end
       end
+
+      # npm_package_name
+      context 'with npm_package_name set to false' do
+        let :params do
+          {
+            :npm_package_name => 'false',
+          }
+        end
+        it 'the npm package resource should not be present' do
+          is_expected.not_to contain_package('npm')
+        end
+      end
     end
   end
 

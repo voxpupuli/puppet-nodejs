@@ -103,7 +103,7 @@ class nodejs(
     validate_string($nodejs_dev_package_name)
   }
 
-  if $npm_package_name {
+  if $npm_package_name and $npm_package_name != false {
     validate_string($npm_package_name)
   }
 
