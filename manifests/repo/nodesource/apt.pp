@@ -10,7 +10,7 @@ class nodejs::repo::nodesource::apt {
 
   include ::apt
 
-  if ($ensure == 'present') {
+  if ($ensure != 'absent') {
     apt::source { 'nodesource':
       include  => {
         'src' => $enable_src,
