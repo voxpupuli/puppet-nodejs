@@ -55,3 +55,10 @@ Style/ClassAndModuleChildren:
 Style/Documentation:
   Description: 'Document classes and non-namespace modules.'
   Enabled: false
+
+# More comfortable block layouts
+Style/BlockDelimiters:
+  Enabled: False
+
+Style/MultilineBlockLayout:
+  Enabled: False
