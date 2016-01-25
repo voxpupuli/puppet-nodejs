@@ -51,15 +51,10 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
   end
 
   def latest
-    if /#{resource[:name]}@([\d\.]+)/ =~ npm('outdated', '--global', resource[:name])
-      @latest = Regexp.last_match(1)
-    else
-      @property_hash[:ensure] unless @property_hash[:ensure].is_a? Symbol
-    end
+    npm('view', resource[:name], 'version').strip
   end
 
   def update
-    resource[:ensure] = @latest
     install
   end
 
