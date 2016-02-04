@@ -28,6 +28,9 @@ class nodejs::repo::nodesource::apt {
         Package['ca-certificates'],
       ],
     }
+
+    Apt::Source['nodesource'] -> Package<| tag == 'nodesource_repo' |>
+    Class['Apt::Update'] -> Package<| tag == 'nodesource_repo' |>
   }
 
   else {
