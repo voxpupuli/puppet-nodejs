@@ -1,15 +1,13 @@
 require 'puppet/util/feature'
+require 'puppet/util/npm'
 
 Puppet.features.add(:npm) do
-  def self.which(cmd)
-    exts = ENV['PATHEXT'] ? ENV['PATHEXT'].split(';') : ['']
-    ENV['PATH'].split(File::PATH_SEPARATOR).each do |path|
-      exts.each { |ext|
-        exe = File.join(path, "#{cmd}#{ext}")
-        return exe if File.executable?(exe) && !File.directory?(exe)
-      }
-    end
-    nil
-  end
-  !which('npm').nil? && !which('npm').empty?
+  Puppet::Util::Npm.npm_check
+end
+
+Puppet.features.send :meta_def, 'npm?' do
+  name = :npm
+  final = @results[name]
+  @results[name] = Puppet::Util::Npm.npm_check unless final
+  @results[name]
 end
