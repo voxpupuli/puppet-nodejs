@@ -120,30 +120,6 @@ package { 'mime':
 }
 ```
 
-#### Caveat using the npm package provider
-
-Note: The npm provider won't be avaliable until the server has been marked as having the `npm` command avaliable.
-
-So the following code will not work:
-
-```puppet
-include ::node
-
-package { 'bower':
-  provider => 'npm'
-}
-```
-
-As the npm provider won't be avaliable until the next Puppet run.
-
-One solution for this is to add collectors to ensure that all packages with the `npm` provider happen after `::nodejs` has applied
-
-```puppet
-Class['::nodejs'] -> Package <| provider == 'npm' |>
-```
-
-Note that this can lead to dependency cycles and has implications for virtual resources. Use with caution.
-
 ### npm local packages
 
 nodejs::npm is used for the local installation of npm packages. It attempts to
