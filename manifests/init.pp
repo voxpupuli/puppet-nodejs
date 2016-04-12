@@ -50,11 +50,11 @@ class nodejs(
       }
       'RedHat': {
         # At the moment, only node v0.10 and v0.12 repos are available on
-        # nodesource for RedHat 5 and 6.
-        if $::operatingsystemrelease =~ /^[56]\.(\d+)/ {
+        # nodesource for RedHat 5.
+        if $::operatingsystemrelease =~ /^5\.(\d+)/ {
           validate_re($repo_url_suffix, '^0\.1[02]$', $suffix_error_msg)
         }
-        elsif $::operatingsystemrelease =~ /^7\.(\d+)/ {
+        elsif $::operatingsystemrelease =~ /^[67]\.(\d+)/ {
           validate_re($repo_url_suffix, '^(0\.1[02]|[45]\.x)$', $suffix_error_msg)
         }
         # Fedora

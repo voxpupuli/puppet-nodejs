@@ -416,8 +416,8 @@ describe 'nodejs', type: :class do
             default_params.merge!(repo_url_suffix: '5.x',)
           end
 
-          if operatingsystemrelease =~ /^([56]\.\d+|20)$/
-            it 'NodeJS 5.x package not provided for Centos 5/6 and Fedora 20' do
+          if operatingsystemrelease =~ /^(5\.\d+|20)$/
+            it 'NodeJS 5.x package not provided for Centos 5 and Fedora 20' do
               expect { catalogue }.to raise_error(Puppet::Error, /Var \$repo_url_suffix with value '5\.x' is not set correctly for \w+ \d+(\.\d+)*\. See README\./)
             end
           else
