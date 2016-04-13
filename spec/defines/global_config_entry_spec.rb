@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'nodejs::npm::global_config_entry', :type => :define do
+describe 'nodejs::npm::global_config_entry', type: :define do
   let :pre_condition do
     'class { "nodejs": }'
   end
@@ -8,11 +8,11 @@ describe 'nodejs::npm::global_config_entry', :type => :define do
   context 'when run on Debian Wheezy' do
     let :facts do
       {
-        :lsbdistcodename        => 'Wheezy',
-        :lsbdistid              => 'Debian',
-        :operatingsystem        => 'Debian',
-        :operatingsystemrelease => '8.0',
-        :osfamily               => 'Debian',
+        lsbdistcodename: 'Wheezy',
+        lsbdistid: 'Debian',
+        operatingsystem: 'Debian',
+        operatingsystemrelease: '8.0',
+        osfamily: 'Debian',
       }
     end
 
@@ -20,7 +20,7 @@ describe 'nodejs::npm::global_config_entry', :type => :define do
       let(:title) { 'proxy' }
       let :params do
         {
-          :value => 'proxy.domain',
+          value: 'proxy.domain',
         }
       end
       it 'npm config set proxy proxy.domain should be executed' do
@@ -32,7 +32,7 @@ describe 'nodejs::npm::global_config_entry', :type => :define do
       let(:title) { 'https-proxy' }
       let :params do
         {
-          :value => 'proxy.domain',
+          value: 'proxy.domain',
         }
       end
       it 'npm config set https-proxy proxy.domain should be executed' do
@@ -44,7 +44,7 @@ describe 'nodejs::npm::global_config_entry', :type => :define do
       let(:title) { 'color' }
       let :params do
         {
-          :ensure => 'absent',
+          ensure: 'absent',
         }
       end
       it 'npm config delete color should be executed' do
@@ -56,7 +56,7 @@ describe 'nodejs::npm::global_config_entry', :type => :define do
       let(:title) { 'foo' }
       let :params do
         {
-          :ensure => 'invalid_value',
+          ensure: 'invalid_value',
         }
       end
       it 'should fail' do
