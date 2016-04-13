@@ -3,9 +3,9 @@ require 'spec_helper'
 
 describe Puppet::Type.type(:package).provider(:npm) do
   before :each do
-    @resource =  Puppet::Type.type(:package).new(
-      :name   => 'express',
-      :ensure => :present
+    @resource = Puppet::Type.type(:package).new(
+      name: 'express',
+      ensure: :present
     )
     @provider = described_class.new(@resource)
     @provider.class.stubs(:optional_commands).with(:npm).returns '/usr/local/bin/npm'
@@ -45,9 +45,9 @@ describe Puppet::Type.type(:package).provider(:npm) do
     it 'should return a list of npm packages installed globally' do
       @provider.class.expects(:execute).with(['/usr/local/bin/npm', 'list', '--json', '--global'], anything).returns(my_fixture_read('npm_global'))
       expect(@provider.class.instances.map(&:properties).sort_by { |res| res[:name] }).to eq([
-        { :ensure => '2.5.9', :provider => 'npm', :name => 'express' },
-        { :ensure => '1.1.15', :provider => 'npm', :name => 'npm' },
-      ])
+                                                                                               { ensure: '2.5.9', provider: 'npm', name: 'express' },
+                                                                                               { ensure: '1.1.15', provider: 'npm', name: 'npm' },
+                                                                                             ])
     end
 
     it 'should log and continue if the list command has a non-zero exit code' do

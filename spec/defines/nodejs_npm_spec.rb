@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'nodejs::npm', :type => :define do
+describe 'nodejs::npm', type: :define do
   let :pre_condition do
     'class { "nodejs": }'
   end
@@ -8,11 +8,11 @@ describe 'nodejs::npm', :type => :define do
   context 'when run on Debian Wheezy' do
     let :facts do
       {
-        :lsbdistcodename        => 'Wheezy',
-        :lsbdistid              => 'Debian',
-        :operatingsystem        => 'Debian',
-        :operatingsystemrelease => '7.0',
-        :osfamily               => 'Debian',
+        lsbdistcodename: 'Wheezy',
+        lsbdistid: 'Debian',
+        operatingsystem: 'Debian',
+        operatingsystemrelease: '7.0',
+        osfamily: 'Debian',
       }
     end
 
@@ -23,9 +23,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express, user set to foo and target set to /home/npm/packages' do
       let :params do
         {
-          :package => 'express',
-          :target  => '/home/npm/packages',
-          :user    => 'foo',
+          package: 'express',
+          target: '/home/npm/packages',
+          user: 'foo',
         }
       end
 
@@ -41,8 +41,8 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and target set to /home/npm/packages' do
       let :params do
         {
-          :package => 'express',
-          :target  => '/home/npm/packages',
+          package: 'express',
+          target: '/home/npm/packages',
         }
       end
 
@@ -51,15 +51,15 @@ describe 'nodejs::npm', :type => :define do
       end
 
       it 'the install_check should grep for /home/npm/packages/node_modules/express' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => "/usr/bin/npm ls --long --parseable | grep \"/home/npm/packages/node_modules/express\"",)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/express"',)
       end
 
       it 'the exec directory should be /home/npm/packages' do
-        is_expected.to contain_exec('npm_install_express').with('cwd'  => '/home/npm/packages',)
+        is_expected.to contain_exec('npm_install_express').with('cwd' => '/home/npm/packages',)
       end
 
       it 'the environment variable HOME should be /root' do
-        is_expected.to contain_exec('npm_install_express').with('environment'  => 'HOME=/root',)
+        is_expected.to contain_exec('npm_install_express').with('environment' => 'HOME=/root',)
       end
     end
 
@@ -67,9 +67,9 @@ describe 'nodejs::npm', :type => :define do
     context "with package set to express and install_options set to ['--no-bin-links', '--no-optional']" do
       let :params do
         {
-          :install_options => ['--no-bin-links', '--no-optional'],
-          :package         => 'express',
-          :target          => '/home/npm/packages',
+          install_options: ['--no-bin-links', '--no-optional'],
+          package: 'express',
+          target: '/home/npm/packages',
         }
       end
 
@@ -82,8 +82,8 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to @scopename/express' do
       let :params do
         {
-          :package => '@scopename/express',
-          :target  => '/home/npm/packages',
+          package: '@scopename/express',
+          target: '/home/npm/packages',
         }
       end
 
@@ -92,7 +92,7 @@ describe 'nodejs::npm', :type => :define do
       end
 
       it 'the install_check should grep for /home/npm/packages/node_modules/@scopename/express' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => "/usr/bin/npm ls --long --parseable | grep \"/home/npm/packages/node_modules/@scopename/express\"",)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/@scopename/express"',)
       end
     end
 
@@ -100,9 +100,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to @scopename/express and ensure set to tagname' do
       let :params do
         {
-          :ensure  => 'tagname',
-          :package => '@scopename/express',
-          :target  => '/home/npm/packages',
+          ensure: 'tagname',
+          package: '@scopename/express',
+          target: '/home/npm/packages',
         }
       end
 
@@ -111,7 +111,7 @@ describe 'nodejs::npm', :type => :define do
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules/@scopename/express:@scopename/express@tagname' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => "/usr/bin/npm ls --long --parseable | grep \"/home/npm/packages/node_modules/@scopename/express:@scopename/express@tagname\"",)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/@scopename/express:@scopename/express@tagname"',)
       end
     end
 
@@ -119,9 +119,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and ensure set to tagname' do
       let :params do
         {
-          :ensure  => 'tagname',
-          :package => 'express',
-          :target  => '/home/npm/packages',
+          ensure: 'tagname',
+          package: 'express',
+          target: '/home/npm/packages',
         }
       end
 
@@ -130,7 +130,7 @@ describe 'nodejs::npm', :type => :define do
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules/express:express@tagname' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => "/usr/bin/npm ls --long --parseable | grep \"/home/npm/packages/node_modules/express:express@tagname\"",)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/express:express@tagname"',)
       end
     end
 
@@ -138,9 +138,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to @scopename/express and ensure set to 3' do
       let :params do
         {
-          :ensure  => '3',
-          :package => '@scopename/express',
-          :target  => '/home/npm/packages',
+          ensure: '3',
+          package: '@scopename/express',
+          target: '/home/npm/packages',
         }
       end
 
@@ -149,7 +149,7 @@ describe 'nodejs::npm', :type => :define do
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules/@scopename/express:@scopename/express@3' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => "/usr/bin/npm ls --long --parseable | grep \"/home/npm/packages/node_modules/@scopename/express:@scopename/express@3\"",)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/@scopename/express:@scopename/express@3"',)
       end
     end
 
@@ -157,9 +157,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and ensure set to 3' do
       let :params do
         {
-          :ensure  => '3',
-          :package => 'express',
-          :target  => '/home/npm/packages',
+          ensure: '3',
+          package: 'express',
+          target: '/home/npm/packages',
         }
       end
 
@@ -168,7 +168,7 @@ describe 'nodejs::npm', :type => :define do
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules/express:express@3' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => "/usr/bin/npm ls --long --parseable | grep \"/home/npm/packages/node_modules/express:express@3\"",)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/express:express@3"',)
       end
     end
 
@@ -176,9 +176,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and source set to /local/folder' do
       let :params do
         {
-          :package => 'express',
-          :source  => '/local/folder',
-          :target  => '/home/npm/packages',
+          package: 'express',
+          source: '/local/folder',
+          target: '/home/npm/packages',
         }
       end
 
@@ -187,7 +187,7 @@ describe 'nodejs::npm', :type => :define do
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules//local/folder' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => "/usr/bin/npm ls --long --parseable | grep \"/home/npm/packages/node_modules//local/folder\"",)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules//local/folder"',)
       end
     end
 
@@ -195,9 +195,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and source set to /local/package.tgz' do
       let :params do
         {
-          :package => 'express',
-          :source  => '/local/package.tgz',
-          :target  => '/home/npm/packages',
+          package: 'express',
+          source: '/local/package.tgz',
+          target: '/home/npm/packages',
         }
       end
 
@@ -206,7 +206,7 @@ describe 'nodejs::npm', :type => :define do
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules//local/package.tgz' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => "/usr/bin/npm ls --long --parseable | grep \"/home/npm/packages/node_modules//local/package.tgz\"",)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules//local/package.tgz"',)
       end
     end
 
@@ -214,9 +214,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and source set to http://domain/package.tgz' do
       let :params do
         {
-          :package => 'express',
-          :source  => 'http://domain/package.tgz',
-          :target  => '/home/npm/packages',
+          package: 'express',
+          source: 'http://domain/package.tgz',
+          target: '/home/npm/packages',
         }
       end
 
@@ -225,7 +225,7 @@ describe 'nodejs::npm', :type => :define do
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules/http://domain/package.tgz' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => "/usr/bin/npm ls --long --parseable | grep \"/home/npm/packages/node_modules/http://domain/package.tgz\"",)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/http://domain/package.tgz"',)
       end
     end
 
@@ -233,9 +233,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and source set to https://domain/package.tgz' do
       let :params do
         {
-          :package => 'express',
-          :source  => 'https://domain/package.tgz',
-          :target  => '/home/npm/packages',
+          package: 'express',
+          source: 'https://domain/package.tgz',
+          target: '/home/npm/packages',
         }
       end
 
@@ -244,7 +244,7 @@ describe 'nodejs::npm', :type => :define do
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules/https://domain/package.tgz' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => "/usr/bin/npm ls --long --parseable | grep \"/home/npm/packages/node_modules/https://domain/package.tgz\"",)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/https://domain/package.tgz"',)
       end
     end
 
@@ -252,9 +252,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and source set to strongloop/express' do
       let :params do
         {
-          :package => 'express',
-          :source  => 'strongloop/express',
-          :target  => '/home/npm/packages',
+          package: 'express',
+          source: 'strongloop/express',
+          target: '/home/npm/packages',
         }
       end
 
@@ -263,7 +263,7 @@ describe 'nodejs::npm', :type => :define do
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules/strongloop/express' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => "/usr/bin/npm ls --long --parseable | grep \"/home/npm/packages/node_modules/strongloop/express\"",)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/strongloop/express"',)
       end
     end
 
@@ -271,9 +271,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and source set to git://github.com/strongloop/expressjs.git' do
       let :params do
         {
-          :package => 'express',
-          :source  => 'git://github.com/strongloop/expressjs.git',
-          :target  => '/home/npm/packages',
+          package: 'express',
+          source: 'git://github.com/strongloop/expressjs.git',
+          target: '/home/npm/packages',
         }
       end
 
@@ -282,7 +282,7 @@ describe 'nodejs::npm', :type => :define do
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules/git://github.com/strongloop/expressjs.git' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => "/usr/bin/npm ls --long --parseable | grep \"/home/npm/packages/node_modules/git://github.com/strongloop/expressjs.git\"",)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/git://github.com/strongloop/expressjs.git"',)
       end
     end
 
@@ -290,9 +290,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and source set to git+ssh://git@github.com:/strongloop/expressjs.git' do
       let :params do
         {
-          :package => 'express',
-          :source  => 'git+ssh://git@github.com:/strongloop/expressjs.git',
-          :target  => '/home/npm/packages',
+          package: 'express',
+          source: 'git+ssh://git@github.com:/strongloop/expressjs.git',
+          target: '/home/npm/packages',
         }
       end
 
@@ -301,7 +301,7 @@ describe 'nodejs::npm', :type => :define do
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules/git+ssh://git@github.com/strongloop/expressjs.git' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => "/usr/bin/npm ls --long --parseable | grep \"/home/npm/packages/node_modules/git+ssh://git@github.com:/strongloop/expressjs.git\"",)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/git+ssh://git@github.com:/strongloop/expressjs.git"',)
       end
     end
 
@@ -309,9 +309,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and source set to git+https://user@github.com/strongloop/expressjs.git' do
       let :params do
         {
-          :package => 'express',
-          :source  => 'git+https://user@github.com/strongloop/expressjs.git',
-          :target  => '/home/npm/packages',
+          package: 'express',
+          source: 'git+https://user@github.com/strongloop/expressjs.git',
+          target: '/home/npm/packages',
         }
       end
 
@@ -320,7 +320,7 @@ describe 'nodejs::npm', :type => :define do
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules/git+https://user@github.com/strongloop/expressjs.git' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => "/usr/bin/npm ls --long --parseable | grep \"/home/npm/packages/node_modules/git+https://user@github.com/strongloop/expressjs.git\"",)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/git+https://user@github.com/strongloop/expressjs.git"',)
       end
     end
 
@@ -328,9 +328,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and ensure set to >=1.0.0' do
       let :params do
         {
-          :ensure  => '>=1.0.0',
-          :package => 'express',
-          :target  => '/home/npm/packages',
+          ensure: '>=1.0.0',
+          package: 'express',
+          target: '/home/npm/packages',
         }
       end
 
@@ -343,9 +343,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and ensure set to absent' do
       let :params do
         {
-          :ensure  => 'absent',
-          :package => 'express',
-          :target  => '/home/npm/packages',
+          ensure: 'absent',
+          package: 'express',
+          target: '/home/npm/packages',
         }
       end
 
@@ -354,7 +354,7 @@ describe 'nodejs::npm', :type => :define do
       end
 
       it 'the install_check should grep for /home/npm/packages/node_modules/express' do
-        is_expected.to contain_exec('npm_rm_express').with('onlyif'  => "/usr/bin/npm ls --long --parseable | grep \"/home/npm/packages/node_modules/express\"",)
+        is_expected.to contain_exec('npm_rm_express').with('onlyif'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/express"',)
       end
     end
 
@@ -362,10 +362,10 @@ describe 'nodejs::npm', :type => :define do
     context "with package set to express, ensure set to absent and uninstall_options set to ['--save']" do
       let :params do
         {
-          :ensure  => 'absent',
-          :package => 'express',
-          :target  => '/home/npm/packages',
-          :uninstall_options => ['--save',],
+          ensure: 'absent',
+          package: 'express',
+          target: '/home/npm/packages',
+          uninstall_options: ['--save',],
         }
       end
 
@@ -379,8 +379,8 @@ describe 'nodejs::npm', :type => :define do
   context 'when run on Darwin' do
     let :facts do
       {
-        :operatingsystem => 'Darwin',
-        :osfamily        => 'Darwin',
+        operatingsystem: 'Darwin',
+        osfamily: 'Darwin',
       }
     end
 
@@ -391,8 +391,8 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and target set to /home/npm/packages' do
       let :params do
         {
-          :package => 'express',
-          :target  => '/home/npm/packages',
+          package: 'express',
+          target: '/home/npm/packages',
         }
       end
 
@@ -401,7 +401,7 @@ describe 'nodejs::npm', :type => :define do
       end
 
       it 'the install_check should grep for /home/npm/packages/node_modules/express' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => "/opt/local/bin/npm ls --long --parseable | grep \"/home/npm/packages/node_modules/express\"",)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/opt/local/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/express"',)
       end
     end
   end
@@ -409,8 +409,8 @@ describe 'nodejs::npm', :type => :define do
   context 'when run on Windows' do
     let :facts do
       {
-        :operatingsystem => 'Windows',
-        :osfamily        => 'Windows',
+        operatingsystem: 'Windows',
+        osfamily: 'Windows',
       }
     end
 
@@ -421,8 +421,8 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and target set to C:\packages' do
       let :params do
         {
-          :package => 'express',
-          :target  => 'C:\packages',
+          package: 'express',
+          target: 'C:\packages',
         }
       end
 
@@ -435,7 +435,7 @@ describe 'nodejs::npm', :type => :define do
       end
 
       it 'the exec directory should be C:\packages' do
-        is_expected.to contain_exec('npm_install_express').with('cwd'  => 'C:\packages',)
+        is_expected.to contain_exec('npm_install_express').with('cwd' => 'C:\packages',)
       end
     end
 
@@ -443,9 +443,9 @@ describe 'nodejs::npm', :type => :define do
     context "with package set to express and install_options set to ['--no-bin-links', '--no-optional']" do
       let :params do
         {
-          :package => 'express',
-          :target  => 'C:\packages',
-          :install_options => ['--no-bin-links', '--no-optional'],
+          package: 'express',
+          target: 'C:\packages',
+          install_options: ['--no-bin-links', '--no-optional'],
         }
       end
 
@@ -458,8 +458,8 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to @scopename/express' do
       let :params do
         {
-          :package => '@scopename/express',
-          :target  => 'C:\packages',
+          package: '@scopename/express',
+          target: 'C:\packages',
         }
       end
 
@@ -476,9 +476,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to @scopename/express and ensure set to tagname' do
       let :params do
         {
-          :ensure  => 'tagname',
-          :package => '@scopename/express',
-          :target  => 'C:\packages',
+          ensure: 'tagname',
+          package: '@scopename/express',
+          target: 'C:\packages',
         }
       end
 
@@ -495,9 +495,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and ensure set to tagname' do
       let :params do
         {
-          :ensure  => 'tagname',
-          :package => 'express',
-          :target  => 'C:\packages',
+          ensure: 'tagname',
+          package: 'express',
+          target: 'C:\packages',
         }
       end
 
@@ -514,9 +514,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to @scopename/express and ensure set to 3' do
       let :params do
         {
-          :ensure  => '3',
-          :package => '@scopename/express',
-          :target  => 'C:\packages',
+          ensure: '3',
+          package: '@scopename/express',
+          target: 'C:\packages',
         }
       end
 
@@ -533,9 +533,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and ensure set to 3' do
       let :params do
         {
-          :ensure  => '3',
-          :package => 'express',
-          :target  => 'C:\packages',
+          ensure: '3',
+          package: 'express',
+          target: 'C:\packages',
         }
       end
 
@@ -552,9 +552,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and source set to C:\local\folder' do
       let :params do
         {
-          :package => 'express',
-          :source  => 'C:\local\folder',
-          :target  => 'C:\packages',
+          package: 'express',
+          source: 'C:\local\folder',
+          target: 'C:\packages',
         }
       end
 
@@ -571,9 +571,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and source set to C:\local\package.tgz' do
       let :params do
         {
-          :package => 'express',
-          :source  => 'C:\local\package.tgz',
-          :target  => 'C:\packages',
+          package: 'express',
+          source: 'C:\local\package.tgz',
+          target: 'C:\packages',
         }
       end
 
@@ -590,9 +590,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and source set to http://domain/package.tgz' do
       let :params do
         {
-          :package => 'express',
-          :source  => 'http://domain/package.tgz',
-          :target  => 'C:\packages',
+          package: 'express',
+          source: 'http://domain/package.tgz',
+          target: 'C:\packages',
         }
       end
 
@@ -609,9 +609,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and source set to https://domain/package.tgz' do
       let :params do
         {
-          :package => 'express',
-          :source  => 'https://domain/package.tgz',
-          :target  => 'C:\packages',
+          package: 'express',
+          source: 'https://domain/package.tgz',
+          target: 'C:\packages',
         }
       end
 
@@ -628,9 +628,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and source set to strongloop/express' do
       let :params do
         {
-          :package => 'express',
-          :source  => 'strongloop/express',
-          :target  => 'C:\packages',
+          package: 'express',
+          source: 'strongloop/express',
+          target: 'C:\packages',
         }
       end
 
@@ -647,9 +647,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and source set to git://github.com/strongloop/expressjs.git' do
       let :params do
         {
-          :package => 'express',
-          :source  => 'git://github.com/strongloop/expressjs.git',
-          :target  => 'C:\packages',
+          package: 'express',
+          source: 'git://github.com/strongloop/expressjs.git',
+          target: 'C:\packages',
         }
       end
 
@@ -666,9 +666,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and source set to git+ssh://git@github.com:/strongloop/expressjs.git' do
       let :params do
         {
-          :package => 'express',
-          :source  => 'git+ssh://git@github.com:/strongloop/expressjs.git',
-          :target  => 'C:\packages',
+          package: 'express',
+          source: 'git+ssh://git@github.com:/strongloop/expressjs.git',
+          target: 'C:\packages',
         }
       end
 
@@ -685,9 +685,9 @@ describe 'nodejs::npm', :type => :define do
     context 'package set to express and source set to git+https://user@github.com/strongloop/expressjs.git' do
       let :params do
         {
-          :package => 'express',
-          :source  => 'git+https://user@github.com/strongloop/expressjs.git',
-          :target  => 'C:\packages',
+          package: 'express',
+          source: 'git+https://user@github.com/strongloop/expressjs.git',
+          target: 'C:\packages',
         }
       end
 
@@ -704,9 +704,9 @@ describe 'nodejs::npm', :type => :define do
     context 'with package set to express and ensure set to absent' do
       let :params do
         {
-          :ensure  => 'absent',
-          :package => 'express',
-          :target  => 'C:\packages',
+          ensure: 'absent',
+          package: 'express',
+          target: 'C:\packages',
         }
       end
 
@@ -723,10 +723,10 @@ describe 'nodejs::npm', :type => :define do
     context "with package set to express, ensure set to absent and uninstall_options set to ['--save']" do
       let :params do
         {
-          :ensure            => 'absent',
-          :package           => 'express',
-          :target            => 'C:\packages',
-          :uninstall_options => ['--save',],
+          ensure: 'absent',
+          package: 'express',
+          target: 'C:\packages',
+          uninstall_options: ['--save',],
         }
       end
 
