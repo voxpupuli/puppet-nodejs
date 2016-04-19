@@ -1,5 +1,8 @@
 # PRIVATE CLASS: do not call directly
 class nodejs::install {
+
+  $npmrc_auth = $::nodejs::npmrc_auth
+
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
@@ -55,5 +58,13 @@ class nodejs::install {
       tag    => 'nodesource_repo',
     }
   }
-}
 
+  file { 'root_npmrc':
+    ensure  => 'file',
+    path    => '/root/.npmrc',
+    content => template('nodejs/npmrc.erb'),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0600',
+  }
+}

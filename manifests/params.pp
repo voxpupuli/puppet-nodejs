@@ -1,5 +1,6 @@
 class nodejs::params {
   $legacy_debian_symlinks      = false
+  $npmrc_auth                  = undef
   $nodejs_debug_package_ensure = 'absent'
   $nodejs_dev_package_ensure   = 'absent'
   $nodejs_package_ensure       = 'present'

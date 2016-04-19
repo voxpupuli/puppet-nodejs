@@ -12,6 +12,7 @@ class nodejs(
   $npm_package_ensure          = $nodejs::params::npm_package_ensure,
   $npm_package_name            = $nodejs::params::npm_package_name,
   $npm_path                    = $nodejs::params::npm_path,
+  $npmrc_auth                  = $nodejs::params::npmrc_auth,
   $repo_class                  = $nodejs::params::repo_class,
   $repo_enable_src             = $nodejs::params::repo_enable_src,
   $repo_ensure                 = $nodejs::params::repo_ensure,
@@ -105,6 +106,12 @@ class nodejs(
 
   if $npm_package_name and $npm_package_name != false {
     validate_string($npm_package_name)
+  }
+
+  if $npmrc_auth {
+    if is_string($npmrc_auth) == false {
+      fail('npmrc_auth must be a string')
+    }
   }
 
   validate_array($use_flags)
