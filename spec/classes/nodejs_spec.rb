@@ -46,6 +46,38 @@ describe 'nodejs', type: :class do
         }
       end
 
+      it 'the file resource root_npmrc should be in the catalog' do
+        is_expected.to contain_file('root_npmrc').with(
+          'ensure' => 'file',
+          'path'    => '/root/.npmrc',
+          'owner'   => 'root',
+          'group'   => 'root',
+          'mode'    => '0600',
+        )
+      end
+
+      context 'with npmrc_auth set to a string' do
+        let :params do
+          {
+            npmrc_auth: 'dXNlcjpwYXNzd29yZA==',
+          }
+        end
+
+        it { should contain_file('root_npmrc').with_content(/^_auth="dXNlcjpwYXNzd29yZA=="$/) }
+      end
+
+      context 'with npmrc_auth set to an invalid type (non-string)' do
+        let :params do
+          {
+            npmrc_auth: %w(invalid type),
+          }
+        end
+
+        it 'should fail' do
+          expect { catalogue }.to raise_error(Puppet::Error, /npmrc_auth must be a string/)
+        end
+      end
+
       # legacy_debian_symlinks
       context 'with legacy_debian_symlinks set to true' do
         let :params do

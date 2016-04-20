@@ -370,6 +370,12 @@ using the EPEL repository.
 
 Path to the npm binary.
 
+#### `npmrc_auth`
+
+A string that contains the value for the key `_auth` that will be set in
+`/root/.npmrc`, as this value is not allowed to be set by
+nodejs::npm::global_config_entry. The default value is `undef`.
+
 #### `repo_class`
 
 Name of the Puppet class used for the setup and management of the Node.js
