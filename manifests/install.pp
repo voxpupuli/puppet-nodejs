@@ -64,7 +64,7 @@ class nodejs::install {
     path    => '/root/.npmrc',
     content => template('nodejs/npmrc.erb'),
     owner   => 'root',
-    group   => 'root',
+    group   => '0',
     mode    => '0600',
   }
 }

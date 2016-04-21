@@ -48,7 +48,7 @@ class nodejs::repo::nodesource::yum {
 
     file { '/etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL':
       ensure => file,
-      group  => 'root',
+      group  => '0',
       mode   => '0644',
       owner  => 'root',
       source => "puppet:///modules/${module_name}/repo/nodesource/NODESOURCE-GPG-SIGNING-KEY-EL",
