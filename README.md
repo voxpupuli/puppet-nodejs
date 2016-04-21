@@ -294,12 +294,16 @@ nodejs::npm { 'remove all express packages':
 
 nodejs::npm::global_config_entry can be used to set/remove global npm configuration settings.
 
+Note that when specifying a URL, such as registry, NPM will add a trailing
+slash when it stores the config. You must specify a trailing slash in your URL
+or the code will not be idempotent.
+
 Examples:
 
 ```puppet
 nodejs::npm::global_config_entry { 'proxy':
   ensure => 'present',
-  value  => 'http://proxy.company.com:8080',
+  value  => 'http://proxy.company.com:8080/',
 }
 ```
 
