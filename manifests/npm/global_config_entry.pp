@@ -7,6 +7,8 @@ define nodejs::npm::global_config_entry (
   $value          = undef,
 ) {
 
+  include ::nodejs
+
   validate_re($ensure, '^(present|absent)$', "${module_name}::npm::global_config_entry : Ensure parameter must be present or absent")
 
   case $ensure {
@@ -26,14 +28,22 @@ define nodejs::npm::global_config_entry (
     }
   }
 
+  if $nodejs::npm_package_ensure != 'absent' {
+    $exec_require = "Package[${nodejs::npm_package_name}]"
+  } else {
+    $exec_require = undef
+  }
+
   #Determine exec provider
   $provider = $::osfamily ? {
     'Windows' => 'windows',
     default   => 'shell',
   }
+
   exec { "npm_config ${ensure} ${title}":
     command  => "${npm_path} ${command}",
     provider => $provider,
     onlyif   => $onlyif_command,
+    require  => $exec_require,
   }
 }
