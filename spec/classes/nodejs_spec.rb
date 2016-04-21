@@ -51,7 +51,7 @@ describe 'nodejs', type: :class do
           'ensure' => 'file',
           'path'    => '/root/.npmrc',
           'owner'   => 'root',
-          'group'   => 'root',
+          'group'   => '0',
           'mode'    => '0600',
         )
       end
