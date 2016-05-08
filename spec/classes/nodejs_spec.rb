@@ -40,6 +40,7 @@ describe 'nodejs', type: :class do
         {
           lsbdistcodename: lsbdistcodename,
           lsbdistid: lsbdistid,
+          lsbdistrelease: operatingsystemrelease,
           operatingsystem: operatingsystem,
           operatingsystemrelease: operatingsystemrelease,
           osfamily: 'Debian',
