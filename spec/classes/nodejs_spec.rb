@@ -1061,7 +1061,8 @@ describe 'nodejs', type: :class do
 
   context 'when running on Windows' do
     let :facts do
-      { osfamily: 'Windows',
+      {
+        osfamily: 'Windows',
         operatingsystem: 'Windows',
       }
     end
@@ -1162,7 +1163,8 @@ describe 'nodejs', type: :class do
 
   context 'when running on Amazon Linux 2014.09' do
     let :facts do
-      { osfamily: 'Linux',
+      {
+        osfamily: 'Linux',
         operatingsystem: 'Amazon',
         operatingsystemrelease: '2014.09',
       }
@@ -1426,7 +1428,8 @@ describe 'nodejs', type: :class do
   end
   context 'when running on Amazon Linux 2015.03' do
     let :facts do
-      { osfamily: 'RedHat',
+      {
+        osfamily: 'RedHat',
         operatingsystem: 'Amazon',
         operatingsystemrelease: '2015.03',
       }
