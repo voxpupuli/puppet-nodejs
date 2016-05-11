@@ -56,7 +56,7 @@ class nodejs(
           validate_re($repo_url_suffix, '^0\.1[02]$', $suffix_error_msg)
         }
         elsif $::operatingsystemrelease =~ /^[67]\.(\d+)/ {
-          validate_re($repo_url_suffix, '^(0\.1[02]|[45]\.x)$', $suffix_error_msg)
+          validate_re($repo_url_suffix, '^(0\.1[02]|[456]\.x)$', $suffix_error_msg)
         }
         # Fedora
         elsif $::operatingsystem == 'Fedora' {
