@@ -1063,7 +1063,7 @@ describe 'nodejs', type: :class do
     let :facts do
       {
         osfamily: 'Windows',
-        operatingsystem: 'Windows',
+        operatingsystem: 'Windows'
       }
     end
 
@@ -1166,7 +1166,7 @@ describe 'nodejs', type: :class do
       {
         osfamily: 'Linux',
         operatingsystem: 'Amazon',
-        operatingsystemrelease: '2014.09',
+        operatingsystemrelease: '2014.09'
       }
     end
 
@@ -1431,7 +1431,7 @@ describe 'nodejs', type: :class do
       {
         osfamily: 'RedHat',
         operatingsystem: 'Amazon',
-        operatingsystemrelease: '2015.03',
+        operatingsystemrelease: '2015.03'
       }
     end
 
