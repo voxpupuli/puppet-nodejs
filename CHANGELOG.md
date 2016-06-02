@@ -1,3 +1,10 @@
+## 2016-06-02 Release 2.0.1
+
+### Fixed
+
+- fix broken Ubuntu Xenial support
+
+
 ## 2016-05-08 Release 2.0.0
 
 ### Added
