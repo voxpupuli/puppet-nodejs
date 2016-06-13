@@ -1,3 +1,48 @@
+## 2016-06-02 Release 2.0.1
+
+### Fixed
+
+- fix broken Ubuntu Xenial support
+
+
+## 2016-05-08 Release 2.0.0
+
+### Added
+
+- allow absent for ensure attribute
+
+### Fixed
+
+- Link to badges
+- Correct handle of ensure attribute for nodejs
+
+### Maintenance
+
+- partial reformat of code for better readability
+- Change npm_package_name default value from "undef" to "false" for better comparison
+- Update apt-get database before package installation
+- Add node6 support for RHEL6 and RHEL7
+- enhance BSD support
+- Drop Ruby1.8.7 support
+
+
+## 2016-01-07 Release 1.3.0
+
+### Fixed
+
+- Improved documentation
+- remove dependency on `treydock/gpg_key`
+- Fix `repo_url_suffix`
+- Minimum Puppet version is now set at >= 3.7.0
+- Maximum Puppet version is set to < 5.0.0
+- Expanded `global_config_entry`, made more robust
+
+### Maintenance
+
+- Integrated now with modulesync
+- Fixed loads of Rubocop complaints
+
+
 ## 2015-08-18 Release 1.2.0
 
 ### Added
@@ -8,7 +53,7 @@
 ### Fixed
 
 - Misc lint/spec fixes
-- Metadata dependency on treydock/gpg_key
+- Metadata dependency on `treydock/gpg_key`
 
 ## 2015-06-23 Release 1.1.0
 

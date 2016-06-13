@@ -1,5 +1,6 @@
 class nodejs::params {
   $legacy_debian_symlinks      = false
+  $npmrc_auth                  = undef
   $nodejs_debug_package_ensure = 'absent'
   $nodejs_dev_package_ensure   = 'absent'
   $nodejs_package_ensure       = 'present'
@@ -10,7 +11,7 @@ class nodejs::params {
   $repo_proxy                  = 'absent'
   $repo_proxy_password         = 'absent'
   $repo_proxy_username         = 'absent'
-  $repo_url_suffix             = 'node_0.10'
+  $repo_url_suffix             = '0.10'
   $use_flags                   = ['npm', 'snapshot']
 
   # The full path to cmd.exe is required on Windows. The system32 fact is only
@@ -31,7 +32,7 @@ class nodejs::params {
         $nodejs_dev_package_name   = undef
         $nodejs_package_name       = 'nodejs'
         $npm_package_ensure        = 'absent'
-        $npm_package_name          = undef
+        $npm_package_name          = false
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
       }
@@ -41,7 +42,7 @@ class nodejs::params {
         $nodejs_dev_package_name   = undef
         $nodejs_package_name       = 'nodejs'
         $npm_package_ensure        = 'absent'
-        $npm_package_name          = undef
+        $npm_package_name          = false
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
       }
@@ -148,7 +149,7 @@ class nodejs::params {
       $nodejs_dev_package_name   = undef
       $nodejs_package_name       = 'node'
       $npm_package_ensure        = 'absent'
-      $npm_package_name          = undef
+      $npm_package_name          = false
       $npm_path                  = '/usr/local/bin/npm'
       $repo_class                = undef
     }
@@ -181,7 +182,7 @@ class nodejs::params {
       $nodejs_dev_package_name   = undef
       $nodejs_package_name       = 'net-libs/nodejs'
       $npm_package_ensure        = 'absent'
-      $npm_package_name          = undef
+      $npm_package_name          = false
       $npm_path                  = '/usr/bin/npm'
       $repo_class                = undef
     }
@@ -194,7 +195,7 @@ class nodejs::params {
           $nodejs_dev_package_name   = undef
           $nodejs_package_name       = 'net-libs/nodejs'
           $npm_package_ensure        = 'absent'
-          $npm_package_name          = undef
+          $npm_package_name          = false
           $npm_path                  = '/usr/bin/npm'
           $repo_class                = undef
         }

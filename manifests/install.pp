@@ -1,5 +1,8 @@
 # PRIVATE CLASS: do not call directly
 class nodejs::install {
+
+  $npmrc_auth = $::nodejs::npmrc_auth
+
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
@@ -17,12 +20,14 @@ class nodejs::install {
   # nodejs
   package { $nodejs::nodejs_package_name:
     ensure => $nodejs::nodejs_package_ensure,
+    tag    => 'nodesource_repo',
   }
 
   # nodejs-development
   if $nodejs::nodejs_dev_package_name {
     package { $nodejs::nodejs_dev_package_name:
       ensure => $nodejs::nodejs_dev_package_ensure,
+      tag    => 'nodesource_repo',
     }
   }
 
@@ -30,6 +35,7 @@ class nodejs::install {
   if $nodejs::nodejs_debug_package_name {
     package { $nodejs::nodejs_debug_package_name:
       ensure => $nodejs::nodejs_debug_package_ensure,
+      tag    => 'nodesource_repo',
     }
   }
 
@@ -46,10 +52,19 @@ class nodejs::install {
   }
 
   # npm
-  if $nodejs::npm_package_name {
+  if $nodejs::npm_package_name and $nodejs::npm_package_name != false {
     package { $nodejs::npm_package_name:
       ensure => $nodejs::npm_package_ensure,
+      tag    => 'nodesource_repo',
     }
   }
-}
 
+  file { 'root_npmrc':
+    ensure  => 'file',
+    path    => '/root/.npmrc',
+    content => template('nodejs/npmrc.erb'),
+    owner   => 'root',
+    group   => '0',
+    mode    => '0600',
+  }
+}

@@ -1,0 +1,68 @@
+AllCops:
+  TargetRubyVersion: 1.9
+  Include:
+    - ./**/*.rb
+  Exclude:
+    - vendor/**/*
+    - .vendor/**/*
+    - pkg/**/*
+    - spec/fixtures/**/*
+
+# Configuration parameters: AllowURI, URISchemes.
+Metrics/LineLength:
+  Max: 328
+
+# 'Complexity' is very relative
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+# 'Complexity' is very relative
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+# 'Complexity' is very relative
+Metrics/AbcSize:
+  Enabled: false
+
+# Method length is not necessarily an indicator of code quality
+Metrics/MethodLength:
+  Enabled: false
+
+# Module length is not necessarily an indicator of code quality
+Metrics/ModuleLength:
+  Enabled: false
+
+# Class length is not necessarily an indicator of code quality
+Metrics/ClassLength:
+  Enabled: false
+
+# dealbreaker:
+Style/TrailingCommaInArguments:
+  Enabled: false
+Style/TrailingCommaInLiteral:
+  Enabled: false
+Style/ClosingParenthesisIndentation:
+  Enabled: false
+
+Lint/AmbiguousRegexpLiteral:
+  Enabled: true
+Style/RegexpLiteral:
+  Enabled: true
+Style/WordArray:
+  Enabled: true
+
+# this catches the cases of using `module` for parser functions, types, or
+# providers
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/Documentation:
+  Description: 'Document classes and non-namespace modules.'
+  Enabled: false
+
+# More comfortable block layouts
+Style/BlockDelimiters:
+  Enabled: False
+
+Style/MultilineBlockLayout:
+  Enabled: False
