@@ -28,7 +28,7 @@ class nodejs::repo::nodesource {
       }
 
       # Fedora
-      elsif $::operatingsystemrelease =~ /(19)|(20)|(21)/ and $::operatingsystem == 'Fedora' {
+      elsif $::operatingsystemrelease =~ /(19)|(20)|(21)|(22)|(23)/ and $::operatingsystem == 'Fedora' {
         $dist_version  = $::operatingsystemrelease
         $name_string   = "Fedora Core ${::operatingsystemrelease}"
       }
