@@ -73,6 +73,10 @@
     {
       "name": "treydock/gpg_key",
       "version_requirement": ">=0.0.3 <1.0.0"
+    },
+    {
+      "name": "puppetlabs/apt",
+      "version_requirement": ">=2.0.0"
     }
   ]
 }
