@@ -26,6 +26,13 @@ class nodejs::params {
       if $::operatingsystemrelease =~ /^6\.(\d+)/ {
         fail("The ${module_name} module is not supported on Debian Squeeze.")
       }
+      # validate apt module exists
+      $apt_data = load_module_metadata('apt', true)
+      if $apt_data = {} {
+        fail("The apt module is required for ${module_name}, install it with 'puppet module install puppetlabs-apt'")
+      } else {
+        # optionally do any version checking, name validation here
+      }
       if $::operatingsystemrelease =~ /^7\.(\d+)/ {
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-dbg'
