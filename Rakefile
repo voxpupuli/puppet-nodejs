@@ -38,3 +38,4 @@ task test: [
   :syntax,
   :spec,
 ]
+# vim: syntax=ruby
