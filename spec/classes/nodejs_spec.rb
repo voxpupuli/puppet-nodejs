@@ -14,37 +14,12 @@ describe 'nodejs', type: :class do
     end
   end
 
-  ['7.0', '8.0', '10.04', '12.04', '14.04'].each do |operatingsystemrelease|
-    if operatingsystemrelease =~ %r{^[78]\.(\d+)}
-      lsbdistid       = 'Debian'
-      operatingsystem = 'Debian'
-    else
-      lsbdistid       = 'Ubuntu'
-      operatingsystem = 'Ubuntu'
-    end
+  on_supported_os.each do |os, facts|
+    next unless facts[:osfamily] == 'Debian'
 
-    lsbdistcodename = if operatingsystemrelease == '7.0'
-                        'Wheezy'
-                      elsif operatingsystemrelease == '8.0'
-                        'Jessie'
-                      elsif operatingsystemrelease == '10.04'
-                        'Lucid'
-                      elsif operatingsystemrelease == '12.04'
-                        'Precise'
-                      else
-                        'Trusty'
-                      end
-
-    context "when run on #{lsbdistid} release #{operatingsystemrelease}" do
+    context "on #{os} " do
       let :facts do
-        {
-          lsbdistcodename: lsbdistcodename,
-          lsbdistid: lsbdistid,
-          lsbdistrelease: operatingsystemrelease,
-          operatingsystem: operatingsystem,
-          operatingsystemrelease: operatingsystemrelease,
-          osfamily: 'Debian'
-        }
+        facts
       end
 
       it 'the file resource root_npmrc should be in the catalog' do
@@ -177,7 +152,7 @@ describe 'nodejs', type: :class do
             default_params.merge!(repo_url_suffix: '0.12')
           end
 
-          if operatingsystemrelease == '10.04'
+          if facts[:operatingsystemrelease] == '10.04'
             it 'NodeJS 0.12 package not provided for Ubuntu Lucid' do
               expect { catalogue }.to raise_error(Puppet::Error, %r{Var \$repo_url_suffix with value '0\.12' is not set correctly for Ubuntu 10\.04\. See README\.})
             end
@@ -265,7 +240,7 @@ describe 'nodejs', type: :class do
           }
         end
 
-        if operatingsystemrelease == '10.04' || operatingsystemrelease == '7.0'
+        if facts[:operatingsystemrelease] == '10.04' || facts[:operatingsystemmajrelease] == '7'
           it 'the nodejs development package resource should not be present' do
             is_expected.not_to contain_package('nodejs-dev')
           end
@@ -283,7 +258,7 @@ describe 'nodejs', type: :class do
           }
         end
 
-        if operatingsystemrelease =~ %r{^(7\.0)|(10\.04)}
+        if facts[:operatingsystemrelease] == '10.04' || facts[:operatingsystemmajrelease] == '7'
           it 'the nodejs development package resource should not be present' do
             is_expected.not_to contain_package('nodejs-dev')
           end
@@ -327,7 +302,7 @@ describe 'nodejs', type: :class do
           }
         end
 
-        if operatingsystemrelease =~ %r{^(7\.0)|(10\.04)}
+        if facts[:operatingsystemrelease] == '10.04' || facts[:operatingsystemmajrelease] == '7'
           it 'the npm package resource should not be present' do
             is_expected.not_to contain_package('npm')
           end
@@ -345,7 +320,7 @@ describe 'nodejs', type: :class do
           }
         end
 
-        if operatingsystemrelease =~ %r{^(7\.0)|(10\.04)}
+        if facts[:operatingsystemrelease] == '10.04' || facts[:operatingsystemmajrelease] == '7'
           it 'the npm package resource should not be present' do
             is_expected.not_to contain_package('npm')
           end
