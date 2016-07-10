@@ -36,7 +36,7 @@ Puppet::Type.type(:package).provide :npm, parent: Puppet::Provider::Package do
 
   def self.instances
     @npmlist ||= npmlist
-    @npmlist.collect do |k, v|
+    @npmlist.map do |k, v|
       new(name: k, ensure: v['version'], provider: 'npm')
     end
   end
