@@ -24,7 +24,7 @@ describe 'nodejs::npm::global_config_entry', type: :define do
         }
       end
       it 'npm config set proxy proxy.domain should be executed' do
-        is_expected.to contain_exec('npm_config present proxy').with('command' => '/usr/bin/npm config set proxy proxy.domain --global',)
+        is_expected.to contain_exec('npm_config present proxy').with('command' => '/usr/bin/npm config set proxy proxy.domain --global')
       end
     end
 
@@ -36,7 +36,7 @@ describe 'nodejs::npm::global_config_entry', type: :define do
         }
       end
       it 'npm config set https-proxy proxy.domain should be executed' do
-        is_expected.to contain_exec('npm_config present https-proxy').with('command' => '/usr/bin/npm config set https-proxy proxy.domain --global',)
+        is_expected.to contain_exec('npm_config present https-proxy').with('command' => '/usr/bin/npm config set https-proxy proxy.domain --global')
       end
     end
 
@@ -48,7 +48,7 @@ describe 'nodejs::npm::global_config_entry', type: :define do
         }
       end
       it 'npm config delete color should be executed' do
-        is_expected.to contain_exec('npm_config absent color').with('command' => '/usr/bin/npm config delete color --global',)
+        is_expected.to contain_exec('npm_config absent color').with('command' => '/usr/bin/npm config delete color --global')
       end
     end
 

@@ -32,7 +32,7 @@ describe 'nodejs::npm', type: :define do
       it 'the npm install command should run under user foo' do
         is_expected.to contain_exec('npm_install_express').with(
           'command' => '/usr/bin/npm install express ',
-          'user'    => 'foo',
+          'user'    => 'foo'
         )
       end
     end
@@ -47,19 +47,19 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install express' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install express ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install express ')
       end
 
       it 'the install_check should grep for /home/npm/packages/node_modules/express' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/express"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/express"')
       end
 
       it 'the exec directory should be /home/npm/packages' do
-        is_expected.to contain_exec('npm_install_express').with('cwd' => '/home/npm/packages',)
+        is_expected.to contain_exec('npm_install_express').with('cwd' => '/home/npm/packages')
       end
 
       it 'the environment variable HOME should be /root' do
-        is_expected.to contain_exec('npm_install_express').with('environment' => 'HOME=/root',)
+        is_expected.to contain_exec('npm_install_express').with('environment' => 'HOME=/root')
       end
     end
 
@@ -74,7 +74,7 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install express --no-bin-links --no-optional' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install express --no-bin-links --no-optional',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install express --no-bin-links --no-optional')
       end
     end
 
@@ -88,11 +88,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install @scopename/express' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install @scopename/express ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install @scopename/express ')
       end
 
       it 'the install_check should grep for /home/npm/packages/node_modules/@scopename/express' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/@scopename/express"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/@scopename/express"')
       end
     end
 
@@ -107,11 +107,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install @scopename/express@tagname' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install @scopename/express@tagname ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install @scopename/express@tagname ')
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules/@scopename/express:@scopename/express@tagname' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/@scopename/express:@scopename/express@tagname"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/@scopename/express:@scopename/express@tagname"')
       end
     end
 
@@ -126,11 +126,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install express@tagname' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install express@tagname ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install express@tagname ')
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules/express:express@tagname' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/express:express@tagname"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/express:express@tagname"')
       end
     end
 
@@ -145,11 +145,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install @scopename/express@3' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install @scopename/express@3 ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install @scopename/express@3 ')
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules/@scopename/express:@scopename/express@3' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/@scopename/express:@scopename/express@3"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/@scopename/express:@scopename/express@3"')
       end
     end
 
@@ -164,11 +164,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install express@3' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install express@3 ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install express@3 ')
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules/express:express@3' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/express:express@3"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/express:express@3"')
       end
     end
 
@@ -183,11 +183,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install /local/folder' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install /local/folder ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install /local/folder ')
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules//local/folder' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules//local/folder"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules//local/folder"')
       end
     end
 
@@ -202,11 +202,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install /local/package.tgz' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install /local/package.tgz ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install /local/package.tgz ')
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules//local/package.tgz' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules//local/package.tgz"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules//local/package.tgz"')
       end
     end
 
@@ -221,11 +221,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install http://domain/package.tgz' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install http://domain/package.tgz ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install http://domain/package.tgz ')
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules/http://domain/package.tgz' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/http://domain/package.tgz"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/http://domain/package.tgz"')
       end
     end
 
@@ -240,11 +240,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install https://domain/package.tgz' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install https://domain/package.tgz ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install https://domain/package.tgz ')
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules/https://domain/package.tgz' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/https://domain/package.tgz"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/https://domain/package.tgz"')
       end
     end
 
@@ -259,11 +259,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install strongloop/express' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install strongloop/express ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install strongloop/express ')
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules/strongloop/express' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/strongloop/express"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/strongloop/express"')
       end
     end
 
@@ -278,11 +278,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install git://github.com/strongloop/expressjs.git' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install git://github.com/strongloop/expressjs.git ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install git://github.com/strongloop/expressjs.git ')
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules/git://github.com/strongloop/expressjs.git' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/git://github.com/strongloop/expressjs.git"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/git://github.com/strongloop/expressjs.git"')
       end
     end
 
@@ -297,11 +297,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install git+ssh://git@github.com:/strongloop/expressjs.git' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install git+ssh://git@github.com:/strongloop/expressjs.git ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install git+ssh://git@github.com:/strongloop/expressjs.git ')
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules/git+ssh://git@github.com/strongloop/expressjs.git' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/git+ssh://git@github.com:/strongloop/expressjs.git"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/git+ssh://git@github.com:/strongloop/expressjs.git"')
       end
     end
 
@@ -316,11 +316,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install git+https://user@github.com/strongloop/expressjs.git' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install git+https://user@github.com/strongloop/expressjs.git ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install git+https://user@github.com/strongloop/expressjs.git ')
       end
 
       it 'the install_check should grep for /home/npm/package/node_modules/git+https://user@github.com/strongloop/expressjs.git' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/git+https://user@github.com/strongloop/expressjs.git"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/git+https://user@github.com/strongloop/expressjs.git"')
       end
     end
 
@@ -350,11 +350,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm rm express' do
-        is_expected.to contain_exec('npm_rm_express').with('command' => '/usr/bin/npm rm express ',)
+        is_expected.to contain_exec('npm_rm_express').with('command' => '/usr/bin/npm rm express ')
       end
 
       it 'the install_check should grep for /home/npm/packages/node_modules/express' do
-        is_expected.to contain_exec('npm_rm_express').with('onlyif'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/express"',)
+        is_expected.to contain_exec('npm_rm_express').with('onlyif'  => '/usr/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/express"')
       end
     end
 
@@ -371,7 +371,7 @@ describe 'nodejs::npm', type: :define do
 
       it 'the command should be npm rm express --save' do
         is_expected.to contain_exec('npm_rm_express').with('command' => '/usr/bin/npm rm express --save',
-                                                           'cwd'     => '/home/npm/packages',)
+                                                           'cwd'     => '/home/npm/packages')
       end
     end
   end
@@ -397,11 +397,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be /opt/local/bin/npm install express' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '/opt/local/bin/npm install express ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '/opt/local/bin/npm install express ')
       end
 
       it 'the install_check should grep for /home/npm/packages/node_modules/express' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '/opt/local/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/express"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '/opt/local/bin/npm ls --long --parseable | grep "/home/npm/packages/node_modules/express"')
       end
     end
   end
@@ -427,15 +427,15 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install express' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install express ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install express ')
       end
 
       it 'the install_check should do findstr /l C:\packages\node_modules\express' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\express"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\express"')
       end
 
       it 'the exec directory should be C:\packages' do
-        is_expected.to contain_exec('npm_install_express').with('cwd' => 'C:\packages',)
+        is_expected.to contain_exec('npm_install_express').with('cwd' => 'C:\packages')
       end
     end
 
@@ -450,7 +450,7 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install express --no-bin-links --no-optional' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install express --no-bin-links --no-optional',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install express --no-bin-links --no-optional')
       end
     end
 
@@ -464,11 +464,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install @scopename/express' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install @scopename/express ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install @scopename/express ')
       end
 
       it 'the install_check should do findstr /l C:\packages\node_modules\@scopename/express' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\@scopename/express"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\@scopename/express"')
       end
     end
 
@@ -483,11 +483,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install @scopename/express@tagname' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install @scopename/express@tagname ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install @scopename/express@tagname ')
       end
 
       it 'the install_check should findstr /l C:\packages\node_modules\@scopename/express:@scopename/express@tagname' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\@scopename/express:@scopename/express@tagname"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\@scopename/express:@scopename/express@tagname"')
       end
     end
 
@@ -502,11 +502,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install express@tagname' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install express@tagname ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install express@tagname ')
       end
 
       it 'the install_check should findstr /l for C:\packages\node_modules\express:express@tagname' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\express:express@tagname"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\express:express@tagname"')
       end
     end
 
@@ -521,11 +521,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install @scopename/express@3' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install @scopename/express@3 ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install @scopename/express@3 ')
       end
 
       it 'the install_check should findstr /l C:\packages\node_modules\@scopename/express:@scopename/express@3' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\@scopename/express:@scopename/express@3"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\@scopename/express:@scopename/express@3"')
       end
     end
 
@@ -540,11 +540,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install express@3' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install express@3 ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install express@3 ')
       end
 
       it 'the install_check should findstr /l C:\packages\node_modules\express:express@3' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\express:express@3"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\express:express@3"')
       end
     end
 
@@ -559,11 +559,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install C:\local\folder' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install C:\local\folder ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install C:\local\folder ')
       end
 
       it 'the install_check should findstr /l C:\packages\node_modules\local\folder' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\C:\local\folder"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\C:\local\folder"')
       end
     end
 
@@ -578,11 +578,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install C:\local\package.tgz' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install C:\local\package.tgz ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install C:\local\package.tgz ')
       end
 
       it 'the install_check should findstr /l C:\packages\node_modules\local\package.tgz' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\C:\local\package.tgz"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\C:\local\package.tgz"')
       end
     end
 
@@ -597,11 +597,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install http://domain/package.tgz' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install http://domain/package.tgz ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install http://domain/package.tgz ')
       end
 
       it 'the install_check should findstr /l C:\packages\node_modules\http://domain/package.tgz' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\http://domain/package.tgz"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\http://domain/package.tgz"')
       end
     end
 
@@ -616,11 +616,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install https://domain/package.tgz' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install https://domain/package.tgz ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install https://domain/package.tgz ')
       end
 
       it 'the install_check should findstr /l C:\packages\node_modules\https://domain/package.tgz' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\https://domain/package.tgz"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\https://domain/package.tgz"')
       end
     end
 
@@ -635,11 +635,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install strongloop/express' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install strongloop/express ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install strongloop/express ')
       end
 
       it 'the install_check should findstr /l C:\packages\node_modules\strongloop/express' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\strongloop/express"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\strongloop/express"')
       end
     end
 
@@ -654,11 +654,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install git://github.com/strongloop/expressjs.git' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install git://github.com/strongloop/expressjs.git ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install git://github.com/strongloop/expressjs.git ')
       end
 
       it 'the install_check should findstr /l C:\packages\node_modules\git://github.com/strongloop/expressjs.git' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\git://github.com/strongloop/expressjs.git"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\git://github.com/strongloop/expressjs.git"')
       end
     end
 
@@ -673,11 +673,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install git+ssh://git@github.com:/strongloop/expressjs.git' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install git+ssh://git@github.com:/strongloop/expressjs.git ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install git+ssh://git@github.com:/strongloop/expressjs.git ')
       end
 
       it 'the install_check should findstr /l C:\packages\node_modules\git+ssh://git@github.com:/strongloop/expressjs.git' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\git+ssh://git@github.com:/strongloop/expressjs.git"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\git+ssh://git@github.com:/strongloop/expressjs.git"')
       end
     end
 
@@ -692,11 +692,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm install git+https://user@github.com/strongloop/expressjs.git' do
-        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install git+https://user@github.com/strongloop/expressjs.git ',)
+        is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install git+https://user@github.com/strongloop/expressjs.git ')
       end
 
       it 'the install_check should findstr /l C:\packages\node_modules\git+https://user@github.com/strongloop/expressjs.git' do
-        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\git+https://user@github.com/strongloop/expressjs.git"',)
+        is_expected.to contain_exec('npm_install_express').with('unless'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\git+https://user@github.com/strongloop/expressjs.git"')
       end
     end
 
@@ -711,11 +711,11 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm rm express' do
-        is_expected.to contain_exec('npm_rm_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" rm express ',)
+        is_expected.to contain_exec('npm_rm_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" rm express ')
       end
 
       it 'the install_check should findstr /l C:\packages\node_modules\express' do
-        is_expected.to contain_exec('npm_rm_express').with('onlyif'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\express"',)
+        is_expected.to contain_exec('npm_rm_express').with('onlyif'  => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable | C:\Windows\system32\cmd.exe /c findstr /l "C:\packages\node_modules\express"')
       end
     end
 
@@ -731,7 +731,7 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'the command should be npm rm express --save' do
-        is_expected.to contain_exec('npm_rm_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" rm express --save',)
+        is_expected.to contain_exec('npm_rm_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" rm express --save')
       end
     end
   end
