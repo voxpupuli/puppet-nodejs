@@ -9,7 +9,7 @@ describe 'nodejs', type: :class do
       }
     end
 
-    it 'should fail' do
+    it 'fails' do
       expect { catalogue }.to raise_error(Puppet::Error, %r{The nodejs module is not supported on Debian Squeeze.})
     end
   end
@@ -74,7 +74,7 @@ describe 'nodejs', type: :class do
           }
         end
 
-        it 'should fail' do
+        it 'fails' do
           expect { catalogue }.to raise_error(Puppet::Error, %r{npmrc_auth must be a string})
         end
       end

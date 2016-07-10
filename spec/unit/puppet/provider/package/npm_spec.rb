@@ -23,13 +23,13 @@ describe Puppet::Type.type(:package).provider(:npm) do
   it_should_respond_to :install, :uninstall, :update, :query, :latest
 
   describe 'when installing npm packages' do
-    it 'should use package name by default' do
+    it 'uses package name by default' do
       @provider.expects(:npm).with('install', '--global', 'express')
       @provider.install
     end
 
     describe 'and a source is specified' do
-      it 'should use the source instead of the gem name' do
+      it 'uses the source instead of the gem name' do
         @resource[:source] = '/tmp/express.tar.gz'
         @provider.expects(:npm).with('install', '--global', '/tmp/express.tar.gz')
         @provider.install
@@ -42,7 +42,7 @@ describe Puppet::Type.type(:package).provider(:npm) do
       @provider.class.instance_variable_set(:@npmlist, nil)
     end
 
-    it 'should return a list of npm packages installed globally' do
+    it 'returns a list of npm packages installed globally' do
       @provider.class.expects(:execute).with(['/usr/local/bin/npm', 'list', '--json', '--global'], anything).returns(my_fixture_read('npm_global'))
       expect(@provider.class.instances.map(&:properties).sort_by { |res| res[:name] }).to eq([
                                                                                                { ensure: '2.5.9', provider: 'npm', name: 'express' },
@@ -50,7 +50,7 @@ describe Puppet::Type.type(:package).provider(:npm) do
                                                                                              ])
     end
 
-    it 'should log and continue if the list command has a non-zero exit code' do
+    it 'logs and continue if the list command has a non-zero exit code' do
       @provider.class.expects(:execute).with(['/usr/local/bin/npm', 'list', '--json', '--global'], anything).returns(my_fixture_read('npm_global'))
       Process::Status.any_instance.expects(:success?).returns(false)
       Process::Status.any_instance.expects(:exitstatus).returns(123)
@@ -58,7 +58,7 @@ describe Puppet::Type.type(:package).provider(:npm) do
       expect(@provider.class.instances.map(&:properties)).not_to eq([])
     end
 
-    it "should log and return no packages if JSON isn't output" do
+    it "logs and return no packages if JSON isn't output" do
       @provider.class.expects(:execute).with(['/usr/local/bin/npm', 'list', '--json', '--global'], anything).returns('failure!')
       Process::Status.any_instance.expects(:success?).returns(true)
       Puppet.expects(:debug).with(regexp_matches(%r{npm list.*failure!}))
