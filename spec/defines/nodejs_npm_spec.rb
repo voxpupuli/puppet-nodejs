@@ -335,7 +335,7 @@ describe 'nodejs::npm', type: :define do
       end
 
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /The nodejs::npm defined type does not accept version ranges/)
+        expect { catalogue }.to raise_error(Puppet::Error, %r{The nodejs::npm defined type does not accept version ranges})
       end
     end
 

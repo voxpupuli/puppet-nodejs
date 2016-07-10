@@ -54,14 +54,14 @@ describe Puppet::Type.type(:package).provider(:npm) do
       @provider.class.expects(:execute).with(['/usr/local/bin/npm', 'list', '--json', '--global'], anything).returns(my_fixture_read('npm_global'))
       Process::Status.any_instance.expects(:success?).returns(false)
       Process::Status.any_instance.expects(:exitstatus).returns(123)
-      Puppet.expects(:debug).with(regexp_matches(/123/))
+      Puppet.expects(:debug).with(regexp_matches(%r{123}))
       expect(@provider.class.instances.map(&:properties)).not_to eq([])
     end
 
     it "should log and return no packages if JSON isn't output" do
       @provider.class.expects(:execute).with(['/usr/local/bin/npm', 'list', '--json', '--global'], anything).returns('failure!')
       Process::Status.any_instance.expects(:success?).returns(true)
-      Puppet.expects(:debug).with(regexp_matches(/npm list.*failure!/))
+      Puppet.expects(:debug).with(regexp_matches(%r{npm list.*failure!}))
       expect(@provider.class.instances).to eq([])
     end
   end

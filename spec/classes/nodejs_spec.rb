@@ -10,12 +10,12 @@ describe 'nodejs', type: :class do
     end
 
     it 'should fail' do
-      expect { catalogue }.to raise_error(Puppet::Error, /The nodejs module is not supported on Debian Squeeze./)
+      expect { catalogue }.to raise_error(Puppet::Error, %r{The nodejs module is not supported on Debian Squeeze.})
     end
   end
 
   ['7.0', '8.0', '10.04', '12.04', '14.04'].each do |operatingsystemrelease|
-    if operatingsystemrelease =~ /^[78]\.(\d+)/
+    if operatingsystemrelease =~ %r{^[78]\.(\d+)}
       lsbdistid       = 'Debian'
       operatingsystem = 'Debian'
     else
@@ -64,7 +64,7 @@ describe 'nodejs', type: :class do
           }
         end
 
-        it { should contain_file('root_npmrc').with_content(/^_auth="dXNlcjpwYXNzd29yZA=="$/) }
+        it { should contain_file('root_npmrc').with_content(%r{^_auth="dXNlcjpwYXNzd29yZA=="$}) }
       end
 
       context 'with npmrc_auth set to an invalid type (non-string)' do
@@ -75,7 +75,7 @@ describe 'nodejs', type: :class do
         end
 
         it 'should fail' do
-          expect { catalogue }.to raise_error(Puppet::Error, /npmrc_auth must be a string/)
+          expect { catalogue }.to raise_error(Puppet::Error, %r{npmrc_auth must be a string})
         end
       end
 
@@ -179,7 +179,7 @@ describe 'nodejs', type: :class do
 
           if operatingsystemrelease == '10.04'
             it 'NodeJS 0.12 package not provided for Ubuntu Lucid' do
-              expect { catalogue }.to raise_error(Puppet::Error, /Var \$repo_url_suffix with value '0\.12' is not set correctly for Ubuntu 10\.04\. See README\./)
+              expect { catalogue }.to raise_error(Puppet::Error, %r{Var \$repo_url_suffix with value '0\.12' is not set correctly for Ubuntu 10\.04\. See README\.})
             end
           else
             it 'the repo apt::source resource should contain location = https://deb.nodesource.com/node_0.12' do
@@ -195,7 +195,7 @@ describe 'nodejs', type: :class do
           end
 
           it 'repo_url_suffix regex checks should fail' do
-            expect { catalogue }.to raise_error(Puppet::Error, /Var \$repo_url_suffix with value '0\.10\.0' is not set correctly for \w+ \d+(\.\d+)+\. See README\./)
+            expect { catalogue }.to raise_error(Puppet::Error, %r{Var \$repo_url_suffix with value '0\.10\.0' is not set correctly for \w+ \d+(\.\d+)+\. See README\.})
           end
         end
 
@@ -283,7 +283,7 @@ describe 'nodejs', type: :class do
           }
         end
 
-        if operatingsystemrelease =~ /^(7\.0)|(10\.04)/
+        if operatingsystemrelease =~ %r{^(7\.0)|(10\.04)}
           it 'the nodejs development package resource should not be present' do
             is_expected.not_to contain_package('nodejs-dev')
           end
@@ -327,7 +327,7 @@ describe 'nodejs', type: :class do
           }
         end
 
-        if operatingsystemrelease =~ /^(7\.0)|(10\.04)/
+        if operatingsystemrelease =~ %r{^(7\.0)|(10\.04)}
           it 'the npm package resource should not be present' do
             is_expected.not_to contain_package('npm')
           end
@@ -345,7 +345,7 @@ describe 'nodejs', type: :class do
           }
         end
 
-        if operatingsystemrelease =~ /^(7\.0)|(10\.04)/
+        if operatingsystemrelease =~ %r{^(7\.0)|(10\.04)}
           it 'the npm package resource should not be present' do
             is_expected.not_to contain_package('npm')
           end
@@ -380,7 +380,7 @@ describe 'nodejs', type: :class do
     end
 
     it do
-      expect { catalogue }.to raise_error(Puppet::Error, /The nodejs module is not supported on Fedora 18./)
+      expect { catalogue }.to raise_error(Puppet::Error, %r{The nodejs module is not supported on Fedora 18.})
     end
   end
 
@@ -388,7 +388,7 @@ describe 'nodejs', type: :class do
     osversions = operatingsystemrelease.split('.')
     operatingsystemmajrelease = osversions[0]
 
-    if operatingsystemrelease =~ /^[5-7]\.(\d+)/
+    if operatingsystemrelease =~ %r{^[5-7]\.(\d+)}
       operatingsystem     = 'CentOS'
       dist_type           = 'el'
       repo_baseurl        = "https://rpm.nodesource.com/pub_0.10/#{dist_type}/#{operatingsystemmajrelease}/\$basearch"
@@ -449,9 +449,9 @@ describe 'nodejs', type: :class do
             default_params.merge!(repo_url_suffix: '5.x')
           end
 
-          if operatingsystemrelease =~ /^(5\.\d+|20)$/
+          if operatingsystemrelease =~ %r{^(5\.\d+|20)$}
             it 'NodeJS 5.x package not provided for Centos 5 and Fedora 20' do
-              expect { catalogue }.to raise_error(Puppet::Error, /Var \$repo_url_suffix with value '5\.x' is not set correctly for \w+ \d+(\.\d+)*\. See README\./)
+              expect { catalogue }.to raise_error(Puppet::Error, %r{Var \$repo_url_suffix with value '5\.x' is not set correctly for \w+ \d+(\.\d+)*\. See README\.})
             end
           else
             it "the yum nodesource repo resource should contain baseurl = https://rpm.nodesource.com/pub_5.x/#{dist_type}/#{operatingsystemmajrelease}/\$basearch" do
@@ -467,7 +467,7 @@ describe 'nodejs', type: :class do
           end
 
           it 'repo_url_suffix regex checks should fail' do
-            expect { catalogue }.to raise_error(Puppet::Error, /Var \$repo_url_suffix with value '0\.10\.0' is not set correctly for \w+ \d+(\.\d+)*\. See README\./)
+            expect { catalogue }.to raise_error(Puppet::Error, %r{Var \$repo_url_suffix with value '0\.10\.0' is not set correctly for \w+ \d+(\.\d+)*\. See README\.})
           end
         end
 
