@@ -10,7 +10,7 @@ RSpec.configure do |c|
     puppetversion: Puppet.version,
     facterversion: Facter.version,
     ipaddress: '172.16.254.254',
-    macaddress: 'AA:AA:AA:AA:AA:AA',
+    macaddress: 'AA:AA:AA:AA:AA:AA'
   }
 end
 

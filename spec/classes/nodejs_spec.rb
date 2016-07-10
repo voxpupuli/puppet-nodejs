@@ -5,7 +5,7 @@ describe 'nodejs', type: :class do
     let :facts do
       {
         osfamily: 'Debian',
-        operatingsystemrelease: '6.0.10',
+        operatingsystemrelease: '6.0.10'
       }
     end
 
@@ -14,7 +14,7 @@ describe 'nodejs', type: :class do
     end
   end
 
-  ['7.0', '8.0', '10.04', '12.04', '14.04',].each do |operatingsystemrelease|
+  ['7.0', '8.0', '10.04', '12.04', '14.04'].each do |operatingsystemrelease|
     if operatingsystemrelease =~ /^[78]\.(\d+)/
       lsbdistid       = 'Debian'
       operatingsystem = 'Debian'
@@ -43,7 +43,7 @@ describe 'nodejs', type: :class do
           lsbdistrelease: operatingsystemrelease,
           operatingsystem: operatingsystem,
           operatingsystemrelease: operatingsystemrelease,
-          osfamily: 'Debian',
+          osfamily: 'Debian'
         }
       end
 
@@ -60,7 +60,7 @@ describe 'nodejs', type: :class do
       context 'with npmrc_auth set to a string' do
         let :params do
           {
-            npmrc_auth: 'dXNlcjpwYXNzd29yZA==',
+            npmrc_auth: 'dXNlcjpwYXNzd29yZA=='
           }
         end
 
@@ -70,7 +70,7 @@ describe 'nodejs', type: :class do
       context 'with npmrc_auth set to an invalid type (non-string)' do
         let :params do
           {
-            npmrc_auth: %w(invalid type),
+            npmrc_auth: %w(invalid type)
           }
         end
 
@@ -83,7 +83,7 @@ describe 'nodejs', type: :class do
       context 'with legacy_debian_symlinks set to true' do
         let :params do
           {
-            legacy_debian_symlinks: true,
+            legacy_debian_symlinks: true
           }
         end
 
@@ -98,7 +98,7 @@ describe 'nodejs', type: :class do
       context 'with legacy_debian_symlinks set to false' do
         let :params do
           {
-            legacy_debian_symlinks: false,
+            legacy_debian_symlinks: false
           }
         end
 
@@ -114,7 +114,7 @@ describe 'nodejs', type: :class do
       context 'with manage_package_repo set to true' do
         let :default_params do
           {
-            manage_package_repo: true,
+            manage_package_repo: true
           }
         end
 
@@ -138,7 +138,7 @@ describe 'nodejs', type: :class do
           end
 
           it 'the repo apt::source resource should contain include => { src => true}' do
-            is_expected.to contain_apt__source('nodesource').with('include' => { 'src' => true, },)
+            is_expected.to contain_apt__source('nodesource').with('include' => { 'src' => true },)
           end
         end
 
@@ -148,7 +148,7 @@ describe 'nodejs', type: :class do
           end
 
           it 'the repo apt::source resource should contain include => { src => false}' do
-            is_expected.to contain_apt__source('nodesource').with('include' => { 'src' => false, },)
+            is_expected.to contain_apt__source('nodesource').with('include' => { 'src' => false },)
           end
         end
 
@@ -223,7 +223,7 @@ describe 'nodejs', type: :class do
       context 'with manage_package_repo set to false' do
         let :params do
           {
-            manage_package_repo: false,
+            manage_package_repo: false
           }
         end
 
@@ -236,7 +236,7 @@ describe 'nodejs', type: :class do
       context 'with nodejs_debug_package_ensure set to present' do
         let :params do
           {
-            nodejs_debug_package_ensure: 'present',
+            nodejs_debug_package_ensure: 'present'
           }
         end
 
@@ -248,7 +248,7 @@ describe 'nodejs', type: :class do
       context 'with nodejs_debug_package_ensure set to absent' do
         let :params do
           {
-            nodejs_debug_package_ensure: 'absent',
+            nodejs_debug_package_ensure: 'absent'
           }
         end
 
@@ -261,7 +261,7 @@ describe 'nodejs', type: :class do
       context 'with nodejs_dev_package_ensure set to present' do
         let :params do
           {
-            nodejs_dev_package_ensure: 'present',
+            nodejs_dev_package_ensure: 'present'
           }
         end
 
@@ -279,7 +279,7 @@ describe 'nodejs', type: :class do
       context 'with nodejs_dev_package_ensure set to absent' do
         let :params do
           {
-            nodejs_dev_package_ensure: 'absent',
+            nodejs_dev_package_ensure: 'absent'
           }
         end
 
@@ -298,7 +298,7 @@ describe 'nodejs', type: :class do
       context 'with nodejs_package_ensure set to present' do
         let :params do
           {
-            nodejs_package_ensure: 'present',
+            nodejs_package_ensure: 'present'
           }
         end
 
@@ -310,7 +310,7 @@ describe 'nodejs', type: :class do
       context 'with nodejs_package_ensure set to absent' do
         let :params do
           {
-            nodejs_package_ensure: 'absent',
+            nodejs_package_ensure: 'absent'
           }
         end
 
@@ -323,7 +323,7 @@ describe 'nodejs', type: :class do
       context 'with npm_package_ensure set to present' do
         let :params do
           {
-            npm_package_ensure: 'present',
+            npm_package_ensure: 'present'
           }
         end
 
@@ -341,7 +341,7 @@ describe 'nodejs', type: :class do
       context 'with npm_package_ensure set to absent' do
         let :params do
           {
-            nodejs_package_ensure: 'absent',
+            nodejs_package_ensure: 'absent'
           }
         end
 
@@ -360,7 +360,7 @@ describe 'nodejs', type: :class do
       context 'with npm_package_name set to false' do
         let :params do
           {
-            npm_package_name: 'false',
+            npm_package_name: 'false'
           }
         end
         it 'the npm package resource should not be present' do
@@ -375,7 +375,7 @@ describe 'nodejs', type: :class do
       {
         osfamily: 'RedHat',
         operatingsystem: 'Fedora',
-        operatingsystemrelease: '18',
+        operatingsystemrelease: '18'
       }
     end
 
@@ -410,7 +410,7 @@ describe 'nodejs', type: :class do
           operatingsystem: operatingsystem,
           operatingsystemmajrelease: operatingsystemmajrelease,
           operatingsystemrelease: operatingsystemrelease,
-          osfamily: 'RedHat',
+          osfamily: 'RedHat'
         }
       end
 
@@ -418,7 +418,7 @@ describe 'nodejs', type: :class do
       context 'with manage_package_repo set to true' do
         let :default_params do
           {
-            manage_package_repo: true,
+            manage_package_repo: true
           }
         end
 
@@ -603,7 +603,7 @@ describe 'nodejs', type: :class do
       context 'with manage_package_repo set to false' do
         let :params do
           {
-            manage_package_repo: false,
+            manage_package_repo: false
           }
         end
 
@@ -616,7 +616,7 @@ describe 'nodejs', type: :class do
       context 'with nodejs_debug_package_ensure set to present' do
         let :params do
           {
-            nodejs_debug_package_ensure: 'present',
+            nodejs_debug_package_ensure: 'present'
           }
         end
 
@@ -628,7 +628,7 @@ describe 'nodejs', type: :class do
       context 'with nodejs_debug_package_ensure set to absent' do
         let :params do
           {
-            nodejs_debug_package_ensure: 'absent',
+            nodejs_debug_package_ensure: 'absent'
           }
         end
 
@@ -641,7 +641,7 @@ describe 'nodejs', type: :class do
       context 'with nodejs_dev_package_ensure set to present' do
         let :params do
           {
-            nodejs_dev_package_ensure: 'present',
+            nodejs_dev_package_ensure: 'present'
           }
         end
 
@@ -653,7 +653,7 @@ describe 'nodejs', type: :class do
       context 'with nodejs_dev_package_ensure set to absent' do
         let :params do
           {
-            nodejs_dev_package_ensure: 'absent',
+            nodejs_dev_package_ensure: 'absent'
           }
         end
 
@@ -666,7 +666,7 @@ describe 'nodejs', type: :class do
       context 'with nodejs_package_ensure set to present' do
         let :params do
           {
-            nodejs_package_ensure: 'present',
+            nodejs_package_ensure: 'present'
           }
         end
 
@@ -678,7 +678,7 @@ describe 'nodejs', type: :class do
       context 'with nodejs_package_ensure set to absent' do
         let :params do
           {
-            nodejs_package_ensure: 'absent',
+            nodejs_package_ensure: 'absent'
           }
         end
 
@@ -691,7 +691,7 @@ describe 'nodejs', type: :class do
       context 'with npm_package_ensure set to present' do
         let :params do
           {
-            npm_package_ensure: 'present',
+            npm_package_ensure: 'present'
           }
         end
 
@@ -703,7 +703,7 @@ describe 'nodejs', type: :class do
       context 'with npm_package_ensure set to absent' do
         let :params do
           {
-            npm_package_ensure: 'absent',
+            npm_package_ensure: 'absent'
           }
         end
 
@@ -718,7 +718,7 @@ describe 'nodejs', type: :class do
     let :facts do
       {
         osfamily: 'Suse',
-        operatingsystem: 'SLES',
+        operatingsystem: 'SLES'
       }
     end
 
@@ -726,7 +726,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_debug_package_ensure set to present' do
       let :params do
         {
-          nodejs_debug_package_ensure: 'present',
+          nodejs_debug_package_ensure: 'present'
         }
       end
 
@@ -738,7 +738,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_debug_package_ensure set to absent' do
       let :params do
         {
-          nodejs_debug_package_ensure: 'absent',
+          nodejs_debug_package_ensure: 'absent'
         }
       end
 
@@ -751,7 +751,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_dev_package_ensure set to present' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'present',
+          nodejs_dev_package_ensure: 'present'
         }
       end
 
@@ -763,7 +763,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_dev_package_ensure set to absent' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'absent',
+          nodejs_dev_package_ensure: 'absent'
         }
       end
 
@@ -776,7 +776,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to present' do
       let :params do
         {
-          nodejs_package_ensure: 'present',
+          nodejs_package_ensure: 'present'
         }
       end
 
@@ -788,7 +788,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to absent' do
       let :params do
         {
-          nodejs_package_ensure: 'absent',
+          nodejs_package_ensure: 'absent'
         }
       end
 
@@ -801,7 +801,7 @@ describe 'nodejs', type: :class do
     context 'with npm_package_ensure set to present' do
       let :params do
         {
-          npm_package_ensure: 'present',
+          npm_package_ensure: 'present'
         }
       end
 
@@ -813,7 +813,7 @@ describe 'nodejs', type: :class do
     context 'with npm_package_ensure set to absent' do
       let :params do
         {
-          npm_package_ensure: 'absent',
+          npm_package_ensure: 'absent'
         }
       end
 
@@ -827,7 +827,7 @@ describe 'nodejs', type: :class do
     let :facts do
       {
         osfamily: 'Archlinux',
-        operatingsystem: 'Archlinux',
+        operatingsystem: 'Archlinux'
       }
     end
 
@@ -835,7 +835,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to present' do
       let :params do
         {
-          nodejs_package_ensure: 'present',
+          nodejs_package_ensure: 'present'
         }
       end
 
@@ -847,7 +847,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to absent' do
       let :params do
         {
-          nodejs_package_ensure: 'absent',
+          nodejs_package_ensure: 'absent'
         }
       end
 
@@ -861,7 +861,7 @@ describe 'nodejs', type: :class do
     let :facts do
       {
         osfamily: 'FreeBSD',
-        operatingsystem: 'FreeBSD',
+        operatingsystem: 'FreeBSD'
       }
     end
 
@@ -869,7 +869,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_dev_package_ensure set to present' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'present',
+          nodejs_dev_package_ensure: 'present'
         }
       end
 
@@ -881,7 +881,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_dev_package_ensure set to absent' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'absent',
+          nodejs_dev_package_ensure: 'absent'
         }
       end
 
@@ -894,7 +894,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to present' do
       let :params do
         {
-          nodejs_package_ensure: 'present',
+          nodejs_package_ensure: 'present'
         }
       end
 
@@ -906,7 +906,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to absent' do
       let :params do
         {
-          nodejs_package_ensure: 'absent',
+          nodejs_package_ensure: 'absent'
         }
       end
 
@@ -919,7 +919,7 @@ describe 'nodejs', type: :class do
     context 'with npm_package_ensure set to present' do
       let :params do
         {
-          npm_package_ensure: 'present',
+          npm_package_ensure: 'present'
         }
       end
 
@@ -931,7 +931,7 @@ describe 'nodejs', type: :class do
     context 'with npm_package_ensure set to absent' do
       let :params do
         {
-          npm_package_ensure: 'absent',
+          npm_package_ensure: 'absent'
         }
       end
 
@@ -945,7 +945,7 @@ describe 'nodejs', type: :class do
     let :facts do
       {
         osfamily: 'OpenBSD',
-        operatingsystem: 'OpenBSD',
+        operatingsystem: 'OpenBSD'
       }
     end
 
@@ -953,7 +953,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to present' do
       let :params do
         {
-          nodejs_package_ensure: 'present',
+          nodejs_package_ensure: 'present'
         }
       end
 
@@ -965,7 +965,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to absent' do
       let :params do
         {
-          nodejs_package_ensure: 'absent',
+          nodejs_package_ensure: 'absent'
         }
       end
 
@@ -979,7 +979,7 @@ describe 'nodejs', type: :class do
     let :facts do
       {
         osfamily: 'Darwin',
-        operatingsystem: 'Darwin',
+        operatingsystem: 'Darwin'
       }
     end
 
@@ -987,7 +987,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_dev_package_ensure set to present' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'present',
+          nodejs_dev_package_ensure: 'present'
         }
       end
 
@@ -999,7 +999,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_dev_package_ensure set to absent' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'absent',
+          nodejs_dev_package_ensure: 'absent'
         }
       end
 
@@ -1012,7 +1012,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to present' do
       let :params do
         {
-          nodejs_package_ensure: 'present',
+          nodejs_package_ensure: 'present'
         }
       end
 
@@ -1024,7 +1024,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to absent' do
       let :params do
         {
-          nodejs_package_ensure: 'absent',
+          nodejs_package_ensure: 'absent'
         }
       end
 
@@ -1037,7 +1037,7 @@ describe 'nodejs', type: :class do
     context 'with npm_package_ensure set to present' do
       let :params do
         {
-          npm_package_ensure: 'present',
+          npm_package_ensure: 'present'
         }
       end
 
@@ -1049,7 +1049,7 @@ describe 'nodejs', type: :class do
     context 'with npm_package_ensure set to absent' do
       let :params do
         {
-          npm_package_ensure: 'absent',
+          npm_package_ensure: 'absent'
         }
       end
 
@@ -1071,7 +1071,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to present' do
       let :params do
         {
-          nodejs_package_ensure: 'present',
+          nodejs_package_ensure: 'present'
         }
       end
 
@@ -1083,7 +1083,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to absent' do
       let :params do
         {
-          nodejs_package_ensure: 'absent',
+          nodejs_package_ensure: 'absent'
         }
       end
 
@@ -1096,7 +1096,7 @@ describe 'nodejs', type: :class do
     context 'with npm_package_ensure set to present' do
       let :params do
         {
-          npm_package_ensure: 'present',
+          npm_package_ensure: 'present'
         }
       end
 
@@ -1108,7 +1108,7 @@ describe 'nodejs', type: :class do
     context 'with npm_package_ensure set to absent' do
       let :params do
         {
-          npm_package_ensure: 'absent',
+          npm_package_ensure: 'absent'
         }
       end
 
@@ -1120,14 +1120,14 @@ describe 'nodejs', type: :class do
 
   context 'when running on Gentoo' do
     let :facts do
-      { osfamily: 'Linux', operatingsystem: 'Gentoo', }
+      { osfamily: 'Linux', operatingsystem: 'Gentoo' }
     end
 
     # nodejs_package_ensure
     context 'with nodejs_package_ensure set to present' do
       let :params do
         {
-          nodejs_package_ensure: 'present',
+          nodejs_package_ensure: 'present'
         }
       end
 
@@ -1139,7 +1139,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to absent' do
       let :params do
         {
-          nodejs_package_ensure: 'absent',
+          nodejs_package_ensure: 'absent'
         }
       end
 
@@ -1151,7 +1151,7 @@ describe 'nodejs', type: :class do
     context 'with use_flags set to npm, snapshot' do
       let :params do
         {
-          use_flags: %w(npm snapshot),
+          use_flags: %w(npm snapshot)
         }
       end
 
@@ -1179,7 +1179,7 @@ describe 'nodejs', type: :class do
     context 'with manage_package_repo set to true' do
       let :default_params do
         {
-          manage_package_repo: true,
+          manage_package_repo: true
         }
       end
 
@@ -1317,7 +1317,7 @@ describe 'nodejs', type: :class do
     context 'with manage_package_repo set to false' do
       let :params do
         {
-          manage_package_repo: false,
+          manage_package_repo: false
         }
       end
 
@@ -1330,7 +1330,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_debug_package_ensure set to present' do
       let :params do
         {
-          nodejs_debug_package_ensure: 'present',
+          nodejs_debug_package_ensure: 'present'
         }
       end
 
@@ -1342,7 +1342,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_debug_package_ensure set to absent' do
       let :params do
         {
-          nodejs_debug_package_ensure: 'absent',
+          nodejs_debug_package_ensure: 'absent'
         }
       end
 
@@ -1355,7 +1355,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_dev_package_ensure set to present' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'present',
+          nodejs_dev_package_ensure: 'present'
         }
       end
 
@@ -1367,7 +1367,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_dev_package_ensure set to absent' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'absent',
+          nodejs_dev_package_ensure: 'absent'
         }
       end
 
@@ -1380,7 +1380,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to present' do
       let :params do
         {
-          nodejs_package_ensure: 'present',
+          nodejs_package_ensure: 'present'
         }
       end
 
@@ -1392,7 +1392,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to absent' do
       let :params do
         {
-          nodejs_package_ensure: 'absent',
+          nodejs_package_ensure: 'absent'
         }
       end
 
@@ -1405,7 +1405,7 @@ describe 'nodejs', type: :class do
     context 'with npm_package_ensure set to present' do
       let :params do
         {
-          npm_package_ensure: 'present',
+          npm_package_ensure: 'present'
         }
       end
 
@@ -1417,7 +1417,7 @@ describe 'nodejs', type: :class do
     context 'with npm_package_ensure set to absent' do
       let :params do
         {
-          npm_package_ensure: 'absent',
+          npm_package_ensure: 'absent'
         }
       end
 
@@ -1444,7 +1444,7 @@ describe 'nodejs', type: :class do
     context 'with manage_package_repo set to true' do
       let :default_params do
         {
-          manage_package_repo: true,
+          manage_package_repo: true
         }
       end
 
@@ -1582,7 +1582,7 @@ describe 'nodejs', type: :class do
     context 'with manage_package_repo set to false' do
       let :params do
         {
-          manage_package_repo: false,
+          manage_package_repo: false
         }
       end
 
@@ -1595,7 +1595,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_debug_package_ensure set to present' do
       let :params do
         {
-          nodejs_debug_package_ensure: 'present',
+          nodejs_debug_package_ensure: 'present'
         }
       end
 
@@ -1607,7 +1607,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_debug_package_ensure set to absent' do
       let :params do
         {
-          nodejs_debug_package_ensure: 'absent',
+          nodejs_debug_package_ensure: 'absent'
         }
       end
 
@@ -1620,7 +1620,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_dev_package_ensure set to present' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'present',
+          nodejs_dev_package_ensure: 'present'
         }
       end
 
@@ -1632,7 +1632,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_dev_package_ensure set to absent' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'absent',
+          nodejs_dev_package_ensure: 'absent'
         }
       end
 
@@ -1645,7 +1645,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to present' do
       let :params do
         {
-          nodejs_package_ensure: 'present',
+          nodejs_package_ensure: 'present'
         }
       end
 
@@ -1657,7 +1657,7 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to absent' do
       let :params do
         {
-          nodejs_package_ensure: 'absent',
+          nodejs_package_ensure: 'absent'
         }
       end
 
@@ -1670,7 +1670,7 @@ describe 'nodejs', type: :class do
     context 'with npm_package_ensure set to present' do
       let :params do
         {
-          npm_package_ensure: 'present',
+          npm_package_ensure: 'present'
         }
       end
 
@@ -1682,7 +1682,7 @@ describe 'nodejs', type: :class do
     context 'with npm_package_ensure set to absent' do
       let :params do
         {
-          npm_package_ensure: 'absent',
+          npm_package_ensure: 'absent'
         }
       end
 
