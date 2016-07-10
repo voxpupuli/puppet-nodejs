@@ -31,7 +31,7 @@ describe Puppet::Type.type(:package).provider(:npm) do
     end
 
     describe 'and a source is specified' do
-      it 'uses the source instead of the gem name' do
+      it 'uses the source instead of the package name' do
         resource[:source] = '/tmp/express.tar.gz'
         provider.expects(:npm).with('install', '--global', '/tmp/express.tar.gz')
         provider.install
