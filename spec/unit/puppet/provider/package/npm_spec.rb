@@ -54,15 +54,15 @@ describe Puppet::Type.type(:package).provider(:npm) do
 
     it 'logs and continue if the list command has a non-zero exit code' do
       provider.class.expects(:execute).with(['/usr/local/bin/npm', 'list', '--json', '--global'], anything).returns(my_fixture_read('npm_global'))
-      Process::Status.any_instance.expects(:success?).returns(false)
-      Process::Status.any_instance.expects(:exitstatus).returns(123)
+      Process::Status.any_instance.expects(:success?).returns(false) # rubocop:disable RSpec/AnyInstance
+      Process::Status.any_instance.expects(:exitstatus).returns(123) # rubocop:disable RSpec/AnyInstance
       Puppet.expects(:debug).with(regexp_matches(%r{123}))
       expect(provider.class.instances.map(&:properties)).not_to eq([])
     end
 
     it "logs and return no packages if JSON isn't output" do
       provider.class.expects(:execute).with(['/usr/local/bin/npm', 'list', '--json', '--global'], anything).returns('failure!')
-      Process::Status.any_instance.expects(:success?).returns(true)
+      Process::Status.any_instance.expects(:success?).returns(true) # rubocop:disable RSpec/AnyInstance
       Puppet.expects(:debug).with(regexp_matches(%r{npm list.*failure!}))
       expect(provider.class.instances).to eq([])
     end
