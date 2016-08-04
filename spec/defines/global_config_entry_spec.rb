@@ -12,7 +12,7 @@ describe 'nodejs::npm::global_config_entry', type: :define do
         lsbdistid: 'Debian',
         operatingsystem: 'Debian',
         operatingsystemrelease: '8.0',
-        osfamily: 'Debian',
+        osfamily: 'Debian'
       }
     end
 
@@ -20,11 +20,11 @@ describe 'nodejs::npm::global_config_entry', type: :define do
       let(:title) { 'proxy' }
       let :params do
         {
-          value: 'proxy.domain',
+          value: 'proxy.domain'
         }
       end
       it 'npm config set proxy proxy.domain should be executed' do
-        is_expected.to contain_exec('npm_config present proxy').with('command' => '/usr/bin/npm config set proxy proxy.domain --global',)
+        is_expected.to contain_exec('npm_config present proxy').with('command' => '/usr/bin/npm config set proxy proxy.domain --global')
       end
     end
 
@@ -32,11 +32,11 @@ describe 'nodejs::npm::global_config_entry', type: :define do
       let(:title) { 'https-proxy' }
       let :params do
         {
-          value: 'proxy.domain',
+          value: 'proxy.domain'
         }
       end
       it 'npm config set https-proxy proxy.domain should be executed' do
-        is_expected.to contain_exec('npm_config present https-proxy').with('command' => '/usr/bin/npm config set https-proxy proxy.domain --global',)
+        is_expected.to contain_exec('npm_config present https-proxy').with('command' => '/usr/bin/npm config set https-proxy proxy.domain --global')
       end
     end
 
@@ -44,11 +44,11 @@ describe 'nodejs::npm::global_config_entry', type: :define do
       let(:title) { 'color' }
       let :params do
         {
-          ensure: 'absent',
+          ensure: 'absent'
         }
       end
       it 'npm config delete color should be executed' do
-        is_expected.to contain_exec('npm_config absent color').with('command' => '/usr/bin/npm config delete color --global',)
+        is_expected.to contain_exec('npm_config absent color').with('command' => '/usr/bin/npm config delete color --global')
       end
     end
 
@@ -56,11 +56,11 @@ describe 'nodejs::npm::global_config_entry', type: :define do
       let(:title) { 'foo' }
       let :params do
         {
-          ensure: 'invalid_value',
+          ensure: 'invalid_value'
         }
       end
-      it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /nodejs::npm::global_config_entry : Ensure parameter must be present or absent/)
+      it 'fails' do
+        expect { catalogue }.to raise_error(Puppet::Error, %r{nodejs::npm::global_config_entry : Ensure parameter must be present or absent})
       end
     end
   end

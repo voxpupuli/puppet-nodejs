@@ -1,7 +1,7 @@
 require 'spec_helper_acceptance'
 
 describe 'nodejs class:', unless: UNSUPPORTED_PLATFORMS.include?(fact('osfamily')) do
-  it 'should run successfully' do
+  it 'runs successfully' do
     pp = <<-EOS
     class { 'nodejs': }
     if $::osfamily == 'RedHat' and $::operatingsystemrelease =~ /^5\.(\d+)/ {

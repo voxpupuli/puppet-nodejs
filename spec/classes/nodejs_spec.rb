@@ -5,46 +5,21 @@ describe 'nodejs', type: :class do
     let :facts do
       {
         osfamily: 'Debian',
-        operatingsystemrelease: '6.0.10',
+        operatingsystemrelease: '6.0.10'
       }
     end
 
-    it 'should fail' do
-      expect { catalogue }.to raise_error(Puppet::Error, /The nodejs module is not supported on Debian Squeeze./)
+    it 'fails' do
+      expect { catalogue }.to raise_error(Puppet::Error, %r{The nodejs module is not supported on Debian Squeeze.})
     end
   end
 
-  ['7.0', '8.0', '10.04', '12.04', '14.04',].each do |operatingsystemrelease|
-    if operatingsystemrelease =~ /^[78]\.(\d+)/
-      lsbdistid       = 'Debian'
-      operatingsystem = 'Debian'
-    else
-      lsbdistid       = 'Ubuntu'
-      operatingsystem = 'Ubuntu'
-    end
+  on_supported_os.each do |os, facts|
+    next unless facts[:osfamily] == 'Debian'
 
-    lsbdistcodename = if operatingsystemrelease == '7.0'
-                        'Wheezy'
-                      elsif operatingsystemrelease == '8.0'
-                        'Jessie'
-                      elsif operatingsystemrelease == '10.04'
-                        'Lucid'
-                      elsif operatingsystemrelease == '12.04'
-                        'Precise'
-                      else
-                        'Trusty'
-                      end
-
-    context "when run on #{lsbdistid} release #{operatingsystemrelease}" do
+    context "on #{os} " do
       let :facts do
-        {
-          lsbdistcodename: lsbdistcodename,
-          lsbdistid: lsbdistid,
-          lsbdistrelease: operatingsystemrelease,
-          operatingsystem: operatingsystem,
-          operatingsystemrelease: operatingsystemrelease,
-          osfamily: 'Debian',
-        }
+        facts
       end
 
       it 'the file resource root_npmrc should be in the catalog' do
@@ -53,29 +28,29 @@ describe 'nodejs', type: :class do
           'path'    => '/root/.npmrc',
           'owner'   => 'root',
           'group'   => '0',
-          'mode'    => '0600',
+          'mode'    => '0600'
         )
       end
 
       context 'with npmrc_auth set to a string' do
         let :params do
           {
-            npmrc_auth: 'dXNlcjpwYXNzd29yZA==',
+            npmrc_auth: 'dXNlcjpwYXNzd29yZA=='
           }
         end
 
-        it { should contain_file('root_npmrc').with_content(/^_auth="dXNlcjpwYXNzd29yZA=="$/) }
+        it { should contain_file('root_npmrc').with_content(%r{^_auth="dXNlcjpwYXNzd29yZA=="$}) }
       end
 
       context 'with npmrc_auth set to an invalid type (non-string)' do
         let :params do
           {
-            npmrc_auth: %w(invalid type),
+            npmrc_auth: %w(invalid type)
           }
         end
 
-        it 'should fail' do
-          expect { catalogue }.to raise_error(Puppet::Error, /npmrc_auth must be a string/)
+        it 'fails' do
+          expect { catalogue }.to raise_error(Puppet::Error, %r{npmrc_auth must be a string})
         end
       end
 
@@ -83,7 +58,7 @@ describe 'nodejs', type: :class do
       context 'with legacy_debian_symlinks set to true' do
         let :params do
           {
-            legacy_debian_symlinks: true,
+            legacy_debian_symlinks: true
           }
         end
 
@@ -98,7 +73,7 @@ describe 'nodejs', type: :class do
       context 'with legacy_debian_symlinks set to false' do
         let :params do
           {
-            legacy_debian_symlinks: false,
+            legacy_debian_symlinks: false
           }
         end
 
@@ -114,13 +89,13 @@ describe 'nodejs', type: :class do
       context 'with manage_package_repo set to true' do
         let :default_params do
           {
-            manage_package_repo: true,
+            manage_package_repo: true
           }
         end
 
         context 'and repo_class set to ::nodejs::repo::nodesource' do
           let :params do
-            default_params.merge!(repo_class: 'nodejs::repo::nodesource',)
+            default_params.merge!(repo_class: 'nodejs::repo::nodesource')
           end
 
           it '::nodejs::repo::nodesource should be in the catalog' do
@@ -134,27 +109,27 @@ describe 'nodejs', type: :class do
 
         context 'and repo_enable_src set to true' do
           let :params do
-            default_params.merge!(repo_enable_src: true,)
+            default_params.merge!(repo_enable_src: true)
           end
 
           it 'the repo apt::source resource should contain include => { src => true}' do
-            is_expected.to contain_apt__source('nodesource').with('include' => { 'src' => true, },)
+            is_expected.to contain_apt__source('nodesource').with('include' => { 'src' => true })
           end
         end
 
         context 'and repo_enable_src set to false' do
           let :params do
-            default_params.merge!(repo_enable_src: false,)
+            default_params.merge!(repo_enable_src: false)
           end
 
           it 'the repo apt::source resource should contain include => { src => false}' do
-            is_expected.to contain_apt__source('nodesource').with('include' => { 'src' => false, },)
+            is_expected.to contain_apt__source('nodesource').with('include' => { 'src' => false })
           end
         end
 
         context 'and repo_pin set to 10' do
           let :params do
-            default_params.merge!(repo_pin: '10',)
+            default_params.merge!(repo_pin: '10')
           end
 
           it 'the repo apt::source resource should contain pin = 10' do
@@ -164,7 +139,7 @@ describe 'nodejs', type: :class do
 
         context 'and repo_pin not set' do
           let :params do
-            default_params.merge!(repo_pin: 'false',)
+            default_params.merge!(repo_pin: 'false')
           end
 
           it 'the repo apt::source resource should contain pin = false' do
@@ -174,12 +149,12 @@ describe 'nodejs', type: :class do
 
         context 'and repo_url_suffix set to 0.12' do
           let :params do
-            default_params.merge!(repo_url_suffix: '0.12',)
+            default_params.merge!(repo_url_suffix: '0.12')
           end
 
-          if operatingsystemrelease == '10.04'
+          if facts[:operatingsystemrelease] == '10.04'
             it 'NodeJS 0.12 package not provided for Ubuntu Lucid' do
-              expect { catalogue }.to raise_error(Puppet::Error, /Var \$repo_url_suffix with value '0\.12' is not set correctly for Ubuntu 10\.04\. See README\./)
+              expect { catalogue }.to raise_error(Puppet::Error, %r{Var \$repo_url_suffix with value '0\.12' is not set correctly for Ubuntu 10\.04\. See README\.})
             end
           else
             it 'the repo apt::source resource should contain location = https://deb.nodesource.com/node_0.12' do
@@ -191,17 +166,17 @@ describe 'nodejs', type: :class do
         # repo_url_suffix regex checks validation
         context 'and repo_url_suffix set to 0.1O.0' do
           let :params do
-            default_params.merge!(repo_url_suffix: '0.10.0',)
+            default_params.merge!(repo_url_suffix: '0.10.0')
           end
 
           it 'repo_url_suffix regex checks should fail' do
-            expect { catalogue }.to raise_error(Puppet::Error, /Var \$repo_url_suffix with value '0\.10\.0' is not set correctly for \w+ \d+(\.\d+)+\. See README\./)
+            expect { catalogue }.to raise_error(Puppet::Error, %r{Var \$repo_url_suffix with value '0\.10\.0' is not set correctly for \w+ \d+(\.\d+)+\. See README\.})
           end
         end
 
         context 'and repo_ensure set to present' do
           let :params do
-            default_params.merge!(repo_ensure: 'present',)
+            default_params.merge!(repo_ensure: 'present')
           end
 
           it 'the nodesource apt sources file should exist' do
@@ -211,11 +186,11 @@ describe 'nodejs', type: :class do
 
         context 'and repo_ensure set to absent' do
           let :params do
-            default_params.merge!(repo_ensure: 'absent',)
+            default_params.merge!(repo_ensure: 'absent')
           end
 
           it 'the nodesource apt sources file should not exist' do
-            is_expected.to contain_apt__source('nodesource').with('ensure' => 'absent',)
+            is_expected.to contain_apt__source('nodesource').with('ensure' => 'absent')
           end
         end
       end
@@ -223,7 +198,7 @@ describe 'nodejs', type: :class do
       context 'with manage_package_repo set to false' do
         let :params do
           {
-            manage_package_repo: false,
+            manage_package_repo: false
           }
         end
 
@@ -236,24 +211,24 @@ describe 'nodejs', type: :class do
       context 'with nodejs_debug_package_ensure set to present' do
         let :params do
           {
-            nodejs_debug_package_ensure: 'present',
+            nodejs_debug_package_ensure: 'present'
           }
         end
 
         it 'the nodejs package with debugging symbols should be installed' do
-          is_expected.to contain_package('nodejs-dbg').with('ensure' => 'present',)
+          is_expected.to contain_package('nodejs-dbg').with('ensure' => 'present')
         end
       end
 
       context 'with nodejs_debug_package_ensure set to absent' do
         let :params do
           {
-            nodejs_debug_package_ensure: 'absent',
+            nodejs_debug_package_ensure: 'absent'
           }
         end
 
         it 'the nodejs package with debugging symbols should not be present' do
-          is_expected.to contain_package('nodejs-dbg').with('ensure' => 'absent',)
+          is_expected.to contain_package('nodejs-dbg').with('ensure' => 'absent')
         end
       end
 
@@ -261,17 +236,17 @@ describe 'nodejs', type: :class do
       context 'with nodejs_dev_package_ensure set to present' do
         let :params do
           {
-            nodejs_dev_package_ensure: 'present',
+            nodejs_dev_package_ensure: 'present'
           }
         end
 
-        if operatingsystemrelease == '10.04' || operatingsystemrelease == '7.0'
+        if facts[:operatingsystemrelease] == '10.04' || facts[:operatingsystemmajrelease] == '7'
           it 'the nodejs development package resource should not be present' do
             is_expected.not_to contain_package('nodejs-dev')
           end
         else
           it 'the nodejs development package should be installed' do
-            is_expected.to contain_package('nodejs-dev').with('ensure' => 'present',)
+            is_expected.to contain_package('nodejs-dev').with('ensure' => 'present')
           end
         end
       end
@@ -279,17 +254,17 @@ describe 'nodejs', type: :class do
       context 'with nodejs_dev_package_ensure set to absent' do
         let :params do
           {
-            nodejs_dev_package_ensure: 'absent',
+            nodejs_dev_package_ensure: 'absent'
           }
         end
 
-        if operatingsystemrelease =~ /^(7\.0)|(10\.04)/
+        if facts[:operatingsystemrelease] == '10.04' || facts[:operatingsystemmajrelease] == '7'
           it 'the nodejs development package resource should not be present' do
             is_expected.not_to contain_package('nodejs-dev')
           end
         else
           it 'the nodejs development package should not be present' do
-            is_expected.to contain_package('nodejs-dev').with('ensure' => 'absent',)
+            is_expected.to contain_package('nodejs-dev').with('ensure' => 'absent')
           end
         end
       end
@@ -298,24 +273,24 @@ describe 'nodejs', type: :class do
       context 'with nodejs_package_ensure set to present' do
         let :params do
           {
-            nodejs_package_ensure: 'present',
+            nodejs_package_ensure: 'present'
           }
         end
 
         it 'the nodejs package should be present' do
-          is_expected.to contain_package('nodejs').with('ensure' => 'present',)
+          is_expected.to contain_package('nodejs').with('ensure' => 'present')
         end
       end
 
       context 'with nodejs_package_ensure set to absent' do
         let :params do
           {
-            nodejs_package_ensure: 'absent',
+            nodejs_package_ensure: 'absent'
           }
         end
 
         it 'the nodejs package should be absent' do
-          is_expected.to contain_package('nodejs').with('ensure' => 'absent',)
+          is_expected.to contain_package('nodejs').with('ensure' => 'absent')
         end
       end
 
@@ -323,17 +298,17 @@ describe 'nodejs', type: :class do
       context 'with npm_package_ensure set to present' do
         let :params do
           {
-            npm_package_ensure: 'present',
+            npm_package_ensure: 'present'
           }
         end
 
-        if operatingsystemrelease =~ /^(7\.0)|(10\.04)/
+        if facts[:operatingsystemrelease] == '10.04' || facts[:operatingsystemmajrelease] == '7'
           it 'the npm package resource should not be present' do
             is_expected.not_to contain_package('npm')
           end
         else
           it 'the npm package should be present' do
-            is_expected.to contain_package('npm').with('ensure' => 'present',)
+            is_expected.to contain_package('npm').with('ensure' => 'present')
           end
         end
       end
@@ -341,17 +316,17 @@ describe 'nodejs', type: :class do
       context 'with npm_package_ensure set to absent' do
         let :params do
           {
-            nodejs_package_ensure: 'absent',
+            nodejs_package_ensure: 'absent'
           }
         end
 
-        if operatingsystemrelease =~ /^(7\.0)|(10\.04)/
+        if facts[:operatingsystemrelease] == '10.04' || facts[:operatingsystemmajrelease] == '7'
           it 'the npm package resource should not be present' do
             is_expected.not_to contain_package('npm')
           end
         else
           it 'the npm package should be absent' do
-            is_expected.to contain_package('npm').with('ensure' => 'absent',)
+            is_expected.to contain_package('npm').with('ensure' => 'absent')
           end
         end
       end
@@ -360,7 +335,7 @@ describe 'nodejs', type: :class do
       context 'with npm_package_name set to false' do
         let :params do
           {
-            npm_package_name: 'false',
+            npm_package_name: 'false'
           }
         end
         it 'the npm package resource should not be present' do
@@ -375,12 +350,12 @@ describe 'nodejs', type: :class do
       {
         osfamily: 'RedHat',
         operatingsystem: 'Fedora',
-        operatingsystemrelease: '18',
+        operatingsystemrelease: '18'
       }
     end
 
     it do
-      expect { catalogue }.to raise_error(Puppet::Error, /The nodejs module is not supported on Fedora 18./)
+      expect { catalogue }.to raise_error(Puppet::Error, %r{The nodejs module is not supported on Fedora 18.})
     end
   end
 
@@ -388,7 +363,7 @@ describe 'nodejs', type: :class do
     osversions = operatingsystemrelease.split('.')
     operatingsystemmajrelease = osversions[0]
 
-    if operatingsystemrelease =~ /^[5-7]\.(\d+)/
+    if operatingsystemrelease =~ %r{^[5-7]\.(\d+)}
       operatingsystem     = 'CentOS'
       dist_type           = 'el'
       repo_baseurl        = "https://rpm.nodesource.com/pub_0.10/#{dist_type}/#{operatingsystemmajrelease}/\$basearch"
@@ -410,7 +385,7 @@ describe 'nodejs', type: :class do
           operatingsystem: operatingsystem,
           operatingsystemmajrelease: operatingsystemmajrelease,
           operatingsystemrelease: operatingsystemrelease,
-          osfamily: 'RedHat',
+          osfamily: 'RedHat'
         }
       end
 
@@ -418,13 +393,13 @@ describe 'nodejs', type: :class do
       context 'with manage_package_repo set to true' do
         let :default_params do
           {
-            manage_package_repo: true,
+            manage_package_repo: true
           }
         end
 
         context 'and repo_class set to ::nodejs::repo::nodesource' do
           let :params do
-            default_params.merge!(repo_class: 'nodejs::repo::nodesource',)
+            default_params.merge!(repo_class: 'nodejs::repo::nodesource')
           end
 
           it '::nodejs::repo::nodesource should be in the catalog' do
@@ -437,21 +412,21 @@ describe 'nodejs', type: :class do
 
           it 'the nodesource and nodesource-source repos should contain the right description and baseurl' do
             is_expected.to contain_yumrepo('nodesource').with('baseurl' => repo_baseurl,
-                                                              'descr'   => repo_descr,)
+                                                              'descr'   => repo_descr)
 
             is_expected.to contain_yumrepo('nodesource-source').with('baseurl' => repo_source_baseurl,
-                                                                     'descr'   => repo_source_descr,)
+                                                                     'descr'   => repo_source_descr)
           end
         end
 
         context 'and repo_url_suffix set to 5.x' do
           let :params do
-            default_params.merge!(repo_url_suffix: '5.x',)
+            default_params.merge!(repo_url_suffix: '5.x')
           end
 
-          if operatingsystemrelease =~ /^(5\.\d+|20)$/
+          if operatingsystemrelease =~ %r{^(5\.\d+|20)$}
             it 'NodeJS 5.x package not provided for Centos 5 and Fedora 20' do
-              expect { catalogue }.to raise_error(Puppet::Error, /Var \$repo_url_suffix with value '5\.x' is not set correctly for \w+ \d+(\.\d+)*\. See README\./)
+              expect { catalogue }.to raise_error(Puppet::Error, %r{Var \$repo_url_suffix with value '5\.x' is not set correctly for \w+ \d+(\.\d+)*\. See README\.})
             end
           else
             it "the yum nodesource repo resource should contain baseurl = https://rpm.nodesource.com/pub_5.x/#{dist_type}/#{operatingsystemmajrelease}/\$basearch" do
@@ -463,57 +438,57 @@ describe 'nodejs', type: :class do
         # repo_url_suffix regex checks validation
         context 'and repo_url_suffix set to 0.1O.0' do
           let :params do
-            default_params.merge!(repo_url_suffix: '0.10.0',)
+            default_params.merge!(repo_url_suffix: '0.10.0')
           end
 
           it 'repo_url_suffix regex checks should fail' do
-            expect { catalogue }.to raise_error(Puppet::Error, /Var \$repo_url_suffix with value '0\.10\.0' is not set correctly for \w+ \d+(\.\d+)*\. See README\./)
+            expect { catalogue }.to raise_error(Puppet::Error, %r{Var \$repo_url_suffix with value '0\.10\.0' is not set correctly for \w+ \d+(\.\d+)*\. See README\.})
           end
         end
 
         context 'and repo_enable_src set to true' do
           let :params do
-            default_params.merge!(repo_enable_src: true,)
+            default_params.merge!(repo_enable_src: true)
           end
 
           it 'the yumrepo resource nodesource-source should contain enabled = 1' do
-            is_expected.to contain_yumrepo('nodesource-source').with('enabled' => '1',)
+            is_expected.to contain_yumrepo('nodesource-source').with('enabled' => '1')
           end
         end
 
         context 'and repo_enable_src set to false' do
           let :params do
-            default_params.merge!(repo_enable_src: false,)
+            default_params.merge!(repo_enable_src: false)
           end
 
           it 'the yumrepo resource should contain enabled = 0' do
-            is_expected.to contain_yumrepo('nodesource-source').with('enabled' => '0',)
+            is_expected.to contain_yumrepo('nodesource-source').with('enabled' => '0')
           end
         end
 
         context 'and repo_priority set to 50' do
           let :params do
-            default_params.merge!(repo_priority: '50',)
+            default_params.merge!(repo_priority: '50')
           end
 
           it 'the yumrepo resource nodesource-source should contain priority = 50' do
-            is_expected.to contain_yumrepo('nodesource-source').with('priority' => '50',)
+            is_expected.to contain_yumrepo('nodesource-source').with('priority' => '50')
           end
         end
 
         context 'and repo_priority not set' do
           let :params do
-            default_params.merge!(repo_priority: 'absent',)
+            default_params.merge!(repo_priority: 'absent')
           end
 
           it 'the yumrepo resource nodesource-source should contain priority = absent' do
-            is_expected.to contain_yumrepo('nodesource-source').with('priority' => 'absent',)
+            is_expected.to contain_yumrepo('nodesource-source').with('priority' => 'absent')
           end
         end
 
         context 'and repo_ensure set to present' do
           let :params do
-            default_params.merge!(repo_ensure: 'present',)
+            default_params.merge!(repo_ensure: 'present')
           end
 
           it 'the nodesource yum repo files should exist' do
@@ -524,78 +499,78 @@ describe 'nodejs', type: :class do
 
         context 'and repo_ensure set to absent' do
           let :params do
-            default_params.merge!(repo_ensure: 'absent',)
+            default_params.merge!(repo_ensure: 'absent')
           end
 
           it 'the nodesource yum repo files should not exist' do
-            is_expected.to contain_yumrepo('nodesource').with('enabled' => 'absent',)
-            is_expected.to contain_yumrepo('nodesource-source').with('enabled' => 'absent',)
+            is_expected.to contain_yumrepo('nodesource').with('enabled' => 'absent')
+            is_expected.to contain_yumrepo('nodesource-source').with('enabled' => 'absent')
           end
         end
 
         context 'and repo_proxy set to absent' do
           let :params do
-            default_params.merge!(repo_proxy: 'absent',)
+            default_params.merge!(repo_proxy: 'absent')
           end
 
           it 'the yumrepo resource should contain proxy = absent' do
-            is_expected.to contain_yumrepo('nodesource').with('proxy' => 'absent',)
-            is_expected.to contain_yumrepo('nodesource-source').with('proxy' => 'absent',)
+            is_expected.to contain_yumrepo('nodesource').with('proxy' => 'absent')
+            is_expected.to contain_yumrepo('nodesource-source').with('proxy' => 'absent')
           end
         end
 
         context 'and repo_proxy set to http://proxy.localdomain.com' do
           let :params do
-            default_params.merge!(repo_proxy: 'http://proxy.localdomain.com',)
+            default_params.merge!(repo_proxy: 'http://proxy.localdomain.com')
           end
 
           it 'the yumrepo resource should contain proxy = http://proxy.localdomain.com' do
-            is_expected.to contain_yumrepo('nodesource').with('proxy' => 'http://proxy.localdomain.com',)
-            is_expected.to contain_yumrepo('nodesource-source').with('proxy' => 'http://proxy.localdomain.com',)
+            is_expected.to contain_yumrepo('nodesource').with('proxy' => 'http://proxy.localdomain.com')
+            is_expected.to contain_yumrepo('nodesource-source').with('proxy' => 'http://proxy.localdomain.com')
           end
         end
 
         context 'and repo_proxy_password set to absent' do
           let :params do
-            default_params.merge!(repo_proxy_password: 'absent',)
+            default_params.merge!(repo_proxy_password: 'absent')
           end
 
           it 'the yumrepo resource should contain proxy_password = absent' do
-            is_expected.to contain_yumrepo('nodesource').with('proxy_password' => 'absent',)
-            is_expected.to contain_yumrepo('nodesource-source').with('proxy_password' => 'absent',)
+            is_expected.to contain_yumrepo('nodesource').with('proxy_password' => 'absent')
+            is_expected.to contain_yumrepo('nodesource-source').with('proxy_password' => 'absent')
           end
         end
 
         context 'and repo_proxy_password set to password' do
           let :params do
-            default_params.merge!(repo_proxy_password: 'password',)
+            default_params.merge!(repo_proxy_password: 'password')
           end
 
           it 'the yumrepo resource should contain proxy_password = password' do
-            is_expected.to contain_yumrepo('nodesource').with('proxy_password' => 'password',)
-            is_expected.to contain_yumrepo('nodesource-source').with('proxy_password' => 'password',)
+            is_expected.to contain_yumrepo('nodesource').with('proxy_password' => 'password')
+            is_expected.to contain_yumrepo('nodesource-source').with('proxy_password' => 'password')
           end
         end
 
         context 'and repo_proxy_username set to absent' do
           let :params do
-            default_params.merge!(repo_proxy_username: 'absent',)
+            default_params.merge!(repo_proxy_username: 'absent')
           end
 
           it 'the yumrepo resource should contain proxy_username = absent' do
-            is_expected.to contain_yumrepo('nodesource').with('proxy_username' => 'absent',)
-            is_expected.to contain_yumrepo('nodesource-source').with('proxy_username' => 'absent',)
+            is_expected.to contain_yumrepo('nodesource').with('proxy_username' => 'absent')
+            is_expected.to contain_yumrepo('nodesource-source').with('proxy_username' => 'absent')
           end
         end
 
         context 'and repo_proxy_username set to proxyuser' do
           let :params do
-            default_params.merge!(repo_proxy_username: 'proxyuser',)
+            default_params.merge!(repo_proxy_username: 'proxyuser')
           end
 
           it 'the yumrepo resource should contain proxy_username = proxyuser' do
-            is_expected.to contain_yumrepo('nodesource').with('proxy_username' => 'proxyuser',)
-            is_expected.to contain_yumrepo('nodesource-source').with('proxy_username' => 'proxyuser',)
+            is_expected.to contain_yumrepo('nodesource').with('proxy_username' => 'proxyuser')
+            is_expected.to contain_yumrepo('nodesource-source').with('proxy_username' => 'proxyuser')
           end
         end
       end
@@ -603,7 +578,7 @@ describe 'nodejs', type: :class do
       context 'with manage_package_repo set to false' do
         let :params do
           {
-            manage_package_repo: false,
+            manage_package_repo: false
           }
         end
 
@@ -616,24 +591,24 @@ describe 'nodejs', type: :class do
       context 'with nodejs_debug_package_ensure set to present' do
         let :params do
           {
-            nodejs_debug_package_ensure: 'present',
+            nodejs_debug_package_ensure: 'present'
           }
         end
 
         it 'the nodejs package with debugging symbols should be installed' do
-          is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'present',)
+          is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'present')
         end
       end
 
       context 'with nodejs_debug_package_ensure set to absent' do
         let :params do
           {
-            nodejs_debug_package_ensure: 'absent',
+            nodejs_debug_package_ensure: 'absent'
           }
         end
 
         it 'the nodejs package with debugging symbols should not be present' do
-          is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'absent',)
+          is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'absent')
         end
       end
 
@@ -641,24 +616,24 @@ describe 'nodejs', type: :class do
       context 'with nodejs_dev_package_ensure set to present' do
         let :params do
           {
-            nodejs_dev_package_ensure: 'present',
+            nodejs_dev_package_ensure: 'present'
           }
         end
 
         it 'the nodejs development package should be installed' do
-          is_expected.to contain_package('nodejs-devel').with('ensure' => 'present',)
+          is_expected.to contain_package('nodejs-devel').with('ensure' => 'present')
         end
       end
 
       context 'with nodejs_dev_package_ensure set to absent' do
         let :params do
           {
-            nodejs_dev_package_ensure: 'absent',
+            nodejs_dev_package_ensure: 'absent'
           }
         end
 
         it 'the nodejs development package should not be present' do
-          is_expected.to contain_package('nodejs-devel').with('ensure' => 'absent',)
+          is_expected.to contain_package('nodejs-devel').with('ensure' => 'absent')
         end
       end
 
@@ -666,24 +641,24 @@ describe 'nodejs', type: :class do
       context 'with nodejs_package_ensure set to present' do
         let :params do
           {
-            nodejs_package_ensure: 'present',
+            nodejs_package_ensure: 'present'
           }
         end
 
         it 'the nodejs package should be present' do
-          is_expected.to contain_package('nodejs').with('ensure' => 'present',)
+          is_expected.to contain_package('nodejs').with('ensure' => 'present')
         end
       end
 
       context 'with nodejs_package_ensure set to absent' do
         let :params do
           {
-            nodejs_package_ensure: 'absent',
+            nodejs_package_ensure: 'absent'
           }
         end
 
         it 'the nodejs package should be absent' do
-          is_expected.to contain_package('nodejs').with('ensure' => 'absent',)
+          is_expected.to contain_package('nodejs').with('ensure' => 'absent')
         end
       end
 
@@ -691,24 +666,24 @@ describe 'nodejs', type: :class do
       context 'with npm_package_ensure set to present' do
         let :params do
           {
-            npm_package_ensure: 'present',
+            npm_package_ensure: 'present'
           }
         end
 
         it 'the npm package should be present' do
-          is_expected.to contain_package('npm').with('ensure' => 'present',)
+          is_expected.to contain_package('npm').with('ensure' => 'present')
         end
       end
 
       context 'with npm_package_ensure set to absent' do
         let :params do
           {
-            npm_package_ensure: 'absent',
+            npm_package_ensure: 'absent'
           }
         end
 
         it 'the npm package should be absent' do
-          is_expected.to contain_package('npm').with('ensure' => 'absent',)
+          is_expected.to contain_package('npm').with('ensure' => 'absent')
         end
       end
     end
@@ -718,7 +693,7 @@ describe 'nodejs', type: :class do
     let :facts do
       {
         osfamily: 'Suse',
-        operatingsystem: 'SLES',
+        operatingsystem: 'SLES'
       }
     end
 
@@ -726,24 +701,24 @@ describe 'nodejs', type: :class do
     context 'with nodejs_debug_package_ensure set to present' do
       let :params do
         {
-          nodejs_debug_package_ensure: 'present',
+          nodejs_debug_package_ensure: 'present'
         }
       end
 
       it 'the nodejs package with debugging symbols should be installed' do
-        is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'present',)
+        is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'present')
       end
     end
 
     context 'with nodejs_debug_package_ensure set to absent' do
       let :params do
         {
-          nodejs_debug_package_ensure: 'absent',
+          nodejs_debug_package_ensure: 'absent'
         }
       end
 
       it 'the nodejs package with debugging symbols should not be present' do
-        is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'absent',)
+        is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'absent')
       end
     end
 
@@ -751,24 +726,24 @@ describe 'nodejs', type: :class do
     context 'with nodejs_dev_package_ensure set to present' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'present',
+          nodejs_dev_package_ensure: 'present'
         }
       end
 
       it 'the nodejs development package should be installed' do
-        is_expected.to contain_package('nodejs-devel').with('ensure' => 'present',)
+        is_expected.to contain_package('nodejs-devel').with('ensure' => 'present')
       end
     end
 
     context 'with nodejs_dev_package_ensure set to absent' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'absent',
+          nodejs_dev_package_ensure: 'absent'
         }
       end
 
       it 'the nodejs development package should not be present' do
-        is_expected.to contain_package('nodejs-devel').with('ensure' => 'absent',)
+        is_expected.to contain_package('nodejs-devel').with('ensure' => 'absent')
       end
     end
 
@@ -776,24 +751,24 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to present' do
       let :params do
         {
-          nodejs_package_ensure: 'present',
+          nodejs_package_ensure: 'present'
         }
       end
 
       it 'the nodejs package should be present' do
-        is_expected.to contain_package('nodejs').with('ensure' => 'present',)
+        is_expected.to contain_package('nodejs').with('ensure' => 'present')
       end
     end
 
     context 'with nodejs_package_ensure set to absent' do
       let :params do
         {
-          nodejs_package_ensure: 'absent',
+          nodejs_package_ensure: 'absent'
         }
       end
 
       it 'the nodejs package should be absent' do
-        is_expected.to contain_package('nodejs').with('ensure' => 'absent',)
+        is_expected.to contain_package('nodejs').with('ensure' => 'absent')
       end
     end
 
@@ -801,24 +776,24 @@ describe 'nodejs', type: :class do
     context 'with npm_package_ensure set to present' do
       let :params do
         {
-          npm_package_ensure: 'present',
+          npm_package_ensure: 'present'
         }
       end
 
       it 'the npm package should be present' do
-        is_expected.to contain_package('npm').with('ensure' => 'present',)
+        is_expected.to contain_package('npm').with('ensure' => 'present')
       end
     end
 
     context 'with npm_package_ensure set to absent' do
       let :params do
         {
-          npm_package_ensure: 'absent',
+          npm_package_ensure: 'absent'
         }
       end
 
       it 'the npm package should be absent' do
-        is_expected.to contain_package('npm').with('ensure' => 'absent',)
+        is_expected.to contain_package('npm').with('ensure' => 'absent')
       end
     end
   end
@@ -827,7 +802,7 @@ describe 'nodejs', type: :class do
     let :facts do
       {
         osfamily: 'Archlinux',
-        operatingsystem: 'Archlinux',
+        operatingsystem: 'Archlinux'
       }
     end
 
@@ -835,24 +810,24 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to present' do
       let :params do
         {
-          nodejs_package_ensure: 'present',
+          nodejs_package_ensure: 'present'
         }
       end
 
       it 'the nodejs package should be present' do
-        is_expected.to contain_package('nodejs').with('ensure' => 'present',)
+        is_expected.to contain_package('nodejs').with('ensure' => 'present')
       end
     end
 
     context 'with nodejs_package_ensure set to absent' do
       let :params do
         {
-          nodejs_package_ensure: 'absent',
+          nodejs_package_ensure: 'absent'
         }
       end
 
       it 'the nodejs package should be absent' do
-        is_expected.to contain_package('nodejs').with('ensure' => 'absent',)
+        is_expected.to contain_package('nodejs').with('ensure' => 'absent')
       end
     end
   end
@@ -861,7 +836,7 @@ describe 'nodejs', type: :class do
     let :facts do
       {
         osfamily: 'FreeBSD',
-        operatingsystem: 'FreeBSD',
+        operatingsystem: 'FreeBSD'
       }
     end
 
@@ -869,24 +844,24 @@ describe 'nodejs', type: :class do
     context 'with nodejs_dev_package_ensure set to present' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'present',
+          nodejs_dev_package_ensure: 'present'
         }
       end
 
       it 'the nodejs development package should be installed' do
-        is_expected.to contain_package('www/node-devel').with('ensure' => 'present',)
+        is_expected.to contain_package('www/node-devel').with('ensure' => 'present')
       end
     end
 
     context 'with nodejs_dev_package_ensure set to absent' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'absent',
+          nodejs_dev_package_ensure: 'absent'
         }
       end
 
       it 'the nodejs development package should not be present' do
-        is_expected.to contain_package('www/node-devel').with('ensure' => 'absent',)
+        is_expected.to contain_package('www/node-devel').with('ensure' => 'absent')
       end
     end
 
@@ -894,24 +869,24 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to present' do
       let :params do
         {
-          nodejs_package_ensure: 'present',
+          nodejs_package_ensure: 'present'
         }
       end
 
       it 'the nodejs package should be present' do
-        is_expected.to contain_package('www/node').with('ensure' => 'present',)
+        is_expected.to contain_package('www/node').with('ensure' => 'present')
       end
     end
 
     context 'with nodejs_package_ensure set to absent' do
       let :params do
         {
-          nodejs_package_ensure: 'absent',
+          nodejs_package_ensure: 'absent'
         }
       end
 
       it 'the nodejs package should be absent' do
-        is_expected.to contain_package('www/node').with('ensure' => 'absent',)
+        is_expected.to contain_package('www/node').with('ensure' => 'absent')
       end
     end
 
@@ -919,24 +894,24 @@ describe 'nodejs', type: :class do
     context 'with npm_package_ensure set to present' do
       let :params do
         {
-          npm_package_ensure: 'present',
+          npm_package_ensure: 'present'
         }
       end
 
       it 'the npm package should be present' do
-        is_expected.to contain_package('www/npm').with('ensure' => 'present',)
+        is_expected.to contain_package('www/npm').with('ensure' => 'present')
       end
     end
 
     context 'with npm_package_ensure set to absent' do
       let :params do
         {
-          npm_package_ensure: 'absent',
+          npm_package_ensure: 'absent'
         }
       end
 
       it 'the npm package should be absent' do
-        is_expected.to contain_package('www/npm').with('ensure' => 'absent',)
+        is_expected.to contain_package('www/npm').with('ensure' => 'absent')
       end
     end
   end
@@ -945,7 +920,7 @@ describe 'nodejs', type: :class do
     let :facts do
       {
         osfamily: 'OpenBSD',
-        operatingsystem: 'OpenBSD',
+        operatingsystem: 'OpenBSD'
       }
     end
 
@@ -953,24 +928,24 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to present' do
       let :params do
         {
-          nodejs_package_ensure: 'present',
+          nodejs_package_ensure: 'present'
         }
       end
 
       it 'the nodejs package should be present' do
-        is_expected.to contain_package('node').with('ensure' => 'present',)
+        is_expected.to contain_package('node').with('ensure' => 'present')
       end
     end
 
     context 'with nodejs_package_ensure set to absent' do
       let :params do
         {
-          nodejs_package_ensure: 'absent',
+          nodejs_package_ensure: 'absent'
         }
       end
 
       it 'the nodejs package should be absent' do
-        is_expected.to contain_package('node').with('ensure' => 'absent',)
+        is_expected.to contain_package('node').with('ensure' => 'absent')
       end
     end
   end
@@ -979,7 +954,7 @@ describe 'nodejs', type: :class do
     let :facts do
       {
         osfamily: 'Darwin',
-        operatingsystem: 'Darwin',
+        operatingsystem: 'Darwin'
       }
     end
 
@@ -987,24 +962,24 @@ describe 'nodejs', type: :class do
     context 'with nodejs_dev_package_ensure set to present' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'present',
+          nodejs_dev_package_ensure: 'present'
         }
       end
 
       it 'the nodejs development package should be installed' do
-        is_expected.to contain_package('nodejs-devel').with('ensure' => 'present',)
+        is_expected.to contain_package('nodejs-devel').with('ensure' => 'present')
       end
     end
 
     context 'with nodejs_dev_package_ensure set to absent' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'absent',
+          nodejs_dev_package_ensure: 'absent'
         }
       end
 
       it 'the nodejs development package should not be present' do
-        is_expected.to contain_package('nodejs-devel').with('ensure' => 'absent',)
+        is_expected.to contain_package('nodejs-devel').with('ensure' => 'absent')
       end
     end
 
@@ -1012,24 +987,24 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to present' do
       let :params do
         {
-          nodejs_package_ensure: 'present',
+          nodejs_package_ensure: 'present'
         }
       end
 
       it 'the nodejs package should be present' do
-        is_expected.to contain_package('nodejs').with('ensure' => 'present',)
+        is_expected.to contain_package('nodejs').with('ensure' => 'present')
       end
     end
 
     context 'with nodejs_package_ensure set to absent' do
       let :params do
         {
-          nodejs_package_ensure: 'absent',
+          nodejs_package_ensure: 'absent'
         }
       end
 
       it 'the nodejs package should be absent' do
-        is_expected.to contain_package('nodejs').with('ensure' => 'absent',)
+        is_expected.to contain_package('nodejs').with('ensure' => 'absent')
       end
     end
 
@@ -1037,24 +1012,24 @@ describe 'nodejs', type: :class do
     context 'with npm_package_ensure set to present' do
       let :params do
         {
-          npm_package_ensure: 'present',
+          npm_package_ensure: 'present'
         }
       end
 
       it 'the npm package should be present' do
-        is_expected.to contain_package('npm').with('ensure' => 'present',)
+        is_expected.to contain_package('npm').with('ensure' => 'present')
       end
     end
 
     context 'with npm_package_ensure set to absent' do
       let :params do
         {
-          npm_package_ensure: 'absent',
+          npm_package_ensure: 'absent'
         }
       end
 
       it 'the npm package should be absent' do
-        is_expected.to contain_package('npm').with('ensure' => 'absent',)
+        is_expected.to contain_package('npm').with('ensure' => 'absent')
       end
     end
   end
@@ -1071,24 +1046,24 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to present' do
       let :params do
         {
-          nodejs_package_ensure: 'present',
+          nodejs_package_ensure: 'present'
         }
       end
 
       it 'the nodejs package should be present' do
-        is_expected.to contain_package('nodejs').with('ensure' => 'present',)
+        is_expected.to contain_package('nodejs').with('ensure' => 'present')
       end
     end
 
     context 'with nodejs_package_ensure set to absent' do
       let :params do
         {
-          nodejs_package_ensure: 'absent',
+          nodejs_package_ensure: 'absent'
         }
       end
 
       it 'the nodejs package should be absent' do
-        is_expected.to contain_package('nodejs').with('ensure' => 'absent',)
+        is_expected.to contain_package('nodejs').with('ensure' => 'absent')
       end
     end
 
@@ -1096,67 +1071,67 @@ describe 'nodejs', type: :class do
     context 'with npm_package_ensure set to present' do
       let :params do
         {
-          npm_package_ensure: 'present',
+          npm_package_ensure: 'present'
         }
       end
 
       it 'the npm package should be present' do
-        is_expected.to contain_package('npm').with('ensure' => 'present',)
+        is_expected.to contain_package('npm').with('ensure' => 'present')
       end
     end
 
     context 'with npm_package_ensure set to absent' do
       let :params do
         {
-          npm_package_ensure: 'absent',
+          npm_package_ensure: 'absent'
         }
       end
 
       it 'the npm package should be absent' do
-        is_expected.to contain_package('npm').with('ensure' => 'absent',)
+        is_expected.to contain_package('npm').with('ensure' => 'absent')
       end
     end
   end
 
   context 'when running on Gentoo' do
     let :facts do
-      { osfamily: 'Linux', operatingsystem: 'Gentoo', }
+      { osfamily: 'Linux', operatingsystem: 'Gentoo' }
     end
 
     # nodejs_package_ensure
     context 'with nodejs_package_ensure set to present' do
       let :params do
         {
-          nodejs_package_ensure: 'present',
+          nodejs_package_ensure: 'present'
         }
       end
 
       it 'the nodejs package should be present' do
-        is_expected.to contain_package('net-libs/nodejs').with('ensure' => 'present',)
+        is_expected.to contain_package('net-libs/nodejs').with('ensure' => 'present')
       end
     end
 
     context 'with nodejs_package_ensure set to absent' do
       let :params do
         {
-          nodejs_package_ensure: 'absent',
+          nodejs_package_ensure: 'absent'
         }
       end
 
       it 'the nodejs package should be absent' do
-        is_expected.to contain_package('net-libs/nodejs').with('ensure' => 'absent',)
+        is_expected.to contain_package('net-libs/nodejs').with('ensure' => 'absent')
       end
     end
 
     context 'with use_flags set to npm, snapshot' do
       let :params do
         {
-          use_flags: %w(npm snapshot),
+          use_flags: %w(npm snapshot)
         }
       end
 
       it 'the nodejs package should have npm, snapshot use flags' do
-        is_expected.to contain_package_use('net-libs/nodejs').with('use' => %w(npm snapshot),)
+        is_expected.to contain_package_use('net-libs/nodejs').with('use' => %w(npm snapshot))
       end
     end
   end
@@ -1179,13 +1154,13 @@ describe 'nodejs', type: :class do
     context 'with manage_package_repo set to true' do
       let :default_params do
         {
-          manage_package_repo: true,
+          manage_package_repo: true
         }
       end
 
       context 'and repo_class set to ::nodejs::repo::nodesource' do
         let :params do
-          default_params.merge!(repo_class: 'nodejs::repo::nodesource',)
+          default_params.merge!(repo_class: 'nodejs::repo::nodesource')
         end
 
         it '::nodejs::repo::nodesource should be in the catalog' do
@@ -1198,36 +1173,36 @@ describe 'nodejs', type: :class do
 
         it 'the nodesource and nodesource-source repos should contain the right description and baseurl' do
           is_expected.to contain_yumrepo('nodesource').with('baseurl' => repo_baseurl,
-                                                            'descr'   => repo_descr,)
+                                                            'descr'   => repo_descr)
 
           is_expected.to contain_yumrepo('nodesource-source').with('baseurl' => repo_source_baseurl,
-                                                                   'descr'   => repo_source_descr,)
+                                                                   'descr'   => repo_source_descr)
         end
       end
 
       context 'and repo_enable_src set to true' do
         let :params do
-          default_params.merge!(repo_enable_src: true,)
+          default_params.merge!(repo_enable_src: true)
         end
 
         it 'the yumrepo resource nodesource-source should contain enabled = 1' do
-          is_expected.to contain_yumrepo('nodesource-source').with('enabled' => '1',)
+          is_expected.to contain_yumrepo('nodesource-source').with('enabled' => '1')
         end
       end
 
       context 'and repo_enable_src set to false' do
         let :params do
-          default_params.merge!(repo_enable_src: false,)
+          default_params.merge!(repo_enable_src: false)
         end
 
         it 'the yumrepo resource should contain enabled = 0' do
-          is_expected.to contain_yumrepo('nodesource-source').with('enabled' => '0',)
+          is_expected.to contain_yumrepo('nodesource-source').with('enabled' => '0')
         end
       end
 
       context 'and repo_ensure set to present' do
         let :params do
-          default_params.merge!(repo_ensure: 'present',)
+          default_params.merge!(repo_ensure: 'present')
         end
 
         it 'the nodesource yum repo files should exist' do
@@ -1238,78 +1213,78 @@ describe 'nodejs', type: :class do
 
       context 'and repo_ensure set to absent' do
         let :params do
-          default_params.merge!(repo_ensure: 'absent',)
+          default_params.merge!(repo_ensure: 'absent')
         end
 
         it 'the nodesource yum repo files should not exist' do
-          is_expected.to contain_yumrepo('nodesource').with('enabled' => 'absent',)
-          is_expected.to contain_yumrepo('nodesource-source').with('enabled' => 'absent',)
+          is_expected.to contain_yumrepo('nodesource').with('enabled' => 'absent')
+          is_expected.to contain_yumrepo('nodesource-source').with('enabled' => 'absent')
         end
       end
 
       context 'and repo_proxy set to absent' do
         let :params do
-          default_params.merge!(repo_proxy: 'absent',)
+          default_params.merge!(repo_proxy: 'absent')
         end
 
         it 'the yumrepo resource should contain proxy = absent' do
-          is_expected.to contain_yumrepo('nodesource').with('proxy' => 'absent',)
-          is_expected.to contain_yumrepo('nodesource-source').with('proxy' => 'absent',)
+          is_expected.to contain_yumrepo('nodesource').with('proxy' => 'absent')
+          is_expected.to contain_yumrepo('nodesource-source').with('proxy' => 'absent')
         end
       end
 
       context 'and repo_proxy set to http://proxy.localdomain.com' do
         let :params do
-          default_params.merge!(repo_proxy: 'http://proxy.localdomain.com',)
+          default_params.merge!(repo_proxy: 'http://proxy.localdomain.com')
         end
 
         it 'the yumrepo resource should contain proxy = http://proxy.localdomain.com' do
-          is_expected.to contain_yumrepo('nodesource').with('proxy' => 'http://proxy.localdomain.com',)
-          is_expected.to contain_yumrepo('nodesource-source').with('proxy' => 'http://proxy.localdomain.com',)
+          is_expected.to contain_yumrepo('nodesource').with('proxy' => 'http://proxy.localdomain.com')
+          is_expected.to contain_yumrepo('nodesource-source').with('proxy' => 'http://proxy.localdomain.com')
         end
       end
 
       context 'and repo_proxy_password set to absent' do
         let :params do
-          default_params.merge!(repo_proxy_password: 'absent',)
+          default_params.merge!(repo_proxy_password: 'absent')
         end
 
         it 'the yumrepo resource should contain proxy_password = absent' do
-          is_expected.to contain_yumrepo('nodesource').with('proxy_password' => 'absent',)
-          is_expected.to contain_yumrepo('nodesource-source').with('proxy_password' => 'absent',)
+          is_expected.to contain_yumrepo('nodesource').with('proxy_password' => 'absent')
+          is_expected.to contain_yumrepo('nodesource-source').with('proxy_password' => 'absent')
         end
       end
 
       context 'and repo_proxy_password set to password' do
         let :params do
-          default_params.merge!(repo_proxy_password: 'password',)
+          default_params.merge!(repo_proxy_password: 'password')
         end
 
         it 'the yumrepo resource should contain proxy_password = password' do
-          is_expected.to contain_yumrepo('nodesource').with('proxy_password' => 'password',)
-          is_expected.to contain_yumrepo('nodesource-source').with('proxy_password' => 'password',)
+          is_expected.to contain_yumrepo('nodesource').with('proxy_password' => 'password')
+          is_expected.to contain_yumrepo('nodesource-source').with('proxy_password' => 'password')
         end
       end
 
       context 'and repo_proxy_username set to absent' do
         let :params do
-          default_params.merge!(repo_proxy_username: 'absent',)
+          default_params.merge!(repo_proxy_username: 'absent')
         end
 
         it 'the yumrepo resource should contain proxy_username = absent' do
-          is_expected.to contain_yumrepo('nodesource').with('proxy_username' => 'absent',)
-          is_expected.to contain_yumrepo('nodesource-source').with('proxy_username' => 'absent',)
+          is_expected.to contain_yumrepo('nodesource').with('proxy_username' => 'absent')
+          is_expected.to contain_yumrepo('nodesource-source').with('proxy_username' => 'absent')
         end
       end
 
       context 'and repo_proxy_username set to proxyuser' do
         let :params do
-          default_params.merge!(repo_proxy_username: 'proxyuser',)
+          default_params.merge!(repo_proxy_username: 'proxyuser')
         end
 
         it 'the yumrepo resource should contain proxy_username = proxyuser' do
-          is_expected.to contain_yumrepo('nodesource').with('proxy_username' => 'proxyuser',)
-          is_expected.to contain_yumrepo('nodesource-source').with('proxy_username' => 'proxyuser',)
+          is_expected.to contain_yumrepo('nodesource').with('proxy_username' => 'proxyuser')
+          is_expected.to contain_yumrepo('nodesource-source').with('proxy_username' => 'proxyuser')
         end
       end
     end
@@ -1317,7 +1292,7 @@ describe 'nodejs', type: :class do
     context 'with manage_package_repo set to false' do
       let :params do
         {
-          manage_package_repo: false,
+          manage_package_repo: false
         }
       end
 
@@ -1330,24 +1305,24 @@ describe 'nodejs', type: :class do
     context 'with nodejs_debug_package_ensure set to present' do
       let :params do
         {
-          nodejs_debug_package_ensure: 'present',
+          nodejs_debug_package_ensure: 'present'
         }
       end
 
       it 'the nodejs package with debugging symbols should be installed' do
-        is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'present',)
+        is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'present')
       end
     end
 
     context 'with nodejs_debug_package_ensure set to absent' do
       let :params do
         {
-          nodejs_debug_package_ensure: 'absent',
+          nodejs_debug_package_ensure: 'absent'
         }
       end
 
       it 'the nodejs package with debugging symbols should not be present' do
-        is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'absent',)
+        is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'absent')
       end
     end
 
@@ -1355,24 +1330,24 @@ describe 'nodejs', type: :class do
     context 'with nodejs_dev_package_ensure set to present' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'present',
+          nodejs_dev_package_ensure: 'present'
         }
       end
 
       it 'the nodejs development package should be installed' do
-        is_expected.to contain_package('nodejs-devel').with('ensure' => 'present',)
+        is_expected.to contain_package('nodejs-devel').with('ensure' => 'present')
       end
     end
 
     context 'with nodejs_dev_package_ensure set to absent' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'absent',
+          nodejs_dev_package_ensure: 'absent'
         }
       end
 
       it 'the nodejs development package should not be present' do
-        is_expected.to contain_package('nodejs-devel').with('ensure' => 'absent',)
+        is_expected.to contain_package('nodejs-devel').with('ensure' => 'absent')
       end
     end
 
@@ -1380,24 +1355,24 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to present' do
       let :params do
         {
-          nodejs_package_ensure: 'present',
+          nodejs_package_ensure: 'present'
         }
       end
 
       it 'the nodejs package should be present' do
-        is_expected.to contain_package('nodejs').with('ensure' => 'present',)
+        is_expected.to contain_package('nodejs').with('ensure' => 'present')
       end
     end
 
     context 'with nodejs_package_ensure set to absent' do
       let :params do
         {
-          nodejs_package_ensure: 'absent',
+          nodejs_package_ensure: 'absent'
         }
       end
 
       it 'the nodejs package should be absent' do
-        is_expected.to contain_package('nodejs').with('ensure' => 'absent',)
+        is_expected.to contain_package('nodejs').with('ensure' => 'absent')
       end
     end
 
@@ -1405,24 +1380,24 @@ describe 'nodejs', type: :class do
     context 'with npm_package_ensure set to present' do
       let :params do
         {
-          npm_package_ensure: 'present',
+          npm_package_ensure: 'present'
         }
       end
 
       it 'the npm package should be present' do
-        is_expected.to contain_package('npm').with('ensure' => 'present',)
+        is_expected.to contain_package('npm').with('ensure' => 'present')
       end
     end
 
     context 'with npm_package_ensure set to absent' do
       let :params do
         {
-          npm_package_ensure: 'absent',
+          npm_package_ensure: 'absent'
         }
       end
 
       it 'the npm package should be absent' do
-        is_expected.to contain_package('npm').with('ensure' => 'absent',)
+        is_expected.to contain_package('npm').with('ensure' => 'absent')
       end
     end
   end
@@ -1444,13 +1419,13 @@ describe 'nodejs', type: :class do
     context 'with manage_package_repo set to true' do
       let :default_params do
         {
-          manage_package_repo: true,
+          manage_package_repo: true
         }
       end
 
       context 'and repo_class set to ::nodejs::repo::nodesource' do
         let :params do
-          default_params.merge!(repo_class: 'nodejs::repo::nodesource',)
+          default_params.merge!(repo_class: 'nodejs::repo::nodesource')
         end
 
         it '::nodejs::repo::nodesource should be in the catalog' do
@@ -1463,36 +1438,36 @@ describe 'nodejs', type: :class do
 
         it 'the nodesource and nodesource-source repos should contain the right description and baseurl' do
           is_expected.to contain_yumrepo('nodesource').with('baseurl' => repo_baseurl,
-                                                            'descr'   => repo_descr,)
+                                                            'descr'   => repo_descr)
 
           is_expected.to contain_yumrepo('nodesource-source').with('baseurl' => repo_source_baseurl,
-                                                                   'descr'   => repo_source_descr,)
+                                                                   'descr'   => repo_source_descr)
         end
       end
 
       context 'and repo_enable_src set to true' do
         let :params do
-          default_params.merge!(repo_enable_src: true,)
+          default_params.merge!(repo_enable_src: true)
         end
 
         it 'the yumrepo resource nodesource-source should contain enabled = 1' do
-          is_expected.to contain_yumrepo('nodesource-source').with('enabled' => '1',)
+          is_expected.to contain_yumrepo('nodesource-source').with('enabled' => '1')
         end
       end
 
       context 'and repo_enable_src set to false' do
         let :params do
-          default_params.merge!(repo_enable_src: false,)
+          default_params.merge!(repo_enable_src: false)
         end
 
         it 'the yumrepo resource should contain enabled = 0' do
-          is_expected.to contain_yumrepo('nodesource-source').with('enabled' => '0',)
+          is_expected.to contain_yumrepo('nodesource-source').with('enabled' => '0')
         end
       end
 
       context 'and repo_ensure set to present' do
         let :params do
-          default_params.merge!(repo_ensure: 'present',)
+          default_params.merge!(repo_ensure: 'present')
         end
 
         it 'the nodesource yum repo files should exist' do
@@ -1503,78 +1478,78 @@ describe 'nodejs', type: :class do
 
       context 'and repo_ensure set to absent' do
         let :params do
-          default_params.merge!(repo_ensure: 'absent',)
+          default_params.merge!(repo_ensure: 'absent')
         end
 
         it 'the nodesource yum repo files should not exist' do
-          is_expected.to contain_yumrepo('nodesource').with('enabled' => 'absent',)
-          is_expected.to contain_yumrepo('nodesource-source').with('enabled' => 'absent',)
+          is_expected.to contain_yumrepo('nodesource').with('enabled' => 'absent')
+          is_expected.to contain_yumrepo('nodesource-source').with('enabled' => 'absent')
         end
       end
 
       context 'and repo_proxy set to absent' do
         let :params do
-          default_params.merge!(repo_proxy: 'absent',)
+          default_params.merge!(repo_proxy: 'absent')
         end
 
         it 'the yumrepo resource should contain proxy = absent' do
-          is_expected.to contain_yumrepo('nodesource').with('proxy' => 'absent',)
-          is_expected.to contain_yumrepo('nodesource-source').with('proxy' => 'absent',)
+          is_expected.to contain_yumrepo('nodesource').with('proxy' => 'absent')
+          is_expected.to contain_yumrepo('nodesource-source').with('proxy' => 'absent')
         end
       end
 
       context 'and repo_proxy set to http://proxy.localdomain.com' do
         let :params do
-          default_params.merge!(repo_proxy: 'http://proxy.localdomain.com',)
+          default_params.merge!(repo_proxy: 'http://proxy.localdomain.com')
         end
 
         it 'the yumrepo resource should contain proxy = http://proxy.localdomain.com' do
-          is_expected.to contain_yumrepo('nodesource').with('proxy' => 'http://proxy.localdomain.com',)
-          is_expected.to contain_yumrepo('nodesource-source').with('proxy' => 'http://proxy.localdomain.com',)
+          is_expected.to contain_yumrepo('nodesource').with('proxy' => 'http://proxy.localdomain.com')
+          is_expected.to contain_yumrepo('nodesource-source').with('proxy' => 'http://proxy.localdomain.com')
         end
       end
 
       context 'and repo_proxy_password set to absent' do
         let :params do
-          default_params.merge!(repo_proxy_password: 'absent',)
+          default_params.merge!(repo_proxy_password: 'absent')
         end
 
         it 'the yumrepo resource should contain proxy_password = absent' do
-          is_expected.to contain_yumrepo('nodesource').with('proxy_password' => 'absent',)
-          is_expected.to contain_yumrepo('nodesource-source').with('proxy_password' => 'absent',)
+          is_expected.to contain_yumrepo('nodesource').with('proxy_password' => 'absent')
+          is_expected.to contain_yumrepo('nodesource-source').with('proxy_password' => 'absent')
         end
       end
 
       context 'and repo_proxy_password set to password' do
         let :params do
-          default_params.merge!(repo_proxy_password: 'password',)
+          default_params.merge!(repo_proxy_password: 'password')
         end
 
         it 'the yumrepo resource should contain proxy_password = password' do
-          is_expected.to contain_yumrepo('nodesource').with('proxy_password' => 'password',)
-          is_expected.to contain_yumrepo('nodesource-source').with('proxy_password' => 'password',)
+          is_expected.to contain_yumrepo('nodesource').with('proxy_password' => 'password')
+          is_expected.to contain_yumrepo('nodesource-source').with('proxy_password' => 'password')
         end
       end
 
       context 'and repo_proxy_username set to absent' do
         let :params do
-          default_params.merge!(repo_proxy_username: 'absent',)
+          default_params.merge!(repo_proxy_username: 'absent')
         end
 
         it 'the yumrepo resource should contain proxy_username = absent' do
-          is_expected.to contain_yumrepo('nodesource').with('proxy_username' => 'absent',)
-          is_expected.to contain_yumrepo('nodesource-source').with('proxy_username' => 'absent',)
+          is_expected.to contain_yumrepo('nodesource').with('proxy_username' => 'absent')
+          is_expected.to contain_yumrepo('nodesource-source').with('proxy_username' => 'absent')
         end
       end
 
       context 'and repo_proxy_username set to proxyuser' do
         let :params do
-          default_params.merge!(repo_proxy_username: 'proxyuser',)
+          default_params.merge!(repo_proxy_username: 'proxyuser')
         end
 
         it 'the yumrepo resource should contain proxy_username = proxyuser' do
-          is_expected.to contain_yumrepo('nodesource').with('proxy_username' => 'proxyuser',)
-          is_expected.to contain_yumrepo('nodesource-source').with('proxy_username' => 'proxyuser',)
+          is_expected.to contain_yumrepo('nodesource').with('proxy_username' => 'proxyuser')
+          is_expected.to contain_yumrepo('nodesource-source').with('proxy_username' => 'proxyuser')
         end
       end
     end
@@ -1582,7 +1557,7 @@ describe 'nodejs', type: :class do
     context 'with manage_package_repo set to false' do
       let :params do
         {
-          manage_package_repo: false,
+          manage_package_repo: false
         }
       end
 
@@ -1595,24 +1570,24 @@ describe 'nodejs', type: :class do
     context 'with nodejs_debug_package_ensure set to present' do
       let :params do
         {
-          nodejs_debug_package_ensure: 'present',
+          nodejs_debug_package_ensure: 'present'
         }
       end
 
       it 'the nodejs package with debugging symbols should be installed' do
-        is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'present',)
+        is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'present')
       end
     end
 
     context 'with nodejs_debug_package_ensure set to absent' do
       let :params do
         {
-          nodejs_debug_package_ensure: 'absent',
+          nodejs_debug_package_ensure: 'absent'
         }
       end
 
       it 'the nodejs package with debugging symbols should not be present' do
-        is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'absent',)
+        is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'absent')
       end
     end
 
@@ -1620,24 +1595,24 @@ describe 'nodejs', type: :class do
     context 'with nodejs_dev_package_ensure set to present' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'present',
+          nodejs_dev_package_ensure: 'present'
         }
       end
 
       it 'the nodejs development package should be installed' do
-        is_expected.to contain_package('nodejs-devel').with('ensure' => 'present',)
+        is_expected.to contain_package('nodejs-devel').with('ensure' => 'present')
       end
     end
 
     context 'with nodejs_dev_package_ensure set to absent' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'absent',
+          nodejs_dev_package_ensure: 'absent'
         }
       end
 
       it 'the nodejs development package should not be present' do
-        is_expected.to contain_package('nodejs-devel').with('ensure' => 'absent',)
+        is_expected.to contain_package('nodejs-devel').with('ensure' => 'absent')
       end
     end
 
@@ -1645,24 +1620,24 @@ describe 'nodejs', type: :class do
     context 'with nodejs_package_ensure set to present' do
       let :params do
         {
-          nodejs_package_ensure: 'present',
+          nodejs_package_ensure: 'present'
         }
       end
 
       it 'the nodejs package should be present' do
-        is_expected.to contain_package('nodejs').with('ensure' => 'present',)
+        is_expected.to contain_package('nodejs').with('ensure' => 'present')
       end
     end
 
     context 'with nodejs_package_ensure set to absent' do
       let :params do
         {
-          nodejs_package_ensure: 'absent',
+          nodejs_package_ensure: 'absent'
         }
       end
 
       it 'the nodejs package should be absent' do
-        is_expected.to contain_package('nodejs').with('ensure' => 'absent',)
+        is_expected.to contain_package('nodejs').with('ensure' => 'absent')
       end
     end
 
@@ -1670,24 +1645,24 @@ describe 'nodejs', type: :class do
     context 'with npm_package_ensure set to present' do
       let :params do
         {
-          npm_package_ensure: 'present',
+          npm_package_ensure: 'present'
         }
       end
 
       it 'the npm package should be present' do
-        is_expected.to contain_package('npm').with('ensure' => 'present',)
+        is_expected.to contain_package('npm').with('ensure' => 'present')
       end
     end
 
     context 'with npm_package_ensure set to absent' do
       let :params do
         {
-          npm_package_ensure: 'absent',
+          npm_package_ensure: 'absent'
         }
       end
 
       it 'the npm package should be absent' do
-        is_expected.to contain_package('npm').with('ensure' => 'absent',)
+        is_expected.to contain_package('npm').with('ensure' => 'absent')
       end
     end
   end
