@@ -66,6 +66,16 @@ class nodejs::params {
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
       }
+      elsif $::operatingsystemrelease =~ /^16.04$/ {
+        $manage_package_repo       = true
+        $nodejs_debug_package_name = 'nodejs-dbg'
+        $nodejs_dev_package_name   = 'nodejs-dev'
+        $nodejs_package_name       = 'nodejs'
+        $npm_package_ensure        = 'present'
+        $npm_package_name          = 'npm'
+        $npm_path                  = '/usr/bin/npm'
+        $repo_class                = '::nodejs::repo::nodesource'
+      }
       else {
         warning("The ${module_name} module might not work on ${::operatingsystem} ${::operatingsystemrelease}. Sensible defaults will be attempted.")
         $manage_package_repo       = true
