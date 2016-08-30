@@ -53,7 +53,7 @@ Puppet::Type.type(:package).provide :npm, parent: Puppet::Provider::Package do
   end
 
   def latest
-    npm('view', resource[:name], 'version').strip
+    npm('view', resource[:name], 'version').lines.reject { |l| l.start_with?('npm') }.join("\n").strip
   end
 
   def update
