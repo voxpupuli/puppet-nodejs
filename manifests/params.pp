@@ -1,8 +1,6 @@
 class nodejs::params {
-  $legacy_debian_symlinks      = false
   $npmrc_auth                  = undef
   $nodejs_debug_package_ensure = 'absent'
-  $nodejs_dev_package_ensure   = 'absent'
   $nodejs_package_ensure       = 'present'
   $repo_enable_src             = false
   $repo_ensure                 = 'present'
@@ -27,9 +25,11 @@ class nodejs::params {
         fail("The ${module_name} module is not supported on Debian Squeeze.")
       }
       if $::operatingsystemrelease =~ /^7\.(\d+)/ {
+        $legacy_debian_symlinks    = false
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-dbg'
         $nodejs_dev_package_name   = undef
+        $nodejs_dev_package_ensure = 'absent'
         $nodejs_package_name       = 'nodejs'
         $npm_package_ensure        = 'absent'
         $npm_package_name          = false
@@ -37,9 +37,11 @@ class nodejs::params {
         $repo_class                = '::nodejs::repo::nodesource'
       }
       elsif $::operatingsystemrelease =~ /^10.04$/ {
+        $legacy_debian_symlinks    = false
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-dbg'
         $nodejs_dev_package_name   = undef
+        $nodejs_dev_package_ensure = 'absent'
         $nodejs_package_name       = 'nodejs'
         $npm_package_ensure        = 'absent'
         $npm_package_name          = false
@@ -47,9 +49,11 @@ class nodejs::params {
         $repo_class                = '::nodejs::repo::nodesource'
       }
       elsif $::operatingsystemrelease =~ /^12.04$/ {
+        $legacy_debian_symlinks    = false
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-dbg'
         $nodejs_dev_package_name   = 'nodejs-dev'
+        $nodejs_dev_package_ensure = 'absent'
         $nodejs_package_name       = 'nodejs'
         $npm_package_ensure        = 'absent'
         $npm_package_name          = 'npm'
@@ -57,9 +61,11 @@ class nodejs::params {
         $repo_class                = '::nodejs::repo::nodesource'
       }
       elsif $::operatingsystemrelease =~ /^14.04$/ {
+        $legacy_debian_symlinks    = false
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-dbg'
         $nodejs_dev_package_name   = 'nodejs-dev'
+        $nodejs_dev_package_ensure = 'absent'
         $nodejs_package_name       = 'nodejs'
         $npm_package_ensure        = 'absent'
         $npm_package_name          = 'npm'
@@ -67,9 +73,11 @@ class nodejs::params {
         $repo_class                = '::nodejs::repo::nodesource'
       }
       elsif $::operatingsystemrelease =~ /^16.04$/ {
+        $legacy_debian_symlinks    = true
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-dbg'
         $nodejs_dev_package_name   = 'nodejs-dev'
+        $nodejs_dev_package_ensure = 'present'
         $nodejs_package_name       = 'nodejs'
         $npm_package_ensure        = 'present'
         $npm_package_name          = 'npm'
@@ -78,9 +86,11 @@ class nodejs::params {
       }
       else {
         warning("The ${module_name} module might not work on ${::operatingsystem} ${::operatingsystemrelease}. Sensible defaults will be attempted.")
+        $legacy_debian_symlinks    = false
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-dbg'
         $nodejs_dev_package_name   = 'nodejs-dev'
+        $nodejs_dev_package_ensure = 'absent'
         $nodejs_package_name       = 'nodejs'
         $npm_package_ensure        = 'absent'
         $npm_package_name          = 'npm'
@@ -89,10 +99,13 @@ class nodejs::params {
       }
     }
     'RedHat': {
+      $legacy_debian_symlinks      = false
+
       if $::operatingsystemrelease =~ /^[5-7]\.(\d+)/ {
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-debuginfo'
         $nodejs_dev_package_name   = 'nodejs-devel'
+        $nodejs_dev_package_ensure = 'absent'
         $nodejs_package_name       = 'nodejs'
         $npm_package_ensure        = 'absent'
         $npm_package_name          = 'npm'
@@ -103,6 +116,7 @@ class nodejs::params {
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-debuginfo'
         $nodejs_dev_package_name   = 'nodejs-devel'
+        $nodejs_dev_package_ensure = 'absent'
         $nodejs_package_name       = 'nodejs'
         $npm_package_ensure        = 'absent'
         $npm_package_name          = 'npm'
@@ -113,6 +127,7 @@ class nodejs::params {
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-debuginfo'
         $nodejs_dev_package_name   = 'nodejs-devel'
+        $nodejs_dev_package_ensure = 'absent'
         $nodejs_package_name       = 'nodejs'
         $npm_package_ensure        = 'absent'
         $npm_package_name          = 'npm'
@@ -124,9 +139,11 @@ class nodejs::params {
       }
     }
     'Suse': {
+      $legacy_debian_symlinks    = false
       $manage_package_repo       = false
       $nodejs_debug_package_name = 'nodejs-debuginfo'
       $nodejs_dev_package_name   = 'nodejs-devel'
+      $nodejs_dev_package_ensure = 'absent'
       $nodejs_package_name       = 'nodejs'
       $npm_package_ensure        = 'present'
       $npm_package_name          = 'npm'
@@ -134,9 +151,11 @@ class nodejs::params {
       $repo_class                = undef
     }
     'Archlinux': {
+      $legacy_debian_symlinks    = false
       $manage_package_repo       = false
       $nodejs_debug_package_name = undef
       $nodejs_dev_package_name   = undef
+      $nodejs_dev_package_ensure = 'absent'
       $nodejs_package_name       = 'nodejs'
       $npm_package_ensure        = 'present'
       $npm_package_name          = 'npm'
@@ -144,9 +163,11 @@ class nodejs::params {
       $repo_class                = undef
     }
     'FreeBSD': {
+      $legacy_debian_symlinks    = false
       $manage_package_repo       = false
       $nodejs_debug_package_name = undef
       $nodejs_dev_package_name   = 'www/node-devel'
+      $nodejs_dev_package_ensure = 'absent'
       $nodejs_package_name       = 'www/node'
       $npm_package_ensure        = 'present'
       $npm_package_name          = 'www/npm'
@@ -154,9 +175,11 @@ class nodejs::params {
       $repo_class                = undef
     }
     'OpenBSD': {
+      $legacy_debian_symlinks    = false
       $manage_package_repo       = false
       $nodejs_debug_package_name = undef
       $nodejs_dev_package_name   = undef
+      $nodejs_dev_package_ensure = 'absent'
       $nodejs_package_name       = 'node'
       $npm_package_ensure        = 'absent'
       $npm_package_name          = false
@@ -164,9 +187,11 @@ class nodejs::params {
       $repo_class                = undef
     }
     'Darwin': {
+      $legacy_debian_symlinks    = false
       $manage_package_repo       = false
       $nodejs_debug_package_name = undef
       $nodejs_dev_package_name   = 'nodejs-devel'
+      $nodejs_dev_package_ensure = 'absent'
       $nodejs_package_name       = 'nodejs'
       $npm_package_ensure        = 'present'
       $npm_package_name          = 'npm'
@@ -175,9 +200,11 @@ class nodejs::params {
       Package { provider => 'macports' }
     }
     'Windows': {
+      $legacy_debian_symlinks    = false
       $manage_package_repo       = false
       $nodejs_debug_package_name = undef
       $nodejs_dev_package_name   = undef
+      $nodejs_dev_package_ensure = 'absent'
       $nodejs_package_name       = 'nodejs'
       $npm_package_ensure        = 'absent'
       $npm_package_name          = 'npm'
@@ -187,9 +214,11 @@ class nodejs::params {
     }
     # Gentoo was added as its own $::osfamily in Facter 1.7.0
     'Gentoo': {
+      $legacy_debian_symlinks    = false
       $manage_package_repo       = false
       $nodejs_debug_package_name = undef
       $nodejs_dev_package_name   = undef
+      $nodejs_dev_package_ensure = 'absent'
       $nodejs_package_name       = 'net-libs/nodejs'
       $npm_package_ensure        = 'absent'
       $npm_package_name          = false
@@ -200,9 +229,11 @@ class nodejs::params {
     # Before Facter 1.7.0 Gentoo did not have its own $::osfamily
       case $::operatingsystem {
         'Gentoo': {
+          $legacy_debian_symlinks    = false
           $manage_package_repo       = false
           $nodejs_debug_package_name = undef
           $nodejs_dev_package_name   = undef
+          $nodejs_dev_package_ensure = 'absent'
           $nodejs_package_name       = 'net-libs/nodejs'
           $npm_package_ensure        = 'absent'
           $npm_package_name          = false
@@ -212,9 +243,11 @@ class nodejs::params {
         'Amazon': {
           # this is here only for historical reasons:
           # old facter and Amazon Linux versions will run into this code path
+          $legacy_debian_symlinks    = false
           $manage_package_repo       = true
           $nodejs_debug_package_name = 'nodejs-debuginfo'
           $nodejs_dev_package_name   = 'nodejs-devel'
+          $nodejs_dev_package_ensure = 'absent'
           $nodejs_package_name       = 'nodejs'
           $npm_package_ensure        = 'absent'
           $npm_package_name          = 'npm'
