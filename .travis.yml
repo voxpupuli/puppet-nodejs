@@ -19,24 +19,30 @@ matrix:
     env: PUPPET_VERSION="~> 3.0" STRICT_VARIABLES="yes" CHECK=test
   - rvm: 1.9.3
     env: PUPPET_VERSION="~> 3.0" STRICT_VARIABLES="yes" FUTURE_PARSER="yes" CHECK=test
-  - rvm: 2.1
+  - rvm: 2.1.9
     env: PUPPET_VERSION="~> 3.0" STRICT_VARIABLES="yes" CHECK=test
-  - rvm: 2.1
-    env: PUPPET_VERSION="~> 4.0" STRICT_VARIABLES="yes" CHECK=test
-  - rvm: 2.2
-    env: PUPPET_VERSION="~> 4.0" STRICT_VARIABLES="yes" CHECK=test
+  - rvm: 2.1.9
+    env: PUPPET_VERSION="~> 4.0" CHECK=test
+  - rvm: 2.2.5
+    env: PUPPET_VERSION="~> 4.0" CHECK=test
   - rvm: 2.3.1
-    env: PUPPET_VERSION="~> 4.0" STRICT_VARIABLES="yes" CHECK=build
+    env: PUPPET_VERSION="~> 4.0" CHECK=build DEPLOY_TO_FORGE=yes
   - rvm: 2.3.1
-    env: PUPPET_VERSION="~> 4.0" STRICT_VARIABLES="yes" CHECK=rubocop
+    env: PUPPET_VERSION="~> 4.0" CHECK=rubocop
   - rvm: 2.3.1
-    env: PUPPET_VERSION="~> 4.0" STRICT_VARIABLES="yes" CHECK=test
+    env: PUPPET_VERSION="~> 4.0" CHECK=test
+  - rvm: 2.4.0-preview1
+    env: PUPPET_VERSION="~> 4.0" CHECK=test
   - rvm: 2.1.5
     env: PUPPET_GEM_VERSION="~> 3.0" STRICT_VARIABLES="yes"
+  allow_failures:
+    - rvm: 2.4.0-preview1
 notifications:
   email: false
 deploy:
   provider: puppetforge
+  deploy:
+    branch: ha-bug-puppet-forge
   user: puppet
   password:
     secure: "SCQpiBB9qpZAjBRk+b9D3cSCQfYpDgHPOdOc7djfGeB5yn1UbGg7uW1zshrshb4QMLfUgvsL4LsT0CYj7ilBerghgeySF5JWuZdk05W/7Iudls4btbxdVjqtALR7p02mnk40qHTR1Tdb/j0gXW9uigU6nQU9iCP+Poa1KF6PXpk="
@@ -44,5 +50,123 @@ deploy:
     tags: true
     # all_branches is required to use tags
     all_branches: true
-    # Only publish if our main Ruby target builds
-    rvm: 2.3.1
+    # Only publish the build marked with "DEPLOY_TO_FORGE"
+    condition: "$DEPLOY_TO_FORGE = yes"
+ishimura:puppet-nodejs toddc$ cat Gemfile
+source ENV['GEM_SOURCE'] || "https://rubygems.org"
+
+def location_for(place, fake_version = nil)
+  if place =~ /^(git[:@][^#]*)#(.*)/
+    [fake_version, { :git => $1, :branch => $2, :require => false }].compact
+  elsif place =~ /^file:\/\/(.*)/
+    ['>= 0', { :path => File.expand_path($1), :require => false }]
+  else
+    [place, { :require => false }]
+  end
+end
+
+group :test do
+  gem 'puppetlabs_spec_helper', '~> 1.2.2',                         :require => false
+  gem 'rspec-puppet',                                               :require => false, :git => 'https://github.com/rodjek/rspec-puppet.git'
+  gem 'rspec-puppet-facts',                                         :require => false
+  gem 'rspec-puppet-utils',                                         :require => false
+  gem 'puppet-lint-absolute_classname-check',                       :require => false
+  gem 'puppet-lint-leading_zero-check',                             :require => false
+  gem 'puppet-lint-trailing_comma-check',                           :require => false
+  gem 'puppet-lint-version_comparison-check',                       :require => false
+  gem 'puppet-lint-classes_and_types_beginning_with_digits-check',  :require => false
+  gem 'puppet-lint-unquoted_string-check',                          :require => false
+  gem 'puppet-lint-variable_contains_upcase',                       :require => false
+  gem 'metadata-json-lint',                                         :require => false
+  gem 'puppet-blacksmith',                                          :require => false
+  gem 'voxpupuli-release',                                          :require => false, :git => 'https://github.com/voxpupuli/voxpupuli-release-gem.git'
+  gem 'puppet-strings', '0.4.0',                                    :require => false
+  gem 'rubocop-rspec', '~> 1.6',                                    :require => false if RUBY_VERSION >= '2.3.0'
+  gem 'json_pure', '<= 2.0.1',                                      :require => false if RUBY_VERSION < '2.0.0'
+end
+
+group :development do
+  gem 'travis',       :require => false
+  gem 'travis-lint',  :require => false
+  gem 'guard-rake',   :require => false
+end
+
+group :system_tests do
+  if beaker_version = ENV['BEAKER_VERSION']
+    gem 'beaker', *location_for(beaker_version)
+  end
+  if beaker_rspec_version = ENV['BEAKER_RSPEC_VERSION']
+    gem 'beaker-rspec', *location_for(beaker_rspec_version)
+  else
+    gem 'beaker-rspec',  :require => false
+  end
+  gem 'beaker-puppet_install_helper',  :require => false
+end
+
+
+
+if facterversion = ENV['FACTER_GEM_VERSION']
+  gem 'facter', facterversion.to_s, :require => false, :groups => [:test]
+else
+  gem 'facter', :require => false, :groups => [:test]
+end
+
+ENV['PUPPET_VERSION'].nil? ? puppetversion = '~> 4.0' : puppetversion = ENV['PUPPET_VERSION'].to_s
+gem 'puppet', puppetversion, :require => false, :groups => [:test]
+
+# vim: syntax=ruby
+ishimura:puppet-nodejs toddc$ cat .travis.yml
+---
+sudo: false
+language: ruby
+cache: bundler
+bundler_args: --without system_tests development
+before_install:
+  - bundle -v
+  - rm Gemfile.lock || true
+  - gem update --system
+  - gem update bundler
+  - gem --version
+  - bundle -v
+script:
+  - 'bundle exec rake $CHECK'
+matrix:
+  fast_finish: true
+  include:
+  - rvm: 1.9.3
+    env: PUPPET_VERSION="~> 3.0" STRICT_VARIABLES="yes" CHECK=test
+  - rvm: 1.9.3
+    env: PUPPET_VERSION="~> 3.0" STRICT_VARIABLES="yes" FUTURE_PARSER="yes" CHECK=test
+  - rvm: 2.1.9
+    env: PUPPET_VERSION="~> 3.0" STRICT_VARIABLES="yes" CHECK=test
+  - rvm: 2.1.9
+    env: PUPPET_VERSION="~> 4.0" CHECK=test
+  - rvm: 2.2.5
+    env: PUPPET_VERSION="~> 4.0" CHECK=test
+  - rvm: 2.3.1
+    env: PUPPET_VERSION="~> 4.0" CHECK=build DEPLOY_TO_FORGE=yes
+  - rvm: 2.3.1
+    env: PUPPET_VERSION="~> 4.0" CHECK=rubocop
+  - rvm: 2.3.1
+    env: PUPPET_VERSION="~> 4.0" CHECK=test
+  - rvm: 2.4.0-preview1
+    env: PUPPET_VERSION="~> 4.0" CHECK=test
+  - rvm: 2.1.5
+    env: PUPPET_GEM_VERSION="~> 3.0" STRICT_VARIABLES="yes"
+  allow_failures:
+    - rvm: 2.4.0-preview1
+notifications:
+  email: false
+deploy:
+  provider: puppetforge
+  deploy:
+    branch: ha-bug-puppet-forge
+  user: puppet
+  password:
+    secure: "SCQpiBB9qpZAjBRk+b9D3cSCQfYpDgHPOdOc7djfGeB5yn1UbGg7uW1zshrshb4QMLfUgvsL4LsT0CYj7ilBerghgeySF5JWuZdk05W/7Iudls4btbxdVjqtALR7p02mnk40qHTR1Tdb/j0gXW9uigU6nQU9iCP+Poa1KF6PXpk="
+  on:
+    tags: true
+    # all_branches is required to use tags
+    all_branches: true
+    # Only publish the build marked with "DEPLOY_TO_FORGE"
+    condition: "$DEPLOY_TO_FORGE = yes"
