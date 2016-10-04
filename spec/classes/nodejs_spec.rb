@@ -316,7 +316,7 @@ describe 'nodejs', type: :class do
       context 'with npm_package_ensure set to absent' do
         let :params do
           {
-            nodejs_package_ensure: 'absent'
+            npm_package_ensure: 'absent'
           }
         end
 
