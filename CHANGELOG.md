@@ -6,12 +6,12 @@
 
 ### Fixed
 
-- Fix Ubuntu16.04 support
+- Fix Ubuntu 16.04 support
 - Ignore npm cache lines when calling 'npm view' for latest version
 
 ### Maintenance
 
-- Modulesync with latest Vox Pupupli defaults
+- Modulesync with latest Vox Pupuli defaults
 
 
 ## 2016-06-02 Release 2.0.1
