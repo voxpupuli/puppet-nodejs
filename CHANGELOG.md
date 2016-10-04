@@ -1,3 +1,19 @@
+## 2016-10-04 Release 2.1.0
+
+### Added
+
+- Fedora 22 and 23 support
+
+### Fixed
+
+- Fix Ubuntu16.04 support
+- Ignore npm cache lines when calling 'npm view' for latest version
+
+### Maintenance
+
+- Modulesync with latest Vox Pupupli defaults
+
+
 ## 2016-06-02 Release 2.0.1
 
 ### Fixed
