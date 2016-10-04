@@ -55,6 +55,17 @@
         "14.04",
         "16.04"
       ]
+    },
+    {
+
+      "operatingsystem": "Fedora",
+      "operatingsystemrelease": [
+        "19",
+        "20",
+        "21",
+        "22",
+        "23"
+      ]
     }
   ],
   "requirements": [
