@@ -1,6 +1,11 @@
 # Node.js module for Puppet
 
-[![Build Status](https://travis-ci.org/voxpupuli/puppet-nodejs.png)](http://travis-ci.org/voxpupuli/puppet-nodejs)
+[![Build Status](https://travis-ci.org/voxpupuli/puppet-nodejs.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-nodejs)
+[![Code Coverage](https://coveralls.io/repos/github/voxpupuli/puppet-nodejs/badge.svg?branch=master)](https://coveralls.io/github/voxpupuli/puppet-nodejs)
+[![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/nodejs.svg)](https://forge.puppetlabs.com/puppet/nodejs)
+[![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/nodejs.svg)](https://forge.puppetlabs.com/puppet/nodejs)
+[![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/nodejs.svg)](https://forge.puppetlabs.com/puppet/nodejs)
+[![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/nodejs.svg)](https://forge.puppetlabs.com/puppet/nodejs)
 
 #### Table of Contents
 
