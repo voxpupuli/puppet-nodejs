@@ -1,4 +1,4 @@
-# puppet-nodejs module
+# Node.js module for Puppet
 
 [![Build Status](https://travis-ci.org/voxpupuli/puppet-nodejs.png)](http://travis-ci.org/voxpupuli/puppet-nodejs)
 
@@ -30,7 +30,7 @@ via Chocolatey.
 
 ## Setup
 
-### What nodejs affects:
+### What nodejs affects
 
 * the Node.js package
 * the npm package (if it exists as a separate package)
@@ -54,6 +54,7 @@ class { 'nodejs':
   repo_url_suffix => '0.12',
 }
 ```
+
 Or if you wish to install a Node.js 5.x release from the NodeSource repository:
 (4.x. is left as a exercise for the reader)
 
@@ -62,7 +63,6 @@ class { 'nodejs':
   repo_url_suffix => '5.x',
 }
 ```
-
 
 ## Usage
 
@@ -128,22 +128,22 @@ support all of the `npm install <package>` combinations shown in the
 except version ranges. The title simply must be a unique, arbitrary value.
 
 * If using packages directly off the npm registry, the package parameter is the
-name of the package as published on the npm registry.
+  name of the package as published on the npm registry.
 * If using scopes, the package parameter needs to be specified as
-'@scope_name/package_name'.
+  '@scope_name/package_name'.
 * If using a local tarball path, remote tarball URL, local folder, git remote
-URL or GitHubUser/GitRepo as the source of the package, this location needs
-to be specified as the source parameter and the package parameter just needs
-to be a unique, descriptive name for the package that is being installed.
+  URL or GitHubUser/GitRepo as the source of the package, this location needs
+  to be specified as the source parameter and the package parameter just needs
+  to be a unique, descriptive name for the package that is being installed.
 * If using tags, the tag can be specified with the ensure parameter, and
-the package parameter needs to be match the name of the package in the npm
-registry.
+  the package parameter needs to be match the name of the package in the npm
+  registry.
 * Package versions are specified with the ensure parameter, which defaults to
-`present`.
+  `present`.
 * Install options and uninstall options are also supported, and need to be
-specified as an array.
+  specified as an array.
 * The user parameter is provided should you wish to run npm install or npm rm
-as a specific user.
+  as a specific user.
 
 nodejs::npm parameters:
 
@@ -166,6 +166,7 @@ nodejs::npm { 'express from the npm registry':
   target  => '/opt/packages',
 }
 ```
+
 or the lazy way:
 
 ```puppet
@@ -292,7 +293,8 @@ nodejs::npm { 'remove all express packages':
 
 ### nodejs::npm::global_config_entry
 
-nodejs::npm::global_config_entry can be used to set/remove global npm configuration settings.
+nodejs::npm::global_config_entry can be used to set/remove global npm
+configuration settings.
 
 Note that when specifying a URL, such as registry, NPM will add a trailing
 slash when it stores the config. You must specify a trailing slash in your URL
@@ -414,7 +416,7 @@ packages in EPEL, should they both hold the same Node.js version. Defaults to
 #### `repo_proxy`
 
 Whether to use a proxy for this particular repository. For example,
-http://proxy.domain . Defaults to `absent`.
+`http://proxy.domain`. Defaults to `absent`.
 
 #### `repo_proxy_password`
 
@@ -427,25 +429,25 @@ User for the proxy used by the repository, if required.
 #### `repo_url_suffix`
 
 This module defaults to installing the latest NodeSource 0.10.x release on
-Debian and RedHat (i.e. RHEL/CentOS/Fedora/Amazon Linux) platforms. If you wish to install a
-0.12.x release or greater, you will need to set this parameter accordingly.
-Accepted values are as follows:
+Debian and RedHat (i.e. RHEL/CentOS/Fedora/Amazon Linux) platforms. If you wish
+to install a 0.12.x release or greater, you will need to set this parameter
+accordingly. Accepted values are as follows:
 
 * Debian
-  * 0.10 (default)
-  * 0.12
-  * 4.x
-  * 5.x
+    * 0.10 (default)
+    * 0.12
+    * 4.x
+    * 5.x
 * Ubuntu
-  * 0.10 (default, **Not** available for Ubuntu 15.10)
-  * 0.12 (**Not** available for Ubuntu 15.10)
-  * 4.x (**Not** available for Ubuntu 10, 11 and 13)
-  * 5.x (**Not** available for Ubuntu 10, 11 and 13)
+    * 0.10 (default, **Not** available for Ubuntu 15.10)
+    * 0.12 (**Not** available for Ubuntu 15.10)
+    * 4.x (**Not** available for Ubuntu 10, 11 and 13)
+    * 5.x (**Not** available for Ubuntu 10, 11 and 13)
 * RedHat (RHEL/CentOS/Fedora/Amazon Linux)
-  * 0.10 (default, **Not** available for Fedora 23)
-  * 0.12 (**Not** available for Fedora 23)
-  * 4.x (**Only** available for RedHat/CentOS/Amazon Linux 7 and Fedora 21/22/23)
-  * 5.x (**Only** available for RedHat/CentOS/Amazon Linux 7 and Fedora 21/22/23)
+    * 0.10 (default, **Not** available for Fedora 23)
+    * 0.12 (**Not** available for Fedora 23)
+    * 4.x (**Only** available for RedHat/CentOS/Amazon Linux 7 and Fedora 21/22/23)
+    * 5.x (**Only** available for RedHat/CentOS/Amazon Linux 7 and Fedora 21/22/23)
 
 #### `use_flags`
 
