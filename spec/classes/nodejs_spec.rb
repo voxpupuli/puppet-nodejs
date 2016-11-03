@@ -39,7 +39,7 @@ describe 'nodejs', type: :class do
           }
         end
 
-        it { should contain_file('root_npmrc').with_content(%r{^_auth="dXNlcjpwYXNzd29yZA=="$}) }
+        it { is_expected.to contain_file('root_npmrc').with_content(%r{^_auth="dXNlcjpwYXNzd29yZA=="$}) }
       end
 
       context 'with npmrc_auth set to an invalid type (non-string)' do
