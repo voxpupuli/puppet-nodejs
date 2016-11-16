@@ -19,6 +19,7 @@ class nodejs::repo::nodesource::apt {
         'id'     => '9FD3B784BC1C6FC31A8A0A1C1655A0AB68576280',
         'source' => 'http://deb.nodesource.com/gpgkey/nodesource.gpg.key',
       },
+      /* using HTTP due to https://github.com/nodesource/distributions/issues/388 */
       location => "http://deb.nodesource.com/node_${url_suffix}",
       pin      => $pin,
       release  => $::lsbdistcodename,
