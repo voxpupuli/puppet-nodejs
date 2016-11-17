@@ -5,7 +5,7 @@ Puppet::Type.type(:package).provide :npm, parent: Puppet::Provider::Package do
 
   confine feature: :npm
 
-  has_feature :versionable
+  has_feature :versionable, :install_options
 
   if Puppet::Util::Package.versioncmp(Puppet.version, '3.0') >= 0
     has_command(:npm, 'npm') do
@@ -67,14 +67,21 @@ Puppet::Type.type(:package).provide :npm, parent: Puppet::Provider::Package do
                 "#{resource[:name]}@#{resource[:ensure]}"
               end
 
+    options = %w(--global)
+    options += install_options if @resource[:install_options]
+
     if resource[:source]
-      npm('install', '--global', resource[:source])
+      npm('install', *options, resource[:source])
     else
-      npm('install', '--global', package)
+      npm('install', *options, package)
     end
   end
 
   def uninstall
     npm('uninstall', '--global', resource[:name])
+  end
+
+  def install_options
+    join_options(@resource[:install_options])
   end
 end

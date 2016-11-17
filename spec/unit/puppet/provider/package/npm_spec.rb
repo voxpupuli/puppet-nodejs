@@ -37,6 +37,22 @@ describe Puppet::Type.type(:package).provider(:npm) do
         provider.install
       end
     end
+
+    describe 'and install_options is a string' do
+      it 'passes the install_options to npm' do
+        resource[:install_options] = ['--verbose']
+        provider.expects(:npm).with('install', '--global', '--verbose', 'express')
+        provider.install
+      end
+    end
+
+    describe 'and install_options is a hash' do
+      it 'passes the install_options to npm' do
+        resource[:install_options] = [{ '--loglevel' => 'error' }]
+        provider.expects(:npm).with('install', '--global', '--loglevel=error', 'express')
+        provider.install
+      end
+    end
   end
 
   describe 'when npm packages are installed globally' do
