@@ -1,3 +1,10 @@
+## 2016-12-08 Release 2.2.0
+
+- Modulesync with latest Vox Pupuli defaults
+- provider: add support for install_options
+- Fix: Nodesource 6.x nodejs package replaces nodejs-dev & npm packages on 16.04
+- Actually remove gpg_key dependency
+
 ## 2016-10-04 Release 2.1.0
 
 ### Added
