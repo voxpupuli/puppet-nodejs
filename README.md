@@ -443,11 +443,14 @@ accordingly. Accepted values are as follows:
     * 0.12
     * 4.x
     * 5.x
+    * 6.x
 * Ubuntu
     * 0.10 (default, **Not** available for Ubuntu 15.10)
     * 0.12 (**Not** available for Ubuntu 15.10)
     * 4.x (**Not** available for Ubuntu 10, 11 and 13)
     * 5.x (**Not** available for Ubuntu 10, 11 and 13)
+    * 6.x (**Not** available for Ubuntu 10, 11 and 13)
+    * 7.x (**Not** available for Ubuntu 10, 11, 13 and 14)
 * RedHat (RHEL/CentOS/Fedora/Amazon Linux)
     * 0.10 (default, **Not** available for Fedora 23)
     * 0.12 (**Not** available for Fedora 23)
