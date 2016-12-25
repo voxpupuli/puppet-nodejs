@@ -157,8 +157,8 @@ describe 'nodejs', type: :class do
               expect { catalogue }.to raise_error(Puppet::Error, %r{Var \$repo_url_suffix with value '0\.12' is not set correctly for Ubuntu 10\.04\. See README\.})
             end
           else
-            it 'the repo apt::source resource should contain location = https://deb.nodesource.com/node_0.12' do
-              is_expected.to contain_apt__source('nodesource').with('location' => 'https://deb.nodesource.com/node_0.12')
+            it 'the repo apt::source resource should contain location = http://deb.nodesource.com/node_0.12' do
+              is_expected.to contain_apt__source('nodesource').with('location' => 'http://deb.nodesource.com/node_0.12')
             end
           end
         end
