@@ -152,25 +152,8 @@ describe 'nodejs', type: :class do
             default_params.merge!(repo_url_suffix: '0.12')
           end
 
-          if facts[:operatingsystemrelease] == '10.04'
-            it 'NodeJS 0.12 package not provided for Ubuntu Lucid' do
-              expect { catalogue }.to raise_error(Puppet::Error, %r{Var \$repo_url_suffix with value '0\.12' is not set correctly for Ubuntu 10\.04\. See README\.})
-            end
-          else
-            it 'the repo apt::source resource should contain location = https://deb.nodesource.com/node_0.12' do
-              is_expected.to contain_apt__source('nodesource').with('location' => 'https://deb.nodesource.com/node_0.12')
-            end
-          end
-        end
-
-        # repo_url_suffix regex checks validation
-        context 'and repo_url_suffix set to 0.1O.0' do
-          let :params do
-            default_params.merge!(repo_url_suffix: '0.10.0')
-          end
-
-          it 'repo_url_suffix regex checks should fail' do
-            expect { catalogue }.to raise_error(Puppet::Error, %r{Var \$repo_url_suffix with value '0\.10\.0' is not set correctly for \w+ \d+(\.\d+)+\. See README\.})
+          it 'the repo apt::source resource should contain location = https://deb.nodesource.com/node_0.12' do
+            is_expected.to contain_apt__source('nodesource').with('location' => 'https://deb.nodesource.com/node_0.12')
           end
         end
 
@@ -424,25 +407,8 @@ describe 'nodejs', type: :class do
             default_params.merge!(repo_url_suffix: '5.x')
           end
 
-          if operatingsystemrelease =~ %r{^(5\.\d+|20)$}
-            it 'NodeJS 5.x package not provided for Centos 5 and Fedora 20' do
-              expect { catalogue }.to raise_error(Puppet::Error, %r{Var \$repo_url_suffix with value '5\.x' is not set correctly for \w+ \d+(\.\d+)*\. See README\.})
-            end
-          else
-            it "the yum nodesource repo resource should contain baseurl = https://rpm.nodesource.com/pub_5.x/#{dist_type}/#{operatingsystemmajrelease}/\$basearch" do
-              is_expected.to contain_yumrepo('nodesource').with('baseurl' => "https://rpm.nodesource.com/pub_5.x/#{dist_type}/#{operatingsystemmajrelease}/\$basearch")
-            end
-          end
-        end
-
-        # repo_url_suffix regex checks validation
-        context 'and repo_url_suffix set to 0.1O.0' do
-          let :params do
-            default_params.merge!(repo_url_suffix: '0.10.0')
-          end
-
-          it 'repo_url_suffix regex checks should fail' do
-            expect { catalogue }.to raise_error(Puppet::Error, %r{Var \$repo_url_suffix with value '0\.10\.0' is not set correctly for \w+ \d+(\.\d+)*\. See README\.})
+          it "the yum nodesource repo resource should contain baseurl = https://rpm.nodesource.com/pub_5.x/#{dist_type}/#{operatingsystemmajrelease}/\$basearch" do
+            is_expected.to contain_yumrepo('nodesource').with('baseurl' => "https://rpm.nodesource.com/pub_5.x/#{dist_type}/#{operatingsystemmajrelease}/\$basearch")
           end
         end
 
