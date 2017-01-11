@@ -433,29 +433,36 @@ User for the proxy used by the repository, if required.
 
 #### `repo_url_suffix`
 
-This module defaults to installing the latest NodeSource 0.10.x release on
-Debian and RedHat (i.e. RHEL/CentOS/Fedora/Amazon Linux) platforms. If you wish
-to install a 0.12.x release or greater, you will need to set this parameter
-accordingly. Accepted values are as follows:
+Defaults to ```0.10``` which means that the latest NodeSource 0.10.x release
+is installed. If you wish to install a 0.12.x release or greater, you will
+need to set this value accordingly. This parameter is a just a reflection of
+the NodeSource URL structure - NodeSource might remove old versions (such as
+0.10 and 0.12) or add new ones (such as 8.x) at any time.
 
-* Debian
-    * 0.10 (default)
-    * 0.12
-    * 4.x
-    * 5.x
-    * 6.x
-* Ubuntu
-    * 0.10 (default, **Not** available for Ubuntu 15.10)
-    * 0.12 (**Not** available for Ubuntu 15.10)
-    * 4.x (**Not** available for Ubuntu 10, 11 and 13)
-    * 5.x (**Not** available for Ubuntu 10, 11 and 13)
-    * 6.x (**Not** available for Ubuntu 10, 11 and 13)
-    * 7.x (**Not** available for Ubuntu 10, 11, 13 and 14)
-* RedHat (RHEL/CentOS/Fedora/Amazon Linux)
-    * 0.10 (default, **Not** available for Fedora 23)
-    * 0.12 (**Not** available for Fedora 23)
-    * 4.x (**Only** available for RedHat/CentOS/Amazon Linux 7 and Fedora 21/22/23)
-    * 5.x (**Only** available for RedHat/CentOS/Amazon Linux 7 and Fedora 21/22/23)
+The following are ``repo_url_suffix`` values that reflect NodeSource versions
+that were available on 2017-01-08:
+
+* Debian 7 (Wheezy) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x```
+* Debian 8 (Jessie) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x```
+* Debian (Sid) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x```
+* Ubuntu 10.04 (Lucid) ```0.10```
+* Ubuntu 12.04 (Precise) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x```
+* Ubuntu 13.10 (Saucy) ```0.10```
+* Ubuntu 14.04 (Trusty) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x```
+* Ubuntu 14.10 (Utopic) ```0.10``` ```0.12```
+* Ubuntu 15.04 (Vivid) ```0.10``` ```0.12``` ```4.x``` ```5.x```
+* Ubuntu 15.10 (wily) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x```
+* Ubuntu 16.04 (Xenial) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x```
+* Ubuntu 16.10 (Yakkety) ```0.12``` ```4.x``` ```6.x``` ```7.x```
+* RHEL/CentOS 5 ```0.10``` ```0.12```
+* RHEL/CentOS 6 ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x```
+* RHEL/CentOS 7 ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x```
+* Amazon Linux - See RHEL/CentOS 7
+* Fedora 19/20 ```0.10``` ```0.12``` ```4.x```
+* Fedora 21 ```0.10``` ```0.12``` ```4.x``` ```5.x```
+* Fedora 22 ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x```
+* Fedora 23/24 ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x```
+* Fedora 25 ```4.x``` ```6.x``` ```7.x```
 
 #### `use_flags`
 
