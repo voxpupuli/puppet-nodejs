@@ -223,7 +223,10 @@ describe 'nodejs', type: :class do
           }
         end
 
-        if facts[:operatingsystemrelease] == '10.04' || facts[:operatingsystemmajrelease] == '7'
+        if facts[:osfamily] == 'Debian' && (
+             facts[:operatingsystemrelease] == '10.04' ||
+             %w(7 8).include?(facts[:operatingsystemmajrelease])
+        )
           it 'the nodejs development package resource should not be present' do
             is_expected.not_to contain_package('nodejs-dev')
           end
@@ -241,7 +244,10 @@ describe 'nodejs', type: :class do
           }
         end
 
-        if facts[:operatingsystemrelease] == '10.04' || facts[:operatingsystemmajrelease] == '7'
+        if facts[:osfamily] == 'Debian' && (
+             facts[:operatingsystemrelease] == '10.04' ||
+             %w(7 8).include?(facts[:operatingsystemmajrelease])
+        )
           it 'the nodejs development package resource should not be present' do
             is_expected.not_to contain_package('nodejs-dev')
           end
@@ -285,7 +291,10 @@ describe 'nodejs', type: :class do
           }
         end
 
-        if facts[:operatingsystemrelease] == '10.04' || facts[:operatingsystemmajrelease] == '7'
+        if facts[:osfamily] == 'Debian' && (
+             facts[:operatingsystemrelease] == '10.04' ||
+             %w(7 8).include?(facts[:operatingsystemmajrelease])
+        )
           it 'the npm package resource should not be present' do
             is_expected.not_to contain_package('npm')
           end
@@ -303,7 +312,10 @@ describe 'nodejs', type: :class do
           }
         end
 
-        if facts[:operatingsystemrelease] == '10.04' || facts[:operatingsystemmajrelease] == '7'
+        if facts[:osfamily] == 'Debian' && (
+             facts[:operatingsystemrelease] == '10.04' ||
+             %w(7 8).include?(facts[:operatingsystemmajrelease])
+        )
           it 'the npm package resource should not be present' do
             is_expected.not_to contain_package('npm')
           end
