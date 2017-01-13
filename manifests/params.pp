@@ -24,7 +24,7 @@ class nodejs::params {
       if $::operatingsystemrelease =~ /^6\.(\d+)/ {
         fail("The ${module_name} module is not supported on Debian Squeeze.")
       }
-      if $::operatingsystemrelease =~ /^7\.(\d+)/ {
+      elsif $::operatingsystemrelease =~ /^[78]\.(\d+)/ {
         $legacy_debian_symlinks    = false
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-dbg'
