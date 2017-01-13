@@ -1,11 +1,22 @@
-## 2016-12-08 Release 2.2.0
+# Changelog
+
+## 2017-01-13 - Release 2.3.0
+
+This is the last release with Puppet 3 support!
+- Modulesync with latest Vox Pupuli defaults
+- Fix repo validation regexps for Ubuntu 15.04/15.10 (#238)
+- Update README to reflect nodejs versions 6.x and version 7.x
+- Bump min version_requirement for Puppet + dep
+- Don't validate repo_url_suffix
+
+## 2016-12-08 - Release 2.2.0
 
 - Modulesync with latest Vox Pupuli defaults
 - provider: add support for install_options
 - Fix: Nodesource 6.x nodejs package replaces nodejs-dev & npm packages on 16.04
 - Actually remove gpg_key dependency
 
-## 2016-10-04 Release 2.1.0
+## 2016-10-04 - Release 2.1.0
 
 ### Added
 
@@ -21,14 +32,14 @@
 - Modulesync with latest Vox Pupuli defaults
 
 
-## 2016-06-02 Release 2.0.1
+## 2016-06-02 - Release 2.0.1
 
 ### Fixed
 
 - fix broken Ubuntu Xenial support
 
 
-## 2016-05-08 Release 2.0.0
+## 2016-05-08 - Release 2.0.0
 
 ### Added
 
@@ -49,7 +60,7 @@
 - Drop Ruby1.8.7 support
 
 
-## 2016-01-07 Release 1.3.0
+## 2016-01-07 - Release 1.3.0
 
 ### Fixed
 
@@ -66,7 +77,7 @@
 - Fixed loads of Rubocop complaints
 
 
-## 2015-08-18 Release 1.2.0
+## 2015-08-18 - Release 1.2.0
 
 ### Added
 
@@ -78,7 +89,7 @@
 - Misc lint/spec fixes
 - Metadata dependency on `treydock/gpg_key`
 
-## 2015-06-23 Release 1.1.0
+## 2015-06-23 - Release 1.1.0
 
 ### Backwards-incompatible changes
 
@@ -88,7 +99,7 @@ nodejs::repo::nodesource::apt is now compatible with puppetlabs-apt 2.x only
 
 Debian-based platforms now require puppetlabs-apt 2.x rather than puppetlabs-apt 1.x
 
-## 2015-05-20 Release 1.0.0
+## 2015-05-20 - Release 1.0.0
 
 ### Summary
 
@@ -96,7 +107,7 @@ Module donated by Puppetlabs to Puppet Community.
 This release fixes support for ArchLinux, since npm recently moved to its own
 package.
 
-## 2015-05-12 Release 0.8.0
+## 2015-05-12 - Release 0.8.0
 
 ### Backwards-incompatible changes
 
