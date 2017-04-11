@@ -54,6 +54,28 @@ describe 'nodejs', type: :class do
         end
       end
 
+      context 'with npmrc_config set to a string' do
+        let :params do
+          {
+            npmrc_config: { 'http-proxy' => 'http://localhost:8080/' }
+          }
+        end
+
+        it { is_expected.to contain_file('root_npmrc').with_content(%r{^http-proxy=http://localhost:8080/$}) }
+      end
+
+      context 'with npmrc_config set to an invalid type (non-string)' do
+        let :params do
+          {
+            npmrc_config: %w(invalid type)
+          }
+        end
+
+        it 'fails' do
+          expect { catalogue }.to raise_error(Puppet::Error, %r{npmrc_config must be a string})
+        end
+      end
+
       # legacy_debian_symlinks
       context 'with legacy_debian_symlinks set to true' do
         let :params do

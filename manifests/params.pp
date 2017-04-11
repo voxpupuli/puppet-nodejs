@@ -1,5 +1,6 @@
 class nodejs::params {
   $npmrc_auth                  = undef
+  $npmrc_config                = undef
   $nodejs_debug_package_ensure = 'absent'
   $nodejs_package_ensure       = 'present'
   $repo_enable_src             = false
