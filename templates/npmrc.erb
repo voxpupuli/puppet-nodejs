@@ -4,3 +4,8 @@
 <% if @npmrc_auth -%>
 _auth="<%= @npmrc_auth %>"
 <% end -%>
+<%- if @npmrc_config -%>
+    <%- @npmrc_config.each do | k,v | -%>
+<%= k %>=<%= v %>
+    <%- end -%>
+<% end %>
