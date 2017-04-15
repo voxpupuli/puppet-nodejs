@@ -387,6 +387,12 @@ A string that contains the value for the key `_auth` that will be set in
 `/root/.npmrc`, as this value is not allowed to be set by
 nodejs::npm::global_config_entry. The default value is `undef`.
 
+#### `npmrc_config`
+
+A hash that contains keys/values that will be set in `/root/.npmrc`,
+in the form of `key=value`. Useful for setting a http-proxy for npm only.
+The default value is `undef`.
+
 #### `repo_class`
 
 Name of the Puppet class used for the setup and management of the Node.js
