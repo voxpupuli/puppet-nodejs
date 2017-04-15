@@ -45,7 +45,7 @@ describe 'nodejs', type: :class do
       context 'with npmrc_auth set to an invalid type (non-string)' do
         let :params do
           {
-            npmrc_auth: %w(invalid type)
+            npmrc_auth: %w[invalid type]
           }
         end
 
@@ -67,7 +67,7 @@ describe 'nodejs', type: :class do
       context 'with npmrc_config set to an invalid type (non-hash)' do
         let :params do
           {
-            npmrc_config: %w(invalid type)
+            npmrc_config: %w[invalid type]
           }
         end
 
@@ -247,7 +247,7 @@ describe 'nodejs', type: :class do
 
         if facts[:osfamily] == 'Debian' && (
              facts[:operatingsystemrelease] == '10.04' ||
-             %w(7 8).include?(facts[:operatingsystemmajrelease])
+             %w[7 8].include?(facts[:operatingsystemmajrelease])
         )
           it 'the nodejs development package resource should not be present' do
             is_expected.not_to contain_package('nodejs-dev')
@@ -268,7 +268,7 @@ describe 'nodejs', type: :class do
 
         if facts[:osfamily] == 'Debian' && (
              facts[:operatingsystemrelease] == '10.04' ||
-             %w(7 8).include?(facts[:operatingsystemmajrelease])
+             %w[7 8].include?(facts[:operatingsystemmajrelease])
         )
           it 'the nodejs development package resource should not be present' do
             is_expected.not_to contain_package('nodejs-dev')
@@ -315,7 +315,7 @@ describe 'nodejs', type: :class do
 
         if facts[:osfamily] == 'Debian' && (
              facts[:operatingsystemrelease] == '10.04' ||
-             %w(7 8).include?(facts[:operatingsystemmajrelease])
+             %w[7 8].include?(facts[:operatingsystemmajrelease])
         )
           it 'the npm package resource should not be present' do
             is_expected.not_to contain_package('npm')
@@ -336,7 +336,7 @@ describe 'nodejs', type: :class do
 
         if facts[:osfamily] == 'Debian' && (
              facts[:operatingsystemrelease] == '10.04' ||
-             %w(7 8).include?(facts[:operatingsystemmajrelease])
+             %w[7 8].include?(facts[:operatingsystemmajrelease])
         )
           it 'the npm package resource should not be present' do
             is_expected.not_to contain_package('npm')
@@ -355,6 +355,7 @@ describe 'nodejs', type: :class do
             npm_package_name: 'false'
           }
         end
+
         it 'the npm package resource should not be present' do
           is_expected.not_to contain_package('npm')
         end
@@ -1126,12 +1127,12 @@ describe 'nodejs', type: :class do
     context 'with use_flags set to npm, snapshot' do
       let :params do
         {
-          use_flags: %w(npm snapshot)
+          use_flags: %w[npm snapshot]
         }
       end
 
       it 'the nodejs package should have npm, snapshot use flags' do
-        is_expected.to contain_package_use('net-libs/nodejs').with('use' => %w(npm snapshot))
+        is_expected.to contain_package_use('net-libs/nodejs').with('use' => %w[npm snapshot])
       end
     end
   end

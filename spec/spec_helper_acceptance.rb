@@ -17,7 +17,7 @@ unless ENV['RS_PROVISION'] == 'no'
   end
 end
 
-UNSUPPORTED_PLATFORMS = %w(AIX Solaris).freeze
+UNSUPPORTED_PLATFORMS = %w[AIX Solaris].freeze
 
 RSpec.configure do |c|
   # Project root

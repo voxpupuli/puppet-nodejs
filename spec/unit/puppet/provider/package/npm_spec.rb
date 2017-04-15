@@ -14,6 +14,7 @@ describe Puppet::Type.type(:package).provider(:npm) do
       provider.class.stubs(:command).with(:npm).returns '/usr/local/bin/npm'
     end
   end
+
   def self.it_should_respond_to(*actions)
     actions.each do |action|
       it "should respond to :#{action}" do

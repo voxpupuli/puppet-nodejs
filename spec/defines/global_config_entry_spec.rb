@@ -23,6 +23,7 @@ describe 'nodejs::npm::global_config_entry', type: :define do
           value: 'proxy.domain'
         }
       end
+
       it 'npm config set proxy proxy.domain should be executed' do
         is_expected.to contain_exec('npm_config present proxy').with('command' => '/usr/bin/npm config set proxy proxy.domain --global')
       end
@@ -35,6 +36,7 @@ describe 'nodejs::npm::global_config_entry', type: :define do
           value: 'proxy.domain'
         }
       end
+
       it 'npm config set https-proxy proxy.domain should be executed' do
         is_expected.to contain_exec('npm_config present https-proxy').with('command' => '/usr/bin/npm config set https-proxy proxy.domain --global')
       end
@@ -47,6 +49,7 @@ describe 'nodejs::npm::global_config_entry', type: :define do
           ensure: 'absent'
         }
       end
+
       it 'npm config delete color should be executed' do
         is_expected.to contain_exec('npm_config absent color').with('command' => '/usr/bin/npm config delete color --global')
       end
@@ -59,6 +62,7 @@ describe 'nodejs::npm::global_config_entry', type: :define do
           ensure: 'invalid_value'
         }
       end
+
       it 'fails' do
         expect { catalogue }.to raise_error(Puppet::Error, %r{nodejs::npm::global_config_entry : Ensure parameter must be present or absent})
       end
