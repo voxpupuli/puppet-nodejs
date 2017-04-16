@@ -67,4 +67,6 @@ class nodejs(
     -> Class['::nodejs::install']
     -> anchor { '::nodejs::end': }
   }
+  
+  Class['::nodejs'] -> Package <| provider == 'npm' |>
 }
