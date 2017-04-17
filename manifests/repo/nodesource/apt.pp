@@ -27,6 +27,7 @@ class nodejs::repo::nodesource::apt {
         Package['apt-transport-https'],
         Package['ca-certificates'],
       ],
+      notify   => Exec['apt_update'],
     }
 
     Apt::Source['nodesource'] -> Package<| tag == 'nodesource_repo' |>
@@ -36,6 +37,7 @@ class nodejs::repo::nodesource::apt {
   else {
     apt::source { 'nodesource':
       ensure => 'absent',
+      notify => Exec['apt_update'],
     }
   }
 }
