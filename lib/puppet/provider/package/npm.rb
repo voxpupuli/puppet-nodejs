@@ -1,30 +1,28 @@
-# We don't support using this module on puppet 3/ruby 1.8 systems.
-# However, some puppet environments contain a mix of puppet 4 (supported) and older puppet 3 EL6 agents.
-# We don't want puppet runs to fail on those old systems just because this module is in the same environment.
-# rubocop:disable Style/HashSyntax
 require 'puppet/provider/package'
 
-Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package do
+Puppet::Type.type(:package).provide :npm, parent: Puppet::Provider::Package do
   desc 'npm is the package manager for Node.js. This provider only handles global packages.'
 
-  # We explicitly don't support ruby 1.8
-  confine :false   => %r{^1\.8}.match(RUBY_VERSION)
-  confine :feature => :npm
+  confine feature: :npm
 
   has_feature :versionable, :install_options
 
-  has_command(:npm, 'npm') do
-    is_optional
-    environment :HOME => '/root'
+  if Puppet::Util::Package.versioncmp(Puppet.version, '3.0') >= 0
+    has_command(:npm, 'npm') do
+      is_optional
+      environment HOME: '/root'
+    end
+  else
+    optional_commands npm: 'npm'
   end
 
   def self.npmlist
     # Ignore non-zero exit codes as they can be minor, just try and parse JSON
-    output = execute([command(:npm), 'list', '--json', '--global'], :combine => false)
+    output = execute([command(:npm), 'list', '--json', '--global'], combine: false)
     Puppet.debug("Warning: npm list --json exited with code #{$CHILD_STATUS.exitstatus}") unless $CHILD_STATUS.success?
     begin
       # ignore any npm output lines to be a bit more robust
-      output = PSON.parse(output.lines.select { |l| l =~ %r{^((?!^npm).*)$} }.join("\n"), :max_nesting => 100)
+      output = PSON.parse(output.lines.select { |l| l =~ %r{^((?!^npm).*)$} }.join("\n"), max_nesting: 100)
       @npmlist = output['dependencies'] || {}
     rescue PSON::ParserError => e
       Puppet.debug("Error: npm list --json command error #{e.message}")
@@ -39,7 +37,7 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
   def self.instances
     @npmlist ||= npmlist
     @npmlist.map do |k, v|
-      new(:name => k, :ensure => v['version'], :provider => 'npm')
+      new(name: k, ensure: v['version'], provider: 'npm')
     end
   end
 
@@ -48,9 +46,9 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
 
     if list.key?(resource[:name]) && list[resource[:name]].key?('version')
       version = list[resource[:name]]['version']
-      { :ensure => version, :name => resource[:name] }
+      { ensure: version, name: resource[:name] }
     else
-      { :ensure => :absent, :name => resource[:name] }
+      { ensure: :absent, name: resource[:name] }
     end
   end
 
