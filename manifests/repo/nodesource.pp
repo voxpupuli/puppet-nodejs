@@ -1,13 +1,14 @@
 # PRIVATE CLASS: Do not use directly
 class nodejs::repo::nodesource {
-  $enable_src     = $nodejs::repo_enable_src
-  $ensure         = $nodejs::repo_ensure
-  $pin            = $nodejs::repo_pin
-  $priority       = $nodejs::repo_priority
-  $proxy          = $nodejs::repo_proxy
-  $proxy_password = $nodejs::repo_proxy_password
-  $proxy_username = $nodejs::repo_proxy_username
-  $url_suffix     = $nodejs::repo_url_suffix
+  $enable_src          = $nodejs::repo_enable_src
+  $ensure              = $nodejs::repo_ensure
+  $pin                 = $nodejs::repo_pin
+  $priority            = $nodejs::repo_priority
+  $proxy               = $nodejs::repo_proxy
+  $proxy_password      = $nodejs::repo_proxy_password
+  $proxy_username      = $nodejs::repo_proxy_username
+  $url_suffix          = $nodejs::repo_url_suffix
+  $manage_dep_packages = $nodejs::manage_dep_packages
 
   case $::osfamily {
     'RedHat': {
