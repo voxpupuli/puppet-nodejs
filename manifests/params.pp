@@ -11,6 +11,7 @@ class nodejs::params {
   $repo_proxy_username         = 'absent'
   $repo_url_suffix             = '0.10'
   $use_flags                   = ['npm', 'snapshot']
+  $manage_dep_packages         = true
 
   # The full path to cmd.exe is required on Windows. The system32 fact is only
   # available from Facter 2.3
