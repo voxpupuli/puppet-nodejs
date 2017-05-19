@@ -319,6 +319,26 @@ describe 'nodejs::npm', type: :define do
         end
       end
 
+      # npm install with package.json
+      context 'with package set to a valid value, ensure set to present and use_package_json set to true' do
+        let :params do
+          {
+            ensure: 'present',
+            package: 'express',
+            target: '/home/user/project',
+            use_package_json: true
+          }
+        end
+
+        it 'the command should be npm install' do
+          is_expected.to contain_exec('npm_install_express').with('command' => '/usr/bin/npm install ')
+        end
+
+        it 'the list_command should check if all deps are installed in /home/user/project/node_modules' do
+          is_expected.to contain_exec('npm_install_express').with('unless'  => '/usr/bin/npm ls --long --parseable')
+        end
+      end
+
       # npm rm <package>
       context 'with package set to express and ensure set to absent' do
         let :params do
@@ -354,6 +374,28 @@ describe 'nodejs::npm', type: :define do
             'command' => '/usr/bin/npm rm express --save',
             'cwd'     => '/home/npm/packages'
           )
+        end
+      end
+
+      # npm uninstall with package.json
+      context 'with package set to express, ensure set to absent and use_package_json set to true' do
+        let :params do
+          {
+            ensure: 'absent',
+            package: 'express',
+            target: '/home/user/project',
+            use_package_json: true
+          }
+        end
+
+        it 'the command should be npm rm * in subdirectory node_modules' do
+          is_expected.to contain_exec('npm_rm_express').with('command' => '/usr/bin/npm rm * ')
+          is_expected.to contain_exec('npm_rm_express').with('cwd' => '/home/user/project/node_modules')
+        end
+
+        it 'the list_command should check if modules are installed in /home/user/project/node_modules' do
+          is_expected.to contain_exec('npm_rm_express').with('onlyif' => '/usr/bin/npm ls --long --parseable')
+          is_expected.to contain_exec('npm_rm_express').with('cwd' => '/home/user/project/node_modules')
         end
       end
     end
@@ -682,6 +724,26 @@ describe 'nodejs::npm', type: :define do
         end
       end
 
+      # npm install with package.json
+      context 'with package set to a valid value, ensure set to present and use_package_json set to true' do
+        let :params do
+          {
+            ensure: 'present',
+            package: 'express',
+            target: 'C:\Users\test\project',
+            use_package_json: true
+          }
+        end
+
+        it 'the command should be npm install' do
+          is_expected.to contain_exec('npm_install_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" install ')
+        end
+
+        it 'the list_command should check if all deps are installed in /home/user/project/node_modules' do
+          is_expected.to contain_exec('npm_install_express').with('unless' => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable')
+        end
+      end
+
       # npm rm <package>
       context 'with package set to express and ensure set to absent' do
         let :params do
@@ -714,6 +776,28 @@ describe 'nodejs::npm', type: :define do
 
         it 'the command should be npm rm express --save' do
           is_expected.to contain_exec('npm_rm_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" rm express --save')
+        end
+      end
+
+      # npm uninstall with package.json
+      context 'with package set to express, ensure set to absent and use_package_json set to true' do
+        let :params do
+          {
+            ensure: 'absent',
+            package: 'express',
+            target: 'C:\Users\test\project',
+            use_package_json: true
+          }
+        end
+
+        it 'the command should be npm rm * in subdirectory node_modules' do
+          is_expected.to contain_exec('npm_rm_express').with('command' => '"C:\Program Files\nodejs\npm.cmd" rm * ')
+          is_expected.to contain_exec('npm_rm_express').with('cwd' => 'C:\Users\test\project\node_modules')
+        end
+
+        it 'the list_command should check if modules are installed in C:\Users\test\project\node_modules' do
+          is_expected.to contain_exec('npm_rm_express').with('onlyif' => '"C:\Program Files\nodejs\npm.cmd" ls --long --parseable')
+          is_expected.to contain_exec('npm_rm_express').with('cwd' => 'C:\Users\test\project\node_modules')
         end
       end
     end

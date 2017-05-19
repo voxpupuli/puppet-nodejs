@@ -149,6 +149,9 @@ except version ranges. The title simply must be a unique, arbitrary value.
   specified as an array.
 * The user parameter is provided should you wish to run npm install or npm rm
   as a specific user.
+* If you want to use a package.json supplied by a module to install dependencies
+  (e.g. if you have a NodeJS server app), set the parameter use_package_json to true.
+  The package name is then only used for the resource name. source parameter is ignored.
 
 nodejs::npm parameters:
 
@@ -159,6 +162,7 @@ nodejs::npm parameters:
 * uninstall_options: option flags invoked during removal (optional).
 * npm_path: defaults to the value listed in `nodejs::params`
 * user: defaults to undef
+* use_package_json: read and install modules listed in package.json in target dir and install those in subdirectory node_modules (defaults to false)
 
 Examples:
 
@@ -286,6 +290,16 @@ nodejs::npm { 'express with options':
 }
 ```
 
+Install dependencies from package.json:
+
+```puppet
+nodejs::npm { 'serverapp':
+  ensure           => 'present',
+  target           => '/opt/serverapp',
+  use_package_json => true,
+}
+```
+
 Uninstall any versions of express in /opt/packages regardless of source:
 
 ```puppet
@@ -293,6 +307,16 @@ nodejs::npm { 'remove all express packages':
   ensure  => 'absent',
   package => 'express',
   target  => '/opt/packages',
+}
+```
+
+Uninstall dependencies from package.json:
+
+```puppet
+nodejs::npm { 'serverapp':
+  ensure           => 'absent',
+  target           => '/opt/serverapp',
+  use_package_json => true,
 }
 ```
 
