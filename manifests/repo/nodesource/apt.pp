@@ -23,10 +23,6 @@ class nodejs::repo::nodesource::apt {
       pin      => $pin,
       release  => $::lsbdistcodename,
       repos    => 'main',
-      require  => [
-        Package['apt-transport-https'],
-        Package['ca-certificates'],
-      ],
     }
 
     Apt::Source['nodesource'] -> Package<| tag == 'nodesource_repo' |>
