@@ -1,19 +1,6 @@
 require 'spec_helper'
 
 describe 'nodejs', type: :class do
-  context 'when run on Debian Squeeze' do
-    let :facts do
-      {
-        osfamily: 'Debian',
-        operatingsystemrelease: '6.0.10'
-      }
-    end
-
-    it 'fails' do
-      expect { catalogue }.to raise_error(Puppet::Error, %r{The nodejs module is not supported on Debian Squeeze.})
-    end
-  end
-
   on_supported_os.each do |os, facts|
     next unless facts[:osfamily] == 'Debian'
 
@@ -42,18 +29,6 @@ describe 'nodejs', type: :class do
         it { is_expected.to contain_file('root_npmrc').with_content(%r{^_auth="dXNlcjpwYXNzd29yZA=="$}) }
       end
 
-      context 'with npmrc_auth set to an invalid type (non-string)' do
-        let :params do
-          {
-            npmrc_auth: %w[invalid type]
-          }
-        end
-
-        it 'fails' do
-          expect { catalogue }.to raise_error(Puppet::Error, %r{npmrc_auth must be a string})
-        end
-      end
-
       context 'with npmrc_config set to a hash' do
         let :params do
           {
@@ -62,18 +37,6 @@ describe 'nodejs', type: :class do
         end
 
         it { is_expected.to contain_file('root_npmrc').with_content(%r{^http-proxy=http://localhost:8080/$}) }
-      end
-
-      context 'with npmrc_config set to an invalid type (non-hash)' do
-        let :params do
-          {
-            npmrc_config: %w[invalid type]
-          }
-        end
-
-        it 'fails' do
-          expect { catalogue }.to raise_error(Puppet::Error, %r{npmrc_config must be a hash})
-        end
       end
 
       # legacy_debian_symlinks
