@@ -1,22 +1,16 @@
 # See README.md for usage information.
 define nodejs::npm (
-  $target,
-  $ensure            = 'present',
-  $cmd_exe_path      = $nodejs::cmd_exe_path,
-  $install_options   = [],
-  $npm_path          = $nodejs::npm_path,
-  $package           = $title,
-  $source            = 'registry',
-  $uninstall_options = [],
-  $home_dir          = '/root',
-  $user              = undef,
+  Stdlib::Absolutepath $target,
+  Pattern[/^[^<            >= ]/] $ensure            = 'present',
+  $cmd_exe_path             = $nodejs::cmd_exe_path,
+  Array $install_options    = [],
+  $npm_path                 = $nodejs::npm_path,
+  String $package           = $title,
+  $source                   = 'registry',
+  Array $uninstall_options  = [],
+  $home_dir                 = '/root',
+  $user                     = undef,
 ) {
-
-  validate_re($ensure, '^[^<>=]', "The ${module_name}::npm defined type does not accept version ranges")
-  validate_array($install_options)
-  validate_string($package)
-  validate_absolute_path($target)
-  validate_array($uninstall_options)
 
   $install_options_string = join($install_options, ' ')
   $uninstall_options_string = join($uninstall_options, ' ')
