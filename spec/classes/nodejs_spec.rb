@@ -1,19 +1,6 @@
 require 'spec_helper'
 
 describe 'nodejs', type: :class do
-  context 'when run on Debian Squeeze' do
-    let :facts do
-      {
-        osfamily: 'Debian',
-        operatingsystemrelease: '6.0.10'
-      }
-    end
-
-    it 'fails' do
-      expect { catalogue }.to raise_error(Puppet::Error, %r{The nodejs module is not supported on Debian Squeeze.})
-    end
-  end
-
   on_supported_os.each do |os, facts|
     next unless facts[:osfamily] == 'Debian'
 
@@ -42,18 +29,6 @@ describe 'nodejs', type: :class do
         it { is_expected.to contain_file('root_npmrc').with_content(%r{^_auth="dXNlcjpwYXNzd29yZA=="$}) }
       end
 
-      context 'with npmrc_auth set to an invalid type (non-string)' do
-        let :params do
-          {
-            npmrc_auth: %w(invalid type)
-          }
-        end
-
-        it 'fails' do
-          expect { catalogue }.to raise_error(Puppet::Error, %r{npmrc_auth must be a string})
-        end
-      end
-
       context 'with npmrc_config set to a hash' do
         let :params do
           {
@@ -62,18 +37,6 @@ describe 'nodejs', type: :class do
         end
 
         it { is_expected.to contain_file('root_npmrc').with_content(%r{^http-proxy=http://localhost:8080/$}) }
-      end
-
-      context 'with npmrc_config set to an invalid type (non-hash)' do
-        let :params do
-          {
-            npmrc_config: %w(invalid type)
-          }
-        end
-
-        it 'fails' do
-          expect { catalogue }.to raise_error(Puppet::Error, %r{npmrc_config must be a hash})
-        end
       end
 
       # legacy_debian_symlinks
@@ -247,7 +210,7 @@ describe 'nodejs', type: :class do
 
         if facts[:osfamily] == 'Debian' && (
              facts[:operatingsystemrelease] == '10.04' ||
-             %w(7 8).include?(facts[:operatingsystemmajrelease])
+             %w[7 8].include?(facts[:operatingsystemmajrelease])
         )
           it 'the nodejs development package resource should not be present' do
             is_expected.not_to contain_package('nodejs-dev')
@@ -268,7 +231,7 @@ describe 'nodejs', type: :class do
 
         if facts[:osfamily] == 'Debian' && (
              facts[:operatingsystemrelease] == '10.04' ||
-             %w(7 8).include?(facts[:operatingsystemmajrelease])
+             %w[7 8].include?(facts[:operatingsystemmajrelease])
         )
           it 'the nodejs development package resource should not be present' do
             is_expected.not_to contain_package('nodejs-dev')
@@ -315,7 +278,7 @@ describe 'nodejs', type: :class do
 
         if facts[:osfamily] == 'Debian' && (
              facts[:operatingsystemrelease] == '10.04' ||
-             %w(7 8).include?(facts[:operatingsystemmajrelease])
+             %w[7 8].include?(facts[:operatingsystemmajrelease])
         )
           it 'the npm package resource should not be present' do
             is_expected.not_to contain_package('npm')
@@ -336,7 +299,7 @@ describe 'nodejs', type: :class do
 
         if facts[:osfamily] == 'Debian' && (
              facts[:operatingsystemrelease] == '10.04' ||
-             %w(7 8).include?(facts[:operatingsystemmajrelease])
+             %w[7 8].include?(facts[:operatingsystemmajrelease])
         )
           it 'the npm package resource should not be present' do
             is_expected.not_to contain_package('npm')
@@ -355,6 +318,7 @@ describe 'nodejs', type: :class do
             npm_package_name: 'false'
           }
         end
+
         it 'the npm package resource should not be present' do
           is_expected.not_to contain_package('npm')
         end
@@ -1126,12 +1090,12 @@ describe 'nodejs', type: :class do
     context 'with use_flags set to npm, snapshot' do
       let :params do
         {
-          use_flags: %w(npm snapshot)
+          use_flags: %w[npm snapshot]
         }
       end
 
       it 'the nodejs package should have npm, snapshot use flags' do
-        is_expected.to contain_package_use('net-libs/nodejs').with('use' => %w(npm snapshot))
+        is_expected.to contain_package_use('net-libs/nodejs').with('use' => %w[npm snapshot])
       end
     end
   end

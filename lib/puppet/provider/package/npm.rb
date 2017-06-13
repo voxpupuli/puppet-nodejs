@@ -67,7 +67,7 @@ Puppet::Type.type(:package).provide :npm, parent: Puppet::Provider::Package do
                 "#{resource[:name]}@#{resource[:ensure]}"
               end
 
-    options = %w(--global)
+    options = %w[--global]
     options += install_options if @resource[:install_options]
 
     if resource[:source]
