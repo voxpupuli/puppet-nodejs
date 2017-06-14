@@ -1,15 +1,13 @@
 # See README.md for usage information.
 define nodejs::npm::global_config_entry (
-  $ensure         = 'present',
-  $config_setting = $title,
-  $cmd_exe_path   = $::nodejs::cmd_exe_path,
-  $npm_path       = $::nodejs::params::npm_path,
-  $value          = undef,
+  Enum['present', 'absent'] $ensure = 'present',
+  $config_setting                   = $title,
+  $cmd_exe_path                     = $::nodejs::cmd_exe_path,
+  $npm_path                         = $::nodejs::params::npm_path,
+  $value                            = undef,
 ) {
 
   include ::nodejs
-
-  validate_re($ensure, '^(present|absent)$', "${module_name}::npm::global_config_entry : Ensure parameter must be present or absent")
 
   case $ensure {
     'absent': {
