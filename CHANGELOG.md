@@ -1,277 +1,393 @@
-# Changelog
+# Change log
 
-## 2017-01-13 - Release 2.3.0
+All notable changes to this project will be documented in this file.
+Each new release typically also includes the latest modulesync defaults.
+These should not impact the functionality of the module.
 
-This is the last release with Puppet 3 support!
-- Modulesync with latest Vox Pupuli defaults
-- Fix repo validation regexps for Ubuntu 15.04/15.10 (#238)
-- Update README to reflect nodejs versions 6.x and version 7.x
-- Bump min version_requirement for Puppet + dep
-- Don't validate repo_url_suffix
+## [v3.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v3.0.0) (2017-06-15)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v2.3.0...v3.0.0)
 
-## 2016-12-08 - Release 2.2.0
+**Implemented enhancements:**
 
-- Modulesync with latest Vox Pupuli defaults
-- provider: add support for install_options
-- Fix: Nodesource 6.x nodejs package replaces nodejs-dev & npm packages on 16.04
-- Actually remove gpg_key dependency
+- NPM Proxy [\#290](https://github.com/voxpupuli/puppet-nodejs/issues/290)
+- npmrc can take k,v [\#292](https://github.com/voxpupuli/puppet-nodejs/pull/292) ([Poil](https://github.com/Poil))
 
-## 2016-10-04 - Release 2.1.0
+**Fixed bugs:**
 
-### Added
+- Dependency cycle on ubuntu 14.04 [\#281](https://github.com/voxpupuli/puppet-nodejs/issues/281)
+- Set explicit params for debian jessie [\#274](https://github.com/voxpupuli/puppet-nodejs/pull/274) ([cbaoxa](https://github.com/cbaoxa))
 
-- Fedora 22 and 23 support
+**Closed issues:**
 
-### Fixed
+- CentOS 6 3.8 is broken [\#289](https://github.com/voxpupuli/puppet-nodejs/issues/289)
+- Centos 6.6 and 7 - Cannot retrieve repository metadata [\#288](https://github.com/voxpupuli/puppet-nodejs/issues/288)
+- repo created by puppet [\#284](https://github.com/voxpupuli/puppet-nodejs/issues/284)
+- r [\#279](https://github.com/voxpupuli/puppet-nodejs/issues/279)
+- Explicitly put parameters for Debian Jessie [\#272](https://github.com/voxpupuli/puppet-nodejs/issues/272)
 
-- Fix Ubuntu 16.04 support
-- Ignore npm cache lines when calling 'npm view' for latest version
+**Merged pull requests:**
 
-### Maintenance
+- replace validate\_\* with datatypes [\#302](https://github.com/voxpupuli/puppet-nodejs/pull/302) ([bastelfreak](https://github.com/bastelfreak))
+- Fix github license detection [\#299](https://github.com/voxpupuli/puppet-nodejs/pull/299) ([alexjfisher](https://github.com/alexjfisher))
+- Revert "DO NOT MERGE: Prevent provider blowing up on ruby 1.8 agents" [\#296](https://github.com/voxpupuli/puppet-nodejs/pull/296) ([roidelapluie](https://github.com/roidelapluie))
+- Update README for npmrc\_config [\#295](https://github.com/voxpupuli/puppet-nodejs/pull/295) ([Poil](https://github.com/Poil))
+- Fix puppetlint [\#293](https://github.com/voxpupuli/puppet-nodejs/pull/293) ([Poil](https://github.com/Poil))
+- Prevent provider blowing up on ruby 1.8 agents [\#282](https://github.com/voxpupuli/puppet-nodejs/pull/282) ([alexjfisher](https://github.com/alexjfisher))
+- Modulesync 0.19.0 [\#276](https://github.com/voxpupuli/puppet-nodejs/pull/276) ([bastelfreak](https://github.com/bastelfreak))
 
-- Modulesync with latest Vox Pupuli defaults
+## [v2.3.0](https://github.com/voxpupuli/puppet-nodejs/tree/v2.3.0) (2017-01-13)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v2.2.0...v2.3.0)
 
+**Implemented enhancements:**
 
-## 2016-06-02 - Release 2.0.1
+- Provide NodeJS 7.x [\#270](https://github.com/voxpupuli/puppet-nodejs/issues/270)
 
-### Fixed
+**Fixed bugs:**
 
-- fix broken Ubuntu Xenial support
+- incorrect repo validation for Ubuntu 15.04/15.10 [\#238](https://github.com/voxpupuli/puppet-nodejs/issues/238)
 
+**Closed issues:**
 
-## 2016-05-08 - Release 2.0.0
+- Unable to install nodejs 5x [\#273](https://github.com/voxpupuli/puppet-nodejs/issues/273)
 
-### Added
+**Merged pull requests:**
 
-- allow absent for ensure attribute
+- release 2.3.0 [\#275](https://github.com/voxpupuli/puppet-nodejs/pull/275) ([bastelfreak](https://github.com/bastelfreak))
+- Don't validate repo\_url\_suffix [\#271](https://github.com/voxpupuli/puppet-nodejs/pull/271) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Bump min version\_requirement for Puppet + dep [\#268](https://github.com/voxpupuli/puppet-nodejs/pull/268) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- update README to reflect nodejs versions 6.x and version 7.x [\#264](https://github.com/voxpupuli/puppet-nodejs/pull/264) ([brahman81](https://github.com/brahman81))
+- Fix repo validation regexps for Ubuntu 15.04/15.10 \(\#238\) [\#239](https://github.com/voxpupuli/puppet-nodejs/pull/239) ([drkp](https://github.com/drkp))
 
-### Fixed
+## [v2.2.0](https://github.com/voxpupuli/puppet-nodejs/tree/v2.2.0) (2016-12-08)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v2.1.0...v2.2.0)
 
-- Link to badges
-- Correct handle of ensure attribute for nodejs
+**Implemented enhancements:**
 
-### Maintenance
+- Vox Pupuli Elections [\#245](https://github.com/voxpupuli/puppet-nodejs/issues/245)
 
-- partial reformat of code for better readability
-- Change npm_package_name default value from "undef" to "false" for better comparison
-- Update apt-get database before package installation
-- Add node6 support for RHEL6 and RHEL7
-- enhance BSD support
-- Drop Ruby1.8.7 support
+**Merged pull requests:**
 
+- release 2.2.0 [\#263](https://github.com/voxpupuli/puppet-nodejs/pull/263) ([bastelfreak](https://github.com/bastelfreak))
+- \[FIX\] Nodesource 6.x nodejs package replaces nodejs-dev & npm packages [\#261](https://github.com/voxpupuli/puppet-nodejs/pull/261) ([mxcoder](https://github.com/mxcoder))
+- provider: add support for install\_options [\#260](https://github.com/voxpupuli/puppet-nodejs/pull/260) ([cbaoxa](https://github.com/cbaoxa))
+- Add missing badges [\#256](https://github.com/voxpupuli/puppet-nodejs/pull/256) ([dhoppe](https://github.com/dhoppe))
+- Metric/BlockLength -\> Metrics/BlockLength [\#255](https://github.com/voxpupuli/puppet-nodejs/pull/255) ([bastelfreak](https://github.com/bastelfreak))
+- Actually remove gpg\_key dependency. [\#253](https://github.com/voxpupuli/puppet-nodejs/pull/253) ([MG2R](https://github.com/MG2R))
 
-## 2016-01-07 - Release 1.3.0
+## [v2.1.0](https://github.com/voxpupuli/puppet-nodejs/tree/v2.1.0) (2016-10-05)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v2.0.1...v2.1.0)
 
-### Fixed
+**Closed issues:**
 
-- Improved documentation
-- remove dependency on `treydock/gpg_key`
-- Fix `repo_url_suffix`
-- Minimum Puppet version is now set at >= 3.7.0
-- Maximum Puppet version is set to < 5.0.0
-- Expanded `global_config_entry`, made more robust
+- Puppet Forge still has 0.8.0 as latest release [\#237](https://github.com/voxpupuli/puppet-nodejs/issues/237)
+- npm provider fail \(module not working\) on CentOS6 [\#235](https://github.com/voxpupuli/puppet-nodejs/issues/235)
+- Add apt module to dependency list in metadata.json [\#232](https://github.com/voxpupuli/puppet-nodejs/issues/232)
 
-### Maintenance
+**Merged pull requests:**
 
-- Integrated now with modulesync
-- Fixed loads of Rubocop complaints
+- Fixes debian legacy links on Ubuntu 16.04 [\#251](https://github.com/voxpupuli/puppet-nodejs/pull/251) ([petems](https://github.com/petems))
+- release 2.1.0 [\#250](https://github.com/voxpupuli/puppet-nodejs/pull/250) ([bastelfreak](https://github.com/bastelfreak))
+- Modulesync 0.12.9 [\#249](https://github.com/voxpupuli/puppet-nodejs/pull/249) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Ignore npm cache lines when calling 'npm view' for latest version [\#244](https://github.com/voxpupuli/puppet-nodejs/pull/244) ([domcleal](https://github.com/domcleal))
+- npm is required on 16.04 [\#242](https://github.com/voxpupuli/puppet-nodejs/pull/242) ([gabriel403](https://github.com/gabriel403))
+- add fedora 22 and 23 [\#231](https://github.com/voxpupuli/puppet-nodejs/pull/231) ([javierwilson](https://github.com/javierwilson))
 
+## [v2.0.1](https://github.com/voxpupuli/puppet-nodejs/tree/v2.0.1) (2016-06-02)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v2.0.0...v2.0.1)
 
-## 2015-08-18 - Release 1.2.0
+**Closed issues:**
 
-### Added
+- No support for Xenial with NodeJS6 [\#228](https://github.com/voxpupuli/puppet-nodejs/issues/228)
+- Module v2.0.0 error on CentOS 6.6 [\#227](https://github.com/voxpupuli/puppet-nodejs/issues/227)
+- Puppet Forge outdated [\#226](https://github.com/voxpupuli/puppet-nodejs/issues/226)
+- new release to fix Nodesource 4.x on CentOS 6.7 [\#222](https://github.com/voxpupuli/puppet-nodejs/issues/222)
+- Question: uninstall nodejs entirely [\#210](https://github.com/voxpupuli/puppet-nodejs/issues/210)
+
+**Merged pull requests:**
+
+- Release 2.0.1 [\#230](https://github.com/voxpupuli/puppet-nodejs/pull/230) ([bastelfreak](https://github.com/bastelfreak))
+- Add support for new versions of Ubuntu/NodeJS [\#229](https://github.com/voxpupuli/puppet-nodejs/pull/229) ([ColinHebert](https://github.com/ColinHebert))
+
+## [v2.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v2.0.0) (2016-05-22)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v1.3.0...v2.0.0)
+
+**Fixed bugs:**
+
+- Use npm to install a specific npm version [\#160](https://github.com/voxpupuli/puppet-nodejs/issues/160)
+- Can't ensure latest if package is not instatlled [\#158](https://github.com/voxpupuli/puppet-nodejs/issues/158)
+
+**Closed issues:**
+
+- provider broken on Puppet v3.8.6 w/ Ruby 1.8.7 [\#217](https://github.com/voxpupuli/puppet-nodejs/issues/217)
+- Always installs node '0.10.42', but need '5.x', and npm [\#208](https://github.com/voxpupuli/puppet-nodejs/issues/208)
+- Caveat section in the README should be removed after feature check implemented [\#206](https://github.com/voxpupuli/puppet-nodejs/issues/206)
+- Feature check is not being re-evaluated during the run [\#204](https://github.com/voxpupuli/puppet-nodejs/issues/204)
+- Provider should confine to feature, which should check if npm is actually installed [\#202](https://github.com/voxpupuli/puppet-nodejs/issues/202)
+- Upgrade from 4.x to 5.x, Downgrade from 5.x to 4.x [\#197](https://github.com/voxpupuli/puppet-nodejs/issues/197)
+- Expand rspec tests that were modified for Rubocop [\#193](https://github.com/voxpupuli/puppet-nodejs/issues/193)
+- undefined method `ref' for nil:NilClass [\#185](https://github.com/voxpupuli/puppet-nodejs/issues/185)
+- $repo\_url\_suffix ignores 5.x and 4.x \(or others\) [\#184](https://github.com/voxpupuli/puppet-nodejs/issues/184)
+- puppetforge reports old version [\#179](https://github.com/voxpupuli/puppet-nodejs/issues/179)
+
+**Merged pull requests:**
+
+- Node 6 is now available on EL6 & EL7 [\#225](https://github.com/voxpupuli/puppet-nodejs/pull/225) ([tapsboy](https://github.com/tapsboy))
+- Prepare for release 2.0.0 [\#224](https://github.com/voxpupuli/puppet-nodejs/pull/224) ([bastelfreak](https://github.com/bastelfreak))
+- Fix ordering bug when using global\_config\_entry and managing npm [\#221](https://github.com/voxpupuli/puppet-nodejs/pull/221) ([ghoneycutt](https://github.com/ghoneycutt))
+- Document NPM's behavior of adding a trailing slash to URL's [\#220](https://github.com/voxpupuli/puppet-nodejs/pull/220) ([ghoneycutt](https://github.com/ghoneycutt))
+- Do not hardcode the 'root' group name, use the 'gid' for that. [\#219](https://github.com/voxpupuli/puppet-nodejs/pull/219) ([buzzdeee](https://github.com/buzzdeee))
+- Manage /root/.npmrc [\#216](https://github.com/voxpupuli/puppet-nodejs/pull/216) ([ghoneycutt](https://github.com/ghoneycutt))
+- Update validation for EL 6. [\#213](https://github.com/voxpupuli/puppet-nodejs/pull/213) ([loopiv](https://github.com/loopiv))
+- Fixes \#206 - Remove the caveat section from the readme [\#207](https://github.com/voxpupuli/puppet-nodejs/pull/207) ([imriz](https://github.com/imriz))
+- Fixes \#204 - Workaround PUP-5985 [\#205](https://github.com/voxpupuli/puppet-nodejs/pull/205) ([imriz](https://github.com/imriz))
+- Fixes \#202 - Implement a feature check for npm [\#203](https://github.com/voxpupuli/puppet-nodejs/pull/203) ([imriz](https://github.com/imriz))
+- ensure apt-get update is executed before installing packages [\#201](https://github.com/voxpupuli/puppet-nodejs/pull/201) ([saz](https://github.com/saz))
+- Modulesync [\#200](https://github.com/voxpupuli/puppet-nodejs/pull/200) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Use npm view package version, fix ensure=\>latest bug [\#199](https://github.com/voxpupuli/puppet-nodejs/pull/199) ([joelgarboden](https://github.com/joelgarboden))
+- Making it possible to provide concrete nodejs versions to force upgrade/downgrade \(\#197\) [\#198](https://github.com/voxpupuli/puppet-nodejs/pull/198) ([fstr](https://github.com/fstr))
+- Reverse Rubocop ugliness [\#196](https://github.com/voxpupuli/puppet-nodejs/pull/196) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Change npm\_package\_name from "undef" to "false" for better comparison. [\#195](https://github.com/voxpupuli/puppet-nodejs/pull/195) ([x3dfxjunkie](https://github.com/x3dfxjunkie))
+- Correct badge location [\#194](https://github.com/voxpupuli/puppet-nodejs/pull/194) ([rnelson0](https://github.com/rnelson0))
+
+## [v1.3.0](https://github.com/voxpupuli/puppet-nodejs/tree/v1.3.0) (2016-01-07)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/1.2.0...v1.3.0)
+
+**Implemented enhancements:**
+
+- Support non-default \(i.e. 0.12\) versions on RedHat [\#159](https://github.com/voxpupuli/puppet-nodejs/issues/159)
+- Make repo\_url\_suffix to be usable for RH/CentOS [\#174](https://github.com/voxpupuli/puppet-nodejs/pull/174) ([tsde](https://github.com/tsde))
+
+**Closed issues:**
+
+- Puppetforge nodejs is not the same version as on github [\#182](https://github.com/voxpupuli/puppet-nodejs/issues/182)
+- What needs to be done to make this puppet 4 ready? [\#175](https://github.com/voxpupuli/puppet-nodejs/issues/175)
+- Possibly missing dependency on puppetlabs-apt [\#172](https://github.com/voxpupuli/puppet-nodejs/issues/172)
+- Nodejs package is installed before apt is updated [\#171](https://github.com/voxpupuli/puppet-nodejs/issues/171)
+- install dependencies from package.json [\#167](https://github.com/voxpupuli/puppet-nodejs/issues/167)
+- undefined method `ref' for nil:NilClass on v1.1.0 [\#149](https://github.com/voxpupuli/puppet-nodejs/issues/149)
+
+**Merged pull requests:**
+
+- prep release for 1.3.0 [\#192](https://github.com/voxpupuli/puppet-nodejs/pull/192) ([igalic](https://github.com/igalic))
+- fix\(rubocop\) clean up rubocop errors [\#191](https://github.com/voxpupuli/puppet-nodejs/pull/191) ([igalic](https://github.com/igalic))
+- WIP: Attempt to fix failng Rubocop lint checks [\#190](https://github.com/voxpupuli/puppet-nodejs/pull/190) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- fix\(examples\) puppet lint complains about relative names [\#189](https://github.com/voxpupuli/puppet-nodejs/pull/189) ([igalic](https://github.com/igalic))
+- Update from voxpupuli modulesync\_config [\#188](https://github.com/voxpupuli/puppet-nodejs/pull/188) ([igalic](https://github.com/igalic))
+- move secure line into .sync \(in prep for msync\) [\#186](https://github.com/voxpupuli/puppet-nodejs/pull/186) ([igalic](https://github.com/igalic))
+- Updates README with spaceship collector advice [\#183](https://github.com/voxpupuli/puppet-nodejs/pull/183) ([petems](https://github.com/petems))
+- Fix notes about repo\_url\_suffix usage in README [\#181](https://github.com/voxpupuli/puppet-nodejs/pull/181) ([tsde](https://github.com/tsde))
+- Add note oninstalling node 5.x [\#180](https://github.com/voxpupuli/puppet-nodejs/pull/180) ([tarjei](https://github.com/tarjei))
+- Bump minimum Puppet version to 3.7.0 [\#178](https://github.com/voxpupuli/puppet-nodejs/pull/178) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Update the puppet version requirement since tests and implementations… [\#177](https://github.com/voxpupuli/puppet-nodejs/pull/177) ([pskrz](https://github.com/pskrz))
+- Fix repo\_url\_suffix regex validation [\#176](https://github.com/voxpupuli/puppet-nodejs/pull/176) ([tsde](https://github.com/tsde))
+- Fixed typographical error, changed arbitary to arbitrary in README. [\#170](https://github.com/voxpupuli/puppet-nodejs/pull/170) ([orthographic-pedant](https://github.com/orthographic-pedant))
+- Remove soft dependency on treydock/gpg\_key [\#152](https://github.com/voxpupuli/puppet-nodejs/pull/152) ([juniorsysadmin](https://github.com/juniorsysadmin))
+
+## [1.2.0](https://github.com/voxpupuli/puppet-nodejs/tree/1.2.0) (2015-08-20)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/1.1.0...1.2.0)
+
+**Closed issues:**
+
+- Add a dependency for treydock/gpg [\#143](https://github.com/voxpupuli/puppet-nodejs/issues/143)
+- release 1.0.0 [\#142](https://github.com/voxpupuli/puppet-nodejs/issues/142)
+- Fix deprecated use of should syntax in provider RSpec test [\#140](https://github.com/voxpupuli/puppet-nodejs/issues/140)
+- Fix RSpec tests so that they run successfully under docker containers [\#137](https://github.com/voxpupuli/puppet-nodejs/issues/137)
+
+**Merged pull requests:**
+
+- "Gpg module is gpg\_key not gpg" [\#164](https://github.com/voxpupuli/puppet-nodejs/pull/164) ([nibalizer](https://github.com/nibalizer))
+- "Add dependency on treydock/gpg\_key" [\#163](https://github.com/voxpupuli/puppet-nodejs/pull/163) ([nibalizer](https://github.com/nibalizer))
+- "Prep 1.2.0 Release" [\#162](https://github.com/voxpupuli/puppet-nodejs/pull/162) ([nibalizer](https://github.com/nibalizer))
+- Allowed home environment variable to be set [\#161](https://github.com/voxpupuli/puppet-nodejs/pull/161) ([mootpt](https://github.com/mootpt))
+- Fix failing provider RSpec test when running on docker [\#156](https://github.com/voxpupuli/puppet-nodejs/pull/156) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- fixing amazon default settings [\#155](https://github.com/voxpupuli/puppet-nodejs/pull/155) ([webratz](https://github.com/webratz))
+- Fix missing trailing comma and os version check [\#153](https://github.com/voxpupuli/puppet-nodejs/pull/153) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- RSpec tests: Convert should to expect using transpec [\#151](https://github.com/voxpupuli/puppet-nodejs/pull/151) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Update .travis.yml [\#150](https://github.com/voxpupuli/puppet-nodejs/pull/150) ([juniorsysadmin](https://github.com/juniorsysadmin))
+
+## [1.1.0](https://github.com/voxpupuli/puppet-nodejs/tree/1.1.0) (2015-06-24)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/1.0.0...1.1.0)
+
+**Merged pull requests:**
+
+- Prep for Travis push releases [\#148](https://github.com/voxpupuli/puppet-nodejs/pull/148) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Amend CHANGELOG in preparation for 1.1.0 [\#147](https://github.com/voxpupuli/puppet-nodejs/pull/147) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Make repo::nodesource::apt compatible with puppetlabs-apt 2.x only [\#133](https://github.com/voxpupuli/puppet-nodejs/pull/133) ([juniorsysadmin](https://github.com/juniorsysadmin))
+
+## [1.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/1.0.0) (2015-06-12)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/0.8.0...1.0.0)
+
+**Closed issues:**
+
+- Support nodejs-legacy package for Debian [\#67](https://github.com/voxpupuli/puppet-nodejs/issues/67)
+- Release new version to the forge [\#60](https://github.com/voxpupuli/puppet-nodejs/issues/60)
+- Unmet dependencies installing node and npm on Debian 7 \(Wheezy\) [\#58](https://github.com/voxpupuli/puppet-nodejs/issues/58)
+- NPN Packages Global install on centos [\#57](https://github.com/voxpupuli/puppet-nodejs/issues/57)
+- Enforce that npm is installed with collectors before using it [\#54](https://github.com/voxpupuli/puppet-nodejs/issues/54)
+- Proxy config fails on ubuntu when using the managed repo [\#51](https://github.com/voxpupuli/puppet-nodejs/issues/51)
+- Please note node version in readme [\#50](https://github.com/voxpupuli/puppet-nodejs/issues/50)
+- EL packages are ancient and from unofficial repo [\#49](https://github.com/voxpupuli/puppet-nodejs/issues/49)
+- Nodejs version under ubuntu [\#48](https://github.com/voxpupuli/puppet-nodejs/issues/48)
+- Add support for Windows 7 [\#44](https://github.com/voxpupuli/puppet-nodejs/issues/44)
+- "Could not update: Got nil value for ensure" on "ensure =\> latest" [\#43](https://github.com/voxpupuli/puppet-nodejs/issues/43)
+- nodejs/manifests/params.pp installs /etc/yum.repos.d/nodejs-stable.repo which doesn't work with Scientific Linux 6.4 [\#38](https://github.com/voxpupuli/puppet-nodejs/issues/38)
+- node.js manifests/params.pp & manifests/init.pp should support Scientific Linux [\#37](https://github.com/voxpupuli/puppet-nodejs/issues/37)
+- EPEL nodejs conflicting with nodejs-compat-symlinks [\#33](https://github.com/voxpupuli/puppet-nodejs/issues/33)
+
+**Merged pull requests:**
+
+- Added npm package dependency for Archlinux [\#146](https://github.com/voxpupuli/puppet-nodejs/pull/146) ([justin8](https://github.com/justin8))
+- Update README [\#141](https://github.com/voxpupuli/puppet-nodejs/pull/141) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Fix metadata.json [\#136](https://github.com/voxpupuli/puppet-nodejs/pull/136) ([mcanevet](https://github.com/mcanevet))
+- Fix stdlib and Puppet version requirements in metadata.json [\#130](https://github.com/voxpupuli/puppet-nodejs/pull/130) ([juniorsysadmin](https://github.com/juniorsysadmin))
+
+## [0.8.0](https://github.com/voxpupuli/puppet-nodejs/tree/0.8.0) (2015-05-11)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/0.7.1...0.8.0)
+
+**Implemented enhancements:**
+
+- \(MODULES-1637\) Major refactor [\#103](https://github.com/voxpupuli/puppet-nodejs/pull/103) ([juniorsysadmin](https://github.com/juniorsysadmin))
+
+**Merged pull requests:**
+
+- release prep 0.8.0 [\#134](https://github.com/voxpupuli/puppet-nodejs/pull/134) ([tphoney](https://github.com/tphoney))
+- Don't use deprecated chocolatey module [\#132](https://github.com/voxpupuli/puppet-nodejs/pull/132) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- pin apt for acceptance tests [\#131](https://github.com/voxpupuli/puppet-nodejs/pull/131) ([tphoney](https://github.com/tphoney))
+- Use ~\> 3.0 not ~\> 3.5.0 [\#127](https://github.com/voxpupuli/puppet-nodejs/pull/127) ([underscorgan](https://github.com/underscorgan))
+- Document that puppetlabs-apt versions less than 2.x are required [\#126](https://github.com/voxpupuli/puppet-nodejs/pull/126) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Handle NodeSource Debian URL suffixes [\#125](https://github.com/voxpupuli/puppet-nodejs/pull/125) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Fix yumrepo parameter typo [\#124](https://github.com/voxpupuli/puppet-nodejs/pull/124) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Update rspec-puppet tests for 2.0 [\#123](https://github.com/voxpupuli/puppet-nodejs/pull/123) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Fix class containment [\#121](https://github.com/voxpupuli/puppet-nodejs/pull/121) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Fix gpg key checking warings after f588f26 in puppetlabs-apt [\#119](https://github.com/voxpupuli/puppet-nodejs/pull/119) ([paroga](https://github.com/paroga))
+- Make it obvious NodeSource doesn't have a npm package [\#116](https://github.com/voxpupuli/puppet-nodejs/pull/116) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Change ruby provider to NPM provider [\#114](https://github.com/voxpupuli/puppet-nodejs/pull/114) ([hunner](https://github.com/hunner))
+- nodejs::npm::target is required [\#113](https://github.com/voxpupuli/puppet-nodejs/pull/113) ([hunner](https://github.com/hunner))
+- Make sure nodejs::install is private [\#112](https://github.com/voxpupuli/puppet-nodejs/pull/112) ([hunner](https://github.com/hunner))
+- README.md [\#111](https://github.com/voxpupuli/puppet-nodejs/pull/111) ([malnick](https://github.com/malnick))
+
+## [0.7.1](https://github.com/voxpupuli/puppet-nodejs/tree/0.7.1) (2015-01-21)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/0.7.0...0.7.1)
+
+**Merged pull requests:**
+
+- 0.7.1 prep [\#107](https://github.com/voxpupuli/puppet-nodejs/pull/107) ([underscorgan](https://github.com/underscorgan))
+- Correct broken application of PR \#70 [\#106](https://github.com/voxpupuli/puppet-nodejs/pull/106) ([theothertom](https://github.com/theothertom))
+
+## [0.7.0](https://github.com/voxpupuli/puppet-nodejs/tree/0.7.0) (2015-01-21)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/0.6.1...0.7.0)
+
+**Merged pull requests:**
+
+- 0.7.0 prep [\#105](https://github.com/voxpupuli/puppet-nodejs/pull/105) ([underscorgan](https://github.com/underscorgan))
+- Add max\_nesting parameter to npm list json parse [\#101](https://github.com/voxpupuli/puppet-nodejs/pull/101) ([rangoy](https://github.com/rangoy))
+- Replace Chris Lea's PPA with the Nodesource repo [\#100](https://github.com/voxpupuli/puppet-nodejs/pull/100) ([atrepca](https://github.com/atrepca))
+- Fix typo in README.md [\#98](https://github.com/voxpupuli/puppet-nodejs/pull/98) ([Zorbash](https://github.com/Zorbash))
+- Parameterize package names [\#97](https://github.com/voxpupuli/puppet-nodejs/pull/97) ([skpy](https://github.com/skpy))
+- FM-1523: Added module summary to metadata.json [\#95](https://github.com/voxpupuli/puppet-nodejs/pull/95) ([jbondpdx](https://github.com/jbondpdx))
+- Add Archlinux support [\#90](https://github.com/voxpupuli/puppet-nodejs/pull/90) ([Filirom1](https://github.com/Filirom1))
+- updated travis to current versions of puppet [\#79](https://github.com/voxpupuli/puppet-nodejs/pull/79) ([jlambert121](https://github.com/jlambert121))
+- fix requires for proxy config when on ubuntu \#51 [\#70](https://github.com/voxpupuli/puppet-nodejs/pull/70) ([wenlock](https://github.com/wenlock))
+
+## [0.6.1](https://github.com/voxpupuli/puppet-nodejs/tree/0.6.1) (2014-07-15)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/0.6.0...0.6.1)
 
-- Enhanced support for Amazon Linux
-- Ability to set HOME environment variable when installing npm
+**Merged pull requests:**
 
-### Fixed
+- Prepare 0.6.1 release. [\#83](https://github.com/voxpupuli/puppet-nodejs/pull/83) ([apenney](https://github.com/apenney))
+- Prepare 0.6.0 release. [\#81](https://github.com/voxpupuli/puppet-nodejs/pull/81) ([underscorgan](https://github.com/underscorgan))
 
-- Misc lint/spec fixes
-- Metadata dependency on `treydock/gpg_key`
+## [0.6.0](https://github.com/voxpupuli/puppet-nodejs/tree/0.6.0) (2014-06-18)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/0.5.0...0.6.0)
 
-## 2015-06-23 - Release 1.1.0
+**Merged pull requests:**
 
-### Backwards-incompatible changes
+- Fix the specs. [\#76](https://github.com/voxpupuli/puppet-nodejs/pull/76) ([apenney](https://github.com/apenney))
+- Remove metadata, since it's not correct [\#74](https://github.com/voxpupuli/puppet-nodejs/pull/74) ([hunner](https://github.com/hunner))
+- install nodejs and npm on gentoo [\#71](https://github.com/voxpupuli/puppet-nodejs/pull/71) ([hairmare](https://github.com/hairmare))
 
-nodejs::repo::nodesource::apt is now compatible with puppetlabs-apt 2.x only
+## [0.5.0](https://github.com/voxpupuli/puppet-nodejs/tree/0.5.0) (2014-03-20)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/0.4.0...0.5.0)
 
-### Summary
+**Merged pull requests:**
 
-Debian-based platforms now require puppetlabs-apt 2.x rather than puppetlabs-apt 1.x
+- Prepare a 0.5.0 release. [\#73](https://github.com/voxpupuli/puppet-nodejs/pull/73) ([apenney](https://github.com/apenney))
+- Ubuntu uses uppercase for the operatingsystem fact [\#68](https://github.com/voxpupuli/puppet-nodejs/pull/68) ([barthoda](https://github.com/barthoda))
+- add support for Scientific Linux operatingsystem [\#65](https://github.com/voxpupuli/puppet-nodejs/pull/65) ([faxm0dem](https://github.com/faxm0dem))
+- Fix ubuntu development package being installed when dev flag is set to false [\#64](https://github.com/voxpupuli/puppet-nodejs/pull/64) ([vpassapera](https://github.com/vpassapera))
+- Changed Amazon package name [\#61](https://github.com/voxpupuli/puppet-nodejs/pull/61) ([davideme](https://github.com/davideme))
+- Set $HOME for npm execs \(pkgs like node-gym require\) [\#59](https://github.com/voxpupuli/puppet-nodejs/pull/59) ([patcon](https://github.com/patcon))
+- Ignore exit codes from "npm list --json" as they can be misleading [\#56](https://github.com/voxpupuli/puppet-nodejs/pull/56) ([domcleal](https://github.com/domcleal))
+- FM-103: Add metadata.json to all modules. [\#52](https://github.com/voxpupuli/puppet-nodejs/pull/52) ([apenney](https://github.com/apenney))
+- Add Gemfile and update travis to test against modern versions of Puppet. [\#47](https://github.com/voxpupuli/puppet-nodejs/pull/47) ([apenney](https://github.com/apenney))
+- Update README.md [\#32](https://github.com/voxpupuli/puppet-nodejs/pull/32) ([antoniojrod](https://github.com/antoniojrod))
 
-## 2015-05-20 - Release 1.0.0
+## [0.4.0](https://github.com/voxpupuli/puppet-nodejs/tree/0.4.0) (2013-08-29)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/0.3.0...0.4.0)
 
-### Summary
+**Closed issues:**
 
-Module donated by Puppetlabs to Puppet Community.
-This release fixes support for ArchLinux, since npm recently moved to its own
-package.
+- Release to the Forge [\#39](https://github.com/voxpupuli/puppet-nodejs/issues/39)
 
-## 2015-05-12 - Release 0.8.0
+**Merged pull requests:**
 
-### Backwards-incompatible changes
+- Prepare 0.4.0 release. [\#46](https://github.com/voxpupuli/puppet-nodejs/pull/46) ([apenney](https://github.com/apenney))
+- Remove special cases for Precise [\#41](https://github.com/voxpupuli/puppet-nodejs/pull/41) ([lunaryorn](https://github.com/lunaryorn))
+- Add version parameter [\#28](https://github.com/voxpupuli/puppet-nodejs/pull/28) ([bfirsh](https://github.com/bfirsh))
 
-- Puppet versions below 3.4.0 are no longer supported
-- Debian Squeeze and Fedora version 18 and below are explicitly no longer
-  supported
-- Parameter naming changes to node_pkg, npm_pkg, dev_pkg, manage_repo,
-  dev_pkg to approximate equivalents: nodejs_package_name, npm_package_name,
-  nodejs_dev_package_name, manage_package_repo, nodejs_dev_package_ensure
-- RedHat-family operating systems now use the NodeSource repository by default
-  rather than the Fedora People repositories
-- Debian Wheezy now uses the NodeSource repository by default rather than the
-  Debian Sid repository
-- The proxy parameter has been removed. Equivalent functionality can be
-  obtained by using the nodejs::npm::global_config_entry defined type
-- The version parameter has been removed. The approximate equivalent is
-  nodejs_package_ensure (or nodejs_dev_package_ensure)
-- The nodejs::npm defined type title is now an arbitary unique string rather
-  than 'destination_dir:package'. The same functionality is now done with
-  the target and package parameters.
-- The nodejs::npm version parameter has been removed. The same functionality
-  can now be performed with the ensure parameter
-- Parameter naming changes to install_opt, remove_opt in nodejs::npm to
-  approximate equivalents install_options and uninstall_options. Both must
-  now be an array of strings and not strings.
+## [0.3.0](https://github.com/voxpupuli/puppet-nodejs/tree/0.3.0) (2013-08-01)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/0.2.1...0.3.0)
 
-### Summary
+**Closed issues:**
 
-This release performs major API changes and defaults to using the NodeSource
-repository where possible.
+- Ubuntu support? Or npm install failure [\#30](https://github.com/voxpupuli/puppet-nodejs/issues/30)
 
-#### Features
+**Merged pull requests:**
 
-- Defaults to using the NodeSource repositories where possible, but allows
-  native packages to be installed when appropriate parameters are set
-- Introduces a parameter repo_class, which allows one to use alternative
-  repositories like EPEL for the Node.js packages
-- Adds Windows installation support via Chocolatey
-- Adds FreeBSD and OpenBSD installation support
-- Adds tag and scope support to the defined type nodejs::npm
-- Adds a defined type nodejs::npm::global_config_entry, which allows one to
-  set and delete global npm config options
+- Prepare a 0.3.0 release. [\#40](https://github.com/voxpupuli/puppet-nodejs/pull/40) ([apenney](https://github.com/apenney))
+- refactor to address issues 27 and 33 [\#36](https://github.com/voxpupuli/puppet-nodejs/pull/36) ([wolfspyre](https://github.com/wolfspyre))
+- Fix to install failure's on Ubuntu [\#34](https://github.com/voxpupuli/puppet-nodejs/pull/34) ([siwilkins](https://github.com/siwilkins))
 
-#### Bugfixes
+## [0.2.1](https://github.com/voxpupuli/puppet-nodejs/tree/0.2.1) (2012-12-28)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/0.3.1...0.2.1)
 
-- Supercedes PRs 99 (MODULES-1075), 97, 96, 94, 93, 85, 82, 80, 79, 51, 69, 66
-  and 102
-- apt: update. pin to version. change key to 40 characters.
-- Debian: Handle NodeSource. Improve Repository handling.
-- windows: dont use deprecated chocolately module.
-- testing: Pin RSpec version.
+## [0.3.1](https://github.com/voxpupuli/puppet-nodejs/tree/0.3.1) (2012-12-28)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/0.2.0...0.3.1)
 
-## 2015-01-21 - Release 0.7.1
+**Merged pull requests:**
 
-### Summary
+- Bugfix/yumrepo: nodejs.tchol.org [\#26](https://github.com/voxpupuli/puppet-nodejs/pull/26) ([razorsedge](https://github.com/razorsedge))
+- Fix typo in README.md [\#19](https://github.com/voxpupuli/puppet-nodejs/pull/19) ([jjbohn](https://github.com/jjbohn))
+- Fix puppetlabs-apt link in README [\#17](https://github.com/voxpupuli/puppet-nodejs/pull/17) ([alefteris](https://github.com/alefteris))
+- Fix Dynamic lookup of $lsbdistcodename  [\#13](https://github.com/voxpupuli/puppet-nodejs/pull/13) ([stephenrjohnson](https://github.com/stephenrjohnson))
+- Add support for npm proxy configuration. [\#12](https://github.com/voxpupuli/puppet-nodejs/pull/12) ([nanliu](https://github.com/nanliu))
+- Update for the new puppetlabs\_spec\_helper gem [\#11](https://github.com/voxpupuli/puppet-nodejs/pull/11) ([branan](https://github.com/branan))
 
-This fixes the incorrect application of https://github.com/puppetlabs/puppetlabs-nodejs/pull/70 so that the code will actually run.
+## [0.2.0](https://github.com/voxpupuli/puppet-nodejs/tree/0.2.0) (2012-05-22)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/0.1.1...0.2.0)
 
-## 2015-01-20 - Release 0.7.0
+**Merged pull requests:**
 
-### Summary
+- Add new module release file. [\#10](https://github.com/voxpupuli/puppet-nodejs/pull/10) ([nanliu](https://github.com/nanliu))
+- Nodejs npm provider and ppa changes. [\#9](https://github.com/voxpupuli/puppet-nodejs/pull/9) ([nanliu](https://github.com/nanliu))
+- fix .travis.yml for the apt module repo rename [\#8](https://github.com/voxpupuli/puppet-nodejs/pull/8) ([branan](https://github.com/branan))
+- Fix spec test bug on Puppet 2.6. [\#7](https://github.com/voxpupuli/puppet-nodejs/pull/7) ([nanliu](https://github.com/nanliu))
+- Add files for Travis CI [\#6](https://github.com/voxpupuli/puppet-nodejs/pull/6) ([branan](https://github.com/branan))
+- Add RedHat family support for Nodejs. [\#5](https://github.com/voxpupuli/puppet-nodejs/pull/5) ([nanliu](https://github.com/nanliu))
 
-This release adds some new features and improvements, including archlinux support and improved ubuntu support.
+## [0.1.1](https://github.com/voxpupuli/puppet-nodejs/tree/0.1.1) (2012-05-07)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/0.1.0...0.1.1)
 
-#### Features
+**Merged pull requests:**
 
-- Add max_nesting parameter to npm list json parse
-- Replace Chris's PPA with the Nodesource repo
-- Parameterize package names
-- Add archlinux support
-- TravisCI updates
+- Release new module version. [\#4](https://github.com/voxpupuli/puppet-nodejs/pull/4) ([nanliu](https://github.com/nanliu))
+- Include apt class instead of parametrized class. [\#3](https://github.com/voxpupuli/puppet-nodejs/pull/3) ([nanliu](https://github.com/nanliu))
 
-#### Bugfixes
+## [0.1.0](https://github.com/voxpupuli/puppet-nodejs/tree/0.1.0) (2012-05-01)
+**Merged pull requests:**
 
-- Fix proxy config requiers for Ubunutu
-- Fix rspec tests
-- Fix typo in README.md
+- Update nodejs module for initial forge release. [\#1](https://github.com/voxpupuli/puppet-nodejs/pull/1) ([nanliu](https://github.com/nanliu))
 
-## 2014-07-15 - Release 0.6.1
 
-### Summary
 
-This release merely updates metadata.json so the module can be uninstalled and
-upgraded via the puppet module command.
-
-## 2014-06-18 - Release 0.6.0
-
-### Summary
-
-This release primarily has improved support for Gentoo and testing
-improvements.
-
-#### Features
-
-- Improved Gentoo support.
-- Test updates
-
-## 2014-03-20 - Release 0.5.0
-
-### Summary
-
-This release is just a wrap up of a number of submitted PRs, mostly around
-improvements to operating system support, as well as some improvements to
-handling npm.
-
-#### Features
-
-- Update travis to test more recent versions of Puppet.
-- Changed package name for Amazon Linux.
-- Add support for Scientific Linux.
-
-#### Bugfixes
-
-- Ubuntu uses uppercase for the operatingsystem fact.
-- Ignore exit codes from "npm list --json" as they can be misleading, and instead just parse the JSON.
-- Set $HOME for npm commands.
-- Don't include development version accidently.
-- Fix for chrislea ppa that already installs npm.
-
-## 2013-08-29 - Release 0.4.0
-
-### Summary
-
-This release removes the precise special handling
-and adds the ability to pass in $version.
-
-#### Features
-
-- Precise uses the same ppa as every other release.
-- New parameters in nodejs:
-- `version`: Set the version to install.
-
-## 2013-08-01 - Release 0.3.0
-
-### Summary
-
-The focus of this release is ensuring the module
-still works on newer distributions.
-
-#### Features
-
-- New parameters in nodejs:
-- `manage_repo`: Enable/Disable repo management.
-
-#### Bugfixes
-
-- Fixed npm on Ubuntuwhen using Chris Lea's PPA
-- Make RHEL6 variants the default.
-- Fix yumrepo file ordering.
-
-## Release 0.2.1 2012-12-28 Puppet Labs <info@puppetlabs.com>
-
-- Updated EL RPM repositories
-
-## Release 0.2.0 2012-05-22 Puppet Labs <info@puppetlabs.com>
-
-- Add RedHat family support
-- Use npm package instead of exec script.
-- Remove ppa repo for Ubuntu Precise.
-
-## Release 0.1.1 2012-05-04 Puppet Labs <info@puppetlabs.com>
-
-- Use include for apt class and add spec tests.
-
-## Release 0.1.0 2012-04-30 Puppet Labs <info@puppetlabs.com>
-
-- Initial module release.
+\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
