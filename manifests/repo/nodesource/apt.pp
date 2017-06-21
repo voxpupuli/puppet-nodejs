@@ -11,6 +11,10 @@ class nodejs::repo::nodesource::apt {
   include ::apt
 
   if ($ensure != 'absent') {
+    $releasename = $::lsbdistcodename ? {
+      'stretch' => 'jessie',
+      default   => $::lsbdistcodename,
+    }
     apt::source { 'nodesource':
       include  => {
         'src' => $enable_src,
@@ -21,7 +25,7 @@ class nodejs::repo::nodesource::apt {
       },
       location => "https://deb.nodesource.com/node_${url_suffix}",
       pin      => $pin,
-      release  => $::lsbdistcodename,
+      release  => $releasename,
       repos    => 'main',
       require  => [
         Package['apt-transport-https'],
