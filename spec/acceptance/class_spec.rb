@@ -1,16 +1,47 @@
 require 'spec_helper_acceptance'
 
-describe 'nodejs class:', unless: UNSUPPORTED_PLATFORMS.include?(fact('osfamily')) do
-  it 'runs successfully' do
-    pp = <<-EOS
-    class { 'nodejs': }
-    if $::osfamily == 'RedHat' and $::operatingsystemrelease =~ /^5\.(\d+)/ {
-      class { 'epel': }
-      Class['epel'] -> Class['nodejs']
-    }
-    EOS
+describe 'nodejs class:', unless: UNSUPPORTED_PLATFORMS.include?(fact('os.family')) do
+  case fact('os.family')
+  when 'RedHat'
+    pkg_cmd = 'yum info nodejs | grep "^From repo"'
+  when 'Debian'
+    pkg_cmd = 'dpkg -s nodejs | grep ^Maintainer'
+  end
 
-    apply_manifest(pp, catch_failures: true)
-    apply_manifest(pp, catch_changes: true)
+  context 'default parameters' do
+    let(:pp) { "class { 'nodejs': }" }
+
+    it 'runs successfully' do
+      apply_manifest(pp, catch_failures: true)
+      apply_manifest(pp, catch_changes: true)
+    end
+
+    if %w[RedHat Debian].include? fact('os.family')
+      describe package('nodejs') do
+        it { is_expected.to be_installed }
+        it 'comes from the expected source' do
+          pkg_output = shell(pkg_cmd)
+          expect(pkg_output.stdout).to match 'nodesource'
+        end
+      end
+    end
+  end
+
+  context 'repo_class => epel', if: fact('os.family') == 'RedHat' do
+    let(:pp) { "class { 'nodejs': repo_class => '::epel' }" }
+
+    it 'runs successfully' do
+      apply_manifest(pp, catch_failures: true)
+      apply_manifest(pp, catch_changes: true)
+    end
+
+    describe package('nodejs') do
+      it { is_expected.to be_installed }
+      it 'comes from the expected source' do
+        pending("This won't work until we have CentOS 7.4 because of dependency")
+        pkg_output = shell(pkg_cmd)
+        expect(pkg_output.stdout).to match 'epel'
+      end
+    end
   end
 end
