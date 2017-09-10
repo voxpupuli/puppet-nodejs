@@ -11,10 +11,7 @@ describe 'nodejs class:', unless: UNSUPPORTED_PLATFORMS.include?(fact('os.family
   context 'default parameters' do
     let(:pp) { "class { 'nodejs': }" }
 
-    it 'runs successfully' do
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
-    end
+    it_behaves_like 'an idempotent resource'
 
     if %w[RedHat Debian].include? fact('os.family')
       describe package('nodejs') do
@@ -30,10 +27,7 @@ describe 'nodejs class:', unless: UNSUPPORTED_PLATFORMS.include?(fact('os.family
   context 'repo_class => epel', if: fact('os.family') == 'RedHat' do
     let(:pp) { "class { 'nodejs': repo_class => '::epel' }" }
 
-    it 'runs successfully' do
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
-    end
+    it_behaves_like 'an idempotent resource'
 
     describe package('nodejs') do
       it { is_expected.to be_installed }
