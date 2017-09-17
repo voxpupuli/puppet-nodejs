@@ -1,18 +1,22 @@
-#!/usr/bin/env rspec
 require 'spec_helper'
 
 describe Puppet::Type.type(:package).provider(:npm) do
-  let :resource do
+  let(:resource) do
     Puppet::Type.type(:package).new(
       name: 'express',
       ensure: :present
     )
   end
-  let :provider do
-    described_class.new(resource).tap do |provider|
-      provider.class.stubs(:optional_commands).with(:npm).returns '/usr/local/bin/npm'
-      provider.class.stubs(:command).with(:npm).returns '/usr/local/bin/npm'
-    end
+
+  let(:provider) do
+    provider = described_class.new(resource)
+    provider.resource = resource
+    provider
+  end
+
+  before do
+    provider.class.stubs(:command).with(:npm).returns '/usr/local/bin/npm'
+    resource.provider = provider
   end
 
   def self.it_should_respond_to(*actions)
@@ -31,28 +35,24 @@ describe Puppet::Type.type(:package).provider(:npm) do
       provider.install
     end
 
-    describe 'and a source is specified' do
-      it 'uses the source instead of the package name' do
-        resource[:source] = '/tmp/express.tar.gz'
-        provider.expects(:npm).with('install', '--global', '/tmp/express.tar.gz')
-        provider.install
-      end
+    it 'uses the source instead of the package name' do
+      resource[:source] = '/tmp/express.tar.gz'
+      provider.expects(:npm).with('install', '--global', '/tmp/express.tar.gz')
+      provider.install
     end
 
-    describe 'and install_options is a string' do
-      it 'passes the install_options to npm' do
-        resource[:install_options] = ['--verbose']
-        provider.expects(:npm).with('install', '--global', '--verbose', 'express')
-        provider.install
-      end
+    it 'passes the install_options to npm' do
+      resource[:install_options] = ['--verbose']
+      provider.expects(:npm).with('install', '--global', '--verbose', 'express')
+      provider.install
     end
+  end
 
-    describe 'and install_options is a hash' do
-      it 'passes the install_options to npm' do
-        resource[:install_options] = [{ '--loglevel' => 'error' }]
-        provider.expects(:npm).with('install', '--global', '--loglevel=error', 'express')
-        provider.install
-      end
+  describe 'and install_options is a hash' do
+    it 'passes the install_options to npm' do
+      resource[:install_options] = [{ '--loglevel' => 'error' }]
+      provider.expects(:npm).with('install', '--global', '--loglevel=error', 'express')
+      provider.install
     end
   end
 
