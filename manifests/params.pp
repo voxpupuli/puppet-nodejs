@@ -74,7 +74,7 @@ class nodejs::params {
         $repo_class                = '::nodejs::repo::nodesource'
       }
       elsif $::operatingsystemrelease =~ /^16.04$/ {
-        $legacy_debian_symlinks    = true
+        $legacy_debian_symlinks    = false
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-dbg'
         $nodejs_dev_package_name   = 'nodejs-dev'
