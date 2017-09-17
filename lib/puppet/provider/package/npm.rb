@@ -7,13 +7,9 @@ Puppet::Type.type(:package).provide :npm, parent: Puppet::Provider::Package do
 
   has_feature :versionable, :install_options
 
-  if Puppet::Util::Package.versioncmp(Puppet.version, '3.0') >= 0
-    has_command(:npm, 'npm') do
-      is_optional
-      environment HOME: '/root'
-    end
-  else
-    optional_commands npm: 'npm'
+  has_command(:npm, 'npm') do
+    is_optional
+    environment HOME: '/root'
   end
 
   def self.npmlist
@@ -68,7 +64,7 @@ Puppet::Type.type(:package).provide :npm, parent: Puppet::Provider::Package do
               end
 
     options = %w[--global]
-    options += install_options if @resource[:install_options]
+    options += install_options if resource[:install_options]
 
     if resource[:source]
       npm('install', *options, resource[:source])
@@ -82,6 +78,6 @@ Puppet::Type.type(:package).provide :npm, parent: Puppet::Provider::Package do
   end
 
   def install_options
-    join_options(@resource[:install_options])
+    join_options(resource[:install_options])
   end
 end
