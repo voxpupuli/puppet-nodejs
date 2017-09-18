@@ -1,8 +1,32 @@
-# Change log
+# Changelog
 
 All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
-These should not impact the functionality of the module.
+These should not affect the functionality of the module.
+
+## [v3.1.0](https://github.com/voxpupuli/puppet-nodejs/tree/v3.1.0) (2017-09-18)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v3.0.0...v3.1.0)
+
+**Implemented enhancements:**
+
+- Create some Beaker acceptance tests [\#139](https://github.com/voxpupuli/puppet-nodejs/issues/139)
+
+**Fixed bugs:**
+
+- Resolve issues with tests failing [\#319](https://github.com/voxpupuli/puppet-nodejs/pull/319) ([wyardley](https://github.com/wyardley))
+- Turn off  legacy symlinks for ubuntu 16.04 [\#317](https://github.com/voxpupuli/puppet-nodejs/pull/317) ([guerremdq](https://github.com/guerremdq))
+
+**Closed issues:**
+
+- EPEL now has dependency on http-parser [\#307](https://github.com/voxpupuli/puppet-nodejs/issues/307)
+
+**Merged pull requests:**
+
+- Adjust supported Puppet version back to 4.7.1 [\#316](https://github.com/voxpupuli/puppet-nodejs/pull/316) ([wyardley](https://github.com/wyardley))
+- Add the 'an idempotent resource' shared example [\#313](https://github.com/voxpupuli/puppet-nodejs/pull/313) ([ekohl](https://github.com/ekohl))
+- Update puppet version, deprecate some older versions of OSes [\#311](https://github.com/voxpupuli/puppet-nodejs/pull/311) ([wyardley](https://github.com/wyardley))
+- Replace anchors with 'contain' [\#310](https://github.com/voxpupuli/puppet-nodejs/pull/310) ([wyardley](https://github.com/wyardley))
+- Update acceptance tests, add EPEL test case for RedHat acceptance tests [\#308](https://github.com/voxpupuli/puppet-nodejs/pull/308) ([wyardley](https://github.com/wyardley))
 
 ## [v3.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v3.0.0) (2017-06-15)
 [Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v2.3.0...v3.0.0)
@@ -14,7 +38,6 @@ These should not impact the functionality of the module.
 
 **Fixed bugs:**
 
-- Dependency cycle on ubuntu 14.04 [\#281](https://github.com/voxpupuli/puppet-nodejs/issues/281)
 - Set explicit params for debian jessie [\#274](https://github.com/voxpupuli/puppet-nodejs/pull/274) ([cbaoxa](https://github.com/cbaoxa))
 
 **Closed issues:**
@@ -27,6 +50,7 @@ These should not impact the functionality of the module.
 
 **Merged pull requests:**
 
+- release 3.0.0 [\#303](https://github.com/voxpupuli/puppet-nodejs/pull/303) ([bastelfreak](https://github.com/bastelfreak))
 - replace validate\_\* with datatypes [\#302](https://github.com/voxpupuli/puppet-nodejs/pull/302) ([bastelfreak](https://github.com/bastelfreak))
 - Fix github license detection [\#299](https://github.com/voxpupuli/puppet-nodejs/pull/299) ([alexjfisher](https://github.com/alexjfisher))
 - Revert "DO NOT MERGE: Prevent provider blowing up on ruby 1.8 agents" [\#296](https://github.com/voxpupuli/puppet-nodejs/pull/296) ([roidelapluie](https://github.com/roidelapluie))
