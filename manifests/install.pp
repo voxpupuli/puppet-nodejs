@@ -48,6 +48,12 @@ class nodejs::install {
     }
   }
 
+  if $facts['osfamily'] == 'Darwin' {
+    $root_npmrc_path = '/var/root'
+  } else {
+    $root_npmrc_path = '/root'
+  }
+
   file { 'root_npmrc':
     ensure  => 'file',
     path    => '/root/.npmrc',

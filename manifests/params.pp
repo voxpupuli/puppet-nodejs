@@ -12,6 +12,7 @@ class nodejs::params {
   $repo_proxy_username         = 'absent'
   $repo_url_suffix             = '0.10'
   $use_flags                   = ['npm', 'snapshot']
+  $darwin_package_provider     = 'macports'
 
   $cmd_exe_path = $facts['os']['family'] ? {
     'Windows' => "${facts['os']['windows']['system32']}\\cmd.exe",
@@ -147,7 +148,6 @@ class nodejs::params {
       $npm_package_name          = 'npm'
       $npm_path                  = '/opt/local/bin/npm'
       $repo_class                = undef
-      Package { provider => 'macports' }
     }
     'Windows': {
       $manage_package_repo       = false
