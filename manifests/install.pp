@@ -56,7 +56,7 @@ class nodejs::install {
 
   file { 'root_npmrc':
     ensure  => 'file',
-    path    => '/root/.npmrc',
+    path    => "${root_npmrc_path}/.npmrc",
     content => template('nodejs/npmrc.erb'),
     owner   => 'root',
     group   => '0',
