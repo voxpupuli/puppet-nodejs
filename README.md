@@ -30,7 +30,7 @@ repository on Debian and RedHat platforms. The NodeSource Node.js package
 includes the npm binary, which makes a separate npm package unnecessary.
 
 On SUSE, ArchLinux, FreeBSD, OpenBSD and Gentoo, native packages are used. On
-Darwin, the MacPorts package is used. On Windows the packages are installed
+Darwin the default provider is MacPorts. On Windows the packages are installed
 via Chocolatey.
 
 ## Setup
@@ -66,6 +66,15 @@ Or if you wish to install a Node.js 5.x release from the NodeSource repository:
 ```puppet
 class { 'nodejs':
   repo_url_suffix => '5.x',
+}
+```
+
+For MacOS the default provider is MacPorts, however, you can override this with
+the darwin_package_provider parameter.
+
+```puppet
+class { 'nodejs':
+  darwin_package_provider => 'homebrew',
 }
 ```
 
