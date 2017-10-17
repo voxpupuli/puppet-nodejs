@@ -326,7 +326,7 @@ describe 'nodejs', type: :class do
     end
   end
 
-  context 'when run on Fedora 18' do
+  context 'when run on an unsupported version of Fedora (18)' do
     let :facts do
       {
         osfamily: 'RedHat',
@@ -340,7 +340,7 @@ describe 'nodejs', type: :class do
     end
   end
 
-  ['5.0', '6.0', '7.0', '20', '21'].each do |operatingsystemrelease|
+  ['5.0', '6.0', '7.0', '25'].each do |operatingsystemrelease|
     osversions = operatingsystemrelease.split('.')
     operatingsystemmajrelease = osversions[0]
 

@@ -488,10 +488,6 @@ that were available on 2017-01-08:
 * RHEL/CentOS 6 ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x```
 * RHEL/CentOS 7 ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x```
 * Amazon Linux - See RHEL/CentOS 7
-* Fedora 19/20 ```0.10``` ```0.12``` ```4.x```
-* Fedora 21 ```0.10``` ```0.12``` ```4.x``` ```5.x```
-* Fedora 22 ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x```
-* Fedora 23/24 ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x```
 * Fedora 25 ```4.x``` ```6.x``` ```7.x```
 
 #### `use_flags`
@@ -505,7 +501,6 @@ This module has received limited testing on:
 
 * CentOS/RHEL 5/6/7
 * Debian 7
-* Fedora 20/21
 * Ubuntu 10.04/12.04/14.04
 
 The following platforms should also work, but have not been tested:
