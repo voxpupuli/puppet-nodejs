@@ -32,7 +32,6 @@ describe 'nodejs class:', unless: UNSUPPORTED_PLATFORMS.include?(fact('os.family
     describe package('nodejs') do
       it { is_expected.to be_installed }
       it 'comes from the expected source' do
-        pending("This won't work until we have CentOS 7.4 because of dependency")
         pkg_output = shell(pkg_cmd)
         expect(pkg_output.stdout).to match 'epel'
       end
