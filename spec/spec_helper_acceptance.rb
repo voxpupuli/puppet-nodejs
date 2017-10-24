@@ -3,8 +3,8 @@ require 'beaker/puppet_install_helper'
 require 'beaker/module_install_helper'
 
 run_puppet_install_helper
-install_module_on(hosts)
-install_module_dependencies_on(hosts)
+install_module
+install_module_dependencies
 
 # Additional modules for soft deps
 install_module_from_forge('puppetlabs-apt', '>= 4.1.0 < 5.0.0')
