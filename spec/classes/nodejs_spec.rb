@@ -124,11 +124,11 @@ describe 'nodejs', type: :class do
 
         context 'and repo_pin not set' do
           let :params do
-            default_params.merge!(repo_pin: 'false')
+            default_params.merge!(repo_pin: :undef)
           end
 
-          it 'the repo apt::source resource should contain pin = false' do
-            is_expected.to contain_apt__source('nodesource').with('pin' => 'false')
+          it 'the repo apt::source resource should contain pin = undef' do
+            is_expected.to contain_apt__source('nodesource').with('pin' => nil)
           end
         end
 
