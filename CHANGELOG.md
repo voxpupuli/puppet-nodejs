@@ -4,7 +4,26 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v4.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v4.0.0) (2017-10-18)
+## [v4.0.1](https://github.com/voxpupuli/puppet-nodejs/tree/v4.0.1) (2017-11-15)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v4.0.0...v4.0.1)
+
+**Fixed bugs:**
+
+- apt pin error [\#333](https://github.com/voxpupuli/puppet-nodejs/issues/333)
+
+**Closed issues:**
+
+- Docs: Update repo\_url\_suffix to list current versions available [\#331](https://github.com/voxpupuli/puppet-nodejs/issues/331)
+
+**Merged pull requests:**
+
+- Update known valid $repo\_url\_suffix values [\#337](https://github.com/voxpupuli/puppet-nodejs/pull/337) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Set default value for $repo\_pin to undef [\#334](https://github.com/voxpupuli/puppet-nodejs/pull/334) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Use the simpler calls for acceptance tests [\#330](https://github.com/voxpupuli/puppet-nodejs/pull/330) ([wyardley](https://github.com/wyardley))
+- release 4.0.0 [\#328](https://github.com/voxpupuli/puppet-nodejs/pull/328) ([bastelfreak](https://github.com/bastelfreak))
+
+## [v4.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v4.0.0) (2017-10-17)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v3.1.0...v4.0.0)
 
