@@ -11,6 +11,12 @@ class nodejs::repo::nodesource::apt {
 
   include ::apt
 
+  if empty($release) {
+    $_release = $::lsbdistcodename
+  } else {
+    $_release = $release
+  }
+  
   if ($ensure != 'absent') {
     apt::source { 'nodesource':
       include  => {
@@ -22,7 +28,7 @@ class nodejs::repo::nodesource::apt {
       },
       location => "https://deb.nodesource.com/node_${url_suffix}",
       pin      => $pin,
-      release  => $release,
+      release  => $_release,
       repos    => 'main',
       require  => [
         Package['apt-transport-https'],
