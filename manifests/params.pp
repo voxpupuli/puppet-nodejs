@@ -11,6 +11,7 @@ class nodejs::params {
   $repo_proxy_password         = 'absent'
   $repo_proxy_username         = 'absent'
   $repo_url_suffix             = '0.10'
+  $repo_release                = $::lsbdistcodename
   $use_flags                   = ['npm', 'snapshot']
 
   # The full path to cmd.exe is required on Windows. The system32 fact is only

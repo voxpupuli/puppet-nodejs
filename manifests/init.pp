@@ -23,6 +23,7 @@ class nodejs(
   $repo_proxy_password                                 = $nodejs::params::repo_proxy_password,
   $repo_proxy_username                                 = $nodejs::params::repo_proxy_username,
   $repo_url_suffix                                     = $nodejs::params::repo_url_suffix,
+  $repo_release                                        = $nodejs::params::repo_release,
   Array $use_flags                                     = $nodejs::params::use_flags,
 ) inherits nodejs::params {
 
