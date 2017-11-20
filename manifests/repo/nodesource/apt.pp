@@ -22,7 +22,7 @@ class nodejs::repo::nodesource::apt {
       },
       location => "https://deb.nodesource.com/node_${url_suffix}",
       pin      => $pin,
-      release  => pick($release, $::lsbdistcodename),
+      release  => $release,
       repos    => 'main',
       require  => [
         Package['apt-transport-https'],
