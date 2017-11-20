@@ -488,6 +488,16 @@ that were available on 2017-11-14:
 * Fedora 25 ```4.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
 * Fedora 26 ```6.x``` ```8.x``` ```9.x```
 
+#### `repo_release`
+
+Option to override the apt distro release.  Defaults to undef which will 
+autodetect the distro, if specified will influence the apt repo distro.
+This is useful if the distro name does not exist in the nodejs repos, for
+example a derivative distribution.
+eg. Ubilinux 4 distro release name is 'dolcetto' which does not exist in
+nodejs repos, but is a derivative of Debian 9 'stretch'.  Setting this
+param to 'stretch' therefore allows this repo management to work as expected.
+
 #### `use_flags`
 
 The USE flags to use for the Node.js package on Gentoo systems. Defaults to
