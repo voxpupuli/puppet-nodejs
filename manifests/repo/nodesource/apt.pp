@@ -5,6 +5,7 @@ class nodejs::repo::nodesource::apt {
   $ensure     = $nodejs::repo::nodesource::ensure
   $pin        = $nodejs::repo::nodesource::pin
   $url_suffix = $nodejs::repo::nodesource::url_suffix
+  $release    = $nodejs::repo::nodesource::release
 
   ensure_packages(['apt-transport-https', 'ca-certificates'])
 
@@ -21,7 +22,7 @@ class nodejs::repo::nodesource::apt {
       },
       location => "https://deb.nodesource.com/node_${url_suffix}",
       pin      => $pin,
-      release  => $::lsbdistcodename,
+      release  => $release,
       repos    => 'main',
       require  => [
         Package['apt-transport-https'],
