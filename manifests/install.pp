@@ -9,7 +9,7 @@ class nodejs::install {
   }
 
   # npm is a Gentoo USE flag
-  if $::operatingsystem == 'Gentoo' {
+  if $facts['os']['name'] == 'Gentoo' {
     package_use { $nodejs::nodejs_package_name:
       ensure => present,
       target => 'nodejs-flags',
@@ -41,7 +41,7 @@ class nodejs::install {
   }
 
   # Replicates the nodejs-legacy package functionality
-  if ($::osfamily == 'Debian' and $nodejs::legacy_debian_symlinks) {
+  if ($facts['os']['family'] == 'Debian' and $nodejs::legacy_debian_symlinks) {
     file { '/usr/bin/node':
       ensure => 'link',
       target => '/usr/bin/nodejs',

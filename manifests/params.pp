@@ -13,19 +13,14 @@ class nodejs::params {
   $repo_url_suffix             = '0.10'
   $use_flags                   = ['npm', 'snapshot']
 
-  # The full path to cmd.exe is required on Windows. The system32 fact is only
-  # available from Facter 2.3
-  $cmd_exe_path = $::osfamily ? {
-    'Windows' => 'C:\Windows\system32\cmd.exe',
+  $cmd_exe_path = $facts['os']['family'] ? {
+    'Windows' => "${facts['os']['windows']['system32']}\\cmd.exe",
     default   => undef,
   }
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'Debian': {
-      if $::operatingsystemrelease =~ /^6\.(\d+)/ {
-        fail("The ${module_name} module is not supported on Debian Squeeze.")
-      }
-      elsif $::operatingsystemrelease =~ /^[78]\.(\d+)/ {
+      if $facts['os']['release']['major'] =~ /^[89]$/ {
         $legacy_debian_symlinks    = false
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-dbg'
@@ -37,43 +32,7 @@ class nodejs::params {
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
       }
-      elsif $::operatingsystemrelease =~ /^10.04$/ {
-        $legacy_debian_symlinks    = false
-        $manage_package_repo       = true
-        $nodejs_debug_package_name = 'nodejs-dbg'
-        $nodejs_dev_package_name   = undef
-        $nodejs_dev_package_ensure = 'absent'
-        $nodejs_package_name       = 'nodejs'
-        $npm_package_ensure        = 'absent'
-        $npm_package_name          = false
-        $npm_path                  = '/usr/bin/npm'
-        $repo_class                = '::nodejs::repo::nodesource'
-      }
-      elsif $::operatingsystemrelease =~ /^12.04$/ {
-        $legacy_debian_symlinks    = false
-        $manage_package_repo       = true
-        $nodejs_debug_package_name = 'nodejs-dbg'
-        $nodejs_dev_package_name   = 'nodejs-dev'
-        $nodejs_dev_package_ensure = 'absent'
-        $nodejs_package_name       = 'nodejs'
-        $npm_package_ensure        = 'absent'
-        $npm_package_name          = 'npm'
-        $npm_path                  = '/usr/bin/npm'
-        $repo_class                = '::nodejs::repo::nodesource'
-      }
-      elsif $::operatingsystemrelease =~ /^14.04$/ {
-        $legacy_debian_symlinks    = false
-        $manage_package_repo       = true
-        $nodejs_debug_package_name = 'nodejs-dbg'
-        $nodejs_dev_package_name   = 'nodejs-dev'
-        $nodejs_dev_package_ensure = 'absent'
-        $nodejs_package_name       = 'nodejs'
-        $npm_package_ensure        = 'absent'
-        $npm_package_name          = 'npm'
-        $npm_path                  = '/usr/bin/npm'
-        $repo_class                = '::nodejs::repo::nodesource'
-      }
-      elsif $::operatingsystemrelease =~ /^16.04$/ {
+      elsif $facts['os']['release']['full'] =~ /^1[46]\.04$/ {
         $legacy_debian_symlinks    = false
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-dbg'
@@ -86,7 +45,7 @@ class nodejs::params {
         $repo_class                = '::nodejs::repo::nodesource'
       }
       else {
-        warning("The ${module_name} module might not work on ${::operatingsystem} ${::operatingsystemrelease}. Sensible defaults will be attempted.")
+        warning("The ${module_name} module might not work on ${facts['os']['name']} ${facts['os']['release']['full']}. Sensible defaults will be attempted.")
         $legacy_debian_symlinks    = false
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-dbg'
@@ -102,7 +61,7 @@ class nodejs::params {
     'RedHat': {
       $legacy_debian_symlinks      = false
 
-      if $::operatingsystemrelease =~ /^[5-7]\.(\d+)/ {
+      if $facts['os']['release']['major'] =~ /^[67]$/ {
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-debuginfo'
         $nodejs_dev_package_name   = 'nodejs-devel'
@@ -113,7 +72,7 @@ class nodejs::params {
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
       }
-      elsif ($::operatingsystem == 'Fedora') and (versioncmp($::operatingsystemrelease, '18') > 0) {
+      elsif $facts['os']['name'] == 'Fedora' {
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-debuginfo'
         $nodejs_dev_package_name   = 'nodejs-devel'
@@ -124,7 +83,7 @@ class nodejs::params {
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
       }
-      elsif ($::operatingsystem == 'Amazon') {
+      elsif ($facts['os']['name'] == 'Amazon') {
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-debuginfo'
         $nodejs_dev_package_name   = 'nodejs-devel'
@@ -213,7 +172,6 @@ class nodejs::params {
       $repo_class                = undef
       Package { provider => 'chocolatey' }
     }
-    # Gentoo was added as its own $::osfamily in Facter 1.7.0
     'Gentoo': {
       $legacy_debian_symlinks    = false
       $manage_package_repo       = false
@@ -226,44 +184,8 @@ class nodejs::params {
       $npm_path                  = '/usr/bin/npm'
       $repo_class                = undef
     }
-    'Linux': {
-    # Before Facter 1.7.0 Gentoo did not have its own $::osfamily
-      case $::operatingsystem {
-        'Gentoo': {
-          $legacy_debian_symlinks    = false
-          $manage_package_repo       = false
-          $nodejs_debug_package_name = undef
-          $nodejs_dev_package_name   = undef
-          $nodejs_dev_package_ensure = 'absent'
-          $nodejs_package_name       = 'net-libs/nodejs'
-          $npm_package_ensure        = 'absent'
-          $npm_package_name          = false
-          $npm_path                  = '/usr/bin/npm'
-          $repo_class                = undef
-        }
-        'Amazon': {
-          # this is here only for historical reasons:
-          # old facter and Amazon Linux versions will run into this code path
-          $legacy_debian_symlinks    = false
-          $manage_package_repo       = true
-          $nodejs_debug_package_name = 'nodejs-debuginfo'
-          $nodejs_dev_package_name   = 'nodejs-devel'
-          $nodejs_dev_package_ensure = 'absent'
-          $nodejs_package_name       = 'nodejs'
-          $npm_package_ensure        = 'absent'
-          $npm_package_name          = 'npm'
-          $npm_path                  = '/usr/bin/npm'
-          $repo_class                = '::nodejs::repo::nodesource'
-        }
-
-        default: {
-          fail("The ${module_name} module is not supported on an ${::operatingsystem} distribution.")
-        }
-      }
-    }
-
     default: {
-      fail("The ${module_name} module is not supported on a ${::osfamily} based system.")
+      fail("The ${module_name} module is not supported on a ${facts['os']['name']} distribution.")
     }
   }
 }
