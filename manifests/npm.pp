@@ -33,12 +33,12 @@ define nodejs::npm (
     $package_string = "${package}@${ensure}"
   }
 
-  $grep_command = $::osfamily ? {
+  $grep_command = $facts['os']['family'] ? {
     'Windows' => "${cmd_exe_path} /c findstr /l",
     default   => 'grep',
   }
 
-  $dirsep = $::osfamily ? {
+  $dirsep = $facts['os']['family'] ? {
     'Windows' => "\\",
     default   => '/'
   }

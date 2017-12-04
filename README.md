@@ -75,7 +75,6 @@ When a separate npm package exists (natively or via EPEL) the Node.js developmen
 package also needs to be installed as it is a dependency for npm.
 
 Install Node.js and npm using the native packages provided by the distribution:
-(Only applicable for Ubuntu 12.04/14.04 and Fedora operating systems):
 
 ```puppet
 class { '::nodejs':
@@ -470,13 +469,11 @@ the NodeSource URL structure - NodeSource might remove old versions (such as
 0.10 and 0.12) or add new ones (such as 8.x) at any time.
 
 The following are ``repo_url_suffix`` values that reflect NodeSource versions
-that were available on 2017-11-14:
+that were available on 2017-11-29:
 
-* Debian 7 (Wheezy) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x```
 * Debian 8 (Jessie) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
 * Debian 9 (Stretch) ```4.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
 * Debian (Sid) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
-* Ubuntu 12.04 (Precise) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x```
 * Ubuntu 14.04 (Trusty) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
 * Ubuntu 16.04 (Xenial) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
 * Ubuntu 16.10 (Yakkety) ```0.12``` ```4.x``` ```6.x``` ```7.x``` ```8.x```
@@ -487,6 +484,7 @@ that were available on 2017-11-14:
 * Amazon Linux - See RHEL/CentOS 7
 * Fedora 25 ```4.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
 * Fedora 26 ```6.x``` ```8.x``` ```9.x```
+* Fedora 27 ```8.x``` ```9.x```
 
 #### `use_flags`
 
@@ -497,23 +495,22 @@ The USE flags to use for the Node.js package on Gentoo systems. Defaults to
 
 This module has received limited testing on:
 
-* CentOS/RHEL 5/6/7
-* Debian 7
-* Ubuntu 10.04/12.04/14.04
+* CentOS/RHEL 6/7
+* Debian 8
+* Ubuntu 14.04
 
 The following platforms should also work, but have not been tested:
 
 * Amazon Linux
 * Archlinux
 * Darwin
-* Debian 8
+* Debian 9
+* Fedora
 * FreeBSD
 * Gentoo
 * OpenBSD
 * OpenSuse/SLES
 * Windows
-
-This module is not supported on Debian Squeeze.
 
 ### Module dependencies
 
@@ -521,10 +518,7 @@ This modules uses `puppetlabs-apt` for the management of the NodeSource
 repository. If using an operating system of the Debian-based family, you will
 need to ensure that `puppetlabs-apt` version 2.x or above is installed.
 
-If using CentoOS/RHEL 5, you will need to ensure that the `stahnma-epel`
-module is installed.
-
-If using CentoOS/RHEL 5/6/7 and you wish to install Node.js from EPEL rather
+If using CentOS/RHEL 6/7 and you wish to install Node.js from EPEL rather
 than from the NodeSource repository, you will need to ensure `stahnma-epel` is
 installed and is applied before this module.
 
@@ -539,14 +533,4 @@ wish to use this functionality, Git needs to be installed and be in the
 
 ## Development
 
-Puppet Labs modules on the Puppet Forge are open projects, and community
-contributions are essential for keeping them great. We can’t access the huge
-number of platforms and myriad of hardware, software, and deployment
-configurations that Puppet is intended to serve.
-
-We want to keep it as easy as possible to contribute changes so that our
-modules work in your environment. There are a few guidelines that we need
-contributors to follow so that we can have a chance of keeping on top of
-things.
-
-Read the complete module [contribution guide](https://docs.puppetlabs.com/forge/contributing.html)
+See [CONTRIBUTING](CONTRIBUTING.md)

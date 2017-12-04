@@ -9,32 +9,21 @@ class nodejs::repo::nodesource {
   $proxy_username = $nodejs::repo_proxy_username
   $url_suffix     = $nodejs::repo_url_suffix
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
-      if $::operatingsystemrelease =~ /^5\.(\d+)/ {
-        include ::epel
-        $dist_version  = '5'
-        $name_string   = 'Enterprise Linux 5'
-      }
-
-      elsif $::operatingsystemrelease =~ /^6\.(\d+)/ {
-        $dist_version = '6'
-        $name_string  = 'Enterprise Linux 6'
-      }
-
-      elsif $::operatingsystemrelease =~ /^7\.(\d+)/ {
-        $dist_version = '7'
-        $name_string  = 'Enterprise Linux 7'
+      if $facts['os']['release']['major'] =~ /^[67]$/ {
+        $dist_version = $facts['os']['release']['major']
+        $name_string  = "Enterprise Linux ${dist_version}"
       }
 
       # Fedora
-      elsif $::operatingsystem == 'Fedora' {
-        $dist_version  = $::operatingsystemrelease
-        $name_string   = "Fedora Core ${::operatingsystemrelease}"
+      elsif $facts['os']['name'] == 'Fedora' {
+        $dist_version  = $facts['os']['release']['full']
+        $name_string   = "Fedora Core ${facts['os']['release']['full']}"
       }
 
       # newer Amazon Linux releases
-      elsif ($::operatingsystem == 'Amazon') {
+      elsif ($facts['os']['name'] == 'Amazon') {
         $dist_version = '7'
         $name_string  = 'Enterprise Linux 7'
       }
@@ -43,7 +32,7 @@ class nodejs::repo::nodesource {
         fail("Could not determine NodeSource repository URL for operatingsystem: ${::operatingsystem} operatingsystemrelease: ${::operatingsystemrelease}.")
       }
 
-      $dist_type = $::operatingsystem ? {
+      $dist_type = $facts['os']['name'] ? {
         'Fedora' => 'fc',
         default  => 'el',
       }
@@ -59,44 +48,6 @@ class nodejs::repo::nodesource {
       class { '::nodejs::repo::nodesource::yum': }
       contain '::nodejs::repo::nodesource::yum'
 
-      if $::operatingsystemrelease =~ /^5\.(\d+)/ {
-        # On EL 5, EPEL needs to be applied first
-        Class['::epel'] -> Class['::nodejs::repo::nodesource::yum']
-      }
-
-    }
-    'Linux': {
-      if $::operatingsystem == 'Amazon' {
-
-        # Recent Amazon Linux instances
-        if $::operatingsystemrelease =~ /^201[4-9]\./ {
-          $dist_type    = 'el'
-          $dist_version = '7'
-          $name_string  = 'Enterprise Linux 7'
-        }
-        else {
-          $dist_type    = 'el'
-          $dist_version = '6'
-          $name_string  = 'Enterprise Linux 6'
-        }
-
-        # nodesource repo
-        $descr   = "Node.js Packages for ${name_string} - \$basearch"
-        $baseurl = "https://rpm.nodesource.com/pub_${url_suffix}/${dist_type}/${dist_version}/\$basearch"
-
-        # nodesource-source repo
-        $source_descr   = "Node.js for ${name_string} - \$basearch - Source"
-        $source_baseurl = "https://rpm.nodesource.com/pub_${url_suffix}/${dist_type}/${dist_version}/SRPMS"
-
-        class { '::nodejs::repo::nodesource::yum': }
-        contain '::nodejs::repo::nodesource::yum'
-      }
-
-      else {
-        if ($ensure == 'present') {
-          fail("Unsupported managed NodeSource repository for operatingsystem: ${::operatingsystem}.")
-        }
-      }
     }
     'Debian': {
       class { '::nodejs::repo::nodesource::apt': }
@@ -104,7 +55,7 @@ class nodejs::repo::nodesource {
     }
     default: {
       if ($ensure == 'present') {
-        fail("Unsupported managed NodeSource repository for osfamily: ${::osfamily}, operatingsystem: ${::operatingsystem}.")
+        fail("Unsupported managed NodeSource repository for osfamily: ${facts['os']['family']}, operatingsystem: ${facts['os']['name']}.")
       }
     }
   }

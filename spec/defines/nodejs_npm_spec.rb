@@ -403,8 +403,10 @@ describe 'nodejs::npm', type: :define do
     context 'when run on Darwin' do
       let :facts do
         {
-          operatingsystem: 'Darwin',
-          osfamily: 'Darwin'
+          'os' => {
+            'family' => 'Darwin',
+            'name' => 'Darwin'
+          }
         }
       end
 
@@ -433,8 +435,13 @@ describe 'nodejs::npm', type: :define do
     context 'when run on Windows' do
       let :facts do
         {
-          operatingsystem: 'Windows',
-          osfamily: 'Windows'
+          'os' => {
+            'family' => 'Windows',
+            'name' => 'Windows',
+            'windows' => {
+              'system32' => 'C:\Windows\system32'
+            }
+          }
         }
       end
 
