@@ -20,7 +20,7 @@ class nodejs::install {
 
   Package { provider => $nodejs::package_provider }
   # nodejs
-  -> package { $nodejs::nodejs_package_name:
+  package { $nodejs::nodejs_package_name:
     ensure => $nodejs::nodejs_package_ensure,
     tag    => 'nodesource_repo',
   }
@@ -49,11 +49,7 @@ class nodejs::install {
     }
   }
 
-  if $facts['osfamily'] == 'Darwin' {
-    $root_npmrc_path = '/var/root'
-  } else {
-    $root_npmrc_path = $facts['root_home']
-  }
+  $root_npmrc_path = $facts['root_home']
 
   file { 'root_npmrc':
     ensure  => 'file',

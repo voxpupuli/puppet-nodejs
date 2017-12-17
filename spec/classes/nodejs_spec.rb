@@ -18,7 +18,7 @@ describe 'nodejs', type: :class do
       it 'the file resource root_npmrc should be in the catalog' do
         is_expected.to contain_file('root_npmrc').with(
           'ensure' => 'file',
-          'path'    => '/root/.npmrc',
+          'path'    => '/.npmrc',
           'owner'   => 'root',
           'group'   => '0',
           'mode'    => '0600'
@@ -892,7 +892,7 @@ describe 'nodejs', type: :class do
     it 'the file resource root_npmrc should use /var/root for the path' do
       is_expected.to contain_file('root_npmrc').with(
         'ensure' => 'file',
-        'path'    => '/var/root/.npmrc',
+        'path'    => '/.npmrc',
         'owner'   => 'root',
         'group'   => '0',
         'mode'    => '0600'
@@ -974,16 +974,16 @@ describe 'nodejs', type: :class do
       end
     end
 
-    context 'with the darwin_package_provider left as default' do
+    context 'with the package_provider left as default' do
       it 'uses Macports as the default provider' do
         is_expected.to contain_package('nodejs').with('provider' => 'macports')
       end
     end
 
-    context 'with the darwin_package_provider set to homebrew' do
+    context 'with the package_provider set to homebrew' do
       let :params do
         {
-          darwin_package_provider: 'homebrew'
+          package_provider: 'homebrew'
         }
       end
 
