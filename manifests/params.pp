@@ -12,7 +12,6 @@ class nodejs::params {
   $repo_proxy_username         = 'absent'
   $repo_url_suffix             = '0.10'
   $use_flags                   = ['npm', 'snapshot']
-  $darwin_package_provider     = 'macports'
 
   $cmd_exe_path = $facts['os']['family'] ? {
     'Windows' => "${facts['os']['windows']['system32']}\\cmd.exe",
@@ -55,6 +54,8 @@ class nodejs::params {
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
       }
+
+      $package_provider          = 'apt'
     }
     'RedHat': {
       if $facts['os']['release']['major'] =~ /^[67]$/ {
@@ -67,6 +68,7 @@ class nodejs::params {
         $npm_package_name          = 'npm'
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
+        $package_provider          = 'yum'
       }
       elsif $facts['os']['name'] == 'Fedora' {
         $manage_package_repo       = true
@@ -78,6 +80,7 @@ class nodejs::params {
         $npm_package_name          = 'npm'
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
+        $package_provider           = 'yum'
       }
       elsif ($facts['os']['name'] == 'Amazon') {
         $manage_package_repo       = true
@@ -89,6 +92,7 @@ class nodejs::params {
         $npm_package_name          = 'npm'
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
+        $package_provider          = 'yum'
       }
       else {
         fail("The ${module_name} module is not supported on ${::operatingsystem} ${::operatingsystemrelease}.")
@@ -104,6 +108,7 @@ class nodejs::params {
       $npm_package_name          = 'npm'
       $npm_path                  = '/usr/bin/npm'
       $repo_class                = undef
+      $package_provider          = 'zypper'
     }
     'Archlinux': {
       $manage_package_repo       = false
@@ -115,6 +120,7 @@ class nodejs::params {
       $npm_package_name          = 'npm'
       $npm_path                  = '/usr/bin/npm'
       $repo_class                = undef
+      $package_provider          = 'pacman'
     }
     'FreeBSD': {
       $manage_package_repo       = false
@@ -126,6 +132,7 @@ class nodejs::params {
       $npm_package_name          = 'www/npm'
       $npm_path                  = '/usr/bin/npm'
       $repo_class                = undef
+      $package_provider          = 'pacman'
     }
     'OpenBSD': {
       $manage_package_repo       = false
@@ -137,6 +144,7 @@ class nodejs::params {
       $npm_package_name          = false
       $npm_path                  = '/usr/local/bin/npm'
       $repo_class                = undef
+      $package_provider          = 'openbsd'
     }
     'Darwin': {
       $manage_package_repo       = false
@@ -148,6 +156,7 @@ class nodejs::params {
       $npm_package_name          = 'npm'
       $npm_path                  = '/opt/local/bin/npm'
       $repo_class                = undef
+      $package_provider          = 'macports'
     }
     'Windows': {
       $manage_package_repo       = false
@@ -159,7 +168,7 @@ class nodejs::params {
       $npm_package_name          = 'npm'
       $npm_path                  = '"C:\Program Files\nodejs\npm.cmd"'
       $repo_class                = undef
-      Package { provider => 'chocolatey' }
+      $package_provider          = 'chocolatey'
     }
     'Gentoo': {
       $manage_package_repo       = false
@@ -171,6 +180,7 @@ class nodejs::params {
       $npm_package_name          = false
       $npm_path                  = '/usr/bin/npm'
       $repo_class                = undef
+      $package_provider          = 'portage'
     }
     default: {
       fail("The ${module_name} module is not supported on a ${facts['os']['name']} distribution.")

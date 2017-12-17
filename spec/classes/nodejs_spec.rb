@@ -889,6 +889,16 @@ describe 'nodejs', type: :class do
       }
     end
 
+    it 'the file resource root_npmrc should use /var/root for the path' do
+      is_expected.to contain_file('root_npmrc').with(
+        'ensure' => 'file',
+        'path'    => '/var/root/.npmrc',
+        'owner'   => 'root',
+        'group'   => '0',
+        'mode'    => '0600'
+      )
+    end
+
     # nodejs_dev_package_ensure
     context 'with nodejs_dev_package_ensure set to present' do
       let :params do

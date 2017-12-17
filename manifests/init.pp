@@ -23,12 +23,8 @@ class nodejs(
   $repo_proxy_username                                 = $nodejs::params::repo_proxy_username,
   $repo_url_suffix                                     = $nodejs::params::repo_url_suffix,
   Array $use_flags                                     = $nodejs::params::use_flags,
-  String $darwin_package_provider                      = $nodejs::params::darwin_package_provider,
+  Optional[String] $package_provider                   = $nodejs::params::package_provider,
 ) inherits nodejs::params {
-
-  if $facts['osfamily'] == 'Darwin' {
-    Package { provider => $darwin_package_provider }
-  }
 
   if $manage_package_repo and !$repo_class {
     fail("${module_name}: The manage_package_repo parameter was set to true but no repo_class was provided.")
