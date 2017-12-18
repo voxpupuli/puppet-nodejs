@@ -30,7 +30,7 @@ repository on Debian and RedHat platforms. The NodeSource Node.js package
 includes the npm binary, which makes a separate npm package unnecessary.
 
 On SUSE, ArchLinux, FreeBSD, OpenBSD and Gentoo, native packages are used. On
-Darwin the default provider is MacPorts. On Windows the packages are installed
+Darwin, the MacPorts package is used. On Windows the packages are installed
 via Chocolatey.
 
 ## Setup
@@ -69,22 +69,12 @@ class { 'nodejs':
 }
 ```
 
-The default package provider is overridable for all operating systems - the
-default set for MacOS is MacPorts and Windows uses Chocolatey.
-
-```puppet
-class { 'nodejs':
-  package_provider => 'homebrew',
-}
-```
-
 ## Usage
 
 When a separate npm package exists (natively or via EPEL) the Node.js development
 package also needs to be installed as it is a dependency for npm.
 
 Install Node.js and npm using the native packages provided by the distribution:
-(Only applicable for Ubuntu 12.04/14.04 and Fedora operating systems):
 
 ```puppet
 class { '::nodejs':
@@ -158,6 +148,9 @@ except version ranges. The title simply must be a unique, arbitrary value.
   specified as an array.
 * The user parameter is provided should you wish to run npm install or npm rm
   as a specific user.
+* If you want to use a package.json supplied by a module to install dependencies
+  (e.g. if you have a NodeJS server app), set the parameter use_package_json to true.
+  The package name is then only used for the resource name. source parameter is ignored.
 
 nodejs::npm parameters:
 
@@ -168,6 +161,7 @@ nodejs::npm parameters:
 * uninstall_options: option flags invoked during removal (optional).
 * npm_path: defaults to the value listed in `nodejs::params`
 * user: defaults to undef
+* use_package_json: read and install modules listed in package.json in target dir and install those in subdirectory node_modules (defaults to false)
 
 Examples:
 
@@ -295,6 +289,16 @@ nodejs::npm { 'express with options':
 }
 ```
 
+Install dependencies from package.json:
+
+```puppet
+nodejs::npm { 'serverapp':
+  ensure           => 'present',
+  target           => '/opt/serverapp',
+  use_package_json => true,
+}
+```
+
 Uninstall any versions of express in /opt/packages regardless of source:
 
 ```puppet
@@ -302,6 +306,16 @@ nodejs::npm { 'remove all express packages':
   ensure  => 'absent',
   package => 'express',
   target  => '/opt/packages',
+}
+```
+
+Uninstall dependencies from package.json:
+
+```puppet
+nodejs::npm { 'serverapp':
+  ensure           => 'absent',
+  target           => '/opt/serverapp',
+  use_package_json => true,
 }
 ```
 
@@ -412,7 +426,7 @@ to `present` and may also be set to `absent`.
 #### `repo_pin`
 
 Whether to perform APT pinning to pin the Node.js repository with a specific
-value. Defaults to `false`.
+value. Defaults to `undef`.
 
 #### `repo_priority`
 
@@ -445,57 +459,53 @@ the NodeSource URL structure - NodeSource might remove old versions (such as
 0.10 and 0.12) or add new ones (such as 8.x) at any time.
 
 The following are ``repo_url_suffix`` values that reflect NodeSource versions
-that were available on 2017-01-08:
+that were available on 2017-11-29:
 
-* Debian 7 (Wheezy) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x```
-* Debian 8 (Jessie) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x```
-* Debian (Sid) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x```
-* Ubuntu 10.04 (Lucid) ```0.10```
-* Ubuntu 12.04 (Precise) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x```
-* Ubuntu 13.10 (Saucy) ```0.10```
-* Ubuntu 14.04 (Trusty) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x```
-* Ubuntu 14.10 (Utopic) ```0.10``` ```0.12```
-* Ubuntu 15.04 (Vivid) ```0.10``` ```0.12``` ```4.x``` ```5.x```
-* Ubuntu 15.10 (wily) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x```
-* Ubuntu 16.04 (Xenial) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x```
-* Ubuntu 16.10 (Yakkety) ```0.12``` ```4.x``` ```6.x``` ```7.x```
+* Debian 8 (Jessie) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
+* Debian 9 (Stretch) ```4.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
+* Debian (Sid) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
+* Ubuntu 14.04 (Trusty) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
+* Ubuntu 16.04 (Xenial) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
+* Ubuntu 16.10 (Yakkety) ```0.12``` ```4.x``` ```6.x``` ```7.x``` ```8.x```
+* Ubuntu 17.10 (Artful) ```4.x``` ```6.x``` ```8.x``` ```9.x```
 * RHEL/CentOS 5 ```0.10``` ```0.12```
-* RHEL/CentOS 6 ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x```
-* RHEL/CentOS 7 ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x```
+* RHEL/CentOS 6 ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
+* RHEL/CentOS 7 ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
 * Amazon Linux - See RHEL/CentOS 7
-* Fedora 19/20 ```0.10``` ```0.12``` ```4.x```
-* Fedora 21 ```0.10``` ```0.12``` ```4.x``` ```5.x```
-* Fedora 22 ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x```
-* Fedora 23/24 ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x```
-* Fedora 25 ```4.x``` ```6.x``` ```7.x```
+* Fedora 25 ```4.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
+* Fedora 26 ```6.x``` ```8.x``` ```9.x```
+* Fedora 27 ```8.x``` ```9.x```
 
 #### `use_flags`
 
 The USE flags to use for the Node.js package on Gentoo systems. Defaults to
 ['npm', 'snapshot'].
 
+#### `package_provider`
+
+The package provider is set as the default for most distributions. You can override
+this with the package_provider parameter to use an alternative
+
 ## Limitations
 
 This module has received limited testing on:
 
-* CentOS/RHEL 5/6/7
-* Debian 7
-* Fedora 20/21
-* Ubuntu 10.04/12.04/14.04
+* CentOS/RHEL 6/7
+* Debian 8
+* Ubuntu 14.04
 
 The following platforms should also work, but have not been tested:
 
 * Amazon Linux
 * Archlinux
 * Darwin
-* Debian 8
+* Debian 9
+* Fedora
 * FreeBSD
 * Gentoo
 * OpenBSD
 * OpenSuse/SLES
 * Windows
-
-This module is not supported on Debian Squeeze.
 
 ### Module dependencies
 
@@ -518,14 +528,4 @@ wish to use this functionality, Git needs to be installed and be in the
 
 ## Development
 
-Puppet Labs modules on the Puppet Forge are open projects, and community
-contributions are essential for keeping them great. We can’t access the huge
-number of platforms and myriad of hardware, software, and deployment
-configurations that Puppet is intended to serve.
-
-We want to keep it as easy as possible to contribute changes so that our
-modules work in your environment. There are a few guidelines that we need
-contributors to follow so that we can have a chance of keeping on top of
-things.
-
-Read the complete module [contribution guide](https://docs.puppetlabs.com/forge/contributing.html)
+See [CONTRIBUTING](CONTRIBUTING.md)
