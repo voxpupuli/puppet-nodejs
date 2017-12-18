@@ -55,7 +55,7 @@ class nodejs::params {
         $repo_class                = '::nodejs::repo::nodesource'
       }
 
-      $package_provider          = 'apt'
+      $package_provider          = undef
     }
     'RedHat': {
       if $facts['os']['release']['major'] =~ /^[67]$/ {
@@ -68,7 +68,6 @@ class nodejs::params {
         $npm_package_name          = 'npm'
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
-        $package_provider          = 'yum'
       }
       elsif $facts['os']['name'] == 'Fedora' {
         $manage_package_repo       = true
@@ -80,7 +79,6 @@ class nodejs::params {
         $npm_package_name          = 'npm'
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
-        $package_provider           = 'yum'
       }
       elsif ($facts['os']['name'] == 'Amazon') {
         $manage_package_repo       = true
@@ -92,11 +90,11 @@ class nodejs::params {
         $npm_package_name          = 'npm'
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
-        $package_provider          = 'yum'
       }
       else {
         fail("The ${module_name} module is not supported on ${::operatingsystem} ${::operatingsystemrelease}.")
       }
+      $package_provider          = undef
     }
     'Suse': {
       $manage_package_repo       = false
@@ -108,7 +106,7 @@ class nodejs::params {
       $npm_package_name          = 'npm'
       $npm_path                  = '/usr/bin/npm'
       $repo_class                = undef
-      $package_provider          = 'zypper'
+      $package_provider          = undef
     }
     'Archlinux': {
       $manage_package_repo       = false
@@ -120,7 +118,7 @@ class nodejs::params {
       $npm_package_name          = 'npm'
       $npm_path                  = '/usr/bin/npm'
       $repo_class                = undef
-      $package_provider          = 'pacman'
+      $package_provider          = undef
     }
     'FreeBSD': {
       $manage_package_repo       = false
@@ -132,7 +130,7 @@ class nodejs::params {
       $npm_package_name          = 'www/npm'
       $npm_path                  = '/usr/bin/npm'
       $repo_class                = undef
-      $package_provider          = 'pacman'
+      $package_provider          = undef
     }
     'OpenBSD': {
       $manage_package_repo       = false
@@ -144,7 +142,7 @@ class nodejs::params {
       $npm_package_name          = false
       $npm_path                  = '/usr/local/bin/npm'
       $repo_class                = undef
-      $package_provider          = 'openbsd'
+      $package_provider          = undef
     }
     'Darwin': {
       $manage_package_repo       = false
@@ -180,7 +178,7 @@ class nodejs::params {
       $npm_package_name          = false
       $npm_path                  = '/usr/bin/npm'
       $repo_class                = undef
-      $package_provider          = 'portage'
+      $package_provider          = undef
     }
     default: {
       fail("The ${module_name} module is not supported on a ${facts['os']['name']} distribution.")

@@ -18,7 +18,9 @@ class nodejs::install {
     }
   }
 
-  Package { provider => $nodejs::package_provider }
+  if $nodejs::package_provider != undef {
+    Package { provider => $nodejs::package_provider }
+  }
   # nodejs
   package { $nodejs::nodejs_package_name:
     ensure => $nodejs::nodejs_package_ensure,
