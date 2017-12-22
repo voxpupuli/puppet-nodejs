@@ -18,7 +18,7 @@ describe 'nodejs', type: :class do
       it 'the file resource root_npmrc should be in the catalog' do
         is_expected.to contain_file('root_npmrc').with(
           'ensure' => 'file',
-          'path'    => '/.npmrc',
+          'path'    => '/root/.npmrc',
           'owner'   => 'root',
           'group'   => '0',
           'mode'    => '0600'
@@ -887,16 +887,6 @@ describe 'nodejs', type: :class do
           'name' => 'Darwin'
         }
       }
-    end
-
-    it 'the file resource root_npmrc should use /var/root for the path' do
-      is_expected.to contain_file('root_npmrc').with(
-        'ensure' => 'file',
-        'path'    => '/.npmrc',
-        'owner'   => 'root',
-        'group'   => '0',
-        'mode'    => '0600'
-      )
     end
 
     # nodejs_dev_package_ensure
