@@ -40,18 +40,6 @@ class nodejs::install {
     }
   }
 
-  # Replicates the nodejs-legacy package functionality
-  if ($facts['os']['family'] == 'Debian' and $nodejs::legacy_debian_symlinks) {
-    file { '/usr/bin/node':
-      ensure => 'link',
-      target => '/usr/bin/nodejs',
-    }
-    file { '/usr/share/man/man1/node.1.gz':
-      ensure => 'link',
-      target => '/usr/share/man/man1/nodejs.1.gz',
-    }
-  }
-
   # npm
   if $nodejs::npm_package_name and $nodejs::npm_package_name != false {
     package { $nodejs::npm_package_name:

@@ -21,7 +21,6 @@ class nodejs::params {
   case $facts['os']['family'] {
     'Debian': {
       if $facts['os']['release']['major'] =~ /^[89]$/ {
-        $legacy_debian_symlinks    = false
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-dbg'
         $nodejs_dev_package_name   = undef
@@ -33,7 +32,6 @@ class nodejs::params {
         $repo_class                = '::nodejs::repo::nodesource'
       }
       elsif $facts['os']['release']['full'] =~ /^1[46]\.04$/ {
-        $legacy_debian_symlinks    = false
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-dbg'
         $nodejs_dev_package_name   = 'nodejs-dev'
@@ -46,7 +44,6 @@ class nodejs::params {
       }
       else {
         warning("The ${module_name} module might not work on ${facts['os']['name']} ${facts['os']['release']['full']}. Sensible defaults will be attempted.")
-        $legacy_debian_symlinks    = false
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-dbg'
         $nodejs_dev_package_name   = 'nodejs-dev'
@@ -59,8 +56,6 @@ class nodejs::params {
       }
     }
     'RedHat': {
-      $legacy_debian_symlinks      = false
-
       if $facts['os']['release']['major'] =~ /^[67]$/ {
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-debuginfo'
@@ -99,7 +94,6 @@ class nodejs::params {
       }
     }
     'Suse': {
-      $legacy_debian_symlinks    = false
       $manage_package_repo       = false
       $nodejs_debug_package_name = 'nodejs-debuginfo'
       $nodejs_dev_package_name   = 'nodejs-devel'
@@ -111,7 +105,6 @@ class nodejs::params {
       $repo_class                = undef
     }
     'Archlinux': {
-      $legacy_debian_symlinks    = false
       $manage_package_repo       = false
       $nodejs_debug_package_name = undef
       $nodejs_dev_package_name   = undef
@@ -123,7 +116,6 @@ class nodejs::params {
       $repo_class                = undef
     }
     'FreeBSD': {
-      $legacy_debian_symlinks    = false
       $manage_package_repo       = false
       $nodejs_debug_package_name = undef
       $nodejs_dev_package_name   = 'www/node-devel'
@@ -135,7 +127,6 @@ class nodejs::params {
       $repo_class                = undef
     }
     'OpenBSD': {
-      $legacy_debian_symlinks    = false
       $manage_package_repo       = false
       $nodejs_debug_package_name = undef
       $nodejs_dev_package_name   = undef
@@ -147,7 +138,6 @@ class nodejs::params {
       $repo_class                = undef
     }
     'Darwin': {
-      $legacy_debian_symlinks    = false
       $manage_package_repo       = false
       $nodejs_debug_package_name = undef
       $nodejs_dev_package_name   = 'nodejs-devel'
@@ -160,7 +150,6 @@ class nodejs::params {
       Package { provider => 'macports' }
     }
     'Windows': {
-      $legacy_debian_symlinks    = false
       $manage_package_repo       = false
       $nodejs_debug_package_name = undef
       $nodejs_dev_package_name   = undef
@@ -173,7 +162,6 @@ class nodejs::params {
       Package { provider => 'chocolatey' }
     }
     'Gentoo': {
-      $legacy_debian_symlinks    = false
       $manage_package_repo       = false
       $nodejs_debug_package_name = undef
       $nodejs_dev_package_name   = undef
