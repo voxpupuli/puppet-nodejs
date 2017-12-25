@@ -7,6 +7,7 @@ class nodejs::repo::nodesource {
   $proxy          = $nodejs::repo_proxy
   $proxy_password = $nodejs::repo_proxy_password
   $proxy_username = $nodejs::repo_proxy_username
+  $release        = $nodejs::repo_release
   $url_suffix     = $nodejs::repo_url_suffix
 
   case $facts['os']['family'] {

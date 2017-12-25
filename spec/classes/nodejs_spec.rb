@@ -97,6 +97,16 @@ describe 'nodejs', type: :class do
           end
         end
 
+        context 'and repo_release set to stretch' do
+          let :params do
+            default_params.merge!(repo_release: 'stretch')
+          end
+
+          it 'the repo apt::source resource should contain release = stretch' do
+            is_expected.to contain_apt__source('nodesource').with('release' => 'stretch')
+          end
+        end
+
         context 'and repo_pin not set' do
           let :params do
             default_params.merge!(repo_pin: :undef)
