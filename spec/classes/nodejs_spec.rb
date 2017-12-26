@@ -45,37 +45,6 @@ describe 'nodejs', type: :class do
         it { is_expected.to contain_file('root_npmrc').with_content(%r{^http-proxy=http://localhost:8080/$}) }
       end
 
-      # legacy_debian_symlinks
-      context 'with legacy_debian_symlinks set to true' do
-        let :params do
-          {
-            legacy_debian_symlinks: true
-          }
-        end
-
-        it 'the file resource /usr/bin/node should be in the catalog' do
-          is_expected.to contain_file('/usr/bin/node')
-        end
-        it 'the file resource /usr/share/man/man1/node.1.gz should be in the catalog' do
-          is_expected.to contain_file('/usr/share/man/man1/node.1.gz')
-        end
-      end
-
-      context 'with legacy_debian_symlinks set to false' do
-        let :params do
-          {
-            legacy_debian_symlinks: false
-          }
-        end
-
-        it 'the file resource /usr/bin/node should not be in the catalog' do
-          is_expected.not_to contain_file('/usr/bin/node')
-        end
-        it 'the file resource /usr/share/man/man1/node.1.gz should not be in the catalog' do
-          is_expected.not_to contain_file('/usr/share/man/man1/node.1.gz')
-        end
-      end
-
       # manage_package_repo
       context 'with manage_package_repo set to true' do
         let :default_params do

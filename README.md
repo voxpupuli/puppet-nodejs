@@ -362,16 +362,6 @@ applied before the local installation of npm packages using `nodejs::npm`.
 Path to cmd.exe on Windows. Defaults to C:\Windows\system32\cmd.exe. You may
 need to change this parameter for certain versions of Windows Server.
 
-#### `legacy_debian_symlinks`
-
-As per a Debian Technical Committee resolution (CTTE #614907), newer
-native packages on Debian/Ubuntu changed the path of the Node.js
-executable from /usr/bin/node to /usr/bin/nodejs. The nodejs-legacy package
-creates symlinks in the event that one is running applications that require
-the previous name. Setting this parameter to `true` recreates this behaviour.
-The Node.js package in the NodeSource repository already creates this symlink
-by default. This parameter defaults to `false`.
-
 #### `manage_package_repo`
 
 Whether to manage an external repository and use it as the source of the
