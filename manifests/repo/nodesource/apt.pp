@@ -6,8 +6,6 @@ class nodejs::repo::nodesource::apt {
   $pin        = $nodejs::repo::nodesource::pin
   $url_suffix = $nodejs::repo::nodesource::url_suffix
 
-  ensure_packages(['apt-transport-https', 'ca-certificates'])
-
   include ::apt
 
   if ($ensure != 'absent') {
@@ -23,10 +21,6 @@ class nodejs::repo::nodesource::apt {
       pin      => $pin,
       release  => $::lsbdistcodename,
       repos    => 'main',
-      require  => [
-        Package['apt-transport-https'],
-        Package['ca-certificates'],
-      ],
     }
 
     Apt::Source['nodesource'] -> Package<| tag == 'nodesource_repo' |>

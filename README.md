@@ -506,7 +506,7 @@ The following platforms should also work, but have not been tested:
 
 This modules uses `puppetlabs-apt` for the management of the NodeSource
 repository. If using an operating system of the Debian-based family, you will
-need to ensure that `puppetlabs-apt` version 2.x or above is installed.
+need to ensure that `puppetlabs-apt` version 4.4.0 or above is installed.
 
 If using CentOS/RHEL 6/7 and you wish to install Node.js from EPEL rather
 than from the NodeSource repository, you will need to ensure `stahnma-epel` is
