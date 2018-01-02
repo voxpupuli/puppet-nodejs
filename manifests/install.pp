@@ -50,11 +50,9 @@ class nodejs::install {
     }
   }
 
-  $root_npmrc_path = $facts['root_home']
-
   file { 'root_npmrc':
     ensure  => 'file',
-    path    => "${root_npmrc_path}/.npmrc",
+    path    => "${facts['root_home']}/.npmrc",
     content => template('nodejs/npmrc.erb'),
     owner   => 'root',
     group   => '0',
