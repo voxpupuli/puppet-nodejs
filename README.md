@@ -94,6 +94,29 @@ class { '::nodejs':
 }
 ```
 
+### Upgrades
+
+The parameter `nodejs_package_ensure` defaults to `present`. Changing the
+`repo_url_suffix` will not result in a new version being installed. Changing
+the `nodejs_package_ensure` parameter should provide the desired effect.
+
+For example:
+
+```puppet
+# Upgrade from nodejs 5.x to 6.x
+class { 'nodejs':
+    repo_url_suffix       => '6.x',
+    nodejs_package_ensure => '6.12.2',
+  }
+```
+
+### Forcing the installation of NodeSource packages over native packages
+
+When the native package version and NodeSource version are the same, you may
+need to use `repo_pin` or `repo_priority` (depending on your operating system).
+This ensures that the version in the NodeSource repository takes precedence
+when Puppet invokes Apt/Yum.
+
 ### npm packages
 
 Two types of npm packages are supported:
