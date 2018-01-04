@@ -4,6 +4,41 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v5.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v5.0.0) (2018-01-04)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v4.0.1...v5.0.0)
+
+**Breaking changes:**
+
+- Use puppetlabs-apt to handle apt-transport-https [\#348](https://github.com/voxpupuli/puppet-nodejs/pull/348) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Remove legacy\_debian\_symlinks parameter [\#347](https://github.com/voxpupuli/puppet-nodejs/pull/347) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Remove EOL operating systems, Legacy facts. [\#343](https://github.com/voxpupuli/puppet-nodejs/pull/343) ([juniorsysadmin](https://github.com/juniorsysadmin))
+
+**Implemented enhancements:**
+
+- Rely on puppetlabs-apt 4.4.0 for apt-transport-https installation [\#345](https://github.com/voxpupuli/puppet-nodejs/issues/345)
+- Refresh params.pp [\#336](https://github.com/voxpupuli/puppet-nodejs/issues/336)
+- Provide option to install node using Brew [\#236](https://github.com/voxpupuli/puppet-nodejs/issues/236)
+- Add repo\_release parameter [\#349](https://github.com/voxpupuli/puppet-nodejs/pull/349) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Allow for the macports provider to be overridden on macos [\#321](https://github.com/voxpupuli/puppet-nodejs/pull/321) ([kizzie](https://github.com/kizzie))
+
+**Fixed bugs:**
+
+- Circular symlinks when legacy\_debian\_symlinks = true [\#335](https://github.com/voxpupuli/puppet-nodejs/issues/335)
+
+**Closed issues:**
+
+- Handling os and family facts issue [\#344](https://github.com/voxpupuli/puppet-nodejs/issues/344)
+- Docs: Add info important for upgrades, repository priorities [\#322](https://github.com/voxpupuli/puppet-nodejs/issues/322)
+- Installation on CentOS 7 fails, can't remove npm package [\#287](https://github.com/voxpupuli/puppet-nodejs/issues/287)
+- /usr/bin/npm doesn't exist when setting a nodejs::npm::global\_config\_entry [\#214](https://github.com/voxpupuli/puppet-nodejs/issues/214)
+
+**Merged pull requests:**
+
+- Add info for upgrades, repository priorities [\#352](https://github.com/voxpupuli/puppet-nodejs/pull/352) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Remove epel from fixtures [\#346](https://github.com/voxpupuli/puppet-nodejs/pull/346) ([juniorsysadmin](https://github.com/juniorsysadmin))
+- Remove EOL operatingsystems [\#341](https://github.com/voxpupuli/puppet-nodejs/pull/341) ([ekohl](https://github.com/ekohl))
+
 ## [v4.0.1](https://github.com/voxpupuli/puppet-nodejs/tree/v4.0.1) (2017-11-15)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v4.0.0...v4.0.1)
@@ -18,6 +53,7 @@ These should not affect the functionality of the module.
 
 **Merged pull requests:**
 
+- v4.0.1 [\#338](https://github.com/voxpupuli/puppet-nodejs/pull/338) ([TraGicCode](https://github.com/TraGicCode))
 - Update known valid $repo\_url\_suffix values [\#337](https://github.com/voxpupuli/puppet-nodejs/pull/337) ([juniorsysadmin](https://github.com/juniorsysadmin))
 - Set default value for $repo\_pin to undef [\#334](https://github.com/voxpupuli/puppet-nodejs/pull/334) ([juniorsysadmin](https://github.com/juniorsysadmin))
 - Use the simpler calls for acceptance tests [\#330](https://github.com/voxpupuli/puppet-nodejs/pull/330) ([wyardley](https://github.com/wyardley))
