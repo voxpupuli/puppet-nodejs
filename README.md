@@ -473,6 +473,17 @@ Password for the proxy used by the repository, if required.
 
 User for the proxy used by the repository, if required.
 
+#### `repo_release`
+
+Optional value to override the apt distribution release.  Defaults to `undef`
+which will autodetect the distribution. If a value is specified, this will
+change the NodeSource apt repository distribution.
+This is useful if the distribution name does not exist in the NodeSource
+repositories. For example, the Ubilinux distribution release name 'dolcetto'
+does not exist in NodeSource, but is a derivative of Debian 9 (Stretch).
+Setting this value to `stretch` allows NodeSource repository management to
+then work as expected on these systems.
+
 #### `repo_url_suffix`
 
 Defaults to ```0.10``` which means that the latest NodeSource 0.10.x release
@@ -528,6 +539,7 @@ The following platforms should also work, but have not been tested:
 * Gentoo
 * OpenBSD
 * OpenSuse/SLES
+* Ubilinux
 * Windows
 
 ### Module dependencies

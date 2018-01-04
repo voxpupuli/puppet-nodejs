@@ -10,6 +10,7 @@ class nodejs::params {
   $repo_proxy                  = 'absent'
   $repo_proxy_password         = 'absent'
   $repo_proxy_username         = 'absent'
+  $repo_release                = undef
   $repo_url_suffix             = '0.10'
   $use_flags                   = ['npm', 'snapshot']
 

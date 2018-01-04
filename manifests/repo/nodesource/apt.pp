@@ -4,6 +4,7 @@ class nodejs::repo::nodesource::apt {
   $enable_src = $nodejs::repo::nodesource::enable_src
   $ensure     = $nodejs::repo::nodesource::ensure
   $pin        = $nodejs::repo::nodesource::pin
+  $release    = $nodejs::repo::nodesource::release
   $url_suffix = $nodejs::repo::nodesource::url_suffix
 
   include ::apt
@@ -19,7 +20,7 @@ class nodejs::repo::nodesource::apt {
       },
       location => "https://deb.nodesource.com/node_${url_suffix}",
       pin      => $pin,
-      release  => $::lsbdistcodename,
+      release  => $release,
       repos    => 'main',
     }
 
