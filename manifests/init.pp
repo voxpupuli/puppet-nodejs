@@ -23,6 +23,7 @@ class nodejs(
   $repo_proxy_username                                 = $nodejs::params::repo_proxy_username,
   $repo_url_suffix                                     = $nodejs::params::repo_url_suffix,
   Array $use_flags                                     = $nodejs::params::use_flags,
+  Optional[String] $package_provider                   = $nodejs::params::package_provider,
 ) inherits nodejs::params {
 
   if $manage_package_repo and !$repo_class {

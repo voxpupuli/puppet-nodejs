@@ -18,6 +18,8 @@ class nodejs::install {
     }
   }
 
+  Package { provider => $nodejs::package_provider }
+
   # nodejs
   package { $nodejs::nodejs_package_name:
     ensure => $nodejs::nodejs_package_ensure,
@@ -50,7 +52,7 @@ class nodejs::install {
 
   file { 'root_npmrc':
     ensure  => 'file',
-    path    => '/root/.npmrc',
+    path    => "${facts['root_home']}/.npmrc",
     content => template('nodejs/npmrc.erb'),
     owner   => 'root',
     group   => '0',

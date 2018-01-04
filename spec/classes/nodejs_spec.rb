@@ -963,6 +963,24 @@ describe 'nodejs', type: :class do
         is_expected.to contain_package('npm').with('ensure' => 'absent')
       end
     end
+
+    context 'with the package_provider left as default' do
+      it 'uses Macports as the default provider' do
+        is_expected.to contain_package('nodejs').with('provider' => 'macports')
+      end
+    end
+
+    context 'with the package_provider set to homebrew' do
+      let :params do
+        {
+          package_provider: 'homebrew'
+        }
+      end
+
+      it 'uses homebrew as the default provider' do
+        is_expected.to contain_package('nodejs').with('provider' => 'homebrew')
+      end
+    end
   end
 
   context 'when running on Windows' do

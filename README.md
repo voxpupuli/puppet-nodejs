@@ -504,6 +504,11 @@ that were available on 2017-11-29:
 The USE flags to use for the Node.js package on Gentoo systems. Defaults to
 ['npm', 'snapshot'].
 
+#### `package_provider`
+
+The package provider is set as the default for most distributions. You can override
+this with the package_provider parameter to use an alternative
+
 ## Limitations
 
 This module has received limited testing on:

@@ -54,6 +54,8 @@ class nodejs::params {
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
       }
+
+      $package_provider          = undef
     }
     'RedHat': {
       if $facts['os']['release']['major'] =~ /^[67]$/ {
@@ -92,6 +94,7 @@ class nodejs::params {
       else {
         fail("The ${module_name} module is not supported on ${::operatingsystem} ${::operatingsystemrelease}.")
       }
+      $package_provider          = undef
     }
     'Suse': {
       $manage_package_repo       = false
@@ -103,6 +106,7 @@ class nodejs::params {
       $npm_package_name          = 'npm'
       $npm_path                  = '/usr/bin/npm'
       $repo_class                = undef
+      $package_provider          = undef
     }
     'Archlinux': {
       $manage_package_repo       = false
@@ -114,6 +118,7 @@ class nodejs::params {
       $npm_package_name          = 'npm'
       $npm_path                  = '/usr/bin/npm'
       $repo_class                = undef
+      $package_provider          = undef
     }
     'FreeBSD': {
       $manage_package_repo       = false
@@ -125,6 +130,7 @@ class nodejs::params {
       $npm_package_name          = 'www/npm'
       $npm_path                  = '/usr/bin/npm'
       $repo_class                = undef
+      $package_provider          = undef
     }
     'OpenBSD': {
       $manage_package_repo       = false
@@ -136,6 +142,7 @@ class nodejs::params {
       $npm_package_name          = false
       $npm_path                  = '/usr/local/bin/npm'
       $repo_class                = undef
+      $package_provider          = undef
     }
     'Darwin': {
       $manage_package_repo       = false
@@ -147,7 +154,7 @@ class nodejs::params {
       $npm_package_name          = 'npm'
       $npm_path                  = '/opt/local/bin/npm'
       $repo_class                = undef
-      Package { provider => 'macports' }
+      $package_provider          = 'macports'
     }
     'Windows': {
       $manage_package_repo       = false
@@ -159,7 +166,7 @@ class nodejs::params {
       $npm_package_name          = 'npm'
       $npm_path                  = '"C:\Program Files\nodejs\npm.cmd"'
       $repo_class                = undef
-      Package { provider => 'chocolatey' }
+      $package_provider          = 'chocolatey'
     }
     'Gentoo': {
       $manage_package_repo       = false
@@ -171,6 +178,7 @@ class nodejs::params {
       $npm_package_name          = false
       $npm_path                  = '/usr/bin/npm'
       $repo_class                = undef
+      $package_provider          = undef
     }
     default: {
       fail("The ${module_name} module is not supported on a ${facts['os']['name']} distribution.")
