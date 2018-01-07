@@ -117,13 +117,13 @@ describe 'nodejs', type: :class do
           end
         end
 
-        context 'and repo_url_suffix set to 0.12' do
+        context 'and repo_url_suffix set to 9.x' do
           let :params do
-            default_params.merge!(repo_url_suffix: '0.12')
+            default_params.merge!(repo_url_suffix: '9.x')
           end
 
-          it 'the repo apt::source resource should contain location = https://deb.nodesource.com/node_0.12' do
-            is_expected.to contain_apt__source('nodesource').with('location' => 'https://deb.nodesource.com/node_0.12')
+          it 'the repo apt::source resource should contain location = https://deb.nodesource.com/node_9.x' do
+            is_expected.to contain_apt__source('nodesource').with('location' => 'https://deb.nodesource.com/node_9.x')
           end
         end
 
@@ -310,15 +310,15 @@ describe 'nodejs', type: :class do
     if operatingsystemrelease =~ %r{^[6-7]\.(\d+)}
       operatingsystem     = 'CentOS'
       dist_type           = 'el'
-      repo_baseurl        = "https://rpm.nodesource.com/pub_0.10/#{dist_type}/#{operatingsystemmajrelease}/\$basearch"
-      repo_source_baseurl = "https://rpm.nodesource.com/pub_0.10/#{dist_type}/#{operatingsystemmajrelease}/SRPMS"
+      repo_baseurl        = "https://rpm.nodesource.com/pub_8.x/#{dist_type}/#{operatingsystemmajrelease}/\$basearch"
+      repo_source_baseurl = "https://rpm.nodesource.com/pub_8.x/#{dist_type}/#{operatingsystemmajrelease}/SRPMS"
       repo_descr          = "Node.js Packages for Enterprise Linux #{operatingsystemmajrelease} - \$basearch"
       repo_source_descr   = "Node.js for Enterprise Linux #{operatingsystemmajrelease} - \$basearch - Source"
     else
       operatingsystem     = 'Fedora'
       dist_type           = 'fc'
-      repo_baseurl        = "https://rpm.nodesource.com/pub_0.10/#{dist_type}/#{operatingsystemmajrelease}/\$basearch"
-      repo_source_baseurl = "https://rpm.nodesource.com/pub_0.10/#{dist_type}/#{operatingsystemmajrelease}/SRPMS"
+      repo_baseurl        = "https://rpm.nodesource.com/pub_8.x/#{dist_type}/#{operatingsystemmajrelease}/\$basearch"
+      repo_source_baseurl = "https://rpm.nodesource.com/pub_8.x/#{dist_type}/#{operatingsystemmajrelease}/SRPMS"
       repo_descr          = "Node.js Packages for Fedora Core #{operatingsystemmajrelease} - \$basearch"
       repo_source_descr   = "Node.js for Fedora Core #{operatingsystemmajrelease} - \$basearch - Source"
     end
@@ -1120,8 +1120,8 @@ describe 'nodejs', type: :class do
       }
     end
 
-    repo_baseurl        = 'https://rpm.nodesource.com/pub_0.10/el/7/$basearch'
-    repo_source_baseurl = 'https://rpm.nodesource.com/pub_0.10/el/7/SRPMS'
+    repo_baseurl        = 'https://rpm.nodesource.com/pub_8.x/el/7/$basearch'
+    repo_source_baseurl = 'https://rpm.nodesource.com/pub_8.x/el/7/SRPMS'
     repo_descr          = 'Node.js Packages for Enterprise Linux 7 - $basearch'
     repo_source_descr   = 'Node.js for Enterprise Linux 7 - $basearch - Source'
 
