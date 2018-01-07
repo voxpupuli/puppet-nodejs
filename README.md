@@ -51,23 +51,18 @@ To install Node.js and npm (using the NodeSource repository if possible):
 class { 'nodejs': }
 ```
 
-If you wish to install a Node.js 0.12.x release from the NodeSource repository
-rather than 0.10.x on Debian/RH platforms:
+The default version installed is currently `8.x`.
+
+If you wish to install a Node.js 9.x release from the NodeSource repository
+rather than 8.x on Debian/RHEL platforms:
 
 ```puppet
 class { 'nodejs':
-  repo_url_suffix => '0.12',
+  repo_url_suffix => '9.x',
 }
 ```
 
-Or if you wish to install a Node.js 5.x release from the NodeSource repository:
-(4.x. is left as a exercise for the reader)
-
-```puppet
-class { 'nodejs':
-  repo_url_suffix => '5.x',
-}
-```
+See the `repo_url_suffix` parameter entry below for possible values.
 
 ## Usage
 
@@ -486,11 +481,11 @@ then work as expected on these systems.
 
 #### `repo_url_suffix`
 
-Defaults to ```0.10``` which means that the latest NodeSource 0.10.x release
-is installed. If you wish to install a 0.12.x release or greater, you will
+Defaults to ```8.x``` which means that the latest NodeSource 8.x release
+is installed. If you wish to install a 9.x release or greater, you will
 need to set this value accordingly. This parameter is a just a reflection of
 the NodeSource URL structure - NodeSource might remove old versions (such as
-0.10 and 0.12) or add new ones (such as 8.x) at any time.
+0.10 and 0.12) or add new ones (such as 20.x) at any time.
 
 The following are ``repo_url_suffix`` values that reflect NodeSource versions
 that were available on 2017-11-29:
@@ -502,7 +497,6 @@ that were available on 2017-11-29:
 * Ubuntu 16.04 (Xenial) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
 * Ubuntu 16.10 (Yakkety) ```0.12``` ```4.x``` ```6.x``` ```7.x``` ```8.x```
 * Ubuntu 17.10 (Artful) ```4.x``` ```6.x``` ```8.x``` ```9.x```
-* RHEL/CentOS 5 ```0.10``` ```0.12```
 * RHEL/CentOS 6 ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
 * RHEL/CentOS 7 ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
 * Amazon Linux - See RHEL/CentOS 7
