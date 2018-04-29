@@ -32,7 +32,7 @@ class nodejs::params {
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
       }
-      elsif $facts['os']['release']['full'] =~ /^1[46]\.04$/ {
+      elsif $facts['os']['release']['full'] =~ /^1[468]\.04$/ {
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-dbg'
         $nodejs_dev_package_name   = 'nodejs-dev'
