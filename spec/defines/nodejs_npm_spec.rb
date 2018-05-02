@@ -52,10 +52,6 @@ describe 'nodejs::npm', type: :define do
         it 'the exec directory should be /home/npm/packages' do
           is_expected.to contain_exec('npm_install_express').with('cwd' => '/home/npm/packages')
         end
-
-        it 'the environment variable HOME should be /root' do
-          is_expected.to contain_exec('npm_install_express').with('environment' => 'HOME=/root')
-        end
       end
 
       # npm install <package> <install_options>
