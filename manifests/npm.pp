@@ -8,7 +8,7 @@ define nodejs::npm (
   String $package           = $title,
   $source                   = 'registry',
   Array $uninstall_options  = [],
-  $home_dir                 = '/root',
+  String $home_dir          = "",
   $user                     = undef,
   Boolean $use_package_json = false,
 ) {
@@ -74,13 +74,19 @@ define nodejs::npm (
     Nodejs::Npm::Global_config_entry<| title == 'https-proxy' |> -> Exec["npm_install_${name}"]
     Nodejs::Npm::Global_config_entry<| title == 'proxy' |> -> Exec["npm_install_${name}"]
 
+    if !empty($home_dir) {
+      $_homedir = "HOME=${home_dir}"
+    } else {
+      $_homedir = undef
+    }
+
     if $use_package_json {
       exec { "npm_${npm_command}_${name}":
         command     => "${npm_path} ${npm_command} ${options}",
         unless      => $list_command,
         user        => $user,
         cwd         => $target,
-        environment => "HOME=${home_dir}",
+        environment => $_homedir,
         require     => Class['nodejs'],
       }
     } else {
@@ -89,7 +95,7 @@ define nodejs::npm (
         unless      => $install_check,
         user        => $user,
         cwd         => $target,
-        environment => "HOME=${home_dir}",
+        environment => $_homedir,
         require     => Class['nodejs'],
       }
     }
