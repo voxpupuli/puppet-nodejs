@@ -8,7 +8,7 @@ define nodejs::npm (
   String $package           = $title,
   $source                   = 'registry',
   Array $uninstall_options  = [],
-  String $home_dir          = "",
+  $home_dir                 = undef,
   $user                     = undef,
   Boolean $use_package_json = false,
 ) {
