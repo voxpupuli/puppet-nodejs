@@ -50,12 +50,14 @@ class nodejs::install {
     }
   }
 
-  file { 'root_npmrc':
-    ensure  => 'file',
-    path    => "${facts['root_home']}/.npmrc",
-    content => template('nodejs/npmrc.erb'),
-    owner   => 'root',
-    group   => '0',
-    mode    => '0600',
+  if $facts['os']['name'] != 'Windows' {
+    file { 'root_npmrc':
+      ensure  => 'file',
+      path    => "${facts['root_home']}/.npmrc",
+      content => template('nodejs/npmrc.erb'),
+      owner   => 'root',
+      group   => '0',
+      mode    => '0600',
+    }
   }
 }
