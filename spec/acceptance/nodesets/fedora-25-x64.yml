@@ -3,8 +3,6 @@
 # https://github.com/voxpupuli/modulesync
 # https://github.com/voxpupuli/modulesync_config
 #
-# platform is fedora 24 because there is no
-# puppet-agent for fedora 25 by 2016-12-30
 HOSTS:
   fedora-25-x64:
     roles:
