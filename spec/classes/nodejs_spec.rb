@@ -434,8 +434,8 @@ describe 'nodejs', type: :class do
           end
 
           it 'the nodesource yum repo files should not exist' do
-            is_expected.to contain_yumrepo('nodesource').with('enabled' => 'absent')
-            is_expected.to contain_yumrepo('nodesource-source').with('enabled' => 'absent')
+            is_expected.to contain_yumrepo('nodesource').with('ensure' => 'absent')
+            is_expected.to contain_yumrepo('nodesource-source').with('ensure' => 'absent')
           end
         end
 
