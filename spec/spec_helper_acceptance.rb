@@ -7,10 +7,11 @@ install_module
 install_module_dependencies
 
 # Additional modules for soft deps
-install_module_from_forge('puppetlabs-apt', '>= 4.4.0 < 5.0.0')
+install_module_from_forge('puppetlabs-apt', '>= 4.4.0 < 7.0.0')
 install_module_from_forge('stahnma-epel', '>= 1.2.0 < 2.0.0')
-install_module_from_forge('chocolatey-chocolatey', '>= 1.2.6 < 2.0.0')
-install_module_from_forge('gentoo-portage', '>= 2.0.1 < 3.0.0')
+# We do not run Beaker acceptance tests on Windows or Gentoo at the moment.
+# install_module_from_forge('puppet-chocolatey', '>= 2.0.0 < 4.0.0')
+# install_module_from_forge('gentoo-portage', '>= 2.0.1 < 3.0.0')
 
 UNSUPPORTED_PLATFORMS = %w[AIX Solaris].freeze
 
