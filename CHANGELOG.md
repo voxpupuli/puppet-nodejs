@@ -4,6 +4,39 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v6.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v6.0.0) (2018-09-07)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v5.0.0...v6.0.0)
+
+**Breaking changes:**
+
+- Default to a newer Nodejs version \(8.x\) [\#356](https://github.com/voxpupuli/puppet-nodejs/issues/356)
+- Allow puppetlabs/stdlib 5.x, replace chocolatey-chocolatey with puppetlabs-chocolatey [\#378](https://github.com/voxpupuli/puppet-nodejs/pull/378) ([bastelfreak](https://github.com/bastelfreak))
+- Set default version to 8.x [\#357](https://github.com/voxpupuli/puppet-nodejs/pull/357) ([juniorsysadmin](https://github.com/juniorsysadmin))
+
+**Implemented enhancements:**
+
+- Ubuntu 18.04 gives warning [\#361](https://github.com/voxpupuli/puppet-nodejs/issues/361)
+- Add support for ubuntu bionic 18.04, \#361 [\#362](https://github.com/voxpupuli/puppet-nodejs/pull/362) ([fnoop](https://github.com/fnoop))
+
+**Fixed bugs:**
+
+- Wrong repository entry created in Debian stretch [\#355](https://github.com/voxpupuli/puppet-nodejs/issues/355)
+- fix 'nodejs::repo\_ensure: absent' for yum [\#373](https://github.com/voxpupuli/puppet-nodejs/pull/373) ([bugfood](https://github.com/bugfood))
+-  block creation of File\['root\_npmrc'\] when running on Windows [\#364](https://github.com/voxpupuli/puppet-nodejs/pull/364) ([jhicks-camgian](https://github.com/jhicks-camgian))
+
+**Closed issues:**
+
+- Fedora support [\#371](https://github.com/voxpupuli/puppet-nodejs/issues/371)
+- Ubutnu 16.04 second provisioning fails & puts node.js in invalid state [\#360](https://github.com/voxpupuli/puppet-nodejs/issues/360)
+- Installing Angular-CLI happens on every run [\#314](https://github.com/voxpupuli/puppet-nodejs/issues/314)
+
+**Merged pull requests:**
+
+- drop EOL OSs; fix puppet version range [\#370](https://github.com/voxpupuli/puppet-nodejs/pull/370) ([bastelfreak](https://github.com/bastelfreak))
+- rename default\_module\_facts.{yaml,yml} [\#368](https://github.com/voxpupuli/puppet-nodejs/pull/368) ([bastelfreak](https://github.com/bastelfreak))
+- Rely on beaker-hostgenerator for docker nodesets [\#367](https://github.com/voxpupuli/puppet-nodejs/pull/367) ([ekohl](https://github.com/ekohl))
+
 ## [v5.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v5.0.0) (2018-01-04)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v4.0.1...v5.0.0)
@@ -57,7 +90,6 @@ These should not affect the functionality of the module.
 - Update known valid $repo\_url\_suffix values [\#337](https://github.com/voxpupuli/puppet-nodejs/pull/337) ([juniorsysadmin](https://github.com/juniorsysadmin))
 - Set default value for $repo\_pin to undef [\#334](https://github.com/voxpupuli/puppet-nodejs/pull/334) ([juniorsysadmin](https://github.com/juniorsysadmin))
 - Use the simpler calls for acceptance tests [\#330](https://github.com/voxpupuli/puppet-nodejs/pull/330) ([wyardley](https://github.com/wyardley))
-- release 4.0.0 [\#328](https://github.com/voxpupuli/puppet-nodejs/pull/328) ([bastelfreak](https://github.com/bastelfreak))
 
 ## [v4.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v4.0.0) (2017-10-17)
 
@@ -84,7 +116,6 @@ These should not affect the functionality of the module.
 **Merged pull requests:**
 
 - Deprecate EOL Fedora versions [\#327](https://github.com/voxpupuli/puppet-nodejs/pull/327) ([ghoneycutt](https://github.com/ghoneycutt))
-- release 3.1.0 [\#320](https://github.com/voxpupuli/puppet-nodejs/pull/320) ([bastelfreak](https://github.com/bastelfreak))
 
 ## [v3.1.0](https://github.com/voxpupuli/puppet-nodejs/tree/v3.1.0) (2017-09-18)
 
@@ -113,7 +144,6 @@ These should not affect the functionality of the module.
 - Update puppet version, deprecate some older versions of OSes [\#311](https://github.com/voxpupuli/puppet-nodejs/pull/311) ([wyardley](https://github.com/wyardley))
 - Replace anchors with 'contain' [\#310](https://github.com/voxpupuli/puppet-nodejs/pull/310) ([wyardley](https://github.com/wyardley))
 - Update acceptance tests, add EPEL test case for RedHat acceptance tests [\#308](https://github.com/voxpupuli/puppet-nodejs/pull/308) ([wyardley](https://github.com/wyardley))
-- release 3.0.0 [\#303](https://github.com/voxpupuli/puppet-nodejs/pull/303) ([bastelfreak](https://github.com/bastelfreak))
 
 ## [v3.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v3.0.0) (2017-06-15)
 
@@ -126,7 +156,7 @@ These should not affect the functionality of the module.
 
 **Fixed bugs:**
 
-- Set explicit params for debian jessie [\#274](https://github.com/voxpupuli/puppet-nodejs/pull/274) ([cbaoxa](https://github.com/cbaoxa))
+- Set explicit params for debian jessie [\#274](https://github.com/voxpupuli/puppet-nodejs/pull/274) ([ghost](https://github.com/ghost))
 
 **Closed issues:**
 
@@ -138,6 +168,7 @@ These should not affect the functionality of the module.
 
 **Merged pull requests:**
 
+- release 3.0.0 [\#303](https://github.com/voxpupuli/puppet-nodejs/pull/303) ([bastelfreak](https://github.com/bastelfreak))
 - replace validate\_\* with datatypes [\#302](https://github.com/voxpupuli/puppet-nodejs/pull/302) ([bastelfreak](https://github.com/bastelfreak))
 - Fix github license detection [\#299](https://github.com/voxpupuli/puppet-nodejs/pull/299) ([alexjfisher](https://github.com/alexjfisher))
 - Revert "DO NOT MERGE: Prevent provider blowing up on ruby 1.8 agents" [\#296](https://github.com/voxpupuli/puppet-nodejs/pull/296) ([roidelapluie](https://github.com/roidelapluie))
@@ -145,7 +176,6 @@ These should not affect the functionality of the module.
 - Fix puppetlint [\#293](https://github.com/voxpupuli/puppet-nodejs/pull/293) ([Poil](https://github.com/Poil))
 - Prevent provider blowing up on ruby 1.8 agents [\#282](https://github.com/voxpupuli/puppet-nodejs/pull/282) ([alexjfisher](https://github.com/alexjfisher))
 - Modulesync 0.19.0 [\#276](https://github.com/voxpupuli/puppet-nodejs/pull/276) ([bastelfreak](https://github.com/bastelfreak))
-- release 2.3.0 [\#275](https://github.com/voxpupuli/puppet-nodejs/pull/275) ([bastelfreak](https://github.com/bastelfreak))
 
 ## [v2.3.0](https://github.com/voxpupuli/puppet-nodejs/tree/v2.3.0) (2017-01-13)
 
@@ -182,7 +212,7 @@ These should not affect the functionality of the module.
 
 - release 2.2.0 [\#263](https://github.com/voxpupuli/puppet-nodejs/pull/263) ([bastelfreak](https://github.com/bastelfreak))
 - \[FIX\] Nodesource 6.x nodejs package replaces nodejs-dev & npm packages [\#261](https://github.com/voxpupuli/puppet-nodejs/pull/261) ([mxcoder](https://github.com/mxcoder))
-- provider: add support for install\_options [\#260](https://github.com/voxpupuli/puppet-nodejs/pull/260) ([cbaoxa](https://github.com/cbaoxa))
+- provider: add support for install\_options [\#260](https://github.com/voxpupuli/puppet-nodejs/pull/260) ([ghost](https://github.com/ghost))
 - Add missing badges [\#256](https://github.com/voxpupuli/puppet-nodejs/pull/256) ([dhoppe](https://github.com/dhoppe))
 - Metric/BlockLength -\> Metrics/BlockLength [\#255](https://github.com/voxpupuli/puppet-nodejs/pull/255) ([bastelfreak](https://github.com/bastelfreak))
 - Actually remove gpg\_key dependency. [\#253](https://github.com/voxpupuli/puppet-nodejs/pull/253) ([MG2R](https://github.com/MG2R))
@@ -405,7 +435,7 @@ These should not affect the functionality of the module.
 - 0.7.0 prep [\#105](https://github.com/voxpupuli/puppet-nodejs/pull/105) ([underscorgan](https://github.com/underscorgan))
 - Add max\_nesting parameter to npm list json parse [\#101](https://github.com/voxpupuli/puppet-nodejs/pull/101) ([rangoy](https://github.com/rangoy))
 - Replace Chris Lea's PPA with the Nodesource repo [\#100](https://github.com/voxpupuli/puppet-nodejs/pull/100) ([atrepca](https://github.com/atrepca))
-- Fix typo in README.md [\#98](https://github.com/voxpupuli/puppet-nodejs/pull/98) ([Zorbash](https://github.com/Zorbash))
+- Fix typo in README.md [\#98](https://github.com/voxpupuli/puppet-nodejs/pull/98) ([zorbash](https://github.com/zorbash))
 - Parameterize package names [\#97](https://github.com/voxpupuli/puppet-nodejs/pull/97) ([skpy](https://github.com/skpy))
 - FM-1523: Added module summary to metadata.json [\#95](https://github.com/voxpupuli/puppet-nodejs/pull/95) ([jbondpdx](https://github.com/jbondpdx))
 - Add Archlinux support [\#90](https://github.com/voxpupuli/puppet-nodejs/pull/90) ([Filirom1](https://github.com/Filirom1))
@@ -446,7 +476,6 @@ These should not affect the functionality of the module.
 - Ignore exit codes from "npm list --json" as they can be misleading [\#56](https://github.com/voxpupuli/puppet-nodejs/pull/56) ([domcleal](https://github.com/domcleal))
 - FM-103: Add metadata.json to all modules. [\#52](https://github.com/voxpupuli/puppet-nodejs/pull/52) ([apenney](https://github.com/apenney))
 - Add Gemfile and update travis to test against modern versions of Puppet. [\#47](https://github.com/voxpupuli/puppet-nodejs/pull/47) ([apenney](https://github.com/apenney))
-- Prepare 0.4.0 release. [\#46](https://github.com/voxpupuli/puppet-nodejs/pull/46) ([apenney](https://github.com/apenney))
 - Update README.md [\#32](https://github.com/voxpupuli/puppet-nodejs/pull/32) ([antoniojrod](https://github.com/antoniojrod))
 
 ## [0.4.0](https://github.com/voxpupuli/puppet-nodejs/tree/0.4.0) (2013-08-29)
@@ -514,15 +543,12 @@ These should not affect the functionality of the module.
 
 - Release new module version. [\#4](https://github.com/voxpupuli/puppet-nodejs/pull/4) ([nanliu](https://github.com/nanliu))
 - Include apt class instead of parametrized class. [\#3](https://github.com/voxpupuli/puppet-nodejs/pull/3) ([nanliu](https://github.com/nanliu))
+- Update nodejs module for initial forge release. [\#1](https://github.com/voxpupuli/puppet-nodejs/pull/1) ([nanliu](https://github.com/nanliu))
 
 ## [0.1.0](https://github.com/voxpupuli/puppet-nodejs/tree/0.1.0) (2012-05-01)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/1bc8bfdf20c2b89f3169a211d63cfd6b986c93cb...0.1.0)
 
-**Merged pull requests:**
-
-- Update nodejs module for initial forge release. [\#1](https://github.com/voxpupuli/puppet-nodejs/pull/1) ([nanliu](https://github.com/nanliu))
 
 
-
-\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*
