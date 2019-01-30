@@ -37,5 +37,22 @@ describe 'nodejs class:', unless: UNSUPPORTED_PLATFORMS.include?(fact('os.family
         expect(pkg_output.stdout).to match 'epel'
       end
     end
+
+    context 'set global_config_entry secret', if: fact('os.family') == 'RedHat' do
+      let (:pp) { "class { 'nodejs': }; nodejs::npm::global_config_entry { '//path.to.registry/:_secret': ensure => present, value => 'cGFzc3dvcmQ=', require => Package[nodejs],}" }
+
+      it_behaves_like 'an idempotent resource'
+
+      describe package('nodejs') do
+        it { is_expected.to be_installed }
+      end
+
+      describe 'npm config' do
+        it ('contains the global_config_entry secret') do
+          npm_output = shell("cat $(/usr/bin/npm config get globalconfig)")
+          expect(npm_output.stdout).to match '//path.to.registry/:_secret="cGFzc3dvcmQ="'
+        end
+      end
+    end
   end
 end
