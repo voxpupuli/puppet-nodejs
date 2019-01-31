@@ -60,7 +60,7 @@ describe 'nodejs::npm::global_config_entry', type: :define do
         end
 
         it 'npm config set :_secret should be executed' do
-          is_expected.to contain_exec('npm_config present :_secret').with('command' => '/usr/bin/npm config set //path.to.registry/:_secret cGFzc3dvcmQ= --global')
+          is_expected.to contain_exec('npm_config present //path.to.registry/:_secret').with('command' => '/usr/bin/npm config set //path.to.registry/:_secret cGFzc3dvcmQ= --global')
         end
       end
     end
