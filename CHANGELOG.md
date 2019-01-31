@@ -4,6 +4,27 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v7.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v7.0.0) (2019-01-31)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v6.0.0...v7.0.0)
+
+**Breaking changes:**
+
+- modulesync 2.5.1 and drop Puppet 4 [\#387](https://github.com/voxpupuli/puppet-nodejs/pull/387) ([bastelfreak](https://github.com/bastelfreak))
+
+**Fixed bugs:**
+
+- Poor idempotency for NPM "secret" keys [\#326](https://github.com/voxpupuli/puppet-nodejs/issues/326)
+- Ensure NPM secret keys are idempotent in global\_config\_entry [\#386](https://github.com/voxpupuli/puppet-nodejs/pull/386) ([jplindquist](https://github.com/jplindquist))
+
+**Closed issues:**
+
+- test error when running locally [\#312](https://github.com/voxpupuli/puppet-nodejs/issues/312)
+
+**Merged pull requests:**
+
+- modulesync 2.2.0 and allow puppet 6.x [\#380](https://github.com/voxpupuli/puppet-nodejs/pull/380) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v6.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v6.0.0) (2018-09-07)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v5.0.0...v6.0.0)
@@ -63,7 +84,6 @@ These should not affect the functionality of the module.
 
 - Handling os and family facts issue [\#344](https://github.com/voxpupuli/puppet-nodejs/issues/344)
 - Docs: Add info important for upgrades, repository priorities [\#322](https://github.com/voxpupuli/puppet-nodejs/issues/322)
-- Installation on CentOS 7 fails, can't remove npm package [\#287](https://github.com/voxpupuli/puppet-nodejs/issues/287)
 - /usr/bin/npm doesn't exist when setting a nodejs::npm::global\_config\_entry [\#214](https://github.com/voxpupuli/puppet-nodejs/issues/214)
 
 **Merged pull requests:**
@@ -168,7 +188,6 @@ These should not affect the functionality of the module.
 
 **Merged pull requests:**
 
-- release 3.0.0 [\#303](https://github.com/voxpupuli/puppet-nodejs/pull/303) ([bastelfreak](https://github.com/bastelfreak))
 - replace validate\_\* with datatypes [\#302](https://github.com/voxpupuli/puppet-nodejs/pull/302) ([bastelfreak](https://github.com/bastelfreak))
 - Fix github license detection [\#299](https://github.com/voxpupuli/puppet-nodejs/pull/299) ([alexjfisher](https://github.com/alexjfisher))
 - Revert "DO NOT MERGE: Prevent provider blowing up on ruby 1.8 agents" [\#296](https://github.com/voxpupuli/puppet-nodejs/pull/296) ([roidelapluie](https://github.com/roidelapluie))
@@ -210,7 +229,6 @@ These should not affect the functionality of the module.
 
 **Merged pull requests:**
 
-- release 2.2.0 [\#263](https://github.com/voxpupuli/puppet-nodejs/pull/263) ([bastelfreak](https://github.com/bastelfreak))
 - \[FIX\] Nodesource 6.x nodejs package replaces nodejs-dev & npm packages [\#261](https://github.com/voxpupuli/puppet-nodejs/pull/261) ([mxcoder](https://github.com/mxcoder))
 - provider: add support for install\_options [\#260](https://github.com/voxpupuli/puppet-nodejs/pull/260) ([ghost](https://github.com/ghost))
 - Add missing badges [\#256](https://github.com/voxpupuli/puppet-nodejs/pull/256) ([dhoppe](https://github.com/dhoppe))
