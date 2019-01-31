@@ -39,7 +39,9 @@ describe 'nodejs class:', unless: UNSUPPORTED_PLATFORMS.include?(fact('os.family
     end
 
     context 'set global_config_entry secret', if: fact('os.family') == 'RedHat' do
-      let (:pp) { "class { 'nodejs': }; nodejs::npm::global_config_entry { '//path.to.registry/:_secret': ensure => present, value => 'cGFzc3dvcmQ=', require => Package[nodejs],}" }
+      let :pp do
+        "class { 'nodejs': }; nodejs::npm::global_config_entry { '//path.to.registry/:_secret': ensure => present, value => 'cGFzc3dvcmQ=', require => Package[nodejs],}"
+      end
 
       it_behaves_like 'an idempotent resource'
 
@@ -48,8 +50,8 @@ describe 'nodejs class:', unless: UNSUPPORTED_PLATFORMS.include?(fact('os.family
       end
 
       describe 'npm config' do
-        it ('contains the global_config_entry secret') do
-          npm_output = shell("cat $(/usr/bin/npm config get globalconfig)")
+        it 'contains the global_config_entry secret' do
+          npm_output = shell('cat $(/usr/bin/npm config get globalconfig)')
           expect(npm_output.stdout).to match '//path.to.registry/:_secret="cGFzc3dvcmQ="'
         end
       end
