@@ -49,6 +49,20 @@ describe 'nodejs::npm::global_config_entry', type: :define do
           is_expected.to contain_exec('npm_config absent color').with('command' => '/usr/bin/npm config delete color --global')
         end
       end
+
+      context 'with name set to :_secret and ensure set to present' do
+        let(:title) { '//path.to.registry/:_secret' }
+        let :params do
+          {
+            value: 'cGFzc3dvcmQ=',
+            ensure: 'present'
+          }
+        end
+
+        it 'npm config set :_secret should be executed' do
+          is_expected.to contain_exec('npm_config present :_secret').with('command' => '/usr/bin/npm config set //path.to.registry/:_secret cGFzc3dvcmQ= --global')
+        end
+      end
     end
   end
 end
