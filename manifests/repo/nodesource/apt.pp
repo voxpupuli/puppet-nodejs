@@ -10,7 +10,7 @@ class nodejs::repo::nodesource::apt {
   include ::apt
 
   if ($ensure != 'absent') {
-    apt::source { 'nodesource':
+    $nodejs_apt_source = {
       include  => {
         'src' => $enable_src,
       },
@@ -23,7 +23,7 @@ class nodejs::repo::nodesource::apt {
       release  => $release,
       repos    => 'main',
     }
-
+    ensure_resource('apt::source', 'nodesource', $nodejs_apt_source)
     Apt::Source['nodesource'] -> Package<| tag == 'nodesource_repo' |>
     Class['Apt::Update'] -> Package<| tag == 'nodesource_repo' |>
   }
