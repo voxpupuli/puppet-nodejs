@@ -36,7 +36,7 @@ define nodejs::npm::global_config_entry (
       if $config_setting =~ /(_|:_)/ {
         $onlyif_command = $facts['os']['family'] ? {
           'Windows' => "${cmd_exe_path} /V /C FOR /F %G IN ('${npm_path} config get globalconfig') DO IF EXIST %G (FINDSTR /B /C:\"${$config_setting}=\\\"${$value}\\\"\" %G & IF !ERRORLEVEL! EQU 0 ( EXIT 1 ) ELSE ( EXIT 0 )) ELSE ( EXIT 0 )",
-          default   => "! test -f $(${npm_path} config get globalconfig) || ! /bin/grep -qe '^${$config_setting}=\"${$value}\"' $(${npm_path} config get globalconfig)",
+          default   => "! test -f $(${npm_path} config get globalconfig) || ! /bin/grep -qe '^${$config_setting}=\"\\?${$value}\"\\?$' $(${npm_path} config get globalconfig)",
         }
       }
       else {
