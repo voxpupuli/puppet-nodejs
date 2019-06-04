@@ -9,7 +9,7 @@ install_module_on(hosts)
 install_module_dependencies_on(hosts)
 
 # Additional modules for soft deps
-install_module_from_forge('puppetlabs-apt', '>= 4.4.0 < 7.0.0')
+install_module_from_forge('puppetlabs-apt', '>= 4.4.0 < 8.0.0')
 install_module_from_forge('stahnma-epel', '>= 1.2.0 < 2.0.0')
 # We do not run Beaker acceptance tests on Windows or Gentoo at the moment.
 # install_module_from_forge('puppet-chocolatey', '>= 2.0.0 < 4.0.0')
