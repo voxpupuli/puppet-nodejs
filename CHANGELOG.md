@@ -4,7 +4,19 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v7.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v7.0.0) (2019-01-31)
+## [v7.0.1](https://github.com/voxpupuli/puppet-nodejs/tree/v7.0.1) (2019-06-04)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v7.0.0...v7.0.1)
+
+**Fixed bugs:**
+
+- Fix idempotence of unquoted secrets [\#390](https://github.com/voxpupuli/puppet-nodejs/pull/390) ([aboks](https://github.com/aboks))
+
+**Merged pull requests:**
+
+- Allow puppetlabs/stdlib 6.x [\#396](https://github.com/voxpupuli/puppet-nodejs/pull/396) ([dhoppe](https://github.com/dhoppe))
+
+## [v7.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v7.0.0) (2019-02-02)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v6.0.0...v7.0.0)
 
@@ -23,6 +35,7 @@ These should not affect the functionality of the module.
 
 **Merged pull requests:**
 
+- Fix broken unit tests [\#389](https://github.com/voxpupuli/puppet-nodejs/pull/389) ([jplindquist](https://github.com/jplindquist))
 - modulesync 2.2.0 and allow puppet 6.x [\#380](https://github.com/voxpupuli/puppet-nodejs/pull/380) ([bastelfreak](https://github.com/bastelfreak))
 
 ## [v6.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v6.0.0) (2018-09-07)
