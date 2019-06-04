@@ -5,3 +5,5 @@
     - set: ubuntu1404-64
     - set: centos7-64
     - set: debian8-64
+spec/spec_helper.rb:
+  mock_with: ':mocha'
