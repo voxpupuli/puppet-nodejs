@@ -7,7 +7,7 @@ define nodejs::npm::global_config_entry (
   $value                            = undef,
 ) {
 
-  include ::nodejs
+  include nodejs
 
   case $ensure {
     'absent': {

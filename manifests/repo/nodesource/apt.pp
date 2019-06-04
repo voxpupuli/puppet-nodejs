@@ -7,7 +7,7 @@ class nodejs::repo::nodesource::apt {
   $release    = $nodejs::repo::nodesource::release
   $url_suffix = $nodejs::repo::nodesource::url_suffix
 
-  include ::apt
+  include apt
 
   if ($ensure != 'absent') {
     apt::source { 'nodesource':
