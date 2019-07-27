@@ -2,8 +2,8 @@
 define nodejs::npm::global_config_entry (
   Enum['present', 'absent'] $ensure = 'present',
   $config_setting                   = $title,
-  $cmd_exe_path                     = $::nodejs::cmd_exe_path,
-  $npm_path                         = $::nodejs::params::npm_path,
+  $cmd_exe_path                     = $nodejs::cmd_exe_path,
+  $npm_path                         = $nodejs::params::npm_path,
   $value                            = undef,
 ) {
 
