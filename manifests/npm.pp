@@ -39,7 +39,7 @@ define nodejs::npm (
   }
 
   $dirsep = $facts['os']['family'] ? {
-    'Windows' => "\\",
+    'Windows' => '\\',
     default   => '/'
   }
 
