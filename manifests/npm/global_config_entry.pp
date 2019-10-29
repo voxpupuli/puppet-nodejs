@@ -50,6 +50,8 @@ define nodejs::npm::global_config_entry (
 
   if $nodejs::npm_package_ensure != 'absent' {
     $exec_require = "Package[${nodejs::npm_package_name}]"
+  } elsif $nodejs::repo_class == '::nodejs::repo::nodesource' {
+    $exec_require = "Package[${nodejs::nodejs_package_name}]"
   } else {
     $exec_require = undef
   }
