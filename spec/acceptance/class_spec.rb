@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe 'nodejs class:', unless: UNSUPPORTED_PLATFORMS.include?(fact('os.family')) do
+describe 'nodejs class:' do
   case fact('os.family')
   when 'RedHat'
     pkg_cmd = 'yum info nodejs | grep "^From repo"'
