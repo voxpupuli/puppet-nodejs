@@ -493,7 +493,6 @@ that were available on 2017-11-29:
 * Debian 8 (Jessie) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
 * Debian 9 (Stretch) ```4.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
 * Debian (Sid) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
-* Ubuntu 14.04 (Trusty) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
 * Ubuntu 16.04 (Xenial) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
 * Ubuntu 16.10 (Yakkety) ```0.12``` ```4.x``` ```6.x``` ```7.x``` ```8.x```
 * Ubuntu 17.10 (Artful) ```4.x``` ```6.x``` ```8.x``` ```9.x```
@@ -520,7 +519,7 @@ This module has received limited testing on:
 
 * CentOS/RHEL 6/7
 * Debian 8
-* Ubuntu 14.04
+* Ubuntu 16.04/18.04
 
 The following platforms should also work, but have not been tested:
 
