@@ -93,7 +93,7 @@ class nodejs::params {
         $repo_class                = '::nodejs::repo::nodesource'
       }
       else {
-        fail("The ${module_name} module is not supported on ${::operatingsystem} ${::operatingsystemrelease}.")
+        fail("The ${module_name} module is not supported on ${facts['os']['name']} ${facts['os']['release']['full']}.")
       }
       $package_provider          = undef
     }

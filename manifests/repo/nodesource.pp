@@ -30,7 +30,7 @@ class nodejs::repo::nodesource {
       }
 
       else {
-        fail("Could not determine NodeSource repository URL for operatingsystem: ${::operatingsystem} operatingsystemrelease: ${::operatingsystemrelease}.")
+        fail("Could not determine NodeSource repository URL for operatingsystem: ${facts['os']['name']} operatingsystemrelease: ${facts['os']['release']['full']}.")
       }
 
       $dist_type = $facts['os']['name'] ? {
