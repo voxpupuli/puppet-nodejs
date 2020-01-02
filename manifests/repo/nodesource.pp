@@ -12,7 +12,7 @@ class nodejs::repo::nodesource {
 
   case $facts['os']['family'] {
     'RedHat': {
-      if $facts['os']['release']['major'] =~ /^[67]$/ {
+      if $facts['os']['release']['major'] =~ /^[678]$/ {
         $dist_version = $facts['os']['release']['major']
         $name_string  = "Enterprise Linux ${dist_version}"
       }
