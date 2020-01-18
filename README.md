@@ -51,14 +51,14 @@ To install Node.js and npm (using the NodeSource repository if possible):
 class { 'nodejs': }
 ```
 
-The default version installed is currently `8.x`.
+The default version installed is currently `12.x`.
 
-If you wish to install a Node.js 9.x release from the NodeSource repository
-rather than 8.x on Debian/RHEL platforms:
+If you wish to install a Node.js 13.x release from the NodeSource repository
+rather than 12.x on Debian/RHEL platforms:
 
 ```puppet
 class { 'nodejs':
-  repo_url_suffix => '9.x',
+  repo_url_suffix => '13.x',
 }
 ```
 
@@ -481,8 +481,8 @@ then work as expected on these systems.
 
 #### `repo_url_suffix`
 
-Defaults to ```8.x``` which means that the latest NodeSource 8.x release
-is installed. If you wish to install a 9.x release or greater, you will
+Defaults to ```12.x``` which means that the latest NodeSource 12.x release
+is installed. If you wish to install a 13.x release or greater, you will
 need to set this value accordingly. This parameter is a just a reflection of
 the NodeSource URL structure - NodeSource might remove old versions (such as
 0.10 and 0.12) or add new ones (such as 20.x) at any time.
