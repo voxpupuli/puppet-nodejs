@@ -17,6 +17,16 @@ class nodejs::repo::nodesource::yum {
   }
 
   if ($ensure == 'present') {
+    if $facts['os']['release']['major'] == '8' {
+      file { 'dnf_module':
+        ensure => file,
+        path   => '/etc/dnf/modules.d/nodejs.module',
+        group  => '0',
+        mode   => '0644',
+        owner  => 'root',
+        source => "puppet:///modules/${module_name}/repo/dnf/nodejs.module",
+      }
+    }
 
     yumrepo { 'nodesource':
       descr          => $descr,
@@ -63,6 +73,13 @@ class nodejs::repo::nodesource::yum {
 
     yumrepo { 'nodesource-source':
       ensure => 'absent',
+    }
+
+    if $facts['os']['release']['major'] == '8' {
+      file { 'dnf_module':
+        ensure => absent,
+        path   => '/etc/dnf/modules.d/nodejs.module',
+      }
     }
   }
 }

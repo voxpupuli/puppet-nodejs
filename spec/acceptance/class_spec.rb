@@ -24,7 +24,7 @@ describe 'nodejs class:' do
     end
   end
 
-  context 'repo_class => epel', if: fact('os.family') == 'RedHat' do
+  context 'repo_class => epel', if: ((fact('os.family') == 'RedHat') && (fact('os.release.major') != '8')) do
     let(:pp) { "class { 'nodejs': repo_class => '::epel' }" }
 
     it_behaves_like 'an idempotent resource'
