@@ -11,7 +11,7 @@ class nodejs::params {
   $repo_proxy_password         = 'absent'
   $repo_proxy_username         = 'absent'
   $repo_release                = undef
-  $repo_url_suffix             = '8.x'
+  $repo_url_suffix             = '12.x'
   $use_flags                   = ['npm', 'snapshot']
 
   $cmd_exe_path = $facts['os']['family'] ? {
