@@ -18,6 +18,7 @@ RSpec.configure do |c|
     hosts.each do |host|
       case fact_on(host, 'os.family')
       when 'Debian'
+        on host, puppet('resource package apt-transport-https ensure=present')
         install_module_from_forge_on(host, 'puppetlabs-apt', '>= 4.4.0 < 8.0.0')
       when 'RedHat'
         install_module_from_forge_on(host, 'stahnma-epel', '>= 1.2.0 < 2.0.0')
