@@ -64,8 +64,8 @@ describe Puppet::Type.type(:package).provider(:npm) do
     it 'returns a list of npm packages installed globally' do
       provider.class.expects(:execute).with(['/usr/local/bin/npm', 'list', '--json', '--global'], anything).returns(my_fixture_read('npm_global'))
       expect(provider.class.instances.map(&:properties).sort_by { |res| res[:name] }).to eq([
-                                                                                              { ensure: '2.5.9', provider: 'npm', name: 'express' },
-                                                                                              { ensure: '1.1.15', provider: 'npm', name: 'npm' }
+                                                                                              { ensure: '4.17.1', provider: 'npm', name: 'express' },
+                                                                                              { ensure: '12.16.1', provider: 'npm', name: 'npm' }
                                                                                             ])
     end
 
