@@ -20,7 +20,7 @@ RSpec.configure do |c|
       when 'Debian'
         install_module_from_forge_on(host, 'puppetlabs-apt', '>= 4.4.0 < 8.0.0')
       when 'RedHat'
-        install_module_from_forge_on(host, 'stahnma-epel', '>= 1.2.0 < 2.0.0')
+        install_module_from_forge_on(host, 'puppet-epel', '>= 3.0.0 < 4.0.0')
       end
     end
   end

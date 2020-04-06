@@ -542,7 +542,7 @@ repository. If using an operating system of the Debian-based family, you will
 need to ensure that `puppetlabs-apt` version 4.4.0 or above is installed.
 
 If using CentOS/RHEL 6/7 and you wish to install Node.js from EPEL rather
-than from the NodeSource repository, you will need to ensure `stahnma-epel` is
+than from the NodeSource repository, you will need to ensure `puppet-epel` is
 installed and is applied before this module.
 
 If using Gentoo, you will need to ensure `gentoo-portage` is installed.
