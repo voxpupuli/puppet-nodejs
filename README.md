@@ -519,7 +519,7 @@ This module has received limited testing on:
 
 * CentOS/RHEL 6/7/8
 * Debian 8
-* Ubuntu 16.04/18.04
+* Ubuntu 16.04/18.04/20.04
 
 The following platforms should also work, but have not been tested:
 
