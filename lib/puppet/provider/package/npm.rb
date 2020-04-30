@@ -14,8 +14,8 @@ Puppet::Type.type(:package).provide :npm, parent: Puppet::Provider::Package do
 
   def self.npmlist
     # Ignore non-zero exit codes as they can be minor, just try and parse JSON
-    output = execute([command(:npm), 'list', '--json', '--global'], combine: false)
-    Puppet.debug("Warning: npm list --json exited with code #{$CHILD_STATUS.exitstatus}") unless $CHILD_STATUS.success?
+    output = execute([command(:npm), 'list', '--json', '--global'], combine: false, failonfail: false)
+    Puppet.debug("Warning: npm list --json exited with code #{output.exitstatus}") if output.exitstatus != 0
     begin
       # ignore any npm output lines to be a bit more robust
       output = PSON.parse(output.lines.select { |l| l =~ %r{^((?!^npm).*)$} }.join("\n"), max_nesting: 100)

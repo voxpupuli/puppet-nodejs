@@ -62,7 +62,9 @@ describe Puppet::Type.type(:package).provider(:npm) do
     end
 
     it 'returns a list of npm packages installed globally' do
-      provider.class.expects(:execute).with(['/usr/local/bin/npm', 'list', '--json', '--global'], anything).returns(my_fixture_read('npm_global'))
+      provider.class.expects(:execute).
+        with(['/usr/local/bin/npm', 'list', '--json', '--global'], anything).
+        returns(Puppet::Util::Execution::ProcessOutput.new(my_fixture_read('npm_global'), 0))
       expect(provider.class.instances.map(&:properties).sort_by { |res| res[:name] }).to eq([
                                                                                               { ensure: '2.5.9', provider: 'npm', name: 'express' },
                                                                                               { ensure: '1.1.15', provider: 'npm', name: 'npm' }
@@ -70,16 +72,17 @@ describe Puppet::Type.type(:package).provider(:npm) do
     end
 
     it 'logs and continue if the list command has a non-zero exit code' do
-      provider.class.expects(:execute).with(['/usr/local/bin/npm', 'list', '--json', '--global'], anything).returns(my_fixture_read('npm_global'))
-      Process::Status.any_instance.expects(:success?).returns(false) # rubocop:disable RSpec/AnyInstance
-      Process::Status.any_instance.expects(:exitstatus).returns(123) # rubocop:disable RSpec/AnyInstance
+      provider.class.expects(:execute).
+        with(['/usr/local/bin/npm', 'list', '--json', '--global'], anything).
+        returns(Puppet::Util::Execution::ProcessOutput.new(my_fixture_read('npm_global'), 123))
       Puppet.expects(:debug).with(regexp_matches(%r{123}))
       expect(provider.class.instances.map(&:properties)).not_to eq([])
     end
 
     it "logs and return no packages if JSON isn't output" do
-      provider.class.expects(:execute).with(['/usr/local/bin/npm', 'list', '--json', '--global'], anything).returns('failure!')
-      Process::Status.any_instance.expects(:success?).returns(true) # rubocop:disable RSpec/AnyInstance
+      provider.class.expects(:execute).
+        with(['/usr/local/bin/npm', 'list', '--json', '--global'], anything).
+        returns(Puppet::Util::Execution::ProcessOutput.new('failure!', 0))
       Puppet.expects(:debug).with(regexp_matches(%r{npm list.*failure!}))
       expect(provider.class.instances).to eq([])
     end
