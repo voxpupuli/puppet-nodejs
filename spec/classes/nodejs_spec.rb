@@ -15,6 +15,12 @@ describe 'nodejs', type: :class do
                                       false
                                     end
 
+      native_debian_devel_package = if facts[:os]['name'] == 'Ubuntu' && facts[:os]['release']['major'] == '20.04'
+                                      'libnode-dev'
+                                    else
+                                      'nodejs-dev'
+                                    end
+
       it 'the file resource root_npmrc should be in the catalog' do
         is_expected.to contain_file('root_npmrc').with(
           'ensure' => 'file',
@@ -196,11 +202,11 @@ describe 'nodejs', type: :class do
         if is_supported_debian_version
 
           it 'the nodejs development package resource should not be present' do
-            is_expected.not_to contain_package('nodejs-dev')
+            is_expected.not_to contain_package(native_debian_devel_package)
           end
         else
           it 'the nodejs development package should be installed' do
-            is_expected.to contain_package('nodejs-dev').with('ensure' => 'present')
+            is_expected.to contain_package(native_debian_devel_package).with('ensure' => 'present')
           end
         end
       end
@@ -215,11 +221,11 @@ describe 'nodejs', type: :class do
         if is_supported_debian_version
 
           it 'the nodejs development package resource should not be present' do
-            is_expected.not_to contain_package('nodejs-dev')
+            is_expected.not_to contain_package(native_debian_devel_package)
           end
         else
           it 'the nodejs development package should not be present' do
-            is_expected.to contain_package('nodejs-dev').with('ensure' => 'absent')
+            is_expected.to contain_package(native_debian_devel_package).with('ensure' => 'absent')
           end
         end
       end

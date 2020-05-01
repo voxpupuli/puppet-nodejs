@@ -43,6 +43,17 @@ class nodejs::params {
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
       }
+      elsif $facts['os']['release']['full'] =~ /^20\.04$/ {
+        $manage_package_repo       = true
+        $nodejs_debug_package_name = 'nodejs-dbg'
+        $nodejs_dev_package_name   = 'libnode-dev'
+        $nodejs_dev_package_ensure = 'absent'
+        $nodejs_package_name       = 'nodejs'
+        $npm_package_ensure        = 'absent'
+        $npm_package_name          = 'npm'
+        $npm_path                  = '/usr/bin/npm'
+        $repo_class                = '::nodejs::repo::nodesource'
+      }
       else {
         warning("The ${module_name} module might not work on ${facts['os']['name']} ${facts['os']['release']['full']}. Sensible defaults will be attempted.")
         $manage_package_repo       = true
