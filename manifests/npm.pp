@@ -12,7 +12,6 @@ define nodejs::npm (
   $user                     = undef,
   Boolean $use_package_json = false,
 ) {
-
   $install_options_string = join($install_options, ' ')
   $uninstall_options_string = join($uninstall_options, ' ')
 
@@ -25,10 +24,10 @@ define nodejs::npm (
     $install_check_package_string = $package
     $package_string = $package
   } else {
-  # ensure is either a tag, version or 'latest'
-  # Note that install_check will always return false when 'latest' or a tag is
-  # provided
-  # npm ls does not keep track of tags after install
+    # ensure is either a tag, version or 'latest'
+    # Note that install_check will always return false when 'latest' or a tag is
+    # provided
+    # npm ls does not keep track of tags after install
     $install_check_package_string = "${package}:${package}@${ensure}"
     $package_string = "${package}@${ensure}"
   }

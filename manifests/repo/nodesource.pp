@@ -48,7 +48,6 @@ class nodejs::repo::nodesource {
 
       class { 'nodejs::repo::nodesource::yum': }
       contain 'nodejs::repo::nodesource::yum'
-
     }
     'Debian': {
       class { 'nodejs::repo::nodesource::apt': }

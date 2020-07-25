@@ -1,6 +1,5 @@
 # PRIVATE CLASS: do not call directly
 class nodejs::install {
-
   $npmrc_auth = $nodejs::npmrc_auth
   $npmrc_config = $nodejs::npmrc_config
 
