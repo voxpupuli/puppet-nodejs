@@ -4,6 +4,31 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v8.1.0](https://github.com/voxpupuli/puppet-nodejs/tree/v8.1.0) (2020-09-18)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v8.0.0...v8.1.0)
+
+Last release with Debian 8 support! After this 8.1.0 release we will do a 9.0.0 one without Debian 8 support.
+
+**Implemented enhancements:**
+
+- Error "Package 'nodejs-dev' has no installation candidate" on Ubuntu 20.04 [\#421](https://github.com/voxpupuli/puppet-nodejs/issues/421)
+
+**Fixed bugs:**
+
+- Read the exit code from the output status [\#423](https://github.com/voxpupuli/puppet-nodejs/pull/423) ([ekohl](https://github.com/ekohl))
+
+**Closed issues:**
+
+- Release bump [\#415](https://github.com/voxpupuli/puppet-nodejs/issues/415)
+
+**Merged pull requests:**
+
+- Drop duplicate class declaration [\#426](https://github.com/voxpupuli/puppet-nodejs/pull/426) ([bastelfreak](https://github.com/bastelfreak))
+- modulesync 3.0.0 & puppet-lint updates [\#424](https://github.com/voxpupuli/puppet-nodejs/pull/424) ([bastelfreak](https://github.com/bastelfreak))
+- Fix nodejs dev package name for Ubuntu 20.04 . \#421 [\#422](https://github.com/voxpupuli/puppet-nodejs/pull/422) ([cliffano](https://github.com/cliffano))
+- Require puppet-epel over stahnma-epel [\#419](https://github.com/voxpupuli/puppet-nodejs/pull/419) ([dhoppe](https://github.com/dhoppe))
+
 ## [v8.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v8.0.0) (2020-03-10)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v7.0.1...v8.0.0)
@@ -37,11 +62,8 @@ These should not affect the functionality of the module.
 
 **Fixed bugs:**
 
-- Fix idempotence of unquoted secrets [\#390](https://github.com/voxpupuli/puppet-nodejs/pull/390) ([aboks](https://github.com/aboks))
-
-**Merged pull requests:**
-
 - Allow puppetlabs/stdlib 6.x [\#396](https://github.com/voxpupuli/puppet-nodejs/pull/396) ([dhoppe](https://github.com/dhoppe))
+- Fix idempotence of unquoted secrets [\#390](https://github.com/voxpupuli/puppet-nodejs/pull/390) ([aboks](https://github.com/aboks))
 
 ## [v7.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v7.0.0) (2019-02-02)
 
