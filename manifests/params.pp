@@ -21,7 +21,7 @@ class nodejs::params {
 
   case $facts['os']['family'] {
     'Debian': {
-      if $facts['os']['release']['major'] =~ /^(8|9|10)$/ {
+      if $facts['os']['release']['major'] =~ /^(9|10)$/ {
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-dbg'
         $nodejs_dev_package_name   = undef
