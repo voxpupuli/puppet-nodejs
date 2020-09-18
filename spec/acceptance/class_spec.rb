@@ -4,10 +4,11 @@ describe 'nodejs class:' do
   case fact('os.family')
   when 'RedHat'
     pkg_cmd = 'yum info nodejs | grep "^From repo"'
+    install_module_from_forge('puppet-epel', '>= 3.0.0 < 4.0.0')
   when 'Debian'
     pkg_cmd = 'dpkg -s nodejs | grep ^Maintainer'
+    install_module_from_forge('puppetlabs-apt', '>= 4.4.0 < 8.0.0')
   end
-
   context 'default parameters' do
     let(:pp) { "class { 'nodejs': }" }
 

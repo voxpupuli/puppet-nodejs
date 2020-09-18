@@ -66,7 +66,6 @@ class nodejs::repo::nodesource::yum {
   }
 
   else {
-
     yumrepo { 'nodesource':
       ensure => 'absent',
     }

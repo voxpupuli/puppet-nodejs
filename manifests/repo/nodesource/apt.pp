@@ -1,6 +1,5 @@
 # PRIVATE CLASS: Do not use directly.
 class nodejs::repo::nodesource::apt {
-
   $enable_src = $nodejs::repo::nodesource::enable_src
   $ensure     = $nodejs::repo::nodesource::ensure
   $pin        = $nodejs::repo::nodesource::pin

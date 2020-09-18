@@ -6,7 +6,6 @@ define nodejs::npm::global_config_entry (
   $npm_path                         = $nodejs::params::npm_path,
   $value                            = undef,
 ) {
-
   include nodejs
 
   case $ensure {
