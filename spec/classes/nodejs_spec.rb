@@ -9,7 +9,7 @@ describe 'nodejs', type: :class do
         facts
       end
 
-      is_supported_debian_version = if facts[:os]['family'] == 'Debian' && %w[8 9 10].include?(facts[:os]['release']['major'])
+      is_supported_debian_version = if facts[:os]['family'] == 'Debian' && %w[9 10].include?(facts[:os]['release']['major'])
                                       true
                                     else
                                       false
