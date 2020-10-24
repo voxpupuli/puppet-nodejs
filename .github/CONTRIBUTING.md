@@ -266,7 +266,7 @@ The following strings are known to work:
 
 * ubuntu1604
 * ubuntu1804
-* debian8
+* ubuntu2004
 * debian9
 * debian10
 * centos6
