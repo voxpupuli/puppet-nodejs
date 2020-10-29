@@ -36,6 +36,6 @@ class nodejs (
     include $repo_class
 
     Class[$repo_class]
-    -> Class['::nodejs::install']
+    -> Class['nodejs::install']
   }
 }
