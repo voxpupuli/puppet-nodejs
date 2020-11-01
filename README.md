@@ -120,7 +120,7 @@ Two types of npm packages are supported:
   package type.
 * npm local packages are supported via the Puppet defined type nodejs::npm.
 
-For more information regarding global vs local installation see the [nodejs blog](http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/)
+For more information regarding global vs local installation see the [nodejs blog](https://nodejs.org/en/blog/npm/npm-1-0-global-vs-local-installation/)
 
 ### npm global packages
 
