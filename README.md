@@ -380,6 +380,10 @@ applied before the local installation of npm packages using `nodejs::npm`.
 Path to cmd.exe on Windows. Defaults to C:\Windows\system32\cmd.exe. You may
 need to change this parameter for certain versions of Windows Server.
 
+#### `manage_nodejs_package`
+
+Whether to manage the nodejs and nodejs-dev packages. Defaults to `true`.
+
 #### `manage_package_repo`
 
 Whether to manage an external repository and use it as the source of the

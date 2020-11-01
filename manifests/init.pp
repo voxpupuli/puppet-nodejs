@@ -1,6 +1,7 @@
 # == Class: nodejs: See README.md for documentation.
 class nodejs (
   $cmd_exe_path                                        = $nodejs::params::cmd_exe_path,
+  Boolean $manage_nodejs_package                       = true,
   Boolean $manage_package_repo                         = $nodejs::params::manage_package_repo,
   $nodejs_debug_package_ensure                         = $nodejs::params::nodejs_debug_package_ensure,
   Optional[String] $nodejs_debug_package_name          = $nodejs::params::nodejs_debug_package_name,

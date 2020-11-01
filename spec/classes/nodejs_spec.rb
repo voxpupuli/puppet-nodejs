@@ -55,6 +55,27 @@ describe 'nodejs', type: :class do
           }
         end
 
+        context 'and manage_nodejs_package set to true' do
+          let :params do
+            default_params.merge!(manage_nodejs_package: true)
+          end
+
+          it 'the nodejs package resource should be present' do
+            is_expected.to contain_package('nodejs')
+          end
+        end
+
+        context 'and manage_nodejs_package set to false' do
+          let :params do
+            default_params.merge!(manage_nodejs_package: false)
+          end
+
+          it 'the nodejs and dev package resources should not be present' do
+            is_expected.not_to contain_package('nodejs')
+            is_expected.not_to contain_package(native_debian_devel_package)
+          end
+        end
+
         context 'and repo_class set to ::nodejs::repo::nodesource' do
           let :params do
             default_params.merge!(repo_class: 'nodejs::repo::nodesource')
@@ -331,6 +352,27 @@ describe 'nodejs', type: :class do
           {
             manage_package_repo: true
           }
+        end
+
+        context 'and manage_nodejs_package set to true' do
+          let :params do
+            default_params.merge!(manage_nodejs_package: true)
+          end
+
+          it 'the nodejs package resource should be present' do
+            is_expected.to contain_package('nodejs')
+          end
+        end
+
+        context 'and manage_nodejs_package set to false' do
+          let :params do
+            default_params.merge!(manage_nodejs_package: false)
+          end
+
+          it 'the nodejs and dev package resources should not be present' do
+            is_expected.not_to contain_package('nodejs')
+            is_expected.not_to contain_package('nodejs-devel')
+          end
         end
 
         context 'and repo_class set to ::nodejs::repo::nodesource' do
@@ -668,6 +710,32 @@ describe 'nodejs', type: :class do
       end
     end
 
+    # manage_nodejs_package
+    context 'and manage_nodejs_package set to true' do
+      let :params do
+        {
+          manage_nodejs_package: true
+        }
+      end
+
+      it 'the nodejs package resource should be present' do
+        is_expected.to contain_package('nodejs')
+      end
+    end
+
+    context 'and manage_nodejs_package set to false' do
+      let :params do
+        {
+          manage_nodejs_package: false
+        }
+      end
+
+      it 'the nodejs and dev package resources should not be present' do
+        is_expected.not_to contain_package('nodejs')
+        is_expected.not_to contain_package('nodejs-devel')
+      end
+    end
+
     # nodejs_package_ensure
     context 'with nodejs_package_ensure set to present' do
       let :params do
@@ -729,6 +797,31 @@ describe 'nodejs', type: :class do
       }
     end
 
+    # manage_nodejs_package
+    context 'and manage_nodejs_package set to true' do
+      let :params do
+        {
+          manage_nodejs_package: true
+        }
+      end
+
+      it 'the nodejs package resource should be present' do
+        is_expected.to contain_package('nodejs')
+      end
+    end
+
+    context 'and manage_nodejs_package set to false' do
+      let :params do
+        {
+          manage_nodejs_package: false
+        }
+      end
+
+      it 'the nodejs package resource should not be present' do
+        is_expected.not_to contain_package('nodejs')
+      end
+    end
+
     # nodejs_package_ensure
     context 'with nodejs_package_ensure set to present' do
       let :params do
@@ -763,6 +856,32 @@ describe 'nodejs', type: :class do
           'name' => 'FreeBSD'
         }
       }
+    end
+
+    # manage_nodejs_package
+    context 'and manage_nodejs_package set to true' do
+      let :params do
+        {
+          manage_nodejs_package: true
+        }
+      end
+
+      it 'the nodejs package resource should be present' do
+        is_expected.to contain_package('www/node')
+      end
+    end
+
+    context 'and manage_nodejs_package set to false' do
+      let :params do
+        {
+          manage_nodejs_package: false
+        }
+      end
+
+      it 'the nodejs and dev package resources should not be present' do
+        is_expected.not_to contain_package('www/node')
+        is_expected.not_to contain_package('www/node-devel')
+      end
     end
 
     # nodejs_dev_package_ensure
@@ -851,6 +970,31 @@ describe 'nodejs', type: :class do
       }
     end
 
+    # manage_nodejs_package
+    context 'and manage_nodejs_package set to true' do
+      let :params do
+        {
+          manage_nodejs_package: true
+        }
+      end
+
+      it 'the nodejs package resource should be present' do
+        is_expected.to contain_package('node')
+      end
+    end
+
+    context 'and manage_nodejs_package set to false' do
+      let :params do
+        {
+          manage_nodejs_package: false
+        }
+      end
+
+      it 'the nodejs package resource should not be present' do
+        is_expected.not_to contain_package('node')
+      end
+    end
+
     # nodejs_package_ensure
     context 'with nodejs_package_ensure set to present' do
       let :params do
@@ -885,6 +1029,32 @@ describe 'nodejs', type: :class do
           'name' => 'Darwin'
         }
       }
+    end
+
+    # manage_nodejs_package
+    context 'and manage_nodejs_package set to true' do
+      let :params do
+        {
+          manage_nodejs_package: true
+        }
+      end
+
+      it 'the nodejs package resource should be present' do
+        is_expected.to contain_package('nodejs')
+      end
+    end
+
+    context 'and manage_nodejs_package set to false' do
+      let :params do
+        {
+          manage_nodejs_package: false
+        }
+      end
+
+      it 'the nodejs and dev package resources should not be present' do
+        is_expected.not_to contain_package('nodejs')
+        is_expected.not_to contain_package('nodejs-devel')
+      end
     end
 
     # nodejs_dev_package_ensure
@@ -994,6 +1164,31 @@ describe 'nodejs', type: :class do
       }
     end
 
+    # manage_nodejs_package
+    context 'and manage_nodejs_package set to true' do
+      let :params do
+        {
+          manage_nodejs_package: true
+        }
+      end
+
+      it 'the nodejs package resource should be present' do
+        is_expected.to contain_package('nodejs')
+      end
+    end
+
+    context 'and manage_nodejs_package set to false' do
+      let :params do
+        {
+          manage_nodejs_package: false
+        }
+      end
+
+      it 'the nodejs package resource should not be present' do
+        is_expected.not_to contain_package('nodejs')
+      end
+    end
+
     # nodejs_package_ensure
     context 'with nodejs_package_ensure set to present' do
       let :params do
@@ -1053,6 +1248,31 @@ describe 'nodejs', type: :class do
           'name' => 'Gentoo'
         }
       }
+    end
+
+    # manage_nodejs_package
+    context 'and manage_nodejs_package set to true' do
+      let :params do
+        {
+          manage_nodejs_package: true
+        }
+      end
+
+      it 'the nodejs package resource should be present' do
+        is_expected.to contain_package('net-libs/nodejs')
+      end
+    end
+
+    context 'and manage_nodejs_package set to false' do
+      let :params do
+        {
+          manage_nodejs_package: false
+        }
+      end
+
+      it 'the nodejs package resource should not be present' do
+        is_expected.not_to contain_package('net-libs/nodejs')
+      end
     end
 
     # nodejs_package_ensure
@@ -1119,6 +1339,27 @@ describe 'nodejs', type: :class do
         {
           manage_package_repo: true
         }
+      end
+
+      context 'and manage_nodejs_package set to true' do
+        let :params do
+          default_params.merge!(manage_nodejs_package: true)
+        end
+
+        it 'the nodejs package resource should be present' do
+          is_expected.to contain_package('nodejs')
+        end
+      end
+
+      context 'and manage_nodejs_package set to false' do
+        let :params do
+          default_params.merge!(manage_nodejs_package: false)
+        end
+
+        it 'the nodejs and dev package resources should not be present' do
+          is_expected.not_to contain_package('nodejs')
+          is_expected.not_to contain_package('nodejs-devel')
+        end
       end
 
       context 'and repo_class set to ::nodejs::repo::nodesource' do
