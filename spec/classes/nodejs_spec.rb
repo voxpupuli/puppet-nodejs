@@ -9,13 +9,9 @@ describe 'nodejs', type: :class do
         facts
       end
 
-      is_supported_debian_version = if facts[:os]['family'] == 'Debian' && %w[9 10].include?(facts[:os]['release']['major'])
-                                      true
-                                    else
-                                      false
-                                    end
-
-      native_debian_devel_package = if facts[:os]['name'] == 'Ubuntu' && facts[:os]['release']['major'] == '20.04'
+      native_debian_devel_package = if facts[:os]['name'] == 'Ubuntu' && Gem::Version.new(facts[:os]['release']['major']) >= Gem::Version.new('20.04')
+                                      'libnode-dev'
+                                    elsif facts[:os]['name'] == 'Debian' && Gem::Version.new(facts[:os]['release']['major']) >= Gem::Version.new(10)
                                       'libnode-dev'
                                     else
                                       'nodejs-dev'
@@ -199,15 +195,8 @@ describe 'nodejs', type: :class do
           }
         end
 
-        if is_supported_debian_version
-
-          it 'the nodejs development package resource should not be present' do
-            is_expected.not_to contain_package(native_debian_devel_package)
-          end
-        else
-          it 'the nodejs development package should be installed' do
-            is_expected.to contain_package(native_debian_devel_package).with('ensure' => 'present')
-          end
+        it 'the nodejs development package should be installed' do
+          is_expected.to contain_package(native_debian_devel_package).with('ensure' => 'present')
         end
       end
 
@@ -218,15 +207,8 @@ describe 'nodejs', type: :class do
           }
         end
 
-        if is_supported_debian_version
-
-          it 'the nodejs development package resource should not be present' do
-            is_expected.not_to contain_package(native_debian_devel_package)
-          end
-        else
-          it 'the nodejs development package should not be present' do
-            is_expected.to contain_package(native_debian_devel_package).with('ensure' => 'absent')
-          end
+        it 'the nodejs development package should not be present' do
+          is_expected.to contain_package(native_debian_devel_package).with('ensure' => 'absent')
         end
       end
 
@@ -263,8 +245,8 @@ describe 'nodejs', type: :class do
           }
         end
 
-        if is_supported_debian_version
-
+        # Debian 9 (stretch) doesn't have npm in the standard repositories (it has been backported though).
+        if facts[:os]['family'] == 'Debian' && facts[:os]['release']['major'] == '9'
           it 'the npm package resource should not be present' do
             is_expected.not_to contain_package('npm')
           end
@@ -282,8 +264,8 @@ describe 'nodejs', type: :class do
           }
         end
 
-        if is_supported_debian_version
-
+        # Debian 9 (stretch) doesn't have npm in the standard repositories (it has been backported though).
+        if facts[:os]['family'] == 'Debian' && facts[:os]['release']['major'] == '9'
           it 'the npm package resource should not be present' do
             is_expected.not_to contain_package('npm')
           end
