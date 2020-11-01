@@ -8,7 +8,7 @@ class nodejs::install {
   }
 
   # npm is a Gentoo USE flag
-  if $facts['os']['name'] == 'Gentoo' {
+  if $facts['os']['name'] == 'Gentoo' and $nodejs::manage_nodejs_package {
     package_use { $nodejs::nodejs_package_name:
       ensure => present,
       target => 'nodejs-flags',
@@ -20,13 +20,15 @@ class nodejs::install {
   Package { provider => $nodejs::package_provider }
 
   # nodejs
-  package { $nodejs::nodejs_package_name:
-    ensure => $nodejs::nodejs_package_ensure,
-    tag    => 'nodesource_repo',
+  if $nodejs::manage_nodejs_package {
+    package { $nodejs::nodejs_package_name:
+      ensure => $nodejs::nodejs_package_ensure,
+      tag    => 'nodesource_repo',
+    }
   }
 
   # nodejs-development
-  if $nodejs::nodejs_dev_package_name {
+  if $nodejs::manage_nodejs_package and $nodejs::nodejs_dev_package_name {
     package { $nodejs::nodejs_dev_package_name:
       ensure => $nodejs::nodejs_dev_package_ensure,
       tag    => 'nodesource_repo',
