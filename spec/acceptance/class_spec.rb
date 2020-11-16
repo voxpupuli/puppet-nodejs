@@ -79,3 +79,55 @@ describe 'nodejs class:' do
     end
   end
 end
+
+# Must uninstall the default nodesource repo and packages which come from there before attempting
+# to install native packages.
+context 'uninstall' do
+  let(:pp) do
+    "
+    class { 'nodejs':
+      nodejs_debug_package_ensure => absent,
+      nodejs_dev_package_ensure   => absent,
+      nodejs_package_ensure       => absent,
+      npm_package_ensure          => absent,
+      repo_ensure                 => absent,
+    }
+    "
+  end
+
+  it_behaves_like 'an idempotent resource'
+end
+
+context 'native Debian packages' do
+  let(:pp) do
+    "
+    class { 'nodejs':
+      manage_package_repo       => false,
+      nodejs_dev_package_ensure => present,
+      npm_package_ensure        => present,
+    }
+    "
+  end
+
+  it_behaves_like 'an idempotent resource'
+
+  if fact('os.family') == 'Debian'
+    if %w[9 16.04 18.04].include? fact('os.release.major')
+      describe package('nodejs-dev') do
+        it { is_expected.to be_installed }
+      end
+      if %w[16.04 18.04].include? fact('os.release.major')
+        describe package('npm') do
+          it { is_expected.to be_installed }
+        end
+      end
+    else
+      describe package('libnode-dev') do
+        it { is_expected.to be_installed }
+      end
+      describe package('npm') do
+        it { is_expected.to be_installed }
+      end
+    end
+  end
+end
