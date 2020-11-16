@@ -140,7 +140,7 @@ class nodejs::params {
       $nodejs_package_name       = 'www/node'
       $npm_package_ensure        = 'present'
       $npm_package_name          = 'www/npm'
-      $npm_path                  = '/usr/bin/npm'
+      $npm_path                  = '/usr/local/bin/npm'
       $repo_class                = undef
       $package_provider          = undef
     }
