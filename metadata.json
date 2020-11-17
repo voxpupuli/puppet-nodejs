@@ -54,6 +54,13 @@
         "18.04",
         "20.04"
       ]
+    },
+    {
+      "operatingsystem": "FreeBSD",
+      "operatingsystemrelease": [
+        "11",
+        "12"
+      ]
     }
   ],
   "requirements": [
