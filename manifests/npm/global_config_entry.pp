@@ -61,8 +61,16 @@ define nodejs::npm::global_config_entry (
     default   => 'shell',
   }
 
+  # set a sensible path on Unix
+  $exec_path = $facts['os']['family'] ? {
+    'Windows' => undef,
+    'Darwin'  => ['/bin', '/usr/bin', '/opt/local/bin', '/usr/local/bin'],
+    default    => ['/bin', '/usr/bin', '/usr/local/bin'],
+  }
+
   exec { "npm_config ${ensure} ${title}":
     command  => "${npm_path} ${command}",
+    path     => $exec_path,
     provider => $provider,
     onlyif   => $onlyif_command,
     require  => $exec_require,
