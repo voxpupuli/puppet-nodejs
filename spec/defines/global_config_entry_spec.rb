@@ -12,7 +12,7 @@ describe 'nodejs::npm::global_config_entry', type: :define do
       end
 
       let(:npm_path) do
-        if os =~ /freebsd/i
+        if facts[:os]['family'] == 'FreeBSD'
           '/usr/local/bin/npm'
         else
           '/usr/bin/npm'
