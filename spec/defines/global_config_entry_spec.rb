@@ -19,7 +19,6 @@ describe 'nodejs::npm::global_config_entry', type: :define do
         end
       end
 
-
       context 'with name set to proxy and value set to proxy.domain' do
         let(:title) { 'proxy' }
         let :params do
