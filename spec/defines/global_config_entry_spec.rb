@@ -11,6 +11,14 @@ describe 'nodejs::npm::global_config_entry', type: :define do
         facts
       end
 
+      let(:npm_path) do
+        if facts[:os]['family'] == 'FreeBSD'
+          '/usr/local/bin/npm'
+        else
+          '/usr/bin/npm'
+        end
+      end
+
       context 'with name set to proxy and value set to proxy.domain' do
         let(:title) { 'proxy' }
         let :params do
@@ -20,7 +28,7 @@ describe 'nodejs::npm::global_config_entry', type: :define do
         end
 
         it 'npm config set proxy proxy.domain should be executed' do
-          is_expected.to contain_exec('npm_config present proxy').with('command' => '/usr/bin/npm config set proxy proxy.domain --global')
+          is_expected.to contain_exec('npm_config present proxy').with('command' => "#{npm_path} config set proxy proxy.domain --global")
         end
       end
 
@@ -33,7 +41,7 @@ describe 'nodejs::npm::global_config_entry', type: :define do
         end
 
         it 'npm config set https-proxy proxy.domain should be executed' do
-          is_expected.to contain_exec('npm_config present https-proxy').with('command' => '/usr/bin/npm config set https-proxy proxy.domain --global')
+          is_expected.to contain_exec('npm_config present https-proxy').with('command' => "#{npm_path} config set https-proxy proxy.domain --global")
         end
       end
 
@@ -46,7 +54,7 @@ describe 'nodejs::npm::global_config_entry', type: :define do
         end
 
         it 'npm config delete color should be executed' do
-          is_expected.to contain_exec('npm_config absent color').with('command' => '/usr/bin/npm config delete color --global')
+          is_expected.to contain_exec('npm_config absent color').with('command' => "#{npm_path} config delete color --global")
         end
       end
 
@@ -60,7 +68,7 @@ describe 'nodejs::npm::global_config_entry', type: :define do
         end
 
         it 'npm config set :_secret should be executed' do
-          is_expected.to contain_exec('npm_config present //path.to.registry/:_secret').with('command' => '/usr/bin/npm config set //path.to.registry/:_secret cGFzc3dvcmQ= --global')
+          is_expected.to contain_exec('npm_config present //path.to.registry/:_secret').with('command' => "#{npm_path} config set //path.to.registry/:_secret cGFzc3dvcmQ= --global")
         end
       end
 
@@ -82,11 +90,11 @@ describe 'nodejs::npm::global_config_entry', type: :define do
         end
 
         it 'npm config set prefer-online should be executed and require npm package' do
-          is_expected.to contain_exec('npm_config present prefer-online').with('command' => '/usr/bin/npm config set prefer-online true --global').that_requires('Package[npm-package-name]')
+          is_expected.to contain_exec('npm_config present prefer-online').with('command' => "#{npm_path} config set prefer-online true --global").that_requires('Package[npm-package-name]')
         end
 
         it 'npm config set prefer-online should not require node package' do
-          is_expected.not_to contain_exec('npm_config present prefer-online').with('command' => '/usr/bin/npm config set prefer-online true --global').that_requires('Package[node-package-name]')
+          is_expected.not_to contain_exec('npm_config present prefer-online').with('command' => "#{npm_path} config set prefer-online true --global").that_requires('Package[node-package-name]')
         end
       end
 
@@ -108,7 +116,7 @@ describe 'nodejs::npm::global_config_entry', type: :define do
         end
 
         it 'npm config set loglevel should be executed and require nodejs package' do
-          is_expected.to contain_exec('npm_config present loglevel').with('command' => '/usr/bin/npm config set loglevel debug --global').that_requires('Package[node-package-name]')
+          is_expected.to contain_exec('npm_config present loglevel').with('command' => "#{npm_path} config set loglevel debug --global").that_requires('Package[node-package-name]')
         end
       end
 
@@ -132,15 +140,15 @@ describe 'nodejs::npm::global_config_entry', type: :define do
         end
 
         it 'npm config set init-version should be executed' do
-          is_expected.to contain_exec('npm_config present init-version').with('command' => '/usr/bin/npm config set init-version 0.0.1 --global')
+          is_expected.to contain_exec('npm_config present init-version').with('command' => "#{npm_path} config set init-version 0.0.1 --global")
         end
 
         it 'npm config set init-version should not require npm package' do
-          is_expected.not_to contain_exec('npm_config present init-version').with('command' => '/usr/bin/npm config set init-version 0.0.1 --global').that_requires('Package[npm-package-name]')
+          is_expected.not_to contain_exec('npm_config present init-version').with('command' => "#{npm_path} config set init-version 0.0.1 --global").that_requires('Package[npm-package-name]')
         end
 
         it 'npm config set init-version should not require node package' do
-          is_expected.not_to contain_exec('npm_config present init-version').with('command' => '/usr/bin/npm config set init-version 0.0.1 --global').that_requires('Package[node-package-name]')
+          is_expected.not_to contain_exec('npm_config present init-version').with('command' => "#{npm_path} config set init-version 0.0.1 --global").that_requires('Package[node-package-name]')
         end
       end
     end

@@ -45,6 +45,13 @@ define nodejs::npm (
   $list_command = "${npm_path} ls --long --parseable"
   $install_check = "${list_command} | ${grep_command} \"${target}${dirsep}node_modules${dirsep}${install_check_package_string}\""
 
+  # set a sensible path on Unix
+  $exec_path = $facts['os']['family'] ? {
+    'Windows' => undef,
+    'Darwin'  => ['/bin', '/usr/bin', '/opt/local/bin', '/usr/local/bin'],
+    default    => ['/bin', '/usr/bin', '/usr/local/bin'],
+  }
+
   if $ensure == 'absent' {
     $npm_command = 'rm'
     $options = $uninstall_options_string
@@ -52,6 +59,7 @@ define nodejs::npm (
     if $use_package_json {
       exec { "npm_${npm_command}_${name}":
         command => "${npm_path} ${npm_command} * ${options}",
+        path    => $exec_path,
         onlyif  => $list_command,
         user    => $user,
         cwd     => "${target}${dirsep}node_modules",
@@ -60,6 +68,7 @@ define nodejs::npm (
     } else {
       exec { "npm_${npm_command}_${name}":
         command => "${npm_path} ${npm_command} ${package_string} ${options}",
+        path    => $exec_path,
         onlyif  => $install_check,
         user    => $user,
         cwd     => $target,
@@ -76,6 +85,7 @@ define nodejs::npm (
     if $use_package_json {
       exec { "npm_${npm_command}_${name}":
         command     => "${npm_path} ${npm_command} ${options}",
+        path        => $exec_path,
         unless      => $list_command,
         user        => $user,
         cwd         => $target,
@@ -85,6 +95,7 @@ define nodejs::npm (
     } else {
       exec { "npm_${npm_command}_${name}":
         command     => "${npm_path} ${npm_command} ${package_string} ${options}",
+        path        => $exec_path,
         unless      => $install_check,
         user        => $user,
         cwd         => $target,
