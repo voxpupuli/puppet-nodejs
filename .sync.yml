@@ -1,14 +1,4 @@
 ---
-.travis.yml:
-  secure: "SCQpiBB9qpZAjBRk+b9D3cSCQfYpDgHPOdOc7djfGeB5yn1UbGg7uW1zshrshb4QMLfUgvsL4LsT0CYj7ilBerghgeySF5JWuZdk05W/7Iudls4btbxdVjqtALR7p02mnk40qHTR1Tdb/j0gXW9uigU6nQU9iCP+Poa1KF6PXpk="
-  docker_sets:
-    - set: ubuntu1604-64
-    - set: ubuntu1804-64
-    - set: ubuntu2004-64
-    - set: centos7-64
-    - set: centos8-64
-    - set: debian9-64
-    - set: debian10-64
 spec/spec_helper.rb:
   mock_with: ':mocha'
 spec/spec_helper_acceptance.rb:
