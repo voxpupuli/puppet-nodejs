@@ -312,11 +312,11 @@ describe 'nodejs', type: :class do
     end
   end
 
-  ['6.0', '7.0', '27'].each do |operatingsystemrelease|
+  ['7.0', '27'].each do |operatingsystemrelease|
     osversions = operatingsystemrelease.split('.')
     operatingsystemmajrelease = osversions[0]
 
-    if operatingsystemrelease =~ %r{^[6-7]\.(\d+)}
+    if operatingsystemmajrelease == '7'
       operatingsystem     = 'CentOS'
       dist_type           = 'el'
       repo_baseurl        = "https://rpm.nodesource.com/pub_12.x/#{dist_type}/#{operatingsystemmajrelease}/\$basearch"
