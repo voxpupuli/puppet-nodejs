@@ -499,7 +499,6 @@ that were available on 2017-11-29:
 * Ubuntu 16.04 (Xenial) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
 * Ubuntu 16.10 (Yakkety) ```0.12``` ```4.x``` ```6.x``` ```7.x``` ```8.x```
 * Ubuntu 17.10 (Artful) ```4.x``` ```6.x``` ```8.x``` ```9.x```
-* RHEL/CentOS 6 ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
 * RHEL/CentOS 7 ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
 * Amazon Linux - See RHEL/CentOS 7
 * Fedora 25 ```4.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
@@ -520,8 +519,8 @@ this with the package_provider parameter to use an alternative
 
 This module has received limited testing on:
 
-* CentOS/RHEL 6/7/8
-* Debian 8
+* CentOS/RHEL 7/8
+* Debian 9/10
 * Ubuntu 16.04/18.04/20.04
 
 The following platforms should also work, but have not been tested:
@@ -529,7 +528,6 @@ The following platforms should also work, but have not been tested:
 * Amazon Linux
 * Archlinux
 * Darwin
-* Debian 9
 * Fedora
 * FreeBSD
 * Gentoo
@@ -544,7 +542,7 @@ This modules uses `puppetlabs-apt` for the management of the NodeSource
 repository. If using an operating system of the Debian-based family, you will
 need to ensure that `puppetlabs-apt` version 4.4.0 or above is installed.
 
-If using CentOS/RHEL 6/7 and you wish to install Node.js from EPEL rather
+If using CentOS/RHEL 7 and you wish to install Node.js from EPEL rather
 than from the NodeSource repository, you will need to ensure `puppet-epel` is
 installed and is applied before this module.
 
