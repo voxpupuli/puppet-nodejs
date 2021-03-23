@@ -4,6 +4,37 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v9.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v9.0.0) (2021-03-23)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v8.1.0...v9.0.0)
+
+**Breaking changes:**
+
+- Drop Puppet 5 support; Enable Puppet 7 support [\#443](https://github.com/voxpupuli/puppet-nodejs/pull/443) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EL6 support [\#438](https://github.com/voxpupuli/puppet-nodejs/pull/438) ([ekohl](https://github.com/ekohl))
+- Drop EOL Debian 8 [\#425](https://github.com/voxpupuli/puppet-nodejs/pull/425) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- puppetlabs/stdlib: Allow 7.x [\#442](https://github.com/voxpupuli/puppet-nodejs/pull/442) ([bastelfreak](https://github.com/bastelfreak))
+- add parameter $manage\_nodejs\_package [\#432](https://github.com/voxpupuli/puppet-nodejs/pull/432) ([kenyon](https://github.com/kenyon))
+- Debian and Ubuntu versioning and package name fixes [\#431](https://github.com/voxpupuli/puppet-nodejs/pull/431) ([kenyon](https://github.com/kenyon))
+
+**Fixed bugs:**
+
+- Missing dependency on package resource that installs NPM when using the nodesource repository [\#404](https://github.com/voxpupuli/puppet-nodejs/issues/404)
+- Add FreeBSD support [\#435](https://github.com/voxpupuli/puppet-nodejs/pull/435) ([igalic](https://github.com/igalic))
+
+**Closed issues:**
+
+- Evaluation Error: Operator '\[\]' is not applicable to an Undef Value - Ubuntu 20.04 [\#440](https://github.com/voxpupuli/puppet-nodejs/issues/440)
+- nodejs::npm::global\_config\_entry cannot work on a platform that puts npm into a different path [\#434](https://github.com/voxpupuli/puppet-nodejs/issues/434)
+- Installation on CentOS 7 fails, can't remove npm package [\#287](https://github.com/voxpupuli/puppet-nodejs/issues/287)
+
+**Merged pull requests:**
+
+- README.md: fix link to nodejs blog [\#430](https://github.com/voxpupuli/puppet-nodejs/pull/430) ([kenyon](https://github.com/kenyon))
+
 ## [v8.1.0](https://github.com/voxpupuli/puppet-nodejs/tree/v8.1.0) (2020-09-18)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v8.0.0...v8.1.0)
