@@ -21,7 +21,7 @@ class nodejs::params {
 
   case $facts['os']['family'] {
     'Debian': {
-      if $facts['os']['release']['major'] =~ /^(9|10)$/ {
+      if $facts['os']['release']['major'] =~ /^(9|10|11)$/ {
         $debian_nodejs_dev_package_name = $facts['os']['release']['major'] ? {
           '9'     => 'nodejs-dev',
           default => 'libnode-dev',
