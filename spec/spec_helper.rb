@@ -1,6 +1,5 @@
-# This file is managed via modulesync
-# https://github.com/voxpupuli/modulesync
-# https://github.com/voxpupuli/modulesync_config
+# Managed by modulesync - DO NOT EDIT
+# https://voxpupuli.org/docs/updating-files-managed-with-modulesync/
 
 RSpec.configure do |c|
   c.mock_with :mocha
