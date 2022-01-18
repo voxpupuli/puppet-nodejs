@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'nodejs', type: :class do
   on_supported_os.each do |os, facts|
     next unless facts[:os]['family'] == 'Debian'
 
-    context "on #{os} " do
+    context "on #{os}" do
       let :facts do
         facts
       end
@@ -20,10 +22,10 @@ describe 'nodejs', type: :class do
       it 'the file resource root_npmrc should be in the catalog' do
         is_expected.to contain_file('root_npmrc').with(
           'ensure' => 'file',
-          'path'    => '/root/.npmrc',
-          'owner'   => 'root',
-          'group'   => '0',
-          'mode'    => '0600'
+          'path' => '/root/.npmrc',
+          'owner' => 'root',
+          'group' => '0',
+          'mode' => '0600'
         )
       end
 
@@ -340,7 +342,7 @@ describe 'nodejs', type: :class do
             'name' => operatingsystem,
             'release' => {
               'major' => operatingsystemmajrelease,
-              'full'  => operatingsystemrelease
+              'full' => operatingsystemrelease
             }
           }
         }
@@ -390,10 +392,10 @@ describe 'nodejs', type: :class do
 
           it 'the nodesource and nodesource-source repos should contain the right description and baseurl' do
             is_expected.to contain_yumrepo('nodesource').with('baseurl' => repo_baseurl,
-                                                              'descr'   => repo_descr)
+                                                              'descr' => repo_descr)
 
             is_expected.to contain_yumrepo('nodesource-source').with('baseurl' => repo_source_baseurl,
-                                                                     'descr'   => repo_source_descr)
+                                                                     'descr' => repo_source_descr)
           end
         end
 
@@ -1320,7 +1322,7 @@ describe 'nodejs', type: :class do
           'family' => 'RedHat',
           'name' => 'Amazon',
           'release' => {
-            'full'  => '2015.03',
+            'full' => '2015.03',
             'major' => '2015',
             'minor' => '03'
           }
@@ -1377,10 +1379,10 @@ describe 'nodejs', type: :class do
 
         it 'the nodesource and nodesource-source repos should contain the right description and baseurl' do
           is_expected.to contain_yumrepo('nodesource').with('baseurl' => repo_baseurl,
-                                                            'descr'   => repo_descr)
+                                                            'descr' => repo_descr)
 
           is_expected.to contain_yumrepo('nodesource-source').with('baseurl' => repo_source_baseurl,
-                                                                   'descr'   => repo_source_descr)
+                                                                   'descr' => repo_source_descr)
         end
       end
 

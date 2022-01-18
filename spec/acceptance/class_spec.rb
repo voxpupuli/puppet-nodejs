@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 
 describe 'nodejs class:' do
@@ -18,6 +20,7 @@ describe 'nodejs class:' do
     if %w[RedHat Debian].include? fact('os.family')
       describe package('nodejs') do
         it { is_expected.to be_installed }
+
         it 'comes from the expected source' do
           pkg_output = shell(pkg_cmd)
           expect(pkg_output.stdout).to match 'nodesource'
@@ -33,6 +36,7 @@ describe 'nodejs class:' do
 
     describe package('nodejs') do
       it { is_expected.to be_installed }
+
       it 'comes from the expected source' do
         pending("This won't work until we have CentOS 7.4 because of dependency")
         pkg_output = shell(pkg_cmd)
@@ -116,6 +120,7 @@ context 'native Debian packages' do
       describe package('nodejs-dev') do
         it { is_expected.to be_installed }
       end
+
       if %w[16.04 18.04].include? fact('os.release.major')
         describe package('npm') do
           it { is_expected.to be_installed }
@@ -125,6 +130,7 @@ context 'native Debian packages' do
       describe package('libnode-dev') do
         it { is_expected.to be_installed }
       end
+
       describe package('npm') do
         it { is_expected.to be_installed }
       end

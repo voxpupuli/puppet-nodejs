@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Puppet::Type.type(:package).provider(:npm) do
@@ -21,7 +23,7 @@ describe Puppet::Type.type(:package).provider(:npm) do
 
   def self.it_should_respond_to(*actions)
     actions.each do |action|
-      it "should respond to :#{action}" do
+      it "responds to :#{action}" do
         expect(provider).to respond_to(action)
       end
     end
