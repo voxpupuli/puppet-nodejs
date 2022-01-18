@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'nodejs::npm::global_config_entry', type: :define do
@@ -6,7 +8,7 @@ describe 'nodejs::npm::global_config_entry', type: :define do
   end
 
   on_supported_os.each do |os, facts|
-    context "on #{os} " do
+    context "on #{os}" do
       let :facts do
         facts
       end

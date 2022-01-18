@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppet/provider/package'
 
 Puppet::Type.type(:package).provide :npm, parent: Puppet::Provider::Package do
@@ -18,7 +20,7 @@ Puppet::Type.type(:package).provide :npm, parent: Puppet::Provider::Package do
     Puppet.debug("Warning: npm list --json exited with code #{output.exitstatus}") if output.exitstatus != 0
     begin
       # ignore any npm output lines to be a bit more robust
-      output = PSON.parse(output.lines.select { |l| l =~ %r{^((?!^npm).*)$} }.join("\n"), max_nesting: 100)
+      output = PSON.parse(output.lines.grep(%r{^((?!^npm).*)$}).join("\n"), max_nesting: 100)
       @npmlist = output['dependencies'] || {}
     rescue PSON::ParserError => e
       Puppet.debug("Error: npm list --json command error #{e.message}")
