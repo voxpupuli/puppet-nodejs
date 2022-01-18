@@ -11,9 +11,8 @@ describe 'nodejs', type: :class do
         facts
       end
 
-      native_debian_devel_package = if facts[:os]['name'] == 'Ubuntu' && Gem::Version.new(facts[:os]['release']['major']) >= Gem::Version.new('20.04')
-                                      'libnode-dev'
-                                    elsif facts[:os]['name'] == 'Debian' && Gem::Version.new(facts[:os]['release']['major']) >= Gem::Version.new(10)
+      native_debian_devel_package = if (facts[:os]['name'] == 'Ubuntu' && Gem::Version.new(facts[:os]['release']['major']) >= Gem::Version.new('20.04')) ||
+                                       (facts[:os]['name'] == 'Debian' && Gem::Version.new(facts[:os]['release']['major']) >= Gem::Version.new(10))
                                       'libnode-dev'
                                     else
                                       'nodejs-dev'
