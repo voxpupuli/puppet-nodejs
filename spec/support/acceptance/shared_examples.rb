@@ -9,3 +9,21 @@ shared_examples 'an idempotent resource' do
     apply_manifest(pp, catch_changes: true)
   end
 end
+
+shared_examples 'cleanup' do
+  context 'cleanup' do
+    let(:pp) do
+      "
+      class { 'nodejs':
+        nodejs_debug_package_ensure => absent,
+        nodejs_dev_package_ensure   => absent,
+        nodejs_package_ensure       => absent,
+        npm_package_ensure          => absent,
+        repo_ensure                 => absent,
+      }
+      "
+    end
+
+    it_behaves_like 'an idempotent resource'
+  end
+end

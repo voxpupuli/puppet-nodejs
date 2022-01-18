@@ -2,7 +2,7 @@
 
 require 'spec_helper_acceptance'
 
-describe 'nodejs class:' do
+describe 'nodejs' do
   case fact('os.family')
   when 'RedHat'
     pkg_cmd = 'yum info nodejs | grep "^From repo"'
@@ -31,6 +31,8 @@ describe 'nodejs class:' do
 
   context 'repo_class => epel', if: ((fact('os.family') == 'RedHat') && (fact('os.release.major') != '8')) do
     let(:pp) { "class { 'nodejs': repo_class => '::epel' }" }
+
+    include_examples 'cleanup'
 
     it_behaves_like 'an idempotent resource'
 
@@ -82,57 +84,39 @@ describe 'nodejs class:' do
       end
     end
   end
-end
 
-# Must uninstall the default nodesource repo and packages which come from there before attempting
-# to install native packages.
-context 'uninstall' do
-  let(:pp) do
-    "
-    class { 'nodejs':
-      nodejs_debug_package_ensure => absent,
-      nodejs_dev_package_ensure   => absent,
-      nodejs_package_ensure       => absent,
-      npm_package_ensure          => absent,
-      repo_ensure                 => absent,
-    }
-    "
-  end
-
-  it_behaves_like 'an idempotent resource'
-end
-
-context 'native Debian packages' do
-  let(:pp) do
-    "
+  context 'native Debian packages' do
+    let(:pp) do
+      "
     class { 'nodejs':
       manage_package_repo       => false,
       nodejs_dev_package_ensure => present,
       npm_package_ensure        => present,
     }
     "
-  end
+    end
 
-  it_behaves_like 'an idempotent resource'
+    include_examples 'cleanup'
 
-  if fact('os.family') == 'Debian'
-    if %w[9 16.04 18.04].include? fact('os.release.major')
-      describe package('nodejs-dev') do
-        it { is_expected.to be_installed }
+    it_behaves_like 'an idempotent resource'
+
+    expected_packages = []
+
+    if fact('os.family') == 'Debian'
+      if %w[9 16.04 18.04].include? fact('os.release.major')
+        expected_packages << 'nodejs-dev'
+
+        expected_packages << 'npm' if %w[16.04 18.04].include? fact('os.release.major')
+      else
+        expected_packages << 'libnode-dev'
+
+        expected_packages << 'npm'
       end
 
-      if %w[16.04 18.04].include? fact('os.release.major')
-        describe package('npm') do
+      expected_packages.each do |pkg|
+        describe package(pkg) do
           it { is_expected.to be_installed }
         end
-      end
-    else
-      describe package('libnode-dev') do
-        it { is_expected.to be_installed }
-      end
-
-      describe package('npm') do
-        it { is_expected.to be_installed }
       end
     end
   end
