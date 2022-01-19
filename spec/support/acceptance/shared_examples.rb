@@ -25,5 +25,7 @@ shared_examples 'cleanup' do
     end
 
     it_behaves_like 'an idempotent resource'
+
+    shell('yum info nodejs || true')
   end
 end
