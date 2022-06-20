@@ -28,7 +28,7 @@ class nodejs (
   $repo_url_suffix                                     = $nodejs::params::repo_url_suffix,
   Array $use_flags                                     = $nodejs::params::use_flags,
   Optional[String] $package_provider                   = $nodejs::params::package_provider,
-  Hash $global_config_entries,
+  Hash[String[1], Hash, 0] $global_config_entries      = {},
 ) inherits nodejs::params {
   if $manage_package_repo and !$repo_class {
     fail("${module_name}: The manage_package_repo parameter was set to true but no repo_class was provided.")
@@ -43,5 +43,9 @@ class nodejs (
     -> Class['nodejs::install']
   }
 
-  create_resources('nodejs::npm::global_config_entry', $global_config_entries)
+  $global_config_entries.each |$setting, $params| {
+    nodejs::npm::global_config_entry { $setting:
+      * => $params,
+    }
+  }
 }
