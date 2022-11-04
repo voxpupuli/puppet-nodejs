@@ -491,12 +491,10 @@ need to set this value accordingly. This parameter is a just a reflection of
 the NodeSource URL structure - NodeSource might remove old versions (such as
 0.10 and 0.12) or add new ones (such as 20.x) at any time.
 
-The following are ``repo_url_suffix`` values that reflect NodeSource versions
-that were available on 2017-11-29:
+On 2017-11-29, the ``repo_url_suffix`` matrix of supported (noted here for posterity) NodeSource versions were:
 
 * Debian 9 (Stretch) ```4.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
 * Debian (Sid) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
-* Ubuntu 16.04 (Xenial) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
 * Ubuntu 16.10 (Yakkety) ```0.12``` ```4.x``` ```6.x``` ```7.x``` ```8.x```
 * Ubuntu 17.10 (Artful) ```4.x``` ```6.x``` ```8.x``` ```9.x```
 * RHEL/CentOS 7 ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
@@ -504,6 +502,20 @@ that were available on 2017-11-29:
 * Fedora 25 ```4.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
 * Fedora 26 ```6.x``` ```8.x``` ```9.x```
 * Fedora 27 ```8.x``` ```9.x```
+
+As of 2022-11-04, supported NodeSource ``repo_url_suffix`` values are:
+
+* Debian 10 (Buster)
+* Debian 11 (Bullseye)
+* Fedora 33-36
+* RHEL 8 / CentOS 8 / CentOS 8 Stream / Rocky 8 
+* Ubuntu 20.04 (Focal Fossa) 
+* Ubuntu 21.04 (Hirsute Hippo)
+* Ubuntu 21.10 (Impish Indri)
+* Ubuntu 22.04 (Jammy Jellyfish)
+* Ubuntu 22.10 (Kinetic Kudu)
+
+  - ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x``` ```10.x``` ```11.x``` ```12.x``` ```13.x``` ```14.x``` ```15.x``` ```16.x``` ```17.x``` ```18.x``` ```19.x```
 
 #### `use_flags`
 
