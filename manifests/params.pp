@@ -1,3 +1,6 @@
+#
+
+#
 class nodejs::params {
   $npmrc_auth                  = undef
   $npmrc_config                = undef
@@ -40,7 +43,7 @@ class nodejs::params {
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
       }
-      elsif $facts['os']['release']['full'] =~ /^1[68]\.04$/ {
+      elsif $facts['os']['release']['full'] =~ /^18.04$/ {
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-dbg'
         $nodejs_dev_package_name   = 'nodejs-dev'
@@ -51,7 +54,7 @@ class nodejs::params {
         $npm_path                  = '/usr/bin/npm'
         $repo_class                = '::nodejs::repo::nodesource'
       }
-      elsif $facts['os']['release']['full'] =~ /^20\.04$/ {
+      elsif $facts['os']['release']['full'] =~ /^2[20]\.04$/ {
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-dbg'
         $nodejs_dev_package_name   = 'libnode-dev'
@@ -63,7 +66,7 @@ class nodejs::params {
         $repo_class                = '::nodejs::repo::nodesource'
       }
       else {
-        warning("The ${module_name} module might not work on ${facts['os']['name']} ${facts['os']['release']['full']}. Sensible defaults will be attempted.")
+        warning("${module_name} may not work on ${facts['os']['name']} ${facts['os']['release']['full']}. Attempting sane defaults.")
         $manage_package_repo       = true
         $nodejs_debug_package_name = 'nodejs-dbg'
         $nodejs_dev_package_name   = 'nodejs-dev'
@@ -201,7 +204,7 @@ class nodejs::params {
       $package_provider          = undef
     }
     default: {
-      fail("The ${module_name} module is not supported on a ${facts['os']['name']} distribution.")
+      fail("${module_name} is not supported on a ${facts['os']['name']} distribution.")
     }
   }
 }
