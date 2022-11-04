@@ -508,7 +508,7 @@ As of 2022-11-04, supported NodeSource ``repo_url_suffix`` values are:
 * Debian 10 (Buster)
 * Debian 11 (Bullseye)
 * Fedora 33-36
-* RHEL 8 / CentOS 8 / CentOS 8 Stream / Rocky 8 
+* RHEL 8 / CentOS 8 / CentOS 8 Stream / Rocky 8
 * Ubuntu 20.04 (Focal Fossa) 
 * Ubuntu 21.04 (Hirsute Hippo)
 * Ubuntu 21.10 (Impish Indri)
