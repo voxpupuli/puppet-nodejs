@@ -474,7 +474,7 @@ User for the proxy used by the repository, if required.
 
 #### `repo_release`
 
-Optional value to override the apt distribution release.  Defaults to `undef`
+Optional value to override the apt distribution release. Defaults to `undef`
 which will autodetect the distribution. If a value is specified, this will
 change the NodeSource apt repository distribution.
 This is useful if the distribution name does not exist in the NodeSource
