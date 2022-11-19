@@ -1,8 +1,5 @@
 # PRIVATE CLASS: do not call directly
 class nodejs::install {
-  $npmrc_auth = $nodejs::npmrc_auth
-  $npmrc_config = $nodejs::npmrc_config
-
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
@@ -51,7 +48,9 @@ class nodejs::install {
     }
   }
 
-  if $facts['os']['name'] != 'Windows' {
+  if $nodejs::npmrc_auth or $nodejs::npmrc_config {
+    $npmrc_auth = $nodejs::npmrc_auth
+    $npmrc_config = $nodejs::npmrc_config
     file { 'root_npmrc':
       ensure  => 'file',
       path    => "${facts['root_home']}/.npmrc",
