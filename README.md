@@ -519,7 +519,7 @@ this with the package_provider parameter to use an alternative
 
 This module has received limited testing on:
 
-* CentOS/RHEL 7/8
+* CentOS/RHEL 7/8/9
 * Debian 9/10
 * Ubuntu 16.04/18.04/20.04
 
