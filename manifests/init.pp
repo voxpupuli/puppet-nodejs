@@ -31,9 +31,9 @@ class nodejs (
     fail("${module_name}: The manage_package_repo parameter was set to true but no repo_class was provided.")
   }
 
-  contain 'nodejs::install'
-
   if $manage_package_repo {
+    contain 'nodejs::install'
+
     include $repo_class
 
     Class[$repo_class]
