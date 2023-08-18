@@ -320,17 +320,17 @@ describe 'nodejs', type: :class do
     if operatingsystemmajrelease == '7'
       operatingsystem     = 'CentOS'
       dist_type           = 'el'
-      repo_baseurl        = "https://rpm.nodesource.com/pub_12.x/#{dist_type}/#{operatingsystemmajrelease}/\$basearch"
+      repo_baseurl        = "https://rpm.nodesource.com/pub_12.x/#{dist_type}/#{operatingsystemmajrelease}/$basearch"
       repo_source_baseurl = "https://rpm.nodesource.com/pub_12.x/#{dist_type}/#{operatingsystemmajrelease}/SRPMS"
-      repo_descr          = "Node.js Packages for Enterprise Linux #{operatingsystemmajrelease} - \$basearch"
-      repo_source_descr   = "Node.js for Enterprise Linux #{operatingsystemmajrelease} - \$basearch - Source"
+      repo_descr          = "Node.js Packages for Enterprise Linux #{operatingsystemmajrelease} - $basearch"
+      repo_source_descr   = "Node.js for Enterprise Linux #{operatingsystemmajrelease} - $basearch - Source"
     else
       operatingsystem     = 'Fedora'
       dist_type           = 'fc'
-      repo_baseurl        = "https://rpm.nodesource.com/pub_12.x/#{dist_type}/#{operatingsystemmajrelease}/\$basearch"
+      repo_baseurl        = "https://rpm.nodesource.com/pub_12.x/#{dist_type}/#{operatingsystemmajrelease}/$basearch"
       repo_source_baseurl = "https://rpm.nodesource.com/pub_12.x/#{dist_type}/#{operatingsystemmajrelease}/SRPMS"
-      repo_descr          = "Node.js Packages for Fedora Core #{operatingsystemmajrelease} - \$basearch"
-      repo_source_descr   = "Node.js for Fedora Core #{operatingsystemmajrelease} - \$basearch - Source"
+      repo_descr          = "Node.js Packages for Fedora Core #{operatingsystemmajrelease} - $basearch"
+      repo_source_descr   = "Node.js for Fedora Core #{operatingsystemmajrelease} - $basearch - Source"
     end
 
     context "when run on #{operatingsystem} release #{operatingsystemrelease}" do
@@ -403,8 +403,8 @@ describe 'nodejs', type: :class do
             default_params.merge!(repo_url_suffix: '5.x')
           end
 
-          it "the yum nodesource repo resource should contain baseurl = https://rpm.nodesource.com/pub_5.x/#{dist_type}/#{operatingsystemmajrelease}/\$basearch" do
-            is_expected.to contain_yumrepo('nodesource').with('baseurl' => "https://rpm.nodesource.com/pub_5.x/#{dist_type}/#{operatingsystemmajrelease}/\$basearch")
+          it "the yum nodesource repo resource should contain baseurl = https://rpm.nodesource.com/pub_5.x/#{dist_type}/#{operatingsystemmajrelease}/$basearch" do
+            is_expected.to contain_yumrepo('nodesource').with('baseurl' => "https://rpm.nodesource.com/pub_5.x/#{dist_type}/#{operatingsystemmajrelease}/$basearch")
           end
         end
 
