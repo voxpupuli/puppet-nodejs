@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v9.1.0](https://github.com/voxpupuli/puppet-nodejs/tree/v9.1.0) (2022-01-18)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v9.0.1...v9.1.0)
+
+**Implemented enhancements:**
+
+- Add support for Debian 11, FreeBSD 13 [\#448](https://github.com/voxpupuli/puppet-nodejs/pull/448) ([smortex](https://github.com/smortex))
+
 ## [v9.0.1](https://github.com/voxpupuli/puppet-nodejs/tree/v9.0.1) (2021-08-25)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v9.0.0...v9.0.1)
@@ -612,7 +620,7 @@ Last release with Debian 8 support! After this 8.1.0 release we will do a 9.0.0 
 
 ## [0.3.0](https://github.com/voxpupuli/puppet-nodejs/tree/0.3.0) (2013-08-01)
 
-[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/0.3.1...0.3.0)
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/0.2.1...0.3.0)
 
 **Closed issues:**
 
@@ -623,10 +631,6 @@ Last release with Debian 8 support! After this 8.1.0 release we will do a 9.0.0 
 - Prepare a 0.3.0 release. [\#40](https://github.com/voxpupuli/puppet-nodejs/pull/40) ([apenney](https://github.com/apenney))
 - refactor to address issues 27 and 33 [\#36](https://github.com/voxpupuli/puppet-nodejs/pull/36) ([wolfspyre](https://github.com/wolfspyre))
 - Fix to install failure's on Ubuntu [\#34](https://github.com/voxpupuli/puppet-nodejs/pull/34) ([siwilkins](https://github.com/siwilkins))
-
-## [0.3.1](https://github.com/voxpupuli/puppet-nodejs/tree/0.3.1) (2012-12-28)
-
-[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/0.2.1...0.3.1)
 
 ## [0.2.1](https://github.com/voxpupuli/puppet-nodejs/tree/0.2.1) (2012-12-28)
 
