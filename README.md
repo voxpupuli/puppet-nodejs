@@ -14,7 +14,6 @@
     * [Beginning with nodejs - Installation](#beginning-with-nodejs)
 1. [Usage](#usage)
 1. [Npm packages](#npm-packages)
-1. [Parameters](#parameters)
 1. [Limitations - OS compatibility, etc.](#limitations)
     * [Module dependencies](#module-dependencies)
 1. [Development](#development)
@@ -169,17 +168,6 @@ except version ranges. The title simply must be a unique, arbitrary value.
 * If you want to use a package.json supplied by a module to install dependencies
   (e.g. if you have a NodeJS server app), set the parameter use_package_json to true.
   The package name is then only used for the resource name. source parameter is ignored.
-
-nodejs::npm parameters:
-
-* ensure: present (default), absent, latest, tag or version number.
-* source: package source (defaults to a reserved value 'registry')
-* target: where to install the package
-* install_options: option flags invoked during installation such as --link (optional).
-* uninstall_options: option flags invoked during removal (optional).
-* npm_path: defaults to the value listed in `nodejs::params`
-* user: defaults to undef
-* use_package_json: read and install modules listed in package.json in target dir and install those in subdirectory node_modules (defaults to false)
 
 Examples:
 
@@ -372,148 +360,6 @@ nodejs::npm::global_config_entry { 'color':
 
 If a global_config_entry of `proxy` or `https-proxy` is specified, this will be
 applied before the local installation of npm packages using `nodejs::npm`.
-
-### Parameters
-
-#### `cmd_exe_path`
-
-Path to cmd.exe on Windows. Defaults to C:\Windows\system32\cmd.exe. You may
-need to change this parameter for certain versions of Windows Server.
-
-#### `manage_nodejs_package`
-
-Whether to manage the nodejs and nodejs-dev packages. Defaults to `true`.
-
-#### `manage_package_repo`
-
-Whether to manage an external repository and use it as the source of the
-Node.js and npm package. Defaults to `true`.
-
-#### `nodejs_debug_package_ensure`
-
-When set to `present` or a version number, determines whether to install the
-Node.js package with debugging symbols, if available. Defaults to `absent`.
-
-#### `nodejs_dev_package_ensure`
-
-When set to `present` or a version number, determines whether to install the
-development Node.js package, if available. Defaults to `absent`.
-
-#### `nodejs_package_ensure`
-
-When set to `present` or a version number, determines whether to install the
-Node.js package. Defaults to `present`.
-
-#### `npm_package_ensure`
-
-When set to `present` or a version number, determines whether to install the
-separate npm package. When using the NodeSource repository, the Node.js
-package includes npm, so this value defaults to `absent`. This parameter will
-need to be set to `present` if you wish to use the native packages or are
-using the EPEL repository.
-
-#### `npm_path`
-
-Path to the npm binary.
-
-#### `npmrc_auth`
-
-A string that contains the value for the key `_auth` that will be set in
-`/root/.npmrc`, as this value is not allowed to be set by
-nodejs::npm::global_config_entry. The default value is `undef`.
-
-#### `npmrc_config`
-
-A hash that contains keys/values that will be set in `/root/.npmrc`,
-in the form of `key=value`. Useful for setting a http-proxy for npm only.
-The default value is `undef`.
-
-#### `repo_class`
-
-Name of the Puppet class used for the setup and management of the Node.js
-repository. Defaults to `::nodejs::repo::nodesource` (NodeSource).
-If using the Node.js and npm packages from the EPEL repository, set this to
-`::epel` and make sure that the EPEL module is applied before the nodejs
-module in your Puppet node definitions.
-
-#### `repo_enable_src`
-
-Whether any repositories which hold sources are enabled. Defaults to `false`.
-
-#### `repo_ensure`
-
-Whether to ensure that the repository exists, if it is being managed. Defaults
-to `present` and may also be set to `absent`.
-
-#### `repo_pin`
-
-Whether to perform APT pinning to pin the Node.js repository with a specific
-value. Defaults to `undef`.
-
-#### `repo_priority`
-
-Whether to set a Yum priority for the Node.js repository. If using EPEL and
-the NodeSource repository on the same system, you may wish to set this to a
-value less than 99 (or the priority set for the EPEL repository) to ensure
-that the NodeSource repository will always be preferred over the Node.js
-packages in EPEL, should they both hold the same Node.js version. Defaults to
-`absent`.
-
-#### `repo_proxy`
-
-Whether to use a proxy for this particular repository. For example,
-`http://proxy.domain`. Defaults to `absent`.
-
-#### `repo_proxy_password`
-
-Password for the proxy used by the repository, if required.
-
-#### `repo_proxy_username`
-
-User for the proxy used by the repository, if required.
-
-#### `repo_release`
-
-Optional value to override the apt distribution release.  Defaults to `undef`
-which will autodetect the distribution. If a value is specified, this will
-change the NodeSource apt repository distribution.
-This is useful if the distribution name does not exist in the NodeSource
-repositories. For example, the Ubilinux distribution release name 'dolcetto'
-does not exist in NodeSource, but is a derivative of Debian 9 (Stretch).
-Setting this value to `stretch` allows NodeSource repository management to
-then work as expected on these systems.
-
-#### `repo_url_suffix`
-
-Defaults to ```12.x``` which means that the latest NodeSource 12.x release
-is installed. If you wish to install a 13.x release or greater, you will
-need to set this value accordingly. This parameter is a just a reflection of
-the NodeSource URL structure - NodeSource might remove old versions (such as
-0.10 and 0.12) or add new ones (such as 20.x) at any time.
-
-The following are ``repo_url_suffix`` values that reflect NodeSource versions
-that were available on 2017-11-29:
-
-* Debian 9 (Stretch) ```4.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
-* Debian (Sid) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
-* Ubuntu 16.04 (Xenial) ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
-* Ubuntu 16.10 (Yakkety) ```0.12``` ```4.x``` ```6.x``` ```7.x``` ```8.x```
-* Ubuntu 17.10 (Artful) ```4.x``` ```6.x``` ```8.x``` ```9.x```
-* RHEL/CentOS 7 ```0.10``` ```0.12``` ```4.x``` ```5.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
-* Amazon Linux - See RHEL/CentOS 7
-* Fedora 25 ```4.x``` ```6.x``` ```7.x``` ```8.x``` ```9.x```
-* Fedora 26 ```6.x``` ```8.x``` ```9.x```
-* Fedora 27 ```8.x``` ```9.x```
-
-#### `use_flags`
-
-The USE flags to use for the Node.js package on Gentoo systems. Defaults to
-['npm', 'snapshot'].
-
-#### `package_provider`
-
-The package provider is set as the default for most distributions. You can override
-this with the package_provider parameter to use an alternative
 
 ## Limitations
 
