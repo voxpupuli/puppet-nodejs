@@ -21,60 +21,15 @@ class nodejs::params {
 
   case $facts['os']['family'] {
     'Debian': {
-      if $facts['os']['release']['major'] =~ /^(9|10|11)$/ {
-        $debian_nodejs_dev_package_name = $facts['os']['release']['major'] ? {
-          '9'     => 'nodejs-dev',
-          default => 'libnode-dev',
-        }
-        $debian_npm_package_name = $facts['os']['release']['major'] ? {
-          '9'     => false,
-          default => 'npm',
-        }
-        $manage_package_repo       = true
-        $nodejs_debug_package_name = 'nodejs-dbg'
-        $nodejs_dev_package_name   = $debian_nodejs_dev_package_name
-        $nodejs_dev_package_ensure = 'absent'
-        $nodejs_package_name       = 'nodejs'
-        $npm_package_ensure        = 'absent'
-        $npm_package_name          = $debian_npm_package_name
-        $npm_path                  = '/usr/bin/npm'
-        $repo_class                = '::nodejs::repo::nodesource'
-      }
-      elsif $facts['os']['release']['full'] =~ /^1[68]\.04$/ {
-        $manage_package_repo       = true
-        $nodejs_debug_package_name = 'nodejs-dbg'
-        $nodejs_dev_package_name   = 'nodejs-dev'
-        $nodejs_dev_package_ensure = 'absent'
-        $nodejs_package_name       = 'nodejs'
-        $npm_package_ensure        = 'absent'
-        $npm_package_name          = 'npm'
-        $npm_path                  = '/usr/bin/npm'
-        $repo_class                = '::nodejs::repo::nodesource'
-      }
-      elsif $facts['os']['release']['full'] =~ /^20\.04$/ {
-        $manage_package_repo       = true
-        $nodejs_debug_package_name = 'nodejs-dbg'
-        $nodejs_dev_package_name   = 'libnode-dev'
-        $nodejs_dev_package_ensure = 'absent'
-        $nodejs_package_name       = 'nodejs'
-        $npm_package_ensure        = 'absent'
-        $npm_package_name          = 'npm'
-        $npm_path                  = '/usr/bin/npm'
-        $repo_class                = '::nodejs::repo::nodesource'
-      }
-      else {
-        warning("The ${module_name} module might not work on ${facts['os']['name']} ${facts['os']['release']['full']}. Sensible defaults will be attempted.")
-        $manage_package_repo       = true
-        $nodejs_debug_package_name = 'nodejs-dbg'
-        $nodejs_dev_package_name   = 'nodejs-dev'
-        $nodejs_dev_package_ensure = 'absent'
-        $nodejs_package_name       = 'nodejs'
-        $npm_package_ensure        = 'absent'
-        $npm_package_name          = 'npm'
-        $npm_path                  = '/usr/bin/npm'
-        $repo_class                = '::nodejs::repo::nodesource'
-      }
-
+      $manage_package_repo       = true
+      $nodejs_debug_package_name = 'nodejs-dbg'
+      $nodejs_dev_package_name   = 'libnode-dev'
+      $nodejs_dev_package_ensure = 'absent'
+      $nodejs_package_name       = 'nodejs'
+      $npm_package_ensure        = 'absent'
+      $npm_package_name          = 'npm'
+      $npm_path                  = '/usr/bin/npm'
+      $repo_class                = '::nodejs::repo::nodesource'
       $package_provider          = undef
     }
     'RedHat': {
