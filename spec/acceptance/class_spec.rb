@@ -36,7 +36,7 @@ describe 'nodejs' do
       let(:manifest) do
         <<-PUPPET
         class { 'nodejs':
-          repo_class => '::epel',
+          repo_class => 'epel',
         }
         PUPPET
       end

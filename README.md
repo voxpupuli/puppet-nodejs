@@ -84,7 +84,7 @@ Install Node.js and npm using the packages from EPEL:
 class { '::nodejs':
   nodejs_dev_package_ensure => installed,
   npm_package_ensure        => installed,
-  repo_class                => '::epel',
+  repo_class                => 'epel',
 }
 ```
 

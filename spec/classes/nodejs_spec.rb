@@ -77,16 +77,16 @@ describe 'nodejs', type: :class do
           end
         end
 
-        context 'and repo_class set to ::nodejs::repo::nodesource' do
+        context 'and repo_class set to nodejs::repo::nodesource' do
           let :params do
             default_params.merge!(repo_class: 'nodejs::repo::nodesource')
           end
 
-          it '::nodejs::repo::nodesource should be in the catalog' do
+          it 'nodejs::repo::nodesource should be in the catalog' do
             is_expected.to contain_class('nodejs::repo::nodesource')
           end
 
-          it '::nodejs::repo::nodesource::apt should be in the catalog' do
+          it 'nodejs::repo::nodesource::apt should be in the catalog' do
             is_expected.to contain_class('nodejs::repo::nodesource::apt')
           end
         end
@@ -179,8 +179,8 @@ describe 'nodejs', type: :class do
           }
         end
 
-        it '::nodejs::repo::nodesource should not be in the catalog' do
-          is_expected.not_to contain_class('::nodejs::repo::nodesource')
+        it 'nodejs::repo::nodesource should not be in the catalog' do
+          is_expected.not_to contain_class('nodejs::repo::nodesource')
         end
       end
 
@@ -376,16 +376,16 @@ describe 'nodejs', type: :class do
           end
         end
 
-        context 'and repo_class set to ::nodejs::repo::nodesource' do
+        context 'and repo_class set to nodejs::repo::nodesource' do
           let :params do
             default_params.merge!(repo_class: 'nodejs::repo::nodesource')
           end
 
-          it '::nodejs::repo::nodesource should be in the catalog' do
+          it 'nodejs::repo::nodesource should be in the catalog' do
             is_expected.to contain_class('nodejs::repo::nodesource')
           end
 
-          it '::nodejs::repo::nodesource::yum should be in the catalog' do
+          it 'nodejs::repo::nodesource::yum should be in the catalog' do
             is_expected.to contain_class('nodejs::repo::nodesource::yum')
           end
 
@@ -544,8 +544,8 @@ describe 'nodejs', type: :class do
           }
         end
 
-        it '::nodejs::repo::nodesource should not be in the catalog' do
-          is_expected.not_to contain_class('::nodejs::repo::nodesource')
+        it 'nodejs::repo::nodesource should not be in the catalog' do
+          is_expected.not_to contain_class('nodejs::repo::nodesource')
         end
       end
 
@@ -1363,16 +1363,16 @@ describe 'nodejs', type: :class do
         end
       end
 
-      context 'and repo_class set to ::nodejs::repo::nodesource' do
+      context 'and repo_class set to nodejs::repo::nodesource' do
         let :params do
           default_params.merge!(repo_class: 'nodejs::repo::nodesource')
         end
 
-        it '::nodejs::repo::nodesource should be in the catalog' do
+        it 'nodejs::repo::nodesource should be in the catalog' do
           is_expected.to contain_class('nodejs::repo::nodesource')
         end
 
-        it '::nodejs::repo::nodesource::yum should be in the catalog' do
+        it 'nodejs::repo::nodesource::yum should be in the catalog' do
           is_expected.to contain_class('nodejs::repo::nodesource::yum')
         end
 
@@ -1501,8 +1501,8 @@ describe 'nodejs', type: :class do
         }
       end
 
-      it '::nodejs::repo::nodesource should not be in the catalog' do
-        is_expected.not_to contain_class('::nodejs::repo::nodesource')
+      it 'nodejs::repo::nodesource should not be in the catalog' do
+        is_expected.not_to contain_class('nodejs::repo::nodesource')
       end
     end
 

@@ -29,7 +29,7 @@ class nodejs::params {
       $npm_package_ensure        = 'absent'
       $npm_package_name          = 'npm'
       $npm_path                  = '/usr/bin/npm'
-      $repo_class                = '::nodejs::repo::nodesource'
+      $repo_class                = 'nodejs::repo::nodesource'
       $package_provider          = undef
     }
     'RedHat': {

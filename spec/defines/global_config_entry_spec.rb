@@ -106,7 +106,7 @@ describe 'nodejs::npm::global_config_entry', type: :define do
             class { 'nodejs':
               nodejs_package_name => 'node-package-name',
               npm_package_ensure  => absent,
-              repo_class          => '::nodejs::repo::nodesource',
+              repo_class          => 'nodejs::repo::nodesource',
             }
           PUPPET
         end
