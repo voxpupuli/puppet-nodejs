@@ -2,7 +2,7 @@ class nodejs::params {
   $npmrc_auth                  = undef
   $npmrc_config                = undef
   $nodejs_debug_package_ensure = 'absent'
-  $nodejs_package_ensure       = 'present'
+  $nodejs_package_ensure       = 'installed'
   $repo_enable_src             = false
   $repo_ensure                 = 'present'
   $repo_pin                    = undef
@@ -122,7 +122,7 @@ class nodejs::params {
       $nodejs_dev_package_name   = 'nodejs-devel'
       $nodejs_dev_package_ensure = 'absent'
       $nodejs_package_name       = 'nodejs'
-      $npm_package_ensure        = 'present'
+      $npm_package_ensure        = 'installed'
       $npm_package_name          = 'npm'
       $npm_path                  = '/usr/bin/npm'
       $repo_class                = undef
@@ -134,7 +134,7 @@ class nodejs::params {
       $nodejs_dev_package_name   = undef
       $nodejs_dev_package_ensure = 'absent'
       $nodejs_package_name       = 'nodejs'
-      $npm_package_ensure        = 'present'
+      $npm_package_ensure        = 'installed'
       $npm_package_name          = 'npm'
       $npm_path                  = '/usr/bin/npm'
       $repo_class                = undef
@@ -146,7 +146,7 @@ class nodejs::params {
       $nodejs_dev_package_name   = 'www/node-devel'
       $nodejs_dev_package_ensure = 'absent'
       $nodejs_package_name       = 'www/node'
-      $npm_package_ensure        = 'present'
+      $npm_package_ensure        = 'installed'
       $npm_package_name          = 'www/npm'
       $npm_path                  = '/usr/local/bin/npm'
       $repo_class                = undef
@@ -170,7 +170,7 @@ class nodejs::params {
       $nodejs_dev_package_name   = 'nodejs-devel'
       $nodejs_dev_package_ensure = 'absent'
       $nodejs_package_name       = 'nodejs'
-      $npm_package_ensure        = 'present'
+      $npm_package_ensure        = 'installed'
       $npm_package_name          = 'npm'
       $npm_path                  = '/opt/local/bin/npm'
       $repo_class                = undef

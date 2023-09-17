@@ -185,15 +185,15 @@ describe 'nodejs', type: :class do
       end
 
       # nodejs_debug_package_ensure
-      context 'with nodejs_debug_package_ensure set to present' do
+      context 'with nodejs_debug_package_ensure set to installed' do
         let :params do
           {
-            nodejs_debug_package_ensure: 'present'
+            nodejs_debug_package_ensure: 'installed'
           }
         end
 
         it 'the nodejs package with debugging symbols should be installed' do
-          is_expected.to contain_package('nodejs-dbg').with('ensure' => 'present')
+          is_expected.to contain_package('nodejs-dbg').with('ensure' => 'installed')
         end
       end
 
@@ -210,15 +210,15 @@ describe 'nodejs', type: :class do
       end
 
       # nodejs_dev_package_ensure
-      context 'with nodejs_dev_package_ensure set to present' do
+      context 'with nodejs_dev_package_ensure set to installed' do
         let :params do
           {
-            nodejs_dev_package_ensure: 'present'
+            nodejs_dev_package_ensure: 'installed'
           }
         end
 
         it 'the nodejs development package should be installed' do
-          is_expected.to contain_package(native_debian_devel_package).with('ensure' => 'present')
+          is_expected.to contain_package(native_debian_devel_package).with('ensure' => 'installed')
         end
       end
 
@@ -235,15 +235,15 @@ describe 'nodejs', type: :class do
       end
 
       # nodejs_package_ensure
-      context 'with nodejs_package_ensure set to present' do
+      context 'with nodejs_package_ensure set to installed' do
         let :params do
           {
-            nodejs_package_ensure: 'present'
+            nodejs_package_ensure: 'installed'
           }
         end
 
-        it 'the nodejs package should be present' do
-          is_expected.to contain_package('nodejs').with('ensure' => 'present')
+        it 'the nodejs package should be installed' do
+          is_expected.to contain_package('nodejs').with('ensure' => 'installed')
         end
       end
 
@@ -260,10 +260,10 @@ describe 'nodejs', type: :class do
       end
 
       # npm_package_ensure
-      context 'with npm_package_ensure set to present' do
+      context 'with npm_package_ensure set to installed' do
         let :params do
           {
-            npm_package_ensure: 'present'
+            npm_package_ensure: 'installed'
           }
         end
 
@@ -273,8 +273,8 @@ describe 'nodejs', type: :class do
             is_expected.not_to contain_package('npm')
           end
         else
-          it 'the npm package should be present' do
-            is_expected.to contain_package('npm').with('ensure' => 'present')
+          it 'the npm package should be installed' do
+            is_expected.to contain_package('npm').with('ensure' => 'installed')
           end
         end
       end
@@ -550,15 +550,15 @@ describe 'nodejs', type: :class do
       end
 
       # nodejs_debug_package_ensure
-      context 'with nodejs_debug_package_ensure set to present' do
+      context 'with nodejs_debug_package_ensure set to installed' do
         let :params do
           {
-            nodejs_debug_package_ensure: 'present'
+            nodejs_debug_package_ensure: 'installed'
           }
         end
 
         it 'the nodejs package with debugging symbols should be installed' do
-          is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'present')
+          is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'installed')
         end
       end
 
@@ -575,15 +575,15 @@ describe 'nodejs', type: :class do
       end
 
       # nodejs_dev_package_ensure
-      context 'with nodejs_dev_package_ensure set to present' do
+      context 'with nodejs_dev_package_ensure set to installed' do
         let :params do
           {
-            nodejs_dev_package_ensure: 'present'
+            nodejs_dev_package_ensure: 'installed'
           }
         end
 
         it 'the nodejs development package should be installed' do
-          is_expected.to contain_package('nodejs-devel').with('ensure' => 'present')
+          is_expected.to contain_package('nodejs-devel').with('ensure' => 'installed')
         end
       end
 
@@ -600,15 +600,15 @@ describe 'nodejs', type: :class do
       end
 
       # nodejs_package_ensure
-      context 'with nodejs_package_ensure set to present' do
+      context 'with nodejs_package_ensure set to installed' do
         let :params do
           {
-            nodejs_package_ensure: 'present'
+            nodejs_package_ensure: 'installed'
           }
         end
 
         it 'the nodejs package should be present' do
-          is_expected.to contain_package('nodejs').with('ensure' => 'present')
+          is_expected.to contain_package('nodejs').with('ensure' => 'installed')
         end
       end
 
@@ -625,15 +625,15 @@ describe 'nodejs', type: :class do
       end
 
       # npm_package_ensure
-      context 'with npm_package_ensure set to present' do
+      context 'with npm_package_ensure set to installed' do
         let :params do
           {
-            npm_package_ensure: 'present'
+            npm_package_ensure: 'installed'
           }
         end
 
         it 'the npm package should be present' do
-          is_expected.to contain_package('npm').with('ensure' => 'present')
+          is_expected.to contain_package('npm').with('ensure' => 'installed')
         end
       end
 
@@ -662,15 +662,15 @@ describe 'nodejs', type: :class do
     end
 
     # nodejs_debug_package_ensure
-    context 'with nodejs_debug_package_ensure set to present' do
+    context 'with nodejs_debug_package_ensure set to installed' do
       let :params do
         {
-          nodejs_debug_package_ensure: 'present'
+          nodejs_debug_package_ensure: 'installed'
         }
       end
 
       it 'the nodejs package with debugging symbols should be installed' do
-        is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'present')
+        is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'installed')
       end
     end
 
@@ -687,15 +687,15 @@ describe 'nodejs', type: :class do
     end
 
     # nodejs_dev_package_ensure
-    context 'with nodejs_dev_package_ensure set to present' do
+    context 'with nodejs_dev_package_ensure set to installed' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'present'
+          nodejs_dev_package_ensure: 'installed'
         }
       end
 
       it 'the nodejs development package should be installed' do
-        is_expected.to contain_package('nodejs-devel').with('ensure' => 'present')
+        is_expected.to contain_package('nodejs-devel').with('ensure' => 'installed')
       end
     end
 
@@ -738,15 +738,15 @@ describe 'nodejs', type: :class do
     end
 
     # nodejs_package_ensure
-    context 'with nodejs_package_ensure set to present' do
+    context 'with nodejs_package_ensure set to installed' do
       let :params do
         {
-          nodejs_package_ensure: 'present'
+          nodejs_package_ensure: 'installed'
         }
       end
 
       it 'the nodejs package should be present' do
-        is_expected.to contain_package('nodejs').with('ensure' => 'present')
+        is_expected.to contain_package('nodejs').with('ensure' => 'installed')
       end
     end
 
@@ -763,15 +763,15 @@ describe 'nodejs', type: :class do
     end
 
     # npm_package_ensure
-    context 'with npm_package_ensure set to present' do
+    context 'with npm_package_ensure set to installed' do
       let :params do
         {
-          npm_package_ensure: 'present'
+          npm_package_ensure: 'installed'
         }
       end
 
       it 'the npm package should be present' do
-        is_expected.to contain_package('npm').with('ensure' => 'present')
+        is_expected.to contain_package('npm').with('ensure' => 'installed')
       end
     end
 
@@ -824,15 +824,15 @@ describe 'nodejs', type: :class do
     end
 
     # nodejs_package_ensure
-    context 'with nodejs_package_ensure set to present' do
+    context 'with nodejs_package_ensure set to installed' do
       let :params do
         {
-          nodejs_package_ensure: 'present'
+          nodejs_package_ensure: 'installed'
         }
       end
 
       it 'the nodejs package should be present' do
-        is_expected.to contain_package('nodejs').with('ensure' => 'present')
+        is_expected.to contain_package('nodejs').with('ensure' => 'installed')
       end
     end
 
@@ -886,15 +886,15 @@ describe 'nodejs', type: :class do
     end
 
     # nodejs_dev_package_ensure
-    context 'with nodejs_dev_package_ensure set to present' do
+    context 'with nodejs_dev_package_ensure set to installed' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'present'
+          nodejs_dev_package_ensure: 'installed'
         }
       end
 
       it 'the nodejs development package should be installed' do
-        is_expected.to contain_package('www/node-devel').with('ensure' => 'present')
+        is_expected.to contain_package('www/node-devel').with('ensure' => 'installed')
       end
     end
 
@@ -911,15 +911,15 @@ describe 'nodejs', type: :class do
     end
 
     # nodejs_package_ensure
-    context 'with nodejs_package_ensure set to present' do
+    context 'with nodejs_package_ensure set to installed' do
       let :params do
         {
-          nodejs_package_ensure: 'present'
+          nodejs_package_ensure: 'installed'
         }
       end
 
       it 'the nodejs package should be present' do
-        is_expected.to contain_package('www/node').with('ensure' => 'present')
+        is_expected.to contain_package('www/node').with('ensure' => 'installed')
       end
     end
 
@@ -936,15 +936,15 @@ describe 'nodejs', type: :class do
     end
 
     # npm_package_ensure
-    context 'with npm_package_ensure set to present' do
+    context 'with npm_package_ensure set to installed' do
       let :params do
         {
-          npm_package_ensure: 'present'
+          npm_package_ensure: 'installed'
         }
       end
 
       it 'the npm package should be present' do
-        is_expected.to contain_package('www/npm').with('ensure' => 'present')
+        is_expected.to contain_package('www/npm').with('ensure' => 'installed')
       end
     end
 
@@ -997,15 +997,15 @@ describe 'nodejs', type: :class do
     end
 
     # nodejs_package_ensure
-    context 'with nodejs_package_ensure set to present' do
+    context 'with nodejs_package_ensure set to installed' do
       let :params do
         {
-          nodejs_package_ensure: 'present'
+          nodejs_package_ensure: 'installed'
         }
       end
 
       it 'the nodejs package should be present' do
-        is_expected.to contain_package('node').with('ensure' => 'present')
+        is_expected.to contain_package('node').with('ensure' => 'installed')
       end
     end
 
@@ -1059,15 +1059,15 @@ describe 'nodejs', type: :class do
     end
 
     # nodejs_dev_package_ensure
-    context 'with nodejs_dev_package_ensure set to present' do
+    context 'with nodejs_dev_package_ensure set to installed' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'present'
+          nodejs_dev_package_ensure: 'installed'
         }
       end
 
       it 'the nodejs development package should be installed' do
-        is_expected.to contain_package('nodejs-devel').with('ensure' => 'present')
+        is_expected.to contain_package('nodejs-devel').with('ensure' => 'installed')
       end
     end
 
@@ -1084,15 +1084,15 @@ describe 'nodejs', type: :class do
     end
 
     # nodejs_package_ensure
-    context 'with nodejs_package_ensure set to present' do
+    context 'with nodejs_package_ensure set to installed' do
       let :params do
         {
-          nodejs_package_ensure: 'present'
+          nodejs_package_ensure: 'installed'
         }
       end
 
       it 'the nodejs package should be present' do
-        is_expected.to contain_package('nodejs').with('ensure' => 'present')
+        is_expected.to contain_package('nodejs').with('ensure' => 'installed')
       end
     end
 
@@ -1109,15 +1109,15 @@ describe 'nodejs', type: :class do
     end
 
     # npm_package_ensure
-    context 'with npm_package_ensure set to present' do
+    context 'with npm_package_ensure set to installed' do
       let :params do
         {
-          npm_package_ensure: 'present'
+          npm_package_ensure: 'installed'
         }
       end
 
       it 'the npm package should be present' do
-        is_expected.to contain_package('npm').with('ensure' => 'present')
+        is_expected.to contain_package('npm').with('ensure' => 'installed')
       end
     end
 
@@ -1191,15 +1191,15 @@ describe 'nodejs', type: :class do
     end
 
     # nodejs_package_ensure
-    context 'with nodejs_package_ensure set to present' do
+    context 'with nodejs_package_ensure set to installed' do
       let :params do
         {
-          nodejs_package_ensure: 'present'
+          nodejs_package_ensure: 'installed'
         }
       end
 
       it 'the nodejs package should be present' do
-        is_expected.to contain_package('nodejs').with('ensure' => 'present')
+        is_expected.to contain_package('nodejs').with('ensure' => 'installed')
       end
     end
 
@@ -1216,15 +1216,15 @@ describe 'nodejs', type: :class do
     end
 
     # npm_package_ensure
-    context 'with npm_package_ensure set to present' do
+    context 'with npm_package_ensure set to installed' do
       let :params do
         {
-          npm_package_ensure: 'present'
+          npm_package_ensure: 'installed'
         }
       end
 
       it 'the npm package should be present' do
-        is_expected.to contain_package('npm').with('ensure' => 'present')
+        is_expected.to contain_package('npm').with('ensure' => 'installed')
       end
     end
 
@@ -1277,15 +1277,15 @@ describe 'nodejs', type: :class do
     end
 
     # nodejs_package_ensure
-    context 'with nodejs_package_ensure set to present' do
+    context 'with nodejs_package_ensure set to installed' do
       let :params do
         {
-          nodejs_package_ensure: 'present'
+          nodejs_package_ensure: 'installed'
         }
       end
 
       it 'the nodejs package should be present' do
-        is_expected.to contain_package('net-libs/nodejs').with('ensure' => 'present')
+        is_expected.to contain_package('net-libs/nodejs').with('ensure' => 'installed')
       end
     end
 
@@ -1507,15 +1507,15 @@ describe 'nodejs', type: :class do
     end
 
     # nodejs_debug_package_ensure
-    context 'with nodejs_debug_package_ensure set to present' do
+    context 'with nodejs_debug_package_ensure set to installed' do
       let :params do
         {
-          nodejs_debug_package_ensure: 'present'
+          nodejs_debug_package_ensure: 'installed'
         }
       end
 
       it 'the nodejs package with debugging symbols should be installed' do
-        is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'present')
+        is_expected.to contain_package('nodejs-debuginfo').with('ensure' => 'installed')
       end
     end
 
@@ -1532,15 +1532,15 @@ describe 'nodejs', type: :class do
     end
 
     # nodejs_dev_package_ensure
-    context 'with nodejs_dev_package_ensure set to present' do
+    context 'with nodejs_dev_package_ensure set to installed' do
       let :params do
         {
-          nodejs_dev_package_ensure: 'present'
+          nodejs_dev_package_ensure: 'installed'
         }
       end
 
       it 'the nodejs development package should be installed' do
-        is_expected.to contain_package('nodejs-devel').with('ensure' => 'present')
+        is_expected.to contain_package('nodejs-devel').with('ensure' => 'installed')
       end
     end
 
@@ -1557,15 +1557,15 @@ describe 'nodejs', type: :class do
     end
 
     # nodejs_package_ensure
-    context 'with nodejs_package_ensure set to present' do
+    context 'with nodejs_package_ensure set to installed' do
       let :params do
         {
-          nodejs_package_ensure: 'present'
+          nodejs_package_ensure: 'installed'
         }
       end
 
       it 'the nodejs package should be present' do
-        is_expected.to contain_package('nodejs').with('ensure' => 'present')
+        is_expected.to contain_package('nodejs').with('ensure' => 'installed')
       end
     end
 
@@ -1582,15 +1582,15 @@ describe 'nodejs', type: :class do
     end
 
     # npm_package_ensure
-    context 'with npm_package_ensure set to present' do
+    context 'with npm_package_ensure set to installed' do
       let :params do
         {
-          npm_package_ensure: 'present'
+          npm_package_ensure: 'installed'
         }
       end
 
       it 'the npm package should be present' do
-        is_expected.to contain_package('npm').with('ensure' => 'present')
+        is_expected.to contain_package('npm').with('ensure' => 'installed')
       end
     end
 

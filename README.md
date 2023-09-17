@@ -74,8 +74,8 @@ Install Node.js and npm using the native packages provided by the distribution:
 ```puppet
 class { '::nodejs':
   manage_package_repo       => false,
-  nodejs_dev_package_ensure => 'present',
-  npm_package_ensure        => 'present',
+  nodejs_dev_package_ensure => installed,
+  npm_package_ensure        => installed,
 }
 ```
 
@@ -83,15 +83,15 @@ Install Node.js and npm using the packages from EPEL:
 
 ```puppet
 class { '::nodejs':
-  nodejs_dev_package_ensure => 'present',
-  npm_package_ensure        => 'present',
+  nodejs_dev_package_ensure => installed,
+  npm_package_ensure        => installed,
   repo_class                => '::epel',
 }
 ```
 
 ### Upgrades
 
-The parameter `nodejs_package_ensure` defaults to `present`. Changing the
+The parameter `nodejs_package_ensure` defaults to `installed`. Changing the
 `repo_url_suffix` will not result in a new version being installed. Changing
 the `nodejs_package_ensure` parameter should provide the desired effect.
 
@@ -132,7 +132,7 @@ For example:
 
 ```puppet
 package { 'express':
-  ensure   => 'present',
+  ensure   => installed,
   provider => 'npm',
 }
 
@@ -161,7 +161,7 @@ except version ranges. The title simply must be a unique, arbitrary value.
   the package parameter needs to be match the name of the package in the npm
   registry.
 * Package versions are specified with the ensure parameter, which defaults to
-  `present`.
+  `installed`.
 * Install options and uninstall options are also supported, and need to be
   specified as an array.
 * The user parameter is provided should you wish to run npm install or npm rm
