@@ -33,42 +33,15 @@ class nodejs::params {
       $package_provider          = undef
     }
     'RedHat': {
-      if $facts['os']['release']['major'] =~ /^[789]$/ {
-        $manage_package_repo       = true
-        $nodejs_debug_package_name = 'nodejs-debuginfo'
-        $nodejs_dev_package_name   = 'nodejs-devel'
-        $nodejs_dev_package_ensure = 'absent'
-        $nodejs_package_name       = 'nodejs'
-        $npm_package_ensure        = 'absent'
-        $npm_package_name          = 'npm'
-        $npm_path                  = '/usr/bin/npm'
-        $repo_class                = '::nodejs::repo::nodesource'
-      }
-      elsif $facts['os']['name'] == 'Fedora' {
-        $manage_package_repo       = true
-        $nodejs_debug_package_name = 'nodejs-debuginfo'
-        $nodejs_dev_package_name   = 'nodejs-devel'
-        $nodejs_dev_package_ensure = 'absent'
-        $nodejs_package_name       = 'nodejs'
-        $npm_package_ensure        = 'absent'
-        $npm_package_name          = 'npm'
-        $npm_path                  = '/usr/bin/npm'
-        $repo_class                = '::nodejs::repo::nodesource'
-      }
-      elsif ($facts['os']['name'] == 'Amazon') {
-        $manage_package_repo       = true
-        $nodejs_debug_package_name = 'nodejs-debuginfo'
-        $nodejs_dev_package_name   = 'nodejs-devel'
-        $nodejs_dev_package_ensure = 'absent'
-        $nodejs_package_name       = 'nodejs'
-        $npm_package_ensure        = 'absent'
-        $npm_package_name          = 'npm'
-        $npm_path                  = '/usr/bin/npm'
-        $repo_class                = '::nodejs::repo::nodesource'
-      }
-      else {
-        fail("The ${module_name} module is not supported on ${facts['os']['name']} ${facts['os']['release']['full']}.")
-      }
+      $manage_package_repo       = true
+      $nodejs_debug_package_name = 'nodejs-debuginfo'
+      $nodejs_dev_package_name   = 'nodejs-devel'
+      $nodejs_dev_package_ensure = 'absent'
+      $nodejs_package_name       = 'nodejs'
+      $npm_package_ensure        = 'absent'
+      $npm_package_name          = 'npm'
+      $npm_path                  = '/usr/bin/npm'
+      $repo_class                = 'nodejs::repo::nodesource'
       $package_provider          = undef
     }
     'Suse': {
