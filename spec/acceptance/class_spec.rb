@@ -13,9 +13,9 @@ describe 'nodejs' do
   end
 
   context 'default parameters' do
-    let(:pp) { "class { 'nodejs': }" }
-
-    it_behaves_like 'an idempotent resource'
+    it_behaves_like 'an idempotent resource' do
+      let(:manifest) { "class { 'nodejs': }" }
+    end
 
     if %w[RedHat Debian].include? fact('os.family')
       describe package('nodejs') do
@@ -30,11 +30,17 @@ describe 'nodejs' do
   end
 
   context 'repo_class => epel', if: ((fact('os.family') == 'RedHat') && (fact('os.release.major') != '8')) do
-    let(:pp) { "class { 'nodejs': repo_class => '::epel' }" }
-
     include_examples 'cleanup'
 
-    it_behaves_like 'an idempotent resource'
+    it_behaves_like 'an idempotent resource' do
+      let(:manifest) do
+        <<-PUPPET
+        class { 'nodejs':
+          repo_class => '::epel',
+        }
+        PUPPET
+      end
+    end
 
     describe package('nodejs') do
       it { is_expected.to be_installed }
@@ -47,11 +53,18 @@ describe 'nodejs' do
     end
 
     context 'set global_config_entry secret', if: fact('os.family') == 'RedHat' do
-      let :pp do
-        "class { 'nodejs': }; nodejs::npm::global_config_entry { '//path.to.registry/:_secret': ensure => present, value => 'cGFzc3dvcmQ=', require => Package[nodejs],}"
+      it_behaves_like 'an idempotent resource' do
+        let(:manifest) do
+          <<-PUPPET
+          class { 'nodejs': }
+          nodejs::npm::global_config_entry { '//path.to.registry/:_secret':
+            ensure  => present,
+            value   => 'cGFzc3dvcmQ=',
+            require => Package[nodejs],
+          }
+          PUPPET
+        end
       end
-
-      it_behaves_like 'an idempotent resource'
 
       describe package('nodejs') do
         it { is_expected.to be_installed }
@@ -66,11 +79,18 @@ describe 'nodejs' do
     end
 
     context 'set global_config_entry secret unquoted', if: fact('os.family') == 'RedHat' do
-      let :pp do
-        "class { 'nodejs': }; nodejs::npm::global_config_entry { '//path.to.registry/:_secret': ensure => present, value => 'cGFzc3dvcmQ', require => Package[nodejs],}"
+      it_behaves_like 'an idempotent resource' do
+        let(:manifest) do
+          <<-PUPPET
+          class { 'nodejs': }
+          nodejs::npm::global_config_entry { '//path.to.registry/:_secret':
+            ensure  => present,
+            value   => 'cGFzc3dvcmQ',
+            require => Package[nodejs],
+          }
+          PUPPET
+        end
       end
-
-      it_behaves_like 'an idempotent resource'
 
       describe package('nodejs') do
         it { is_expected.to be_installed }
@@ -86,34 +106,25 @@ describe 'nodejs' do
   end
 
   context 'native Debian packages' do
-    let(:pp) do
-      "
-    class { 'nodejs':
-      manage_package_repo       => false,
-      nodejs_dev_package_ensure => present,
-      npm_package_ensure        => present,
-    }
-    "
-    end
-
     include_examples 'cleanup'
 
-    it_behaves_like 'an idempotent resource'
-
-    expected_packages = []
+    it_behaves_like 'an idempotent resource' do
+      let(:manifest) do
+        <<-PUPPET
+        class { 'nodejs':
+          manage_package_repo       => false,
+          nodejs_dev_package_ensure => present,
+          npm_package_ensure        => present,
+        }
+        PUPPET
+      end
+    end
 
     if fact('os.family') == 'Debian'
-      if %w[9 16.04 18.04].include? fact('os.release.major')
-        expected_packages << 'nodejs-dev'
-
-        expected_packages << 'npm' if %w[16.04 18.04].include? fact('os.release.major')
-      else
-        expected_packages << 'libnode-dev'
-
-        expected_packages << 'npm'
-      end
-
-      expected_packages.each do |pkg|
+      %w[
+        libnode-dev
+        npm
+      ].each do |pkg|
         describe package(pkg) do
           it { is_expected.to be_installed }
         end
