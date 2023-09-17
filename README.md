@@ -7,7 +7,7 @@
 [![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/nodejs.svg)](https://forge.puppetlabs.com/puppet/nodejs)
 [![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/nodejs.svg)](https://forge.puppetlabs.com/puppet/nodejs)
 
-#### Table of Contents
+## Table of Contents
 
 1. [Overview](#overview)
 1. [Setup - The basics of getting started with nodejs](#setup)
@@ -100,9 +100,9 @@ For example:
 ```puppet
 # Upgrade from nodejs 5.x to 6.x
 class { 'nodejs':
-    repo_url_suffix       => '6.x',
-    nodejs_package_ensure => '6.12.2',
-  }
+  repo_url_suffix       => '6.x',
+  nodejs_package_ensure => '6.12.2',
+}
 ```
 
 ### Forcing the installation of NodeSource packages over native packages
