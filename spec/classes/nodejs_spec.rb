@@ -369,11 +369,15 @@ describe 'nodejs', type: :class do
           end
 
           it 'the nodesource and nodesource-source repos should contain the right description and baseurl' do
-            is_expected.to contain_yumrepo('nodesource').with('baseurl' => repo_baseurl,
-                                                              'descr' => repo_descr)
+            is_expected.to contain_yumrepo('nodesource').with(
+              'baseurl' => repo_baseurl,
+              'descr' => repo_descr
+            )
 
-            is_expected.to contain_yumrepo('nodesource-source').with('baseurl' => repo_source_baseurl,
-                                                                     'descr' => repo_source_descr)
+            is_expected.to contain_yumrepo('nodesource-source').with(
+              'baseurl' => repo_source_baseurl,
+              'descr' => repo_source_descr
+            )
           end
         end
 
