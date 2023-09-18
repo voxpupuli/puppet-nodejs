@@ -6,10 +6,10 @@ shared_examples 'cleanup' do
       let(:manifest) do
         <<-PUPPET
         class { 'nodejs':
-          nodejs_debug_package_ensure => absent,
-          nodejs_dev_package_ensure   => absent,
-          nodejs_package_ensure       => absent,
-          npm_package_ensure          => absent,
+          nodejs_debug_package_ensure => purged,
+          nodejs_dev_package_ensure   => purged,
+          nodejs_package_ensure       => purged,
+          npm_package_ensure          => purged,
           repo_ensure                 => absent,
         }
         PUPPET
