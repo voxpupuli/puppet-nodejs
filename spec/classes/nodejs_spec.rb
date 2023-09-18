@@ -11,13 +11,6 @@ describe 'nodejs', type: :class do
         facts
       end
 
-      native_debian_devel_package = if (facts[:os]['name'] == 'Ubuntu' && Gem::Version.new(facts[:os]['release']['major']) >= Gem::Version.new('20.04')) ||
-                                       (facts[:os]['name'] == 'Debian' && Gem::Version.new(facts[:os]['release']['major']) >= Gem::Version.new(10))
-                                      'libnode-dev'
-                                    else
-                                      'nodejs-dev'
-                                    end
-
       it 'the file resource root_npmrc should be in the catalog' do
         is_expected.to contain_file('root_npmrc').with(
           'ensure' => 'file',
@@ -73,7 +66,7 @@ describe 'nodejs', type: :class do
 
           it 'the nodejs and dev package resources should not be present' do
             is_expected.not_to contain_package('nodejs')
-            is_expected.not_to contain_package(native_debian_devel_package)
+            is_expected.not_to contain_package('libnode-dev')
           end
         end
 
@@ -218,7 +211,7 @@ describe 'nodejs', type: :class do
         end
 
         it 'the nodejs development package should be installed' do
-          is_expected.to contain_package(native_debian_devel_package).with('ensure' => 'installed')
+          is_expected.to contain_package('libnode-dev').with('ensure' => 'installed')
         end
       end
 
@@ -230,7 +223,7 @@ describe 'nodejs', type: :class do
         end
 
         it 'the nodejs development package should not be present' do
-          is_expected.to contain_package(native_debian_devel_package).with('ensure' => 'absent')
+          is_expected.to contain_package('libnode-dev').with('ensure' => 'absent')
         end
       end
 
@@ -267,15 +260,8 @@ describe 'nodejs', type: :class do
           }
         end
 
-        # Debian 9 (stretch) doesn't have npm in the standard repositories (it has been backported though).
-        if facts[:os]['family'] == 'Debian' && facts[:os]['release']['major'] == '9'
-          it 'the npm package resource should not be present' do
-            is_expected.not_to contain_package('npm')
-          end
-        else
-          it 'the npm package should be installed' do
-            is_expected.to contain_package('npm').with('ensure' => 'installed')
-          end
+        it 'the npm package should be installed' do
+          is_expected.to contain_package('npm').with('ensure' => 'installed')
         end
       end
 
@@ -286,15 +272,8 @@ describe 'nodejs', type: :class do
           }
         end
 
-        # Debian 9 (stretch) doesn't have npm in the standard repositories (it has been backported though).
-        if facts[:os]['family'] == 'Debian' && facts[:os]['release']['major'] == '9'
-          it 'the npm package resource should not be present' do
-            is_expected.not_to contain_package('npm')
-          end
-        else
-          it 'the npm package should be absent' do
-            is_expected.to contain_package('npm').with('ensure' => 'absent')
-          end
+        it 'the npm package should be absent' do
+          is_expected.to contain_package('npm').with('ensure' => 'absent')
         end
       end
 
