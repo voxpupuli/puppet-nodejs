@@ -33,10 +33,19 @@ describe 'nodejs' do
     include_examples 'cleanup'
 
     it_behaves_like 'an idempotent resource' do
+      # nodejs-devel (from EPEL) is currently not installable alongside nodejs
+      # (from appstream) due to differing versions.
+      nodejs_dev_package_ensure =
+        if fact('os.release.major') == '9'
+          'undef'
+        else
+          'installed'
+        end
+
       let(:manifest) do
         <<-PUPPET
         class { 'nodejs':
-          nodejs_dev_package_ensure => installed,
+          nodejs_dev_package_ensure => #{nodejs_dev_package_ensure},
           npm_package_ensure        => installed,
           repo_class                => 'epel',
         }
@@ -50,7 +59,10 @@ describe 'nodejs' do
       nodejs-devel
     ].each do |pkg|
       describe package(pkg) do
-        it { is_expected.to be_installed }
+        it do
+          pending('nodejs-devel and nodejs not installable together on EL9') if fact('os.release.major') == '9' && pkg == 'nodejs-devel'
+          is_expected.to be_installed
+        end
       end
     end
   end
