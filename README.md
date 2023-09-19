@@ -363,24 +363,7 @@ applied before the local installation of npm packages using `nodejs::npm`.
 
 ## Limitations
 
-This module has received limited testing on:
-
-* CentOS/RHEL 7/8/9
-* Debian 9/10
-* Ubuntu 16.04/18.04/20.04
-
-The following platforms should also work, but have not been tested:
-
-* Amazon Linux
-* Archlinux
-* Darwin
-* Fedora
-* FreeBSD
-* Gentoo
-* OpenBSD
-* OpenSuse/SLES
-* Ubilinux
-* Windows
+See [`metadata.json`](metadata.json) for supported operating systems.
 
 ### Module dependencies
 
@@ -388,7 +371,7 @@ This modules uses `puppetlabs-apt` for the management of the NodeSource
 repository. If using an operating system of the Debian-based family, you will
 need to ensure that `puppetlabs-apt` version 4.4.0 or above is installed.
 
-If using CentOS/RHEL 7 and you wish to install Node.js from EPEL rather
+If using CentOS/RHEL and you wish to install Node.js from EPEL rather
 than from the NodeSource repository, you will need to ensure `puppet-epel` is
 installed and is applied before this module.
 
