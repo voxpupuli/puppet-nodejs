@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'nodejs::npm', type: :define do
@@ -6,7 +8,7 @@ describe 'nodejs::npm', type: :define do
   end
 
   on_supported_os.each do |os, facts|
-    context "on #{os} " do
+    context "on #{os}" do
       let :facts do
         facts
       end
@@ -35,7 +37,7 @@ describe 'nodejs::npm', type: :define do
         it 'the npm install command should run under user foo' do
           is_expected.to contain_exec('npm_install_express').with(
             'command' => "#{npm_path} install express ",
-            'user'    => 'foo'
+            'user' => 'foo'
           )
         end
       end
@@ -380,7 +382,7 @@ describe 'nodejs::npm', type: :define do
         it 'the command should be npm rm express --save' do
           is_expected.to contain_exec('npm_rm_express').with(
             'command' => "#{npm_path} rm express --save",
-            'cwd'     => '/home/npm/packages'
+            'cwd' => '/home/npm/packages'
           )
         end
       end

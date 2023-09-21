@@ -22,7 +22,7 @@ class nodejs::repo::nodesource::yum {
   }
 
   if ($ensure == 'present') {
-    if $facts['os']['release']['major'] == '8' {
+    if versioncmp($facts['os']['release']['major'], '8') >= 0 {
       file { 'dnf_module':
         ensure => file,
         path   => '/etc/dnf/modules.d/nodejs.module',
@@ -79,7 +79,7 @@ class nodejs::repo::nodesource::yum {
       ensure => 'absent',
     }
 
-    if $facts['os']['release']['major'] == '8' {
+    if versioncmp($facts['os']['release']['major'], '8') >= 0 {
       file { 'dnf_module':
         ensure => absent,
         path   => '/etc/dnf/modules.d/nodejs.module',

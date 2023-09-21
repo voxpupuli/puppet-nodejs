@@ -124,7 +124,7 @@ If you have Ruby 2.x or want a specific version of Puppet,
 you must set an environment variable such as:
 
 ```sh
-export PUPPET_VERSION="~> 5.5.6"
+export PUPPET_GEM_VERSION="~> 6.1.0"
 ```
 
 You can install all needed gems for spec tests into the modules directory by
@@ -232,19 +232,21 @@ simple tests against it after applying the module. You can run this
 with:
 
 ```sh
-BEAKER_setfile=debian10-x64 bundle exec rake beaker
+BEAKER_PUPPET_COLLECTION=puppet7 BEAKER_setfile=debian11-64 bundle exec rake beaker
 ```
 
-You can replace the string `debian10` with any common operating system.
+You can replace the string `debian11` with any common operating system.
 The following strings are known to work:
 
-* ubuntu1604
-* ubuntu1804
 * ubuntu2004
-* debian9
-* debian10
+* ubuntu2204
+* debian11
 * centos7
 * centos8
+* centos9
+* almalinux8
+* almalinux9
+* fedora36
 
 For more information and tips & tricks, see [voxpupuli-acceptance's documentation](https://github.com/voxpupuli/voxpupuli-acceptance#running-tests).
 

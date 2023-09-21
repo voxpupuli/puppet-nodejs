@@ -1,23 +1,24 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 
-describe 'nodejs class:' do
+describe 'nodejs' do
   case fact('os.family')
   when 'RedHat'
     pkg_cmd = 'yum info nodejs | grep "^From repo"'
-    install_module_from_forge('puppet-epel', '>= 3.0.0 < 4.0.0')
   when 'Debian'
     pkg_cmd = 'dpkg -s nodejs | grep "^Maintainer"'
-    install_module_from_forge('puppetlabs-apt', '>= 4.4.0 < 9.0.0')
   end
 
   context 'default parameters' do
-    let(:pp) { "class { 'nodejs': }" }
-
-    it_behaves_like 'an idempotent resource'
+    it_behaves_like 'an idempotent resource' do
+      let(:manifest) { "class { 'nodejs': }" }
+    end
 
     if %w[RedHat Debian].include? fact('os.family')
       describe package('nodejs') do
         it { is_expected.to be_installed }
+
         it 'comes from the expected source' do
           pkg_output = shell(pkg_cmd)
           expect(pkg_output.stdout).to match 'nodesource'
@@ -26,107 +27,113 @@ describe 'nodejs class:' do
     end
   end
 
-  context 'repo_class => epel', if: ((fact('os.family') == 'RedHat') && (fact('os.release.major') != '8')) do
-    let(:pp) { "class { 'nodejs': repo_class => '::epel' }" }
+  context 'RedHat with repo_class => epel', if: fact('os.family') == 'RedHat' do
+    include_examples 'cleanup'
 
-    it_behaves_like 'an idempotent resource'
-
-    describe package('nodejs') do
-      it { is_expected.to be_installed }
-      it 'comes from the expected source' do
-        pending("This won't work until we have CentOS 7.4 because of dependency")
-        pkg_output = shell(pkg_cmd)
-        expect(pkg_output.stdout).to match 'epel'
-      end
-    end
-
-    context 'set global_config_entry secret', if: fact('os.family') == 'RedHat' do
-      let :pp do
-        "class { 'nodejs': }; nodejs::npm::global_config_entry { '//path.to.registry/:_secret': ensure => present, value => 'cGFzc3dvcmQ=', require => Package[nodejs],}"
-      end
-
-      it_behaves_like 'an idempotent resource'
-
-      describe package('nodejs') do
-        it { is_expected.to be_installed }
-      end
-
-      describe 'npm config' do
-        it 'contains the global_config_entry secret' do
-          npm_output = shell('cat $(/usr/bin/npm config get globalconfig)')
-          expect(npm_output.stdout).to match '//path.to.registry/:_secret="cGFzc3dvcmQ="'
+    it_behaves_like 'an idempotent resource' do
+      # nodejs-devel (from EPEL) is currently not installable alongside nodejs
+      # (from appstream) due to differing versions.
+      nodejs_dev_package_ensure =
+        if fact('os.release.major') == '9'
+          'undef'
+        else
+          'installed'
         end
+
+      let(:manifest) do
+        <<-PUPPET
+        class { 'nodejs':
+          nodejs_dev_package_ensure => #{nodejs_dev_package_ensure},
+          npm_package_ensure        => installed,
+          repo_class                => 'epel',
+        }
+        PUPPET
       end
     end
 
-    context 'set global_config_entry secret unquoted', if: fact('os.family') == 'RedHat' do
-      let :pp do
-        "class { 'nodejs': }; nodejs::npm::global_config_entry { '//path.to.registry/:_secret': ensure => present, value => 'cGFzc3dvcmQ', require => Package[nodejs],}"
-      end
-
-      it_behaves_like 'an idempotent resource'
-
-      describe package('nodejs') do
-        it { is_expected.to be_installed }
-      end
-
-      describe 'npm config' do
-        it 'contains the global_config_entry secret' do
-          npm_output = shell('cat $(/usr/bin/npm config get globalconfig)')
-          expect(npm_output.stdout).to match '//path.to.registry/:_secret=cGFzc3dvcmQ'
+    %w[
+      npm
+      nodejs
+      nodejs-devel
+    ].each do |pkg|
+      describe package(pkg) do
+        it do
+          pending('nodejs-devel and nodejs not installable together on EL9') if fact('os.release.major') == '9' && pkg == 'nodejs-devel'
+          is_expected.to be_installed
         end
       end
     end
   end
-end
 
-# Must uninstall the default nodesource repo and packages which come from there before attempting
-# to install native packages.
-context 'uninstall' do
-  let(:pp) do
-    "
-    class { 'nodejs':
-      nodejs_debug_package_ensure => absent,
-      nodejs_dev_package_ensure   => absent,
-      nodejs_package_ensure       => absent,
-      npm_package_ensure          => absent,
-      repo_ensure                 => absent,
-    }
-    "
+  context 'Debian distribution packages', if: fact('os.family') == 'Debian' do
+    include_examples 'cleanup'
+
+    it_behaves_like 'an idempotent resource' do
+      let(:manifest) do
+        <<-PUPPET
+        class { 'nodejs':
+          manage_package_repo       => false,
+          nodejs_dev_package_ensure => installed,
+          npm_package_ensure        => installed,
+        }
+        PUPPET
+      end
+    end
+
+    %w[
+      libnode-dev
+      npm
+    ].each do |pkg|
+      describe package(pkg) do
+        it { is_expected.to be_installed }
+      end
+    end
   end
 
-  it_behaves_like 'an idempotent resource'
-end
+  context 'set global_config_entry secret' do
+    include_examples 'cleanup'
 
-context 'native Debian packages' do
-  let(:pp) do
-    "
-    class { 'nodejs':
-      manage_package_repo       => false,
-      nodejs_dev_package_ensure => present,
-      npm_package_ensure        => present,
-    }
-    "
+    it_behaves_like 'an idempotent resource' do
+      let(:manifest) do
+        <<-PUPPET
+        class { 'nodejs': }
+        nodejs::npm::global_config_entry { '//path.to.registry/:_secret':
+          ensure  => present,
+          value   => 'cGFzc3dvcmQ=',
+          require => Package[nodejs],
+        }
+        PUPPET
+      end
+    end
+
+    describe 'npm config' do
+      it 'contains the global_config_entry secret' do
+        npm_output = shell('cat $(/usr/bin/npm config get globalconfig)')
+        expect(npm_output.stdout).to match '//path.to.registry/:_secret="cGFzc3dvcmQ="'
+      end
+    end
   end
 
-  it_behaves_like 'an idempotent resource'
+  context 'set global_config_entry secret unquoted' do
+    include_examples 'cleanup'
 
-  if fact('os.family') == 'Debian'
-    if %w[9 16.04 18.04].include? fact('os.release.major')
-      describe package('nodejs-dev') do
-        it { is_expected.to be_installed }
+    it_behaves_like 'an idempotent resource' do
+      let(:manifest) do
+        <<-PUPPET
+        class { 'nodejs': }
+        nodejs::npm::global_config_entry { '//path.to.registry/:_secret':
+          ensure  => present,
+          value   => 'cGFzc3dvcmQ',
+          require => Package[nodejs],
+        }
+        PUPPET
       end
-      if %w[16.04 18.04].include? fact('os.release.major')
-        describe package('npm') do
-          it { is_expected.to be_installed }
-        end
-      end
-    else
-      describe package('libnode-dev') do
-        it { is_expected.to be_installed }
-      end
-      describe package('npm') do
-        it { is_expected.to be_installed }
+    end
+
+    describe 'npm config' do
+      it 'contains the global_config_entry secret' do
+        npm_output = shell('cat $(/usr/bin/npm config get globalconfig)')
+        expect(npm_output.stdout).to match '//path.to.registry/:_secret=cGFzc3dvcmQ'
       end
     end
   end
