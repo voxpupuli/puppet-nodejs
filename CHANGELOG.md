@@ -4,13 +4,29 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v9.1.0](https://github.com/voxpupuli/puppet-nodejs/tree/v9.1.0) (2022-01-18)
+## [v10.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v10.0.0) (2023-09-25)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v9.1.0...v10.0.0)
+
+**Breaking changes:**
+
+- Drop support for Debian 9, Ubuntu 16.04 and 18.04, FreeBSD 11, add support for Puppet 8, add support for RHEL 9 [\#453](https://github.com/voxpupuli/puppet-nodejs/pull/453) ([bastelfreak](https://github.com/bastelfreak))
+
+## [v9.1.0](https://github.com/voxpupuli/puppet-nodejs/tree/v9.1.0) (2023-09-16)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v9.0.1...v9.1.0)
+
+**Breaking changes:**
+
+- Drop Puppet 6 support [\#467](https://github.com/voxpupuli/puppet-nodejs/pull/467) ([bastelfreak](https://github.com/bastelfreak))
 
 **Implemented enhancements:**
 
 - Add support for Debian 11, FreeBSD 13 [\#448](https://github.com/voxpupuli/puppet-nodejs/pull/448) ([smortex](https://github.com/smortex))
+
+**Fixed bugs:**
+
+- Disable failovermethod in yumrepo on EL8 [\#456](https://github.com/voxpupuli/puppet-nodejs/pull/456) ([sircubbi](https://github.com/sircubbi))
 
 ## [v9.0.1](https://github.com/voxpupuli/puppet-nodejs/tree/v9.0.1) (2021-08-25)
 
@@ -567,7 +583,7 @@ Last release with Debian 8 support! After this 8.1.0 release we will do a 9.0.0 
 - FM-1523: Added module summary to metadata.json [\#95](https://github.com/voxpupuli/puppet-nodejs/pull/95) ([jbondpdx](https://github.com/jbondpdx))
 - Add Archlinux support [\#90](https://github.com/voxpupuli/puppet-nodejs/pull/90) ([Filirom1](https://github.com/Filirom1))
 - updated travis to current versions of puppet [\#79](https://github.com/voxpupuli/puppet-nodejs/pull/79) ([jlambert121](https://github.com/jlambert121))
-- fix requires for proxy config when on ubuntu \#51 [\#70](https://github.com/voxpupuli/puppet-nodejs/pull/70) ([wenlock](https://github.com/wenlock))
+- fix requires for proxy config when on ubuntu \#51 [\#70](https://github.com/voxpupuli/puppet-nodejs/pull/70) ([sfc-gh-eraigosa](https://github.com/sfc-gh-eraigosa))
 
 ## [0.6.1](https://github.com/voxpupuli/puppet-nodejs/tree/0.6.1) (2014-07-15)
 
@@ -615,7 +631,7 @@ Last release with Debian 8 support! After this 8.1.0 release we will do a 9.0.0 
 
 **Merged pull requests:**
 
-- Remove special cases for Precise [\#41](https://github.com/voxpupuli/puppet-nodejs/pull/41) ([lunaryorn](https://github.com/lunaryorn))
+- Remove special cases for Precise [\#41](https://github.com/voxpupuli/puppet-nodejs/pull/41) ([swsnr](https://github.com/swsnr))
 - Add version parameter [\#28](https://github.com/voxpupuli/puppet-nodejs/pull/28) ([bfirsh](https://github.com/bfirsh))
 
 ## [0.3.0](https://github.com/voxpupuli/puppet-nodejs/tree/0.3.0) (2013-08-01)
