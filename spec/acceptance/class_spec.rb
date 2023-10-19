@@ -97,7 +97,7 @@ describe 'nodejs' do
       let(:manifest) do
         <<-PUPPET
         class { 'nodejs': }
-        nodejs::npm::global_config_entry { '//path.to.registry/:_secret':
+        nodejs::npm::global_config_entry { '//path.to.registry/:_authToken':
           ensure  => present,
           value   => 'cGFzc3dvcmQ=',
           require => Package[nodejs],
@@ -109,7 +109,7 @@ describe 'nodejs' do
     describe 'npm config' do
       it 'contains the global_config_entry secret' do
         npm_output = shell('cat $(/usr/bin/npm config get globalconfig)')
-        expect(npm_output.stdout).to match '//path.to.registry/:_secret="cGFzc3dvcmQ="'
+        expect(npm_output.stdout).to match '//path.to.registry/:_authToken="cGFzc3dvcmQ="'
       end
     end
   end
@@ -121,7 +121,7 @@ describe 'nodejs' do
       let(:manifest) do
         <<-PUPPET
         class { 'nodejs': }
-        nodejs::npm::global_config_entry { '//path.to.registry/:_secret':
+        nodejs::npm::global_config_entry { '//path.to.registry/:_authToken':
           ensure  => present,
           value   => 'cGFzc3dvcmQ',
           require => Package[nodejs],
@@ -133,7 +133,7 @@ describe 'nodejs' do
     describe 'npm config' do
       it 'contains the global_config_entry secret' do
         npm_output = shell('cat $(/usr/bin/npm config get globalconfig)')
-        expect(npm_output.stdout).to match '//path.to.registry/:_secret=cGFzc3dvcmQ'
+        expect(npm_output.stdout).to match '//path.to.registry/:_authToken=cGFzc3dvcmQ'
       end
     end
   end
