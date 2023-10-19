@@ -50,14 +50,14 @@ To install Node.js and npm (using the NodeSource repository if possible):
 class { 'nodejs': }
 ```
 
-The default version installed is currently `12.x`.
+The default version installed is currently `18.x`.
 
-If you wish to install a Node.js 13.x release from the NodeSource repository
-rather than 12.x on Debian/RHEL platforms:
+If you wish to install a Node.js 21.x release from the NodeSource repository
+rather than 18.x on Debian/RHEL platforms:
 
 ```puppet
 class { 'nodejs':
-  repo_url_suffix => '13.x',
+  repo_url_suffix => '21.x',
 }
 ```
 
