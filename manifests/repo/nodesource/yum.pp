@@ -31,34 +31,40 @@ class nodejs::repo::nodesource::yum {
         owner  => 'root',
         source => "puppet:///modules/${module_name}/repo/dnf/nodejs.module",
       }
+
+      $module_hotfixes = true
+    } else {
+      $module_hotfixes = undef
     }
 
     yumrepo { 'nodesource':
-      descr          => $descr,
-      baseurl        => $baseurl,
-      enabled        => '1',
-      failovermethod => $yum_failovermethod,
-      gpgkey         => 'file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL',
-      gpgcheck       => '1',
-      priority       => $priority,
-      proxy          => $proxy,
-      proxy_password => $proxy_password,
-      proxy_username => $proxy_username,
-      require        => File['/etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL'],
+      descr           => $descr,
+      baseurl         => $baseurl,
+      enabled         => '1',
+      failovermethod  => $yum_failovermethod,
+      gpgkey          => 'file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL',
+      gpgcheck        => '1',
+      module_hotfixes => $module_hotfixes,
+      priority        => $priority,
+      proxy           => $proxy,
+      proxy_password  => $proxy_password,
+      proxy_username  => $proxy_username,
+      require         => File['/etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL'],
     }
 
     yumrepo { 'nodesource-source':
-      descr          => $source_descr,
-      baseurl        => $source_baseurl,
-      enabled        => $yum_source_enabled,
-      failovermethod => $yum_failovermethod,
-      gpgkey         => 'file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL',
-      gpgcheck       => '1',
-      priority       => $priority,
-      proxy          => $proxy,
-      proxy_password => $proxy_password,
-      proxy_username => $proxy_username,
-      require        => File['/etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL'],
+      descr           => $source_descr,
+      baseurl         => $source_baseurl,
+      enabled         => $yum_source_enabled,
+      failovermethod  => $yum_failovermethod,
+      gpgkey          => 'file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL',
+      gpgcheck        => '1',
+      module_hotfixes => $module_hotfixes,
+      priority        => $priority,
+      proxy           => $proxy,
+      proxy_password  => $proxy_password,
+      proxy_username  => $proxy_username,
+      require         => File['/etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL'],
     }
 
     file { '/etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL':
