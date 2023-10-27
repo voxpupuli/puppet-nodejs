@@ -1303,8 +1303,8 @@ describe 'nodejs', type: :class do
       }
     end
 
-    repo_baseurl        = 'https://rpm.nodesource.com/pub_18.x/el/7/$basearch'
-    repo_source_baseurl = 'https://rpm.nodesource.com/pub_18.x/el/7/SRPMS'
+    repo_baseurl        = 'https://rpm.nodesource.com/pub_20.x/el/7/$basearch'
+    repo_source_baseurl = 'https://rpm.nodesource.com/pub_20.x/el/7/SRPMS'
     repo_descr          = 'Node.js Packages for Enterprise Linux 7 - $basearch'
     repo_source_descr   = 'Node.js for Enterprise Linux 7 - $basearch - Source'
 

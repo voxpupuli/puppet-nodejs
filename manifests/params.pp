@@ -13,7 +13,7 @@ class nodejs::params {
   $repo_release                = undef
   $repo_url_suffix             = ($facts['os']['family'] == 'RedHat' and $facts['os']['release']['major'] == '7') ? {
     true    => '16.x',
-    default => '18.x',
+    default => '20.x',
   }
   $use_flags                   = ['npm', 'snapshot']
 
