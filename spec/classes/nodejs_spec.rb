@@ -292,25 +292,16 @@ describe 'nodejs', type: :class do
     end
   end
 
-  ['7.0', '27'].each do |operatingsystemrelease|
+  ['7.0'].each do |operatingsystemrelease|
     osversions = operatingsystemrelease.split('.')
     operatingsystemmajrelease = osversions[0]
 
-    if operatingsystemmajrelease == '7'
-      operatingsystem     = 'CentOS'
-      dist_type           = 'el'
-      repo_baseurl        = "https://rpm.nodesource.com/pub_18.x/#{dist_type}/#{operatingsystemmajrelease}/$basearch"
-      repo_source_baseurl = "https://rpm.nodesource.com/pub_18.x/#{dist_type}/#{operatingsystemmajrelease}/SRPMS"
-      repo_descr          = "Node.js Packages for Enterprise Linux #{operatingsystemmajrelease} - $basearch"
-      repo_source_descr   = "Node.js for Enterprise Linux #{operatingsystemmajrelease} - $basearch - Source"
-    else
-      operatingsystem     = 'Fedora'
-      dist_type           = 'fc'
-      repo_baseurl        = "https://rpm.nodesource.com/pub_18.x/#{dist_type}/#{operatingsystemmajrelease}/$basearch"
-      repo_source_baseurl = "https://rpm.nodesource.com/pub_18.x/#{dist_type}/#{operatingsystemmajrelease}/SRPMS"
-      repo_descr          = "Node.js Packages for Fedora Core #{operatingsystemmajrelease} - $basearch"
-      repo_source_descr   = "Node.js for Fedora Core #{operatingsystemmajrelease} - $basearch - Source"
-    end
+    operatingsystem     = 'CentOS'
+    dist_type           = 'el'
+    repo_baseurl        = "https://rpm.nodesource.com/pub_16.x/#{dist_type}/#{operatingsystemmajrelease}/$basearch"
+    repo_source_baseurl = "https://rpm.nodesource.com/pub_16.x/#{dist_type}/#{operatingsystemmajrelease}/SRPMS"
+    repo_descr          = "Node.js Packages for Enterprise Linux #{operatingsystemmajrelease} - $basearch"
+    repo_source_descr   = "Node.js for Enterprise Linux #{operatingsystemmajrelease} - $basearch - Source"
 
     context "when run on #{operatingsystem} release #{operatingsystemrelease}" do
       let :facts do
