@@ -66,6 +66,8 @@ describe 'nodejs' do
   end
 
   context 'Debian distribution packages', if: fact('os.family') == 'Debian' do
+    before(:context) { purge_node }
+
     include_examples 'cleanup'
 
     it_behaves_like 'an idempotent resource' do
@@ -91,6 +93,8 @@ describe 'nodejs' do
   end
 
   context 'set global_config_entry secret' do
+    before(:context) { purge_node }
+
     include_examples 'cleanup'
 
     it_behaves_like 'an idempotent resource' do
@@ -115,6 +119,8 @@ describe 'nodejs' do
   end
 
   context 'set global_config_entry secret unquoted' do
+    before(:context) { purge_node }
+
     include_examples 'cleanup'
 
     it_behaves_like 'an idempotent resource' do
