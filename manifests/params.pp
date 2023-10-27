@@ -38,7 +38,7 @@ class nodejs::params {
       $nodejs_dev_package_name   = 'nodejs-devel'
       $nodejs_dev_package_ensure = 'absent'
       $nodejs_package_name       = 'nodejs'
-      $npm_package_ensure        = 'absent'
+      $npm_package_ensure        = 'present'
       $npm_package_name          = 'npm'
       $npm_path                  = '/usr/bin/npm'
       $repo_class                = 'nodejs::repo::nodesource'
