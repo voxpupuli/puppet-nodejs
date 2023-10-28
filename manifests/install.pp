@@ -45,9 +45,17 @@ class nodejs::install {
 
   # npm
   if $nodejs::npm_package_name and $nodejs::npm_package_name != false {
+    # the nodesource nodejs packages provide "npm" which makes Puppet
+    # try to uninstall them again
+    if $nodejs::npm_package_ensure == absent and $nodejs::manage_package_repo == true and $nodejs::repo_class == 'nodejs::repo::nodesource' {
+      $allow_virtual = false
+    } else {
+      $allow_virtual = undef
+    }
     package { $nodejs::npm_package_name:
-      ensure => $nodejs::npm_package_ensure,
-      tag    => 'nodesource_repo',
+      ensure        => $nodejs::npm_package_ensure,
+      allow_virtual => $allow_virtual,
+      tag           => 'nodesource_repo',
     }
   }
 
