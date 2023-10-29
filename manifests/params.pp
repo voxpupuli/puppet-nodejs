@@ -11,9 +11,9 @@ class nodejs::params {
   $repo_proxy_password         = 'absent'
   $repo_proxy_username         = 'absent'
   $repo_release                = undef
-  $repo_url_suffix             = ($facts['os']['family'] == 'RedHat' and $facts['os']['release']['major'] == '7') ? {
-    true    => '16.x',
-    default => '20.x',
+  $repo_version                = ($facts['os']['family'] == 'RedHat' and $facts['os']['release']['major'] == '7') ? {
+    true    => '16',
+    default => '20',
   }
   $use_flags                   = ['npm', 'snapshot']
 

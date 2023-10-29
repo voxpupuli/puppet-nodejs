@@ -57,11 +57,11 @@ rather than 20.x on Debian/RHEL platforms:
 
 ```puppet
 class { 'nodejs':
-  repo_url_suffix => '21.x',
+  repo_version => '21',
 }
 ```
 
-See the `repo_url_suffix` parameter entry below for possible values.
+See the `repo_version` parameter entry below for possible values.
 
 ## Usage
 
@@ -91,7 +91,7 @@ class { '::nodejs':
 ### Upgrades
 
 The parameter `nodejs_package_ensure` defaults to `installed`. Changing the
-`repo_url_suffix` will not result in a new version being installed. Changing
+`repo_version` will not result in a new version being installed. Changing
 the `nodejs_package_ensure` parameter should provide the desired effect.
 
 For example:
@@ -99,7 +99,7 @@ For example:
 ```puppet
 # Upgrade from nodejs 5.x to 6.x
 class { 'nodejs':
-  repo_url_suffix       => '6.x',
+  repo_version          => '6',
   nodejs_package_ensure => '6.12.2',
 }
 ```

@@ -8,7 +8,8 @@ class nodejs::repo::nodesource {
   $proxy_password = $nodejs::repo_proxy_password
   $proxy_username = $nodejs::repo_proxy_username
   $release        = $nodejs::repo_release
-  $url_suffix     = $nodejs::repo_url_suffix
+
+  $url_suffix     = "${nodejs::repo_version}.x"
 
   case $facts['os']['family'] {
     'RedHat': {
