@@ -134,9 +134,9 @@ describe 'nodejs', type: :class do
           end
         end
 
-        context 'and repo_url_suffix set to 9.x' do
+        context 'and repo_version set to 9' do
           let :params do
-            default_params.merge!(repo_url_suffix: '9.x')
+            default_params.merge!(repo_version: '9')
           end
 
           it 'the repo apt::source resource should contain location = https://deb.nodesource.com/node_9.x' do
@@ -372,9 +372,9 @@ describe 'nodejs', type: :class do
           end
         end
 
-        context 'and repo_url_suffix set to 5.x' do
+        context 'and repo_version set to 5' do
           let :params do
-            default_params.merge!(repo_url_suffix: '5.x')
+            default_params.merge!(repo_version: '5')
           end
 
           it "the yum nodesource repo resource should contain baseurl = https://rpm.nodesource.com/pub_5.x/#{dist_type}/#{operatingsystemmajrelease}/$basearch" do
