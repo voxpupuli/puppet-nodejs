@@ -10,6 +10,8 @@ describe 'nodejs' do
     pkg_cmd = 'dpkg -s nodejs | grep "^Maintainer"'
   end
 
+  nodejs_version = ENV.fetch('BEAKER_FACTER_nodejs_version', '20')
+
   context 'default parameters' do
     it_behaves_like 'an idempotent resource' do
       let(:manifest) { "class { 'nodejs': }" }
@@ -24,6 +26,45 @@ describe 'nodejs' do
           expect(pkg_output.stdout).to match 'nodesource'
         end
       end
+    end
+  end
+
+  context "explicitly using version #{nodejs_version} from nodesource", if: %w[RedHat Debian].include?(fact('os.family')), skip: (nodejs_version != '16' && fact('os.family') == 'RedHat' && fact('os.release.major') == '7' ? 'Only NodeJS 16 is supported on EL7' : nil) do
+    # Only nodejs 16 is supported on EL7 by nodesource
+
+    include_examples 'cleanup'
+
+    # Debian 12 contains NodeJS 18, when we test 16, we need to force the nodesource version
+    repo_pin =
+      if nodejs_version == '16' && fact('os.family') == 'Debian' && fact('os.release.major') == '12'
+        '1000'
+      else
+        'undef'
+      end
+
+    it_behaves_like 'an idempotent resource' do
+      let(:manifest) do
+        <<-PUPPET
+        class { 'nodejs':
+          repo_version => '#{nodejs_version}',
+          repo_pin => #{repo_pin},
+        }
+        PUPPET
+      end
+    end
+
+    describe package('nodejs') do
+      it { is_expected.to be_installed }
+
+      it 'comes from the expected source' do
+        pkg_output = shell(pkg_cmd)
+        expect(pkg_output.stdout).to match 'nodesource'
+      end
+    end
+
+    describe command('node --version') do
+      its(:exit_status) { is_expected.to eq 0 }
+      its(:stdout) { is_expected.to match(%r{^v#{nodejs_version}}) }
     end
   end
 
@@ -65,12 +106,11 @@ describe 'nodejs' do
     end
   end
 
-  context 'RedHat with repo_class => nodejs::repo::dnfmodule', if: fact('os.family') == 'RedHat' && %w[8 9].include?(fact('os.release.major')) do
-    include_examples 'cleanup'
-
+  context 'RedHat with repo_class => nodejs::repo::dnfmodule', if: fact('os.family') == 'RedHat' && %w[8 9].include?(fact('os.release.major')), skip: ((nodejs_version == '20' && fact('os.name') != 'CentOS') || (nodejs_version == '16' && fact('os.release.major') == '9') ? 'NodeJS 20 is not yet in a released EL, NodeJS 16 is not available on EL9' : nil) do
     # Node 20 is only available in Stream yet, not in a released EL
-    # So we're testing 18 here
-    nodejs_version = '18'
+    # Node 16 is not available on EL9
+
+    include_examples 'cleanup'
 
     it_behaves_like 'an idempotent resource' do
       let(:manifest) do
