@@ -65,6 +65,49 @@ describe 'nodejs' do
     end
   end
 
+  context 'RedHat with repo_class => nodejs::repo::dnfmodule', if: fact('os.family') == 'RedHat' && %w[8 9].include?(fact('os.release.major')) do
+    include_examples 'cleanup'
+
+    # Node 20 is only available in Stream yet, not in a released EL
+    # So we're testing 18 here
+    nodejs_version = '18'
+
+    it_behaves_like 'an idempotent resource' do
+      let(:manifest) do
+        <<-PUPPET
+        class { 'nodejs':
+          nodejs_dev_package_ensure => installed,
+          npm_package_ensure        => installed,
+          repo_class                => 'nodejs::repo::dnfmodule',
+          repo_version              => '#{nodejs_version}',
+        }
+        PUPPET
+      end
+    end
+
+    %w[
+      npm
+      nodejs
+      nodejs-devel
+    ].each do |pkg|
+      describe package(pkg) do
+        it do
+          is_expected.to be_installed
+        end
+
+        it 'comes from the expected source' do
+          pkg_output = shell(pkg_cmd)
+          expect(pkg_output.stdout).to match 'appstream'
+        end
+      end
+    end
+
+    describe command('node --version') do
+      its(:exit_status) { is_expected.to eq 0 }
+      its(:stdout) { is_expected.to match(%r{^v#{nodejs_version}}) }
+    end
+  end
+
   context 'Debian distribution packages', if: fact('os.family') == 'Debian' do
     before(:context) { purge_node }
 
