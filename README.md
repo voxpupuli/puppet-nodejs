@@ -71,7 +71,7 @@ package also needs to be installed as it is a dependency for npm.
 Install Node.js and npm using the native packages provided by the distribution:
 
 ```puppet
-class { '::nodejs':
+class { 'nodejs':
   manage_package_repo       => false,
   nodejs_dev_package_ensure => installed,
   npm_package_ensure        => installed,
@@ -81,7 +81,7 @@ class { '::nodejs':
 Install Node.js and npm using the packages from EPEL:
 
 ```puppet
-class { '::nodejs':
+class { 'nodejs':
   nodejs_dev_package_ensure => installed,
   npm_package_ensure        => installed,
   repo_class                => 'epel',
