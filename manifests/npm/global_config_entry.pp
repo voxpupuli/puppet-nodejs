@@ -17,13 +17,13 @@ define nodejs::npm::global_config_entry (
       if $config_setting =~ /(_|:_)/ {
         $onlyif_command = $facts['os']['family'] ? {
           'Windows' => "${cmd_exe_path} /C FOR /F %G IN ('${npm_path} config get globalconfig') DO IF EXIST %G (FINDSTR /B /C:\"${$config_setting}\" %G) ELSE (EXIT 1)",
-          default   => "test -f $(${npm_path} config get globalconfig) && grep -qe \"^${$config_setting}\" $(${npm_path} config get globalconfig)",
+          default   => "test -f \"$(${npm_path} config get globalconfig)\" && grep -qe '^${$config_setting}' \"$(${npm_path} config get globalconfig)\"",
         }
       }
       else {
         $onlyif_command = $facts['os']['family'] ? {
           'Windows' => "${cmd_exe_path} /C ${npm_path} get --global| FINDSTR /B \"${config_setting}\"",
-          default   => "${npm_path} get --global | grep -e \"^${config_setting}\"",
+          default   => "${npm_path} get --global | grep -e '^${config_setting}'",
         }
       }
     }
@@ -35,13 +35,13 @@ define nodejs::npm::global_config_entry (
       if $config_setting =~ /(_|:_)/ {
         $onlyif_command = $facts['os']['family'] ? {
           'Windows' => "${cmd_exe_path} /V /C FOR /F %G IN ('${npm_path} config get globalconfig') DO IF EXIST %G (FINDSTR /B /C:\"${$config_setting}=\\\"${$value}\\\"\" %G & IF !ERRORLEVEL! EQU 0 ( EXIT 1 ) ELSE ( EXIT 0 )) ELSE ( EXIT 0 )",
-          default   => "! test -f $(${npm_path} config get globalconfig) || ! grep -qe '^${$config_setting}=\"\\?${$value}\"\\?$' $(${npm_path} config get globalconfig)",
+          default   => "! test -f \"$(${npm_path} config get globalconfig)\" || ! grep -qe '^${$config_setting}=\"\\?${$value}\"\\?$' \"$(${npm_path} config get globalconfig)\"",
         }
       }
       else {
         $onlyif_command = $facts['os']['family'] ? {
           'Windows' => "${cmd_exe_path} /C FOR /F %i IN ('${npm_path} get ${config_setting} --global') DO IF \"%i\" NEQ \"${value}\" ( EXIT 0 ) ELSE ( EXIT 1 )",
-          default   => "test \"$(${npm_path} get ${config_setting} --global | tr -d '\n')\" != \"${value}\"",
+          default   => "test \"$(${npm_path} get ${config_setting} --global | tr -d '\n')\" != '${value}'",
         }
       }
     }
