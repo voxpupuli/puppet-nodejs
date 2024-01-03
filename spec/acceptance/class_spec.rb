@@ -2,6 +2,12 @@
 
 require 'spec_helper_acceptance'
 
+def nodesource_unsupported(nodejs_version)
+  return unless fact('os.family') == 'RedHat'
+  return 'Only NodeJS 16 is supported on EL7' if nodejs_version != '16' && fact('os.release.major') == '7'
+  return 'NodeJS 16 is not supported on EL9' if nodejs_version == '16' && fact('os.release.major') == '9'
+end
+
 describe 'nodejs' do
   case fact('os.family')
   when 'RedHat'
@@ -29,7 +35,7 @@ describe 'nodejs' do
     end
   end
 
-  context "explicitly using version #{nodejs_version} from nodesource", if: %w[RedHat Debian].include?(fact('os.family')), skip: (nodejs_version != '16' && fact('os.family') == 'RedHat' && fact('os.release.major') == '7' ? 'Only NodeJS 16 is supported on EL7' : nil) do
+  context "explicitly using version #{nodejs_version} from nodesource", if: %w[RedHat Debian].include?(fact('os.family')), skip: nodesource_unsupported(nodejs_version) do
     # Only nodejs 16 is supported on EL7 by nodesource
 
     include_examples 'cleanup'
