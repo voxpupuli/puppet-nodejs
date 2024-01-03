@@ -34,9 +34,10 @@ describe 'nodejs' do
 
     include_examples 'cleanup'
 
-    # Debian 12 contains NodeJS 18, when we test 16, we need to force the nodesource version
+    # Debian 12 contains NodeJS 18, when we test 16 and 18, we need to force the nodesource version
+    # as Debians versions *can* be newer
     repo_pin =
-      if nodejs_version == '16' && fact('os.family') == 'Debian' && fact('os.release.major') == '12'
+      if %w[16 18].include?(nodejs_version) && fact('os.family') == 'Debian' && fact('os.release.major') == '12'
         '1000'
       else
         'undef'
