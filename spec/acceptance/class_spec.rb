@@ -107,8 +107,7 @@ describe 'nodejs' do
     end
   end
 
-  context 'RedHat with repo_class => nodejs::repo::dnfmodule', if: fact('os.family') == 'RedHat' && %w[8 9].include?(fact('os.release.major')), skip: ((nodejs_version == '20' && fact('os.name') != 'CentOS') || (nodejs_version == '16' && fact('os.release.major') == '9') ? 'NodeJS 20 is not yet in a released EL, NodeJS 16 is not available on EL9' : nil) do
-    # Node 20 is only available in Stream yet, not in a released EL
+  context 'RedHat with repo_class => nodejs::repo::dnfmodule', if: fact('os.family') == 'RedHat' && %w[8 9].include?(fact('os.release.major')), skip: (nodejs_version == '16' && fact('os.release.major') == '9' ? 'NodeJS 16 is not available on EL9' : nil) do
     # Node 16 is not available on EL9
 
     include_examples 'cleanup'
