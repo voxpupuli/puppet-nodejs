@@ -1,25 +1,20 @@
 # PRIVATE CLASS: Do not use directly.
 class nodejs::repo::nodesource::apt {
-  $enable_src = $nodejs::repo::nodesource::enable_src
   $ensure     = $nodejs::repo::nodesource::ensure
   $pin        = $nodejs::repo::nodesource::pin
-  $release    = $nodejs::repo::nodesource::release
   $url_suffix = $nodejs::repo::nodesource::url_suffix
 
   include apt
 
   if ($ensure != 'absent') {
     apt::source { 'nodesource':
-      include  => {
-        'src' => $enable_src,
-      },
       key      => {
-        'id'     => '9FD3B784BC1C6FC31A8A0A1C1655A0AB68576280',
-        'source' => 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key',
+        'id'     => '6F71F525282841EEDAF851B42F59B5F99B1BE0B4',
+        'source' => 'https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key',
       },
       location => "https://deb.nodesource.com/node_${url_suffix}",
       pin      => $pin,
-      release  => $release,
+      release  => 'nodistro',
       repos    => 'main',
     }
 

@@ -84,26 +84,6 @@ describe 'nodejs', type: :class do
           end
         end
 
-        context 'and repo_enable_src set to true' do
-          let :params do
-            default_params.merge!(repo_enable_src: true)
-          end
-
-          it 'the repo apt::source resource should contain include => { src => true}' do
-            is_expected.to contain_apt__source('nodesource').with('include' => { 'src' => true })
-          end
-        end
-
-        context 'and repo_enable_src set to false' do
-          let :params do
-            default_params.merge!(repo_enable_src: false)
-          end
-
-          it 'the repo apt::source resource should contain include => { src => false}' do
-            is_expected.to contain_apt__source('nodesource').with('include' => { 'src' => false })
-          end
-        end
-
         context 'and repo_pin set to 10' do
           let :params do
             default_params.merge!(repo_pin: '10')
@@ -111,16 +91,6 @@ describe 'nodejs', type: :class do
 
           it 'the repo apt::source resource should contain pin = 10' do
             is_expected.to contain_apt__source('nodesource').with('pin' => '10')
-          end
-        end
-
-        context 'and repo_release set to stretch' do
-          let :params do
-            default_params.merge!(repo_release: 'stretch')
-          end
-
-          it 'the repo apt::source resource should contain release = stretch' do
-            is_expected.to contain_apt__source('nodesource').with('release' => 'stretch')
           end
         end
 
@@ -297,11 +267,8 @@ describe 'nodejs', type: :class do
     operatingsystemmajrelease = osversions[0]
 
     operatingsystem     = 'CentOS'
-    dist_type           = 'el'
-    repo_baseurl        = "https://rpm.nodesource.com/pub_16.x/#{dist_type}/#{operatingsystemmajrelease}/$basearch"
-    repo_source_baseurl = "https://rpm.nodesource.com/pub_16.x/#{dist_type}/#{operatingsystemmajrelease}/SRPMS"
-    repo_descr          = "Node.js Packages for Enterprise Linux #{operatingsystemmajrelease} - $basearch"
-    repo_source_descr   = "Node.js for Enterprise Linux #{operatingsystemmajrelease} - $basearch - Source"
+    repo_baseurl        = 'https://rpm.nodesource.com/pub_16.x/nodistro/nodejs/$basearch'
+    repo_descr          = 'Node.js Packages - $basearch'
 
     context "when run on #{operatingsystem} release #{operatingsystemrelease}" do
       let :facts do
@@ -359,66 +326,21 @@ describe 'nodejs', type: :class do
             is_expected.to contain_class('nodejs::repo::nodesource::yum')
           end
 
-          it 'the nodesource and nodesource-source repos should contain the right description and baseurl' do
+          it 'the nodesource repo should contain the right description and baseurl' do
             is_expected.to contain_yumrepo('nodesource').with(
               'baseurl' => repo_baseurl,
               'descr' => repo_descr
             )
-
-            is_expected.to contain_yumrepo('nodesource-source').with(
-              'baseurl' => repo_source_baseurl,
-              'descr' => repo_source_descr
-            )
           end
         end
 
-        context 'and repo_version set to 5' do
+        context 'and repo_version set to 21' do
           let :params do
-            default_params.merge!(repo_version: '5')
+            default_params.merge!(repo_version: '21')
           end
 
-          it "the yum nodesource repo resource should contain baseurl = https://rpm.nodesource.com/pub_5.x/#{dist_type}/#{operatingsystemmajrelease}/$basearch" do
-            is_expected.to contain_yumrepo('nodesource').with('baseurl' => "https://rpm.nodesource.com/pub_5.x/#{dist_type}/#{operatingsystemmajrelease}/$basearch")
-          end
-        end
-
-        context 'and repo_enable_src set to true' do
-          let :params do
-            default_params.merge!(repo_enable_src: true)
-          end
-
-          it 'the yumrepo resource nodesource-source should contain enabled = 1' do
-            is_expected.to contain_yumrepo('nodesource-source').with('enabled' => '1')
-          end
-        end
-
-        context 'and repo_enable_src set to false' do
-          let :params do
-            default_params.merge!(repo_enable_src: false)
-          end
-
-          it 'the yumrepo resource should contain enabled = 0' do
-            is_expected.to contain_yumrepo('nodesource-source').with('enabled' => '0')
-          end
-        end
-
-        context 'and repo_priority set to 50' do
-          let :params do
-            default_params.merge!(repo_priority: '50')
-          end
-
-          it 'the yumrepo resource nodesource-source should contain priority = 50' do
-            is_expected.to contain_yumrepo('nodesource-source').with('priority' => '50')
-          end
-        end
-
-        context 'and repo_priority not set' do
-          let :params do
-            default_params.merge!(repo_priority: 'absent')
-          end
-
-          it 'the yumrepo resource nodesource-source should contain priority = absent' do
-            is_expected.to contain_yumrepo('nodesource-source').with('priority' => 'absent')
+          it 'the yum nodesource repo resource should contain baseurl = https://rpm.nodesource.com/pub_21.x/nodistro/nodejs/$basearch' do
+            is_expected.to contain_yumrepo('nodesource').with('baseurl' => 'https://rpm.nodesource.com/pub_21.x/nodistro/nodejs/$basearch')
           end
         end
 
@@ -429,7 +351,6 @@ describe 'nodejs', type: :class do
 
           it 'the nodesource yum repo files should exist' do
             is_expected.to contain_yumrepo('nodesource')
-            is_expected.to contain_yumrepo('nodesource-source')
           end
         end
 
@@ -440,7 +361,6 @@ describe 'nodejs', type: :class do
 
           it 'the nodesource yum repo files should not exist' do
             is_expected.to contain_yumrepo('nodesource').with('ensure' => 'absent')
-            is_expected.to contain_yumrepo('nodesource-source').with('ensure' => 'absent')
           end
         end
 
@@ -451,7 +371,6 @@ describe 'nodejs', type: :class do
 
           it 'the yumrepo resource should contain proxy = absent' do
             is_expected.to contain_yumrepo('nodesource').with('proxy' => 'absent')
-            is_expected.to contain_yumrepo('nodesource-source').with('proxy' => 'absent')
           end
         end
 
@@ -462,7 +381,6 @@ describe 'nodejs', type: :class do
 
           it 'the yumrepo resource should contain proxy = http://proxy.localdomain.com' do
             is_expected.to contain_yumrepo('nodesource').with('proxy' => 'http://proxy.localdomain.com')
-            is_expected.to contain_yumrepo('nodesource-source').with('proxy' => 'http://proxy.localdomain.com')
           end
         end
 
@@ -473,7 +391,6 @@ describe 'nodejs', type: :class do
 
           it 'the yumrepo resource should contain proxy_password = absent' do
             is_expected.to contain_yumrepo('nodesource').with('proxy_password' => 'absent')
-            is_expected.to contain_yumrepo('nodesource-source').with('proxy_password' => 'absent')
           end
         end
 
@@ -484,7 +401,6 @@ describe 'nodejs', type: :class do
 
           it 'the yumrepo resource should contain proxy_password = password' do
             is_expected.to contain_yumrepo('nodesource').with('proxy_password' => 'password')
-            is_expected.to contain_yumrepo('nodesource-source').with('proxy_password' => 'password')
           end
         end
 
@@ -495,7 +411,6 @@ describe 'nodejs', type: :class do
 
           it 'the yumrepo resource should contain proxy_username = absent' do
             is_expected.to contain_yumrepo('nodesource').with('proxy_username' => 'absent')
-            is_expected.to contain_yumrepo('nodesource-source').with('proxy_username' => 'absent')
           end
         end
 
@@ -506,7 +421,6 @@ describe 'nodejs', type: :class do
 
           it 'the yumrepo resource should contain proxy_username = proxyuser' do
             is_expected.to contain_yumrepo('nodesource').with('proxy_username' => 'proxyuser')
-            is_expected.to contain_yumrepo('nodesource-source').with('proxy_username' => 'proxyuser')
           end
         end
       end
@@ -1303,10 +1217,8 @@ describe 'nodejs', type: :class do
       }
     end
 
-    repo_baseurl        = 'https://rpm.nodesource.com/pub_20.x/el/7/$basearch'
-    repo_source_baseurl = 'https://rpm.nodesource.com/pub_20.x/el/7/SRPMS'
-    repo_descr          = 'Node.js Packages for Enterprise Linux 7 - $basearch'
-    repo_source_descr   = 'Node.js for Enterprise Linux 7 - $basearch - Source'
+    repo_baseurl        = 'https://rpm.nodesource.com/pub_20.x/nodistro/nodejs/$basearch'
+    repo_descr          = 'Node.js Packages - $basearch'
 
     # manage_package_repo
     context 'with manage_package_repo set to true' do
@@ -1350,32 +1262,9 @@ describe 'nodejs', type: :class do
           is_expected.to contain_class('nodejs::repo::nodesource::yum')
         end
 
-        it 'the nodesource and nodesource-source repos should contain the right description and baseurl' do
+        it 'the nodesource repo should contain the right description and baseurl' do
           is_expected.to contain_yumrepo('nodesource').with('baseurl' => repo_baseurl,
                                                             'descr' => repo_descr)
-
-          is_expected.to contain_yumrepo('nodesource-source').with('baseurl' => repo_source_baseurl,
-                                                                   'descr' => repo_source_descr)
-        end
-      end
-
-      context 'and repo_enable_src set to true' do
-        let :params do
-          default_params.merge!(repo_enable_src: true)
-        end
-
-        it 'the yumrepo resource nodesource-source should contain enabled = 1' do
-          is_expected.to contain_yumrepo('nodesource-source').with('enabled' => '1')
-        end
-      end
-
-      context 'and repo_enable_src set to false' do
-        let :params do
-          default_params.merge!(repo_enable_src: false)
-        end
-
-        it 'the yumrepo resource should contain enabled = 0' do
-          is_expected.to contain_yumrepo('nodesource-source').with('enabled' => '0')
         end
       end
 
@@ -1386,7 +1275,6 @@ describe 'nodejs', type: :class do
 
         it 'the nodesource yum repo files should exist' do
           is_expected.to contain_yumrepo('nodesource')
-          is_expected.to contain_yumrepo('nodesource-source')
         end
       end
 
@@ -1397,7 +1285,6 @@ describe 'nodejs', type: :class do
 
         it 'the nodesource yum repo files should not exist' do
           is_expected.to contain_yumrepo('nodesource').with('ensure' => 'absent')
-          is_expected.to contain_yumrepo('nodesource-source').with('ensure' => 'absent')
         end
       end
 
@@ -1408,7 +1295,6 @@ describe 'nodejs', type: :class do
 
         it 'the yumrepo resource should contain proxy = absent' do
           is_expected.to contain_yumrepo('nodesource').with('proxy' => 'absent')
-          is_expected.to contain_yumrepo('nodesource-source').with('proxy' => 'absent')
         end
       end
 
@@ -1419,7 +1305,6 @@ describe 'nodejs', type: :class do
 
         it 'the yumrepo resource should contain proxy = http://proxy.localdomain.com' do
           is_expected.to contain_yumrepo('nodesource').with('proxy' => 'http://proxy.localdomain.com')
-          is_expected.to contain_yumrepo('nodesource-source').with('proxy' => 'http://proxy.localdomain.com')
         end
       end
 
@@ -1430,7 +1315,6 @@ describe 'nodejs', type: :class do
 
         it 'the yumrepo resource should contain proxy_password = absent' do
           is_expected.to contain_yumrepo('nodesource').with('proxy_password' => 'absent')
-          is_expected.to contain_yumrepo('nodesource-source').with('proxy_password' => 'absent')
         end
       end
 
@@ -1441,7 +1325,6 @@ describe 'nodejs', type: :class do
 
         it 'the yumrepo resource should contain proxy_password = password' do
           is_expected.to contain_yumrepo('nodesource').with('proxy_password' => 'password')
-          is_expected.to contain_yumrepo('nodesource-source').with('proxy_password' => 'password')
         end
       end
 
@@ -1452,7 +1335,6 @@ describe 'nodejs', type: :class do
 
         it 'the yumrepo resource should contain proxy_username = absent' do
           is_expected.to contain_yumrepo('nodesource').with('proxy_username' => 'absent')
-          is_expected.to contain_yumrepo('nodesource-source').with('proxy_username' => 'absent')
         end
       end
 
@@ -1463,7 +1345,6 @@ describe 'nodejs', type: :class do
 
         it 'the yumrepo resource should contain proxy_username = proxyuser' do
           is_expected.to contain_yumrepo('nodesource').with('proxy_username' => 'proxyuser')
-          is_expected.to contain_yumrepo('nodesource-source').with('proxy_username' => 'proxyuser')
         end
       end
     end

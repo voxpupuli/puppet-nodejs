@@ -3,14 +3,12 @@ class nodejs::params {
   $npmrc_config                = undef
   $nodejs_debug_package_ensure = 'absent'
   $nodejs_package_ensure       = 'installed'
-  $repo_enable_src             = false
   $repo_ensure                 = 'present'
   $repo_pin                    = undef
   $repo_priority               = 'absent'
   $repo_proxy                  = 'absent'
   $repo_proxy_password         = 'absent'
   $repo_proxy_username         = 'absent'
-  $repo_release                = undef
   $repo_version                = ($facts['os']['family'] == 'RedHat' and $facts['os']['release']['major'] == '7') ? {
     true    => '16',
     default => '20',
