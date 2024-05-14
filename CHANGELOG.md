@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v11.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v11.0.0) (2024-05-14)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v10.0.0...v11.0.0)
+
+**Breaking changes:**
+
+- replace repo\_url\_suffix with repo\_version [\#487](https://github.com/voxpupuli/puppet-nodejs/pull/487) ([evgeni](https://github.com/evgeni))
+- switch to using the nodistro nodesource repos, removing source support, dropping support for NodeJS16 on EL9 [\#485](https://github.com/voxpupuli/puppet-nodejs/pull/485) ([evgeni](https://github.com/evgeni))
+- Drop support for Debian 10, it's EOL [\#484](https://github.com/voxpupuli/puppet-nodejs/pull/484) ([evgeni](https://github.com/evgeni))
+- Update default release to 20.x [\#482](https://github.com/voxpupuli/puppet-nodejs/pull/482) ([evgeni](https://github.com/evgeni))
+- Update default release to 18.x, EL7 to 16.x [\#481](https://github.com/voxpupuli/puppet-nodejs/pull/481) ([evgeni](https://github.com/evgeni))
+
+**Implemented enhancements:**
+
+- Remove legacy top-scope syntax in README [\#491](https://github.com/voxpupuli/puppet-nodejs/pull/491) ([smortex](https://github.com/smortex))
+- test different NodeJS versions using beaker\_facter [\#490](https://github.com/voxpupuli/puppet-nodejs/pull/490) ([evgeni](https://github.com/evgeni))
+- Add Rocky and AlmaLinux support [\#489](https://github.com/voxpupuli/puppet-nodejs/pull/489) ([evgeni](https://github.com/evgeni))
+- add dnfmodule repo implementation [\#488](https://github.com/voxpupuli/puppet-nodejs/pull/488) ([evgeni](https://github.com/evgeni))
+- only ensure real npm packages [\#486](https://github.com/voxpupuli/puppet-nodejs/pull/486) ([evgeni](https://github.com/evgeni))
+- Add support for Ubuntu 22.04 [\#483](https://github.com/voxpupuli/puppet-nodejs/pull/483) ([evgeni](https://github.com/evgeni))
+- Add support for Debian 12 [\#480](https://github.com/voxpupuli/puppet-nodejs/pull/480) ([evgeni](https://github.com/evgeni))
+
 ## [v10.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v10.0.0) (2023-09-25)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v9.1.0...v10.0.0)
