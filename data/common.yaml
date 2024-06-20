@@ -1,0 +1,7 @@
+---
+nodejs::global_config_entries: {}
+
+lookup_options:
+  nodejs::global_config_entries:
+    merge:
+      strategy: deep
