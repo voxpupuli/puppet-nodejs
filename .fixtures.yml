@@ -1,9 +1,8 @@
+---
 fixtures:
   repositories:
-    "stdlib": "https://github.com/puppetlabs/puppetlabs-stdlib.git"
-    "apt": "https://github.com/puppetlabs/puppetlabs-apt.git"
-    "portage": "https://github.com/gentoo/puppet-portage.git"
-    "chocolatey": "https://github.com/puppetlabs/puppetlabs-chocolatey.git"
-    yumrepo_core:
-      repo: https://github.com/puppetlabs/puppetlabs-yumrepo_core.git
-      puppet_version: ">= 6.0.0"
+    apt: https://github.com/puppetlabs/puppetlabs-apt.git
+    chocolatey: https://github.com/puppetlabs/puppetlabs-chocolatey.git
+    portage: https://github.com/gentoo/puppet-portage.git
+    stdlib: https://github.com/puppetlabs/puppetlabs-stdlib.git
+    yumrepo_core: https://github.com/puppetlabs/puppetlabs-yumrepo_core.git
