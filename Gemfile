@@ -4,6 +4,7 @@
 source ENV['GEM_SOURCE'] || 'https://rubygems.org'
 
 group :test do
+  gem 'mocha',                      :require => false
   gem 'voxpupuli-test', '~> 11.0',  :require => false
   gem 'puppet_metadata', '~> 5.0',  :require => false
 end
