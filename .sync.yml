@@ -6,3 +6,7 @@ spec/spec_helper_acceptance.rb:
 .github/workflows/ci.yml:
   with:
     beaker_facter: 'nodejs_version:NodeJS:16,18,20'
+Gemfile:
+  optional:
+    ':test':
+      - gem: 'mocha'
