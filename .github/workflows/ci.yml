@@ -24,4 +24,4 @@ jobs:
     name: Puppet
     uses: voxpupuli/gha-puppet/.github/workflows/beaker.yml@v3
     with:
-      beaker_facter: 'nodejs_version:NodeJS:16,18,20'
+      beaker_facter: 'nodejs_version:NodeJS:16,18,20,22'
