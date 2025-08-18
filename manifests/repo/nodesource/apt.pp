@@ -9,7 +9,7 @@ class nodejs::repo::nodesource::apt {
   if ($ensure != 'absent') {
     apt::source { 'nodesource':
       key      => {
-        'id'     => '6F71F525282841EEDAF851B42F59B5F99B1BE0B4',
+        'name'   => 'nodesource-repo.gpg.key.asc',
         'source' => 'https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key',
       },
       location => "https://deb.nodesource.com/node_${url_suffix}",
