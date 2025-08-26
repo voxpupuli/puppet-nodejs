@@ -1,12 +1,6 @@
 ---
-spec/spec_helper.rb:
-  mock_with: ':mocha'
 spec/spec_helper_acceptance.rb:
   unmanaged: true
 .github/workflows/ci.yml:
   with:
     beaker_facter: 'nodejs_version:NodeJS:16,18,20,22'
-Gemfile:
-  optional:
-    ':test':
-      - gem: 'mocha'
