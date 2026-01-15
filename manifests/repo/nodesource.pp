@@ -1,7 +1,6 @@
 # PRIVATE CLASS: Do not use directly
 class nodejs::repo::nodesource {
   $ensure         = $nodejs::repo_ensure
-  $pin            = $nodejs::repo_pin
   $priority       = $nodejs::repo_priority
   $proxy          = $nodejs::repo_proxy
   $proxy_password = $nodejs::repo_proxy_password

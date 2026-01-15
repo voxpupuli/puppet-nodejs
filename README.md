@@ -107,7 +107,7 @@ class { 'nodejs':
 ### Forcing the installation of NodeSource packages over native packages
 
 When the native package version and NodeSource version are the same, you may
-need to use `repo_pin` or `repo_priority` (depending on your operating system).
+need to use `repo_priority` (depending on your operating system).
 This ensures that the version in the NodeSource repository takes precedence
 when Puppet invokes Apt/Yum.
 

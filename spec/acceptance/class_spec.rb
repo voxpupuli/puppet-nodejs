@@ -42,11 +42,11 @@ describe 'nodejs' do
 
     # Debian 12 contains NodeJS 18, when we test 16 and 18, we need to force the nodesource version
     # as Debians versions *can* be newer
-    repo_pin =
+    repo_priority =
       if %w[16 18].include?(nodejs_version) && fact('os.family') == 'Debian' && %w[12 13].include?(fact('os.release.major'))
         '1000'
       else
-        'undef'
+        '1'
       end
 
     it_behaves_like 'an idempotent resource' do
@@ -54,7 +54,7 @@ describe 'nodejs' do
         <<-PUPPET
         class { 'nodejs':
           repo_version => '#{nodejs_version}',
-          repo_pin => #{repo_pin},
+          repo_priority => #{repo_priority},
         }
         PUPPET
       end

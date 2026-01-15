@@ -16,7 +16,6 @@ class nodejs (
   Optional[Hash] $npmrc_config                         = $nodejs::params::npmrc_config,
   $repo_class                                          = $nodejs::params::repo_class,
   $repo_ensure                                         = $nodejs::params::repo_ensure,
-  $repo_pin                                            = $nodejs::params::repo_pin,
   $repo_priority                                       = $nodejs::params::repo_priority,
   $repo_proxy                                          = $nodejs::params::repo_proxy,
   $repo_proxy_password                                 = $nodejs::params::repo_proxy_password,
