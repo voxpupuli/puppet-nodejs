@@ -1,7 +1,7 @@
 # PRIVATE CLASS: Do not use directly.
 class nodejs::repo::nodesource::apt {
   $ensure     = $nodejs::repo::nodesource::ensure
-  $pin        = $nodejs::repo::nodesource::pin
+  $priority        = $nodejs::repo::nodesource::priority
   $url_suffix = $nodejs::repo::nodesource::url_suffix
 
   include apt
@@ -25,7 +25,7 @@ class nodejs::repo::nodesource::apt {
 
     apt::pin { 'nodesource':
       origin   => 'deb.nodesource.com',
-      priority => $pin,
+      priority => $priority,
     }
 
     Apt::Source['nodesource'] -> Package<| tag == 'nodesource_repo' |>

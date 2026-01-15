@@ -5,7 +5,7 @@ class nodejs::params {
   $nodejs_package_ensure       = 'installed'
   $repo_ensure                 = 'present'
   $repo_pin                    = undef
-  $repo_priority               = 'absent'
+  $repo_priority               = '0'
   $repo_proxy                  = 'absent'
   $repo_proxy_password         = 'absent'
   $repo_proxy_username         = 'absent'
