@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v12.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v12.0.0) (2026-01-15)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v11.0.0...v12.0.0)
+
+**Breaking changes:**
+
+- Drop puppet, update openvox minimum version to 8.19 [\#510](https://github.com/voxpupuli/puppet-nodejs/pull/510) ([TheMeier](https://github.com/TheMeier))
+
+**Implemented enhancements:**
+
+- Add support for FreeBSD 15 [\#520](https://github.com/voxpupuli/puppet-nodejs/pull/520) ([smortex](https://github.com/smortex))
+- Declare support for Debian 13 [\#513](https://github.com/voxpupuli/puppet-nodejs/pull/513) ([kenyon](https://github.com/kenyon))
+- \(Implicitly\) use `apt::keyring` instead of `apt::key` for APT source [\#512](https://github.com/voxpupuli/puppet-nodejs/pull/512) ([sid3windr](https://github.com/sid3windr))
+- Add NodeJS 22 to test matrix [\#509](https://github.com/voxpupuli/puppet-nodejs/pull/509) ([evgeni](https://github.com/evgeni))
+- metadata.json: Add OpenVox [\#506](https://github.com/voxpupuli/puppet-nodejs/pull/506) ([jstraw](https://github.com/jstraw))
+- Add support for FreeBSD 14 [\#503](https://github.com/voxpupuli/puppet-nodejs/pull/503) ([smortex](https://github.com/smortex))
+
 ## [v11.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v11.0.0) (2024-05-14)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v10.0.0...v11.0.0)
@@ -321,10 +338,6 @@ Last release with Debian 8 support! After this 8.1.0 release we will do a 9.0.0 
 - NPM Proxy [\#290](https://github.com/voxpupuli/puppet-nodejs/issues/290)
 - npmrc can take k,v [\#292](https://github.com/voxpupuli/puppet-nodejs/pull/292) ([Poil](https://github.com/Poil))
 
-**Fixed bugs:**
-
-- Set explicit params for debian jessie [\#274](https://github.com/voxpupuli/puppet-nodejs/pull/274) ([ghost](https://github.com/ghost))
-
 **Closed issues:**
 
 - CentOS 6 3.8 is broken [\#289](https://github.com/voxpupuli/puppet-nodejs/issues/289)
@@ -377,7 +390,6 @@ Last release with Debian 8 support! After this 8.1.0 release we will do a 9.0.0 
 **Merged pull requests:**
 
 - \[FIX\] Nodesource 6.x nodejs package replaces nodejs-dev & npm packages [\#261](https://github.com/voxpupuli/puppet-nodejs/pull/261) ([mxcoder](https://github.com/mxcoder))
-- provider: add support for install\_options [\#260](https://github.com/voxpupuli/puppet-nodejs/pull/260) ([ghost](https://github.com/ghost))
 - Add missing badges [\#256](https://github.com/voxpupuli/puppet-nodejs/pull/256) ([dhoppe](https://github.com/dhoppe))
 - Metric/BlockLength -\> Metrics/BlockLength [\#255](https://github.com/voxpupuli/puppet-nodejs/pull/255) ([bastelfreak](https://github.com/bastelfreak))
 - Actually remove gpg\_key dependency. [\#253](https://github.com/voxpupuli/puppet-nodejs/pull/253) ([MG2R](https://github.com/MG2R))
@@ -490,7 +502,6 @@ Last release with Debian 8 support! After this 8.1.0 release we will do a 9.0.0 
 - Fix notes about repo\_url\_suffix usage in README [\#181](https://github.com/voxpupuli/puppet-nodejs/pull/181) ([tsde](https://github.com/tsde))
 - Add note oninstalling node 5.x [\#180](https://github.com/voxpupuli/puppet-nodejs/pull/180) ([tarjei](https://github.com/tarjei))
 - Bump minimum Puppet version to 3.7.0 [\#178](https://github.com/voxpupuli/puppet-nodejs/pull/178) ([juniorsysadmin](https://github.com/juniorsysadmin))
-- Update the puppet version requirement since tests and implementations… [\#177](https://github.com/voxpupuli/puppet-nodejs/pull/177) ([ghost](https://github.com/ghost))
 - Fix repo\_url\_suffix regex validation [\#176](https://github.com/voxpupuli/puppet-nodejs/pull/176) ([tsde](https://github.com/tsde))
 - Fixed typographical error, changed arbitary to arbitrary in README. [\#170](https://github.com/voxpupuli/puppet-nodejs/pull/170) ([orthographic-pedant](https://github.com/orthographic-pedant))
 - Remove soft dependency on treydock/gpg\_key [\#152](https://github.com/voxpupuli/puppet-nodejs/pull/152) ([juniorsysadmin](https://github.com/juniorsysadmin))
