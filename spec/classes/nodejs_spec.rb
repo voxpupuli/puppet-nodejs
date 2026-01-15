@@ -110,7 +110,7 @@ describe 'nodejs', type: :class do
           end
 
           it 'the repo apt::source resource should contain location = https://deb.nodesource.com/node_9.x' do
-            is_expected.to contain_apt__source('nodesource').with('location' => 'https://deb.nodesource.com/node_9.x')
+            is_expected.to contain_apt__source('nodesource').with('location' => ['https://deb.nodesource.com/node_9.x'])
           end
         end
 
