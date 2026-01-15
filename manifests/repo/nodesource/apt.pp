@@ -7,7 +7,6 @@ class nodejs::repo::nodesource::apt {
   include apt
 
   if ($ensure != 'absent') {
-
     apt::keyring { 'nodesource':
       source   => 'https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key',
       dir      => '/usr/share/keyrings',
