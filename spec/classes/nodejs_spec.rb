@@ -89,8 +89,8 @@ describe 'nodejs', type: :class do
             default_params.merge!(repo_priority: '10')
           end
 
-          it 'the repo apt::source resource should contain priority = 10' do
-            is_expected.to contain_apt__source('nodesource').with('priority' => '10')
+          it 'the repo apt::pin resource should contain priority = 10' do
+            is_expected.to contain_apt__pin('nodesource').with('priority' => '10')
           end
         end
 
