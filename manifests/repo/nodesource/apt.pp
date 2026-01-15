@@ -24,8 +24,8 @@ class nodejs::repo::nodesource::apt {
     }
 
     apt::pin { 'nodesource':
-      origin => 'deb.nodesource.com',
-      pin    => $pin,
+      origin   => 'deb.nodesource.com',
+      priority => $pin,
     }
 
     Apt::Source['nodesource'] -> Package<| tag == 'nodesource_repo' |>
