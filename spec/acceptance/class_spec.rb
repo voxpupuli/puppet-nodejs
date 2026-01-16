@@ -189,19 +189,21 @@ describe 'nodejs' do
   end
 
   context 'set global_config_entry secret' do
-    it_behaves_like 'an idempotent resource' do
-      let(:manifest) do
-        <<-PUPPET
-        class { 'nodejs':
-          npm_package_ensure => installed,
-        }
-        nodejs::npm::global_config_entry { '//path.to.registry/:_authToken':
-          ensure  => present,
-          value   => 'cGFzc3dvcmQ=',
-          require => Package[nodejs],
-        }
-        PUPPET
-      end
+    before(:context) { purge_node }
+
+    include_examples 'cleanup'
+
+    let(:manifest) do
+      <<-PUPPET
+      class { 'nodejs':
+        npm_package_ensure => installed,
+      }
+      nodejs::npm::global_config_entry { '//path.to.registry/:_authToken':
+        ensure  => present,
+        value   => 'cGFzc3dvcmQ=',
+        require => Package[nodejs],
+      }
+      PUPPET
     end
 
     describe 'npm config' do
@@ -213,19 +215,21 @@ describe 'nodejs' do
   end
 
   context 'set global_config_entry secret unquoted' do
-    it_behaves_like 'an idempotent resource' do
-      let(:manifest) do
-        <<-PUPPET
-        class { 'nodejs':
-          npm_package_ensure => installed,
-        }
-        nodejs::npm::global_config_entry { '//path.to.registry/:_authToken':
-          ensure  => present,
-          value   => 'cGFzc3dvcmQ',
-          require => Package[nodejs],
-        }
-        PUPPET
-      end
+    before(:context) { purge_node }
+
+    include_examples 'cleanup'
+
+    let(:manifest) do
+      <<-PUPPET
+      class { 'nodejs':
+        npm_package_ensure => installed,
+      }
+      nodejs::npm::global_config_entry { '//path.to.registry/:_authToken':
+        ensure  => present,
+        value   => 'cGFzc3dvcmQ',
+        require => Package[nodejs],
+      }
+      PUPPET
     end
 
     describe 'npm config' do
