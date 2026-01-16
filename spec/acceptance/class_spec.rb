@@ -43,7 +43,14 @@ describe 'nodejs' do
     # Debian 12 contains NodeJS 18, when we test 16 and 18, we need to force the nodesource version
     # as Debians versions *can* be newer
     repo_priority =
-      if %w[16 18].include?(nodejs_version) && fact('os.family') == 'Debian' && %w[12 13].include?(fact('os.release.major'))
+      if %w[16 18].include?(nodejs_version) && fact('os.family') == 'Debian' && %w[12].include?(fact('os.release.major'))
+        '1000'
+      else
+        '1'
+      end
+    # Debian 13 contains NodeJS 20, when we test 16 and 18, we need to force the nodesource version
+    # as Debians versions *can* be newer
+      if %w[16 18 20].include?(nodejs_version) && fact('os.family') == 'Debian' && %w[13].include?(fact('os.release.major'))
         '1000'
       else
         '1'
