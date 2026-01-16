@@ -189,15 +189,13 @@ describe 'nodejs' do
   end
 
   context 'set global_config_entry secret' do
-    before(:context) { purge_node }
-
     include_examples 'cleanup'
 
     it_behaves_like 'an idempotent resource' do
       let(:manifest) do
         <<-PUPPET
         class { 'nodejs':
-          npm_package_ensure        => installed,
+          npm_package_ensure => installed,
         }
         nodejs::npm::global_config_entry { '//path.to.registry/:_authToken':
           ensure  => present,
@@ -217,15 +215,13 @@ describe 'nodejs' do
   end
 
   context 'set global_config_entry secret unquoted' do
-    before(:context) { purge_node }
-
     include_examples 'cleanup'
 
     it_behaves_like 'an idempotent resource' do
       let(:manifest) do
         <<-PUPPET
         class { 'nodejs':
-          npm_package_ensure        => installed,
+          npm_package_ensure => installed,
         }
         nodejs::npm::global_config_entry { '//path.to.registry/:_authToken':
           ensure  => present,
