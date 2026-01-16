@@ -191,8 +191,6 @@ describe 'nodejs' do
   context 'set global_config_entry secret' do
     before(:context) { purge_node }
 
-    include_examples 'cleanup'
-
     let(:manifest) do
       <<-PUPPET
       class { 'nodejs':
@@ -216,8 +214,6 @@ describe 'nodejs' do
 
   context 'set global_config_entry secret unquoted' do
     before(:context) { purge_node }
-
-    include_examples 'cleanup'
 
     let(:manifest) do
       <<-PUPPET
