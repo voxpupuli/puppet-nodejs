@@ -50,11 +50,11 @@ describe 'nodejs' do
       end
     # Debian 13 contains NodeJS 20, when we test 16 and 18, we need to force the nodesource version
     # as Debians versions *can* be newer
-      if %w[16 18 20].include?(nodejs_version) && fact('os.family') == 'Debian' && %w[13].include?(fact('os.release.major'))
-        '1000'
-      else
-        '1'
-      end
+    if %w[16 18 20].include?(nodejs_version) && fact('os.family') == 'Debian' && %w[13].include?(fact('os.release.major'))
+      '1000'
+    else
+      '1'
+    end
 
     it_behaves_like 'an idempotent resource' do
       let(:manifest) do
