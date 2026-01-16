@@ -189,8 +189,6 @@ describe 'nodejs' do
   end
 
   context 'set global_config_entry secret' do
-    include_examples 'cleanup'
-
     it_behaves_like 'an idempotent resource' do
       let(:manifest) do
         <<-PUPPET
@@ -215,8 +213,6 @@ describe 'nodejs' do
   end
 
   context 'set global_config_entry secret unquoted' do
-    include_examples 'cleanup'
-
     it_behaves_like 'an idempotent resource' do
       let(:manifest) do
         <<-PUPPET
