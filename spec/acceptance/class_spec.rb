@@ -40,9 +40,11 @@ describe 'nodejs' do
 
     include_examples 'cleanup'
 
+    # Debian 12 contains NodeJS 18, when we test 16 and 18, we need to force the nodesource version
+    # as Debians versions *can* be newer
     repo_priority =
-      if fact('os.family') == 'Debian'
-        '990'
+      if %w[16 18 20].include?(nodejs_version) && fact('os.family') == 'Debian' && %w[12 13].include?(fact('os.release.major'))
+        '1000'
       else
         'undef'
       end
@@ -187,10 +189,7 @@ describe 'nodejs' do
     it_behaves_like 'an idempotent resource' do
       let(:manifest) do
         <<-PUPPET
-        class { 'nodejs':
-          nodejs_dev_package_ensure => installed,
-          npm_package_ensure        => installed,
-        }
+        class { 'nodejs': }
         nodejs::npm::global_config_entry { '//path.to.registry/:_authToken':
           ensure  => present,
           value   => 'cGFzc3dvcmQ=',
@@ -202,7 +201,7 @@ describe 'nodejs' do
 
     describe 'npm config' do
       it 'contains the global_config_entry secret' do
-        npm_output = shell('cat $(/usr/bin/npm config get globalconfig)')
+        npm_output = shell('CONF=$(/usr/bin/npm config get globalconfig); echo "$(<$CONF)"')
         expect(npm_output.stdout).to match '//path.to.registry/:_authToken="cGFzc3dvcmQ="'
       end
     end
@@ -216,10 +215,7 @@ describe 'nodejs' do
     it_behaves_like 'an idempotent resource' do
       let(:manifest) do
         <<-PUPPET
-        class { 'nodejs':
-          nodejs_dev_package_ensure => installed,
-          npm_package_ensure        => installed,
-        }
+        class { 'nodejs': }
         nodejs::npm::global_config_entry { '//path.to.registry/:_authToken':
           ensure  => present,
           value   => 'cGFzc3dvcmQ',
@@ -231,8 +227,8 @@ describe 'nodejs' do
 
     describe 'npm config' do
       it 'contains the global_config_entry secret' do
-        npm_output = shell('cat $(/usr/bin/npm config get globalconfig)')
-        expect(npm_output.stdout).to match '//path.to.registry/:_authToken=cGFzc3dvcmQ'
+        npm_output = shell('CONF=$(/usr/bin/npm config get globalconfig); echo "$(<$CONF)"')
+        expect(npm_output.stdout).to match 'x//path.to.registry/:_authToken=cGFzc3dvcmQ'
       end
     end
   end
