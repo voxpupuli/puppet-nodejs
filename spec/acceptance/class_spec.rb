@@ -195,7 +195,7 @@ describe 'nodejs' do
         nodejs::npm::global_config_entry { '//path.to.registry/:_authToken':
           ensure  => present,
           value   => 'cGFzc3dvcmQ=',
-          require => Package[nodejs],
+          require => Package['nodejs','npm',],
         }
         PUPPET
       end
@@ -221,7 +221,7 @@ describe 'nodejs' do
         nodejs::npm::global_config_entry { '//path.to.registry/:_authToken':
           ensure  => present,
           value   => 'cGFzc3dvcmQ',
-          require => Package[nodejs],
+          require => Package['nodejs','npm',],
         }
         PUPPET
       end
