@@ -40,7 +40,12 @@ describe 'nodejs' do
 
     include_examples 'cleanup'
 
-    repo_priority = '990'
+    repo_priority =
+      if fact('os.family') == 'Debian'
+        '990'
+      else
+        'undef'
+      end
 
     it_behaves_like 'an idempotent resource' do
       let(:manifest) do
