@@ -186,10 +186,12 @@ describe 'nodejs' do
 
     include_examples 'cleanup'
 
-    it_behaves_like 'an idempotent resource' do
+    it_behaves_like 'an idempotent resource with debug' do
       let(:manifest) do
         <<-PUPPET
-        class { 'nodejs': }
+        class { 'nodejs':
+          npm_package_ensure        => installed,
+        }
         nodejs::npm::global_config_entry { '//path.to.registry/:_authToken':
           ensure  => present,
           value   => 'cGFzc3dvcmQ=',
