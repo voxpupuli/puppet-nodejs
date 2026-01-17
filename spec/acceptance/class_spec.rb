@@ -133,6 +133,7 @@ describe 'nodejs' do
 
     %w[
       npm
+      nodejs
       nodejs-devel
     ].each do |pkg|
       describe package(pkg) do
