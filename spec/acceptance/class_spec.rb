@@ -133,7 +133,6 @@ describe 'nodejs' do
 
     %w[
       npm
-      nodejs
       nodejs-devel
     ].each do |pkg|
       describe package(pkg) do
@@ -193,7 +192,7 @@ describe 'nodejs' do
         nodejs::npm::global_config_entry { '//path.to.registry/:_authToken':
           ensure  => present,
           value   => 'cGFzc3dvcmQ=',
-          require => Package['nodejs','npm',],
+          require => Package[nodejs],
         }
         PUPPET
       end
@@ -201,7 +200,7 @@ describe 'nodejs' do
 
     describe 'npm config' do
       it 'contains the global_config_entry secret' do
-        npm_output = shell('CONF=$(/usr/bin/npm config get globalconfig); echo "$(<$CONF)"')
+        npm_output = shell('cat $(/usr/bin/npm config get globalconfig || echo /dev/null)')
         expect(npm_output.stdout).to match '//path.to.registry/:_authToken="cGFzc3dvcmQ="'
       end
     end
@@ -219,7 +218,7 @@ describe 'nodejs' do
         nodejs::npm::global_config_entry { '//path.to.registry/:_authToken':
           ensure  => present,
           value   => 'cGFzc3dvcmQ',
-          require => Package['nodejs','npm',],
+          require => Package[nodejs],
         }
         PUPPET
       end
@@ -227,7 +226,7 @@ describe 'nodejs' do
 
     describe 'npm config' do
       it 'contains the global_config_entry secret' do
-        npm_output = shell('CONF=$(/usr/bin/npm config get globalconfig); echo "$(<$CONF)"')
+        npm_output = shell('cat $(/usr/bin/npm config get globalconfig || echo /dev/null)')
         expect(npm_output.stdout).to match '//path.to.registry/:_authToken=cGFzc3dvcmQ'
       end
     end
