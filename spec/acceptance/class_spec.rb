@@ -190,6 +190,7 @@ describe 'nodejs' do
       let(:manifest) do
         <<-PUPPET
         class { 'nodejs':
+          nodejs_dev_package_ensure => installed,
           npm_package_ensure        => installed,
         }
         nodejs::npm::global_config_entry { '//path.to.registry/:_authToken':
