@@ -42,26 +42,19 @@ describe 'nodejs' do
 
     # Debian 12 contains NodeJS 18, when we test 16 and 18, we need to force the nodesource version
     # as Debians versions *can* be newer
-    repo_priority =
-      if %w[16 18].include?(nodejs_version) && fact('os.family') == 'Debian' && %w[12].include?(fact('os.release.major'))
+    repo_pin =
+      if %w[16 18].include?(nodejs_version) && fact('os.family') == 'Debian' && %w[12 13].include?(fact('os.release.major'))
         '1000'
       else
-        '1'
+        'undef'
       end
-    # Debian 13 contains NodeJS 20, when we test 16 and 18, we need to force the nodesource version
-    # as Debians versions *can* be newer
-    if %w[16 18 20].include?(nodejs_version) && fact('os.family') == 'Debian' && %w[13].include?(fact('os.release.major'))
-      '1000'
-    else
-      '1'
-    end
 
     it_behaves_like 'an idempotent resource' do
       let(:manifest) do
         <<-PUPPET
         class { 'nodejs':
           repo_version => '#{nodejs_version}',
-          repo_priority => #{repo_priority},
+          repo_pin => #{repo_pin},
         }
         PUPPET
       end
@@ -193,12 +186,10 @@ describe 'nodejs' do
 
     include_examples 'cleanup'
 
-    it_behaves_like 'an idempotent resource with debug' do
+    it_behaves_like 'an idempotent resource' do
       let(:manifest) do
         <<-PUPPET
-        class { 'nodejs':
-          npm_package_ensure => installed,
-        }
+        class { 'nodejs': }
         nodejs::npm::global_config_entry { '//path.to.registry/:_authToken':
           ensure  => present,
           value   => 'cGFzc3dvcmQ=',
@@ -221,12 +212,10 @@ describe 'nodejs' do
 
     include_examples 'cleanup'
 
-    it_behaves_like 'an idempotent resource with debug' do
+    it_behaves_like 'an idempotent resource' do
       let(:manifest) do
         <<-PUPPET
-        class { 'nodejs':
-          npm_package_ensure => installed,
-        }
+        class { 'nodejs': }
         nodejs::npm::global_config_entry { '//path.to.registry/:_authToken':
           ensure  => present,
           value   => 'cGFzc3dvcmQ',
