@@ -84,13 +84,13 @@ describe 'nodejs', type: :class do
           end
         end
 
-        context 'and repo_priority set to 990' do
+        context 'and repo_priority set to 10' do
           let :params do
-            default_params.merge!(repo_priority: '990')
+            default_params.merge!(repo_priority: '10')
           end
 
-          it 'the repo apt::pin resource should contain priority = 990' do
-            is_expected.to contain_apt__pin('nodesource').with('priority' => '990')
+          it 'the repo apt::pin resource should contain priority = 10' do
+            is_expected.to contain_apt__pin('nodesource').with('priority' => '10')
           end
         end
 
