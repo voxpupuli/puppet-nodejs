@@ -44,9 +44,9 @@ describe 'nodejs' do
     # as Debians versions *can* be newer
     repo_priority =
       if %w[16 18].include?(nodejs_version) && fact('os.family') == 'Debian' && %w[12].include?(fact('os.release.major'))
-        '1000'
-      elsif %w[16 18 20].include?(nodejs_version) && fact('os.family') == 'Debian' && %w[13].include?(fact('os.release.major'))
-        'undef'
+        '1010'
+      elsif fact('os.family') == 'Debian' && %w[13].include?(fact('os.release.major')) && %w[16 18 20].include?(nodejs_version)
+        '1011'
       else
         'undef'
       end
