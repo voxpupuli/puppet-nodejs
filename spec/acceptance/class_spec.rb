@@ -228,7 +228,7 @@ describe 'nodejs' do
     describe 'npm config' do
       it 'contains the global_config_entry secret' do
         npm_output = shell('CONF=$(/usr/bin/npm config get globalconfig); echo "$(<$CONF)"')
-        expect(npm_output.stdout).to match 'x//path.to.registry/:_authToken=cGFzc3dvcmQ'
+        expect(npm_output.stdout).to match '//path.to.registry/:_authToken=cGFzc3dvcmQ'
       end
     end
   end
