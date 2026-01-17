@@ -40,16 +40,7 @@ describe 'nodejs' do
 
     include_examples 'cleanup'
 
-    # Debian 12 contains NodeJS 18, when we test 16 and 18, we need to force the nodesource version
-    # as Debians versions *can* be newer
-    repo_priority =
-      if %w[16 18].include?(nodejs_version) && fact('os.family') == 'Debian' && %w[12].include?(fact('os.release.major'))
-        '1010'
-      elsif fact('os.family') == 'Debian' && %w[13].include?(fact('os.release.major')) && %w[16 18 20].include?(nodejs_version)
-        '1011'
-      else
-        'undef'
-      end
+    repo_priority = '1010'
 
     it_behaves_like 'an idempotent resource' do
       let(:manifest) do
