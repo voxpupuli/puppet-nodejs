@@ -84,23 +84,23 @@ describe 'nodejs', type: :class do
           end
         end
 
-        context 'and repo_pin set to 10' do
+        context 'and repo_priority set to 10' do
           let :params do
-            default_params.merge!(repo_pin: '10')
+            default_params.merge!(repo_priority: '10')
           end
 
-          it 'the repo apt::source resource should contain pin = 10' do
-            is_expected.to contain_apt__source('nodesource').with('pin' => '10')
+          it 'the repo apt::source resource should contain priority = 10' do
+            is_expected.to contain_apt__pin('nodesource').with('priority' => '10')
           end
         end
 
-        context 'and repo_pin not set' do
+        context 'and repo_priority not set' do
           let :params do
-            default_params.merge!(repo_pin: :undef)
+            default_params.merge!(repo_priority: :undef)
           end
 
-          it 'the repo apt::source resource should contain pin = undef' do
-            is_expected.to contain_apt__source('nodesource').with('pin' => nil)
+          it 'the repo apt::source resource should contain priority = 990' do
+            is_expected.to contain_apt__pin('nodesource').with('priority' => 990)
           end
         end
 
@@ -109,8 +109,8 @@ describe 'nodejs', type: :class do
             default_params.merge!(repo_version: '9')
           end
 
-          it 'the repo apt::source resource should contain location = https://deb.nodesource.com/node_9.x' do
-            is_expected.to contain_apt__source('nodesource').with('location' => 'https://deb.nodesource.com/node_9.x')
+          it 'the repo apt::source resource should contain location = [https://deb.nodesource.com/node_9.x]' do
+            is_expected.to contain_apt__source('nodesource').with('location' => ['https://deb.nodesource.com/node_9.x'])
           end
         end
 
