@@ -19,7 +19,7 @@ class nodejs::repo::nodesource::apt {
       keyring       => '/usr/share/keyrings/nodesource-repo.gpg.key.asc',
       release       => ['nodistro',],
       repos         => ['main',],
-      types         => ['deb','deb-src',],
+      types         => ['deb',],
       require       => Apt::Keyring['nodesource'],
     }
 
