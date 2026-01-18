@@ -48,7 +48,7 @@ describe 'nodejs' do
       elsif fact('os.family') == 'Debian'
         '1'
       else
-        'undef'
+        'absent'
       end
 
     it_behaves_like 'an idempotent resource' do
