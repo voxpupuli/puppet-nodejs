@@ -36,6 +36,11 @@ class nodejs::repo::nodesource::apt {
     apt::source { 'nodesource':
       ensure => 'absent',
     }
+    # Workaround https://github.com/puppetlabs/puppetlabs-apt/issues/1245
+    file { '/etc/apt/sources.list.d/nodesource.sources':
+      ensure => 'absent',
+      notify => Class['Apt::Update'],
+    }
     apt::pin { 'nodesource':
       ensure => 'absent',
     }
@@ -43,10 +48,6 @@ class nodejs::repo::nodesource::apt {
       ensure   => 'absent',
       dir      => '/usr/share/keyrings',
       filename => 'nodesource-repo.gpg.key.asc',
-    }
-    file { '/etc/apt/sources.list.d/nodesource.sources':
-      ensure => 'absent',
-      notify => Class['Apt::Update'],
     }
   }
 }
