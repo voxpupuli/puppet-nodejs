@@ -44,5 +44,9 @@ class nodejs::repo::nodesource::apt {
       dir      => '/usr/share/keyrings',
       filename => 'nodesource-repo.gpg.key.asc',
     }
+    file { '/etc/apt/sources.list.d/nodesource.sources':
+      ensure => 'absent',
+      notify => Class['Apt::Update'],
+    }
   }
 }
