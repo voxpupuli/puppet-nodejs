@@ -1,7 +1,7 @@
 # PRIVATE CLASS: Do not use directly.
 class nodejs::repo::nodesource::apt {
   $ensure     = $nodejs::repo::nodesource::ensure
-  $priority        = $nodejs::repo::nodesource::priority
+  $priority   = $nodejs::repo::nodesource::priority
   $url_suffix = $nodejs::repo::nodesource::url_suffix
 
   include apt
@@ -35,6 +35,14 @@ class nodejs::repo::nodesource::apt {
   else {
     apt::source { 'nodesource':
       ensure => 'absent',
+    }
+    apt::pin { 'nodesource':
+      ensure => 'absent',
+    }
+    apt::keyring { 'nodesource':
+      ensure   => 'absent',
+      dir      => '/usr/share/keyrings',
+      filename => 'nodesource-repo.gpg.key.asc',
     }
   }
 }
