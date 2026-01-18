@@ -45,6 +45,8 @@ describe 'nodejs' do
     repo_priority =
       if %w[16 18 20].include?(nodejs_version) && fact('os.family') == 'Debian' && %w[12 13].include?(fact('os.release.major'))
         '1000'
+      elsif fact('os.family') == 'Debian'
+        '1'
       else
         'undef'
       end
@@ -54,7 +56,7 @@ describe 'nodejs' do
         <<-PUPPET
         class { 'nodejs':
           repo_version => '#{nodejs_version}',
-          repo_priority => #{repo_priority},
+          repo_priority => '#{repo_priority}',
         }
         PUPPET
       end
