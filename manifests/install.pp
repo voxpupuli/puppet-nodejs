@@ -20,7 +20,7 @@ class nodejs::install {
   Package { provider => $nodejs::package_provider }
 
   # nodejs
-  if $nodejs::manage_nodejs_package {
+  if $nodejs::manage_nodejs_package and $nodejs::nodejs_package_name {
     package { $nodejs::nodejs_package_name:
       ensure => $nodejs::nodejs_package_ensure,
       tag    => 'nodesource_repo',
@@ -36,7 +36,7 @@ class nodejs::install {
   }
 
   # nodejs-debug
-  if $nodejs::nodejs_debug_package_name {
+  if $nodejs::manage_nodejs_package and $nodejs::nodejs_debug_package_name {
     package { $nodejs::nodejs_debug_package_name:
       ensure => $nodejs::nodejs_debug_package_ensure,
       tag    => 'nodesource_repo',
