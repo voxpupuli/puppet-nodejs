@@ -40,21 +40,11 @@ describe 'nodejs' do
 
     include_examples 'cleanup'
 
-    # Debian 12 contains NodeJS 18, when we test 16 and 18, we need to force the nodesource version
-    # as Debians versions *can* be newer
-    repo_priority =
-      if fact('os.family') == 'Debian'
-        '990'
-      else
-        'absent'
-      end
-
     it_behaves_like 'an idempotent resource' do
       let(:manifest) do
         <<-PUPPET
         class { 'nodejs':
           repo_version => '#{nodejs_version}',
-          repo_priority => #{repo_priority},
         }
         PUPPET
       end
