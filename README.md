@@ -369,7 +369,7 @@ See [`metadata.json`](metadata.json) for supported operating systems.
 
 This modules uses `puppetlabs-apt` for the management of the NodeSource
 repository. If using an operating system of the Debian-based family, you will
-need to ensure that `puppetlabs-apt` version 10.0.0 or above is installed.
+need to ensure that `puppetlabs-apt` version 11.4.0 or above is installed.
 
 If using CentOS/RHEL and you wish to install Node.js from EPEL rather
 than from the NodeSource repository, you will need to ensure `puppet-epel` is
