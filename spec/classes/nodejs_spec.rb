@@ -259,6 +259,22 @@ describe 'nodejs', type: :class do
           is_expected.not_to contain_package('npm')
         end
       end
+
+      context 'with global_config_entries' do
+        let :params do
+          {
+            global_config_entries: {
+              'proxy' => { 'value' => 'https://proxy.com' }
+            }
+          }
+        end
+
+        it do
+          is_expected.to contain_nodejs__npm__global_config_entry('proxy').with(
+            value: 'https://proxy.com'
+          )
+        end
+      end
     end
   end
 

@@ -1,4 +1,6 @@
 # == Class: nodejs: See README.md for documentation.
+#
+# @param global_config_entries Create resources with nodejs::npm::global_config_entry
 class nodejs (
   $cmd_exe_path                                        = $nodejs::params::cmd_exe_path,
   Boolean $manage_nodejs_package                       = true,
@@ -24,6 +26,7 @@ class nodejs (
   String[1] $repo_version                              = $nodejs::params::repo_version,
   Array $use_flags                                     = $nodejs::params::use_flags,
   Optional[String] $package_provider                   = $nodejs::params::package_provider,
+  Hash[String[1], Hash, 0] $global_config_entries      = {},
 ) inherits nodejs::params {
   if $manage_package_repo and !$repo_class {
     fail("${module_name}: The manage_package_repo parameter was set to true but no repo_class was provided.")
@@ -36,5 +39,11 @@ class nodejs (
 
     Class[$repo_class]
     -> Class['nodejs::install']
+  }
+
+  $global_config_entries.each |$setting, $params| {
+    nodejs::npm::global_config_entry { $setting:
+      * => $params,
+    }
   }
 }
