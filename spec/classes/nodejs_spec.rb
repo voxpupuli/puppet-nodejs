@@ -130,7 +130,13 @@ describe 'nodejs', type: :class do
           end
 
           it 'the nodesource apt sources file should not exist' do
-            is_expected.to contain_apt__source('nodesource').with('ensure' => 'absent')
+            is_expected.to contain_apt__source('nodesource')
+              .with('ensure' => 'absent', 'source_format' => 'sources')
+          end
+
+          it 'the nodesource apt list file should not exist' do
+            is_expected.to contain_apt__setting('list-nodesource')
+              .with('ensure' => 'absent')
           end
         end
       end

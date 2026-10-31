@@ -32,13 +32,15 @@ class nodejs::repo::nodesource::apt {
   }
 
   else {
+    # deb822 format; ensure => 'absent' needs source_format to delete .sources
+    # (puppetlabs-apt #1245, fixed in 11.3.0)
     apt::source { 'nodesource':
-      ensure => 'absent',
+      ensure        => 'absent',
+      source_format => 'sources',
     }
-    # Workaround https://github.com/puppetlabs/puppetlabs-apt/issues/1245
-    file { '/etc/apt/sources.list.d/nodesource.sources':
+    # Legacy .list file from releases before the deb822 switch
+    apt::setting { 'list-nodesource':
       ensure => 'absent',
-      notify => Class['Apt::Update'],
     }
     apt::pin { 'nodesource':
       ensure => 'absent',
