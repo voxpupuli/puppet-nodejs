@@ -16,7 +16,7 @@ describe 'nodejs' do
     pkg_cmd = 'dpkg -s nodejs | grep "^Maintainer"'
   end
 
-  nodejs_version = ENV.fetch('BEAKER_FACTER_nodejs_version', '20')
+  nodejs_version = ENV.fetch('BEAKER_FACTER_nodejs_version', '24')
 
   context 'default parameters' do
     it_behaves_like 'an idempotent resource' do

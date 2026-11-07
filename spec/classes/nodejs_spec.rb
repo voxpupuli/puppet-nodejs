@@ -273,7 +273,7 @@ describe 'nodejs', type: :class do
     operatingsystemmajrelease = osversions[0]
 
     operatingsystem     = 'CentOS'
-    repo_baseurl        = 'https://rpm.nodesource.com/pub_20.x/nodistro/nodejs/$basearch'
+    repo_baseurl        = 'https://rpm.nodesource.com/pub_24.x/nodistro/nodejs/$basearch'
     repo_descr          = 'Node.js Packages - $basearch'
 
     context "when run on #{operatingsystem} release #{operatingsystemrelease}" do
