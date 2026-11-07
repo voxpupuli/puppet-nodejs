@@ -12,10 +12,7 @@ class nodejs::params {
   $repo_proxy                  = 'absent'
   $repo_proxy_password         = 'absent'
   $repo_proxy_username         = 'absent'
-  $repo_version                = ($facts['os']['family'] == 'RedHat' and $facts['os']['release']['major'] == '7') ? {
-    true    => '16',
-    default => '20',
-  }
+  $repo_version                = '20'
   $use_flags                   = ['npm', 'snapshot']
 
   $cmd_exe_path = $facts['os']['family'] ? {
