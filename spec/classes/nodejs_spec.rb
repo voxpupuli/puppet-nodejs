@@ -268,12 +268,12 @@ describe 'nodejs', type: :class do
     end
   end
 
-  ['7.0'].each do |operatingsystemrelease|
+  ['9'].each do |operatingsystemrelease|
     osversions = operatingsystemrelease.split('.')
     operatingsystemmajrelease = osversions[0]
 
     operatingsystem     = 'CentOS'
-    repo_baseurl        = 'https://rpm.nodesource.com/pub_16.x/nodistro/nodejs/$basearch'
+    repo_baseurl        = 'https://rpm.nodesource.com/pub_20.x/nodistro/nodejs/$basearch'
     repo_descr          = 'Node.js Packages - $basearch'
 
     context "when run on #{operatingsystem} release #{operatingsystemrelease}" do
