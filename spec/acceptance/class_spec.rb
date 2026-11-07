@@ -8,6 +8,13 @@ def nodesource_unsupported(nodejs_version)
   'NodeJS 16 is not supported on EL9' if nodejs_version == '16' && fact('os.release.major') == '9'
 end
 
+def dnfmodule_unsupported(nodejs_version)
+  return unless fact('os.family') == 'RedHat'
+  return 'NodeJS 16 is not available on EL9' if nodejs_version == '16' && fact('os.release.major') == '9'
+
+  'NodeJS 26 is not available in AppStream on EL8 and EL9' if nodejs_version == '26' && %w[8 9].include?(fact('os.release.major'))
+end
+
 describe 'nodejs' do
   case fact('os.family')
   when 'RedHat'
@@ -101,8 +108,9 @@ describe 'nodejs' do
     end
   end
 
-  context 'RedHat with repo_class => nodejs::repo::dnfmodule', if: fact('os.family') == 'RedHat' && %w[8 9].include?(fact('os.release.major')), skip: ((nodejs_version == '16' && fact('os.release.major') == '9') ? 'NodeJS 16 is not available on EL9' : nil) do
+  context 'RedHat with repo_class => nodejs::repo::dnfmodule', if: fact('os.family') == 'RedHat' && %w[8 9].include?(fact('os.release.major')), skip: dnfmodule_unsupported(nodejs_version) do
     # Node 16 is not available on EL9
+    # Node 26 is not available in AppStream on EL8 and EL9
 
     include_examples 'cleanup'
 
