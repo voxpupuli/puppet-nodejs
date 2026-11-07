@@ -32,6 +32,10 @@ On SUSE, ArchLinux, FreeBSD, OpenBSD and Gentoo, native packages are used. On
 Darwin, the MacPorts package is used. On Windows the packages are installed
 via Chocolatey.
 
+Only Node.js LTS releases are supported. The currently supported versions are
+`22.x`, `24.x` and `26.x`. Node.js releases that have reached end of life are
+not supported.
+
 ## Setup
 
 ### What nodejs affects
