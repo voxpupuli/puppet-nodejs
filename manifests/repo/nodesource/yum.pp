@@ -43,10 +43,7 @@ class nodejs::repo::nodesource::yum {
       require         => File['/etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL'],
     }
 
-    $gpg_source = $url_suffix ? {
-      '16.x'  => 'NODESOURCE-GPG-SIGNING-KEY-EL',
-      default => 'ns-operations-public.key',
-    }
+    $gpg_source = 'ns-operations-public.key'
 
     file { '/etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL':
       ensure => file,
