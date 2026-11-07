@@ -5,9 +5,14 @@ class nodejs::params {
   $nodejs_package_ensure       = 'installed'
   $repo_ensure                 = 'present'
   $repo_pin                    = undef
-  $repo_priority               = $facts['os']['family'] == 'Debian' ? {
-    true    => '990',
-    default => 'absent',
+  if $facts['os']['family'] == 'Debian' {
+    $repo_priority = '990'
+  } elsif $facts['os']['name'] == 'Amazon' {
+    # Amazon Linux 2023 ships its own repositories with priority=10. The
+    # NodeSource repository must use a lower value to take precedence.
+    $repo_priority = '9'
+  } else {
+    $repo_priority = 'absent'
   }
   $repo_proxy                  = 'absent'
   $repo_proxy_password         = 'absent'
