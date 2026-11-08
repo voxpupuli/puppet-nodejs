@@ -66,6 +66,13 @@ describe 'nodejs' do
   context 'RedHat with repo_class => epel', if: fact('os.family') == 'RedHat' do
     include_examples 'cleanup'
 
+    npm_package_name =
+      if fact('os.release.major') == '10'
+        'nodejs-npm'
+      else
+        'npm'
+      end
+
     it_behaves_like 'an idempotent resource' do
       # nodejs-devel (from EPEL) is currently not installable alongside nodejs
       # (from appstream) due to differing versions.
@@ -87,11 +94,7 @@ describe 'nodejs' do
       end
     end
 
-    %w[
-      npm
-      nodejs
-      nodejs-devel
-    ].each do |pkg|
+    [npm_package_name, 'nodejs', 'nodejs-devel'].each do |pkg|
       describe package(pkg) do
         it do
           pending('nodejs-devel and nodejs not installable together on EL9') if fact('os.release.major') == '9' && pkg == 'nodejs-devel'
