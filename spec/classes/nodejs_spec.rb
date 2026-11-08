@@ -545,6 +545,34 @@ describe 'nodejs', type: :class do
     end
   end
 
+  context 'when running on CentOS release 10' do
+    let :facts do
+      {
+        'os' => {
+          'family' => 'RedHat',
+          'name' => 'CentOS',
+          'release' => {
+            'major' => '10',
+            'full' => '10',
+          },
+        },
+      }
+    end
+
+    context 'with npm_package_ensure set to installed' do
+      let :params do
+        {
+          manage_package_repo: false,
+          npm_package_ensure: 'installed',
+        }
+      end
+
+      it 'the nodejs-npm package should be present' do
+        is_expected.to contain_package('nodejs-npm').with('ensure' => 'installed')
+      end
+    end
+  end
+
   context 'when running on Suse' do
     let :facts do
       {
