@@ -63,7 +63,8 @@ describe 'nodejs' do
     end
   end
 
-  context 'RedHat with repo_class => epel', if: fact('os.family') == 'RedHat' do
+  # EPEL does not support Amazon Linux 2023.
+  context 'RedHat with repo_class => epel', if: fact('os.family') == 'RedHat' && fact('os.name') != 'Amazon' do
     include_examples 'cleanup'
 
     npm_package_name =

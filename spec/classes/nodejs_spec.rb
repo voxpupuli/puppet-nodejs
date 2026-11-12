@@ -1235,4 +1235,24 @@ describe 'nodejs', type: :class do
       end
     end
   end
+
+  context 'when running on Amazon Linux 2023' do
+    let :facts do
+      {
+        'os' => {
+          'family' => 'RedHat',
+          'name' => 'Amazon',
+          'release' => {
+            'full' => '2023',
+            'major' => '2023',
+            'minor' => '0',
+          },
+        },
+      }
+    end
+
+    it 'the nodesource repo should have a priority lower than the Amazon Linux repositories' do
+      is_expected.to contain_yumrepo('nodesource').with('priority' => '9')
+    end
+  end
 end
