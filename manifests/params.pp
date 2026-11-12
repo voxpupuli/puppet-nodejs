@@ -40,7 +40,7 @@ class nodejs::params {
       $nodejs_dev_package_ensure = 'absent'
       $nodejs_package_name       = 'nodejs'
       $npm_package_ensure        = 'absent'
-      $npm_package_name          = ($facts['os']['release']['major'] == '10') ? {
+      $npm_package_name          = (versioncmp($facts['os']['release']['major'], '10') >= 0) ? {
         true    => 'nodejs-npm',
         default => 'npm',
       }

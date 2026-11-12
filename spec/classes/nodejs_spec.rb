@@ -268,13 +268,16 @@ describe 'nodejs', type: :class do
     end
   end
 
-  ['9'].each do |operatingsystemrelease|
+  %w[9 10].each do |operatingsystemrelease|
     osversions = operatingsystemrelease.split('.')
     operatingsystemmajrelease = osversions[0]
 
-    operatingsystem     = 'CentOS'
-    repo_baseurl        = 'https://rpm.nodesource.com/pub_24.x/nodistro/nodejs/$basearch'
-    repo_descr          = 'Node.js Packages - $basearch'
+    operatingsystem         = 'CentOS'
+    repo_baseurl            = 'https://rpm.nodesource.com/pub_24.x/nodistro/nodejs/$basearch'
+    repo_descr              = 'Node.js Packages - $basearch'
+    dnf_module_supported    = operatingsystemmajrelease.to_i < 10
+    # EL10 moved npm into a separate nodejs-npm package.
+    distro_npm_package_name = (operatingsystemmajrelease.to_i >= 10) ? 'nodejs-npm' : 'npm'
 
     context "when run on #{operatingsystem} release #{operatingsystemrelease}" do
       let :facts do
@@ -337,6 +340,19 @@ describe 'nodejs', type: :class do
               'baseurl' => repo_baseurl,
               'descr' => repo_descr,
             )
+          end
+
+          if dnf_module_supported
+            it 'the nodejs dnf module should be disabled' do
+              is_expected.to contain_file('dnf_module').with(
+                'ensure' => 'file',
+                'path' => '/etc/dnf/modules.d/nodejs.module',
+              )
+            end
+          else
+            it 'the nodejs dnf module should not be managed' do
+              is_expected.not_to contain_file('dnf_module')
+            end
           end
         end
 
@@ -542,33 +558,38 @@ describe 'nodejs', type: :class do
           is_expected.to contain_package('npm').with('ensure' => 'absent')
         end
       end
-    end
-  end
 
-  context 'when running on CentOS release 10' do
-    let :facts do
-      {
-        'os' => {
-          'family' => 'RedHat',
-          'name' => 'CentOS',
-          'release' => {
-            'major' => '10',
-            'full' => '10',
-          },
-        },
-      }
-    end
+      # npm_package_name without the NodeSource repository
+      context 'with manage_package_repo set to false and npm_package_ensure set to installed' do
+        let :params do
+          {
+            manage_package_repo: false,
+            npm_package_ensure: 'installed',
+          }
+        end
 
-    context 'with npm_package_ensure set to installed' do
-      let :params do
-        {
-          manage_package_repo: false,
-          npm_package_ensure: 'installed',
-        }
+        it 'the distribution npm package should be present' do
+          is_expected.to contain_package(distro_npm_package_name).with('ensure' => 'installed')
+        end
+
+        it 'the other npm package should not be managed' do
+          other_npm_package_name = (distro_npm_package_name == 'npm') ? 'nodejs-npm' : 'npm'
+          is_expected.not_to contain_package(other_npm_package_name)
+        end
       end
 
-      it 'the nodejs-npm package should be present' do
-        is_expected.to contain_package('nodejs-npm').with('ensure' => 'installed')
+      # an explicit npm_package_name must win over the repository detection
+      context 'with npm_package_name set to a custom package' do
+        let :params do
+          {
+            npm_package_ensure: 'installed',
+            npm_package_name: 'npm-custom',
+          }
+        end
+
+        it 'the custom npm package should be present' do
+          is_expected.to contain_package('npm-custom').with('ensure' => 'installed')
+        end
       end
     end
   end
