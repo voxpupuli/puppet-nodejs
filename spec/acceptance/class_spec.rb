@@ -2,10 +2,10 @@
 
 require 'spec_helper_acceptance'
 
-def nodesource_unsupported(nodejs_version)
+def dnfmodule_unsupported(nodejs_version)
   return unless fact('os.family') == 'RedHat'
 
-  'NodeJS 16 is not supported on EL9' if nodejs_version == '16' && fact('os.release.major') == '9'
+  'NodeJS 26 is not available in AppStream on EL8 and EL9' if nodejs_version == '26' && %w[8 9].include?(fact('os.release.major'))
 end
 
 describe 'nodejs' do
@@ -16,7 +16,7 @@ describe 'nodejs' do
     pkg_cmd = 'dpkg -s nodejs | grep "^Maintainer"'
   end
 
-  nodejs_version = ENV.fetch('BEAKER_FACTER_nodejs_version', '20')
+  nodejs_version = ENV.fetch('BEAKER_FACTER_nodejs_version', '24')
 
   context 'default parameters' do
     it_behaves_like 'an idempotent resource' do
@@ -35,7 +35,7 @@ describe 'nodejs' do
     end
   end
 
-  context "explicitly using version #{nodejs_version} from nodesource", if: %w[RedHat Debian].include?(fact('os.family')), skip: nodesource_unsupported(nodejs_version) do
+  context "explicitly using version #{nodejs_version} from nodesource", if: %w[RedHat Debian].include?(fact('os.family')) do
     include_examples 'cleanup'
 
     it_behaves_like 'an idempotent resource' do
@@ -101,8 +101,8 @@ describe 'nodejs' do
     end
   end
 
-  context 'RedHat with repo_class => nodejs::repo::dnfmodule', if: fact('os.family') == 'RedHat' && %w[8 9].include?(fact('os.release.major')), skip: ((nodejs_version == '16' && fact('os.release.major') == '9') ? 'NodeJS 16 is not available on EL9' : nil) do
-    # Node 16 is not available on EL9
+  context 'RedHat with repo_class => nodejs::repo::dnfmodule', if: fact('os.family') == 'RedHat' && %w[8 9].include?(fact('os.release.major')), skip: dnfmodule_unsupported(nodejs_version) do
+    # Node 26 is not available in AppStream on EL8 and EL9
 
     include_examples 'cleanup'
 

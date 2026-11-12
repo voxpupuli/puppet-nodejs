@@ -50,4 +50,4 @@ jobs:
       beaker_staging_url: ${{ inputs.beaker_staging_url }}
       beaker_collection: ${{ inputs.beaker_collection }}
       beaker_staging_version: ${{ inputs.beaker_staging_version }}
-      beaker_facter: 'nodejs_version:NodeJS:16,18,20,22,24'
+      beaker_facter: 'nodejs_version:NodeJS:22,24,26'
