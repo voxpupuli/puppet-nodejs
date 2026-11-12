@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v13.0.0](https://github.com/voxpupuli/puppet-nodejs/tree/v13.0.0) (2026-11-12)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v12.1.0...v13.0.0)
+
+**Breaking changes:**
+
+- Default to Node.js 24 [\#541](https://github.com/voxpupuli/puppet-nodejs/pull/541) ([alaunay](https://github.com/alaunay))
+- Drop EOL FreeBSD 12 and 13 [\#540](https://github.com/voxpupuli/puppet-nodejs/pull/540) ([alaunay](https://github.com/alaunay))
+- Drop EOL RPM distros: CentOS 7, 8; OracleLinux 7; RedHat 7; Scientific \(all versions\) [\#539](https://github.com/voxpupuli/puppet-nodejs/pull/539) ([alaunay](https://github.com/alaunay))
+- Drop EOL deb-based distributions: Debian 11, Ubuntu 20.04 [\#538](https://github.com/voxpupuli/puppet-nodejs/pull/538) ([alaunay](https://github.com/alaunay))
+
+**Implemented enhancements:**
+
+- Remove the deb822 workaround now that apt handles absent sources [\#534](https://github.com/voxpupuli/puppet-nodejs/pull/534) ([alaunay](https://github.com/alaunay))
+- puppetlabs/stdlib: Allow 10.x [\#533](https://github.com/voxpupuli/puppet-nodejs/pull/533) ([bastelfreak](https://github.com/bastelfreak))
+- Update requirements to allow OpenVox 9 [\#532](https://github.com/voxpupuli/puppet-nodejs/pull/532) ([sebastianrakel](https://github.com/sebastianrakel))
+- Add support for Ubuntu 26.04 [\#530](https://github.com/voxpupuli/puppet-nodejs/pull/530) ([mpdude](https://github.com/mpdude))
+
 ## [v12.1.0](https://github.com/voxpupuli/puppet-nodejs/tree/v12.1.0) (2026-02-22)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-nodejs/compare/v12.0.0...v12.1.0)
