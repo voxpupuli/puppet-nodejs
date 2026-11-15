@@ -331,8 +331,8 @@ nodejs::npm { 'serverapp':
 
 ### nodejs::npm::global_config_entry
 
-nodejs::npm::global_config_entry can be used to set/remove global npm
-configuration settings.
+nodejs::npm::global_config_entry manages entries in the global npm
+configuration file (`npmrc`, managed through `puppetlabs-inifile`).
 
 Note that when specifying a URL, such as registry, NPM will add a trailing
 slash when it stores the config. You must specify a trailing slash in your URL
@@ -354,7 +354,7 @@ nodejs::npm::global_config_entry { 'dev':
 }
 ```
 
-Delete the key from all configuration files:
+Delete the key from the global configuration file:
 
 ```puppet
 nodejs::npm::global_config_entry { 'color':
@@ -362,8 +362,40 @@ nodejs::npm::global_config_entry { 'color':
 }
 ```
 
-If a global_config_entry of `proxy` or `https-proxy` is specified, this will be
-applied before the local installation of npm packages using `nodejs::npm`.
+Global entries often hold registry credentials, so values are hidden in Puppet
+reports and diffs by default (`show_diff => false`). Set `show_diff => true` to
+see the changes.
+
+The file to manage is taken from the `npm_globalconfig_path` fact. When npm is
+installed by the same Puppet run that sets the entry, the fact is only
+available on the next run, so the path is derived from `nodejs::npm_path`
+(`<prefix>/etc/npmrc`). Set `config_path` to pin the file explicitly, for
+example when a custom `globalconfig` is configured. If npm later reports a
+different path, for example after `NPM_CONFIG_GLOBALCONFIG` changes, the entry
+moves to the new file and the old one keeps its last value, so pin
+`config_path` or remove the stale file by hand.
+
+The resolved path must be absolute. If `nodejs::npm_path` is a bare command
+name, set `config_path`.
+
+Entries are applied after the `nodejs` class, but not necessarily before
+`nodejs::npm` resources declared elsewhere in the catalog. Add explicit
+ordering when a package installation has to observe the setting.
+
+npm may reformat the file (for example quote a secret value) when it writes to
+it itself. The line is rewritten on the next run and converges again.
+
+`value` is required with `ensure => present` and must not be set with
+`ensure => absent`. The resource is not supported on Windows.
+
+The directories on the path to the file are created with `mkdir -p`, and only
+the ones that are missing. Existing directories such as `/etc` or `/root` are
+never managed, so their owner and mode are left alone.
+
+`config_path` must not resolve to `/root/.npmrc`: `nodejs::install` replaces
+that file's whole content from `nodejs::npmrc_config` on every run, so entries
+written there would be lost. The define fails instead; use
+`nodejs::npmrc_config` for root's file.
 
 ## Limitations
 
@@ -383,6 +415,9 @@ If using Gentoo, you will need to ensure `gentoo-portage` is installed.
 
 If using Windows, you will need to ensure that `puppetlabs-chocolatey` is
 installed.
+
+This module uses `puppetlabs-inifile` to manage the global npm configuration
+via `nodejs::npm::global_config_entry`.
 
 nodejs::npm has the ability to fetch npm packages from Git sources. If you
 wish to use this functionality, Git needs to be installed and be in the

@@ -3,6 +3,7 @@ fixtures:
   repositories:
     apt: https://github.com/puppetlabs/puppetlabs-apt.git
     chocolatey: https://github.com/puppetlabs/puppetlabs-chocolatey.git
+    inifile: https://github.com/puppetlabs/puppetlabs-inifile.git
     portage: https://github.com/gentoo/puppet-portage.git
     stdlib: https://github.com/puppetlabs/puppetlabs-stdlib.git
     yumrepo_core: https://github.com/puppetlabs/puppetlabs-yumrepo_core.git
