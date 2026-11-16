@@ -72,6 +72,14 @@ See the `repo_version` parameter entry below for possible values.
 When a separate npm package exists (natively or via EPEL) the Node.js development
 package also needs to be installed as it is a dependency for npm.
 
+On EL10 and later npm is no longer a standalone package. AppStream provides it
+as `nodejs-npm`, which requires the `nodejs` package of the same stream, so the
+module uses `nodejs-npm` when the packages come from the distribution or from
+EPEL. The NodeSource `nodejs` package still ships npm, so the module keeps using
+the `npm` virtual package there. If you override `nodejs_package_name` to select
+a versioned stream such as `nodejs24`, set `npm_package_name` to the matching
+package (`nodejs24-npm`) as well.
+
 Install Node.js and npm using the native packages provided by the distribution:
 
 ```puppet

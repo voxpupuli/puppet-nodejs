@@ -12,8 +12,11 @@ class nodejs::repo::nodesource::yum {
     default => 'priority',
   }
 
+  # EL10 and later use DNF5, which has no module support.
+  $manage_dnf_module = versioncmp($facts['os']['release']['major'], '8') >= 0 and versioncmp($facts['os']['release']['major'], '10') < 0
+
   if ($ensure == 'present') {
-    if versioncmp($facts['os']['release']['major'], '8') >= 0 {
+    if $manage_dnf_module {
       file { 'dnf_module':
         ensure => file,
         path   => '/etc/dnf/modules.d/nodejs.module',
@@ -59,7 +62,7 @@ class nodejs::repo::nodesource::yum {
       ensure => 'absent',
     }
 
-    if versioncmp($facts['os']['release']['major'], '8') >= 0 {
+    if $manage_dnf_module {
       file { 'dnf_module':
         ensure => absent,
         path   => '/etc/dnf/modules.d/nodejs.module',

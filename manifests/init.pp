@@ -10,11 +10,16 @@ class nodejs (
   $nodejs_package_ensure                               = $nodejs::params::nodejs_package_ensure,
   $nodejs_package_name                                 = $nodejs::params::nodejs_package_name,
   $npm_package_ensure                                  = $nodejs::params::npm_package_ensure,
-  Optional[Variant[Boolean, String]] $npm_package_name = $nodejs::params::npm_package_name,
   $npm_path                                            = $nodejs::params::npm_path,
   Optional[String] $npmrc_auth                         = $nodejs::params::npmrc_auth,
   Optional[Hash] $npmrc_config                         = $nodejs::params::npmrc_config,
   $repo_class                                          = $nodejs::params::repo_class,
+  # The NodeSource nodejs package provides npm itself, and the nodejs-npm
+  # package from AppStream cannot be installed next to it.
+  Optional[Variant[Boolean, String]] $npm_package_name = ($manage_package_repo and $repo_class == 'nodejs::repo::nodesource') ? {
+    true    => 'npm',
+    default => $nodejs::params::npm_package_name,
+  },
   $repo_ensure                                         = $nodejs::params::repo_ensure,
   $repo_pin                                            = $nodejs::params::repo_pin,
   $repo_priority                                       = $nodejs::params::repo_priority,

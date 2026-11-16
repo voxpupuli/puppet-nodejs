@@ -32,6 +32,10 @@ describe 'nodejs' do
           expect(pkg_output.stdout).to match 'nodesource'
         end
       end
+
+      describe command('npm --version') do
+        its(:exit_status) { is_expected.to eq 0 }
+      end
     end
   end
 
@@ -68,7 +72,7 @@ describe 'nodejs' do
     include_examples 'cleanup'
 
     npm_package_name =
-      if fact('os.release.major') == '10'
+      if fact('os.release.major').to_i >= 10
         'nodejs-npm'
       else
         'npm'
@@ -102,6 +106,10 @@ describe 'nodejs' do
           is_expected.to be_installed
         end
       end
+    end
+
+    describe command('npm --version') do
+      its(:exit_status) { is_expected.to eq 0 }
     end
   end
 
