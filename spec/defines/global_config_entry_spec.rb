@@ -7,18 +7,15 @@ describe 'nodejs::npm::global_config_entry', type: :define do
     'class { "nodejs": }'
   end
 
-  on_supported_os.each do |os, facts|
+  on_supported_os.each do |os, os_facts|
     context "on #{os}" do
-      let :facts do
-        facts
-      end
+      let(:facts) { os_facts }
 
-      let(:npm_path) do
-        if facts[:os]['family'] == 'FreeBSD'
-          '/usr/local/bin/npm'
-        else
-          '/usr/bin/npm'
-        end
+      let(:fallback_path) do
+        npm_binary = (os_facts[:os]['family'] == 'FreeBSD') ? '/usr/local/bin/npm' : '/usr/bin/npm'
+
+        # `<prefix>/etc/npmrc` derived from the npm binary location.
+        "#{File.dirname(File.dirname(npm_binary))}/etc/npmrc"
       end
 
       context 'with name set to proxy and value set to proxy.domain' do
@@ -29,8 +26,61 @@ describe 'nodejs::npm::global_config_entry', type: :define do
           }
         end
 
-        it 'npm config set proxy proxy.domain should be executed' do
-          is_expected.to contain_exec('npm_config present proxy').with('command' => "#{npm_path} config set proxy proxy.domain --global")
+        it do
+          is_expected.to contain_ini_setting('nodejs npm global_config_entry proxy').with(
+            ensure: 'present',
+            path: fallback_path,
+            setting: 'proxy',
+            value: 'proxy.domain',
+            show_diff: false,
+          ).that_requires(['Class[Nodejs]', "Exec[nodejs npm global_config_entry mkdir #{File.dirname(fallback_path)}]"])
+
+          is_expected.to contain_exec("nodejs npm global_config_entry mkdir #{File.dirname(fallback_path)}").with(
+            command: ['mkdir', '-p', File.dirname(fallback_path)],
+            creates: File.dirname(fallback_path),
+          )
+
+          is_expected.not_to contain_file(File.dirname(fallback_path))
+        end
+      end
+
+      context 'with the npm_globalconfig_path fact available' do
+        let(:facts) { os_facts.merge(npm_globalconfig_path: '/custom/npmrc') }
+        let(:title) { 'proxy' }
+        let :params do
+          {
+            value: 'proxy.domain',
+          }
+        end
+
+        it do
+          is_expected.to contain_ini_setting('nodejs npm global_config_entry proxy').with(
+            path: '/custom/npmrc',
+          )
+        end
+      end
+
+      context 'with config_path set' do
+        let(:facts) { os_facts.merge(npm_globalconfig_path: '/custom/npmrc') }
+        let(:title) { 'proxy' }
+        let :params do
+          {
+            config_path: '/etc/npmrc',
+            value: 'proxy.domain',
+          }
+        end
+
+        it do
+          is_expected.to contain_ini_setting('nodejs npm global_config_entry proxy').with(
+            path: '/etc/npmrc',
+          )
+        end
+
+        it 'never manages the existing parent directory' do
+          is_expected.to contain_exec('nodejs npm global_config_entry mkdir /etc').with(
+            creates: '/etc',
+          )
+          is_expected.not_to contain_file('/etc')
         end
       end
 
@@ -42,8 +92,12 @@ describe 'nodejs::npm::global_config_entry', type: :define do
           }
         end
 
-        it 'npm config set https-proxy proxy.domain should be executed' do
-          is_expected.to contain_exec('npm_config present https-proxy').with('command' => "#{npm_path} config set https-proxy proxy.domain --global")
+        it do
+          is_expected.to contain_ini_setting('nodejs npm global_config_entry https-proxy').with(
+            ensure: 'present',
+            setting: 'https-proxy',
+            value: 'proxy.domain',
+          )
         end
       end
 
@@ -55,8 +109,12 @@ describe 'nodejs::npm::global_config_entry', type: :define do
           }
         end
 
-        it 'npm config delete color should be executed' do
-          is_expected.to contain_exec('npm_config absent color').with('command' => "#{npm_path} config delete color --global")
+        it do
+          is_expected.to contain_ini_setting('nodejs npm global_config_entry color').with(
+            ensure: 'absent',
+          )
+
+          is_expected.not_to contain_file(File.dirname(fallback_path))
         end
       end
 
@@ -69,89 +127,99 @@ describe 'nodejs::npm::global_config_entry', type: :define do
           }
         end
 
-        it 'npm config set :_secret should be executed' do
-          is_expected.to contain_exec('npm_config present //path.to.registry/:_secret').with('command' => "#{npm_path} config set //path.to.registry/:_secret cGFzc3dvcmQ= --global")
+        it do
+          is_expected.to contain_ini_setting('nodejs npm global_config_entry //path.to.registry/:_secret').with(
+            ensure: 'present',
+            setting: '//path.to.registry/:_secret',
+            value: 'cGFzc3dvcmQ=',
+            show_diff: false,
+          )
         end
       end
 
-      context 'with ensure npm package set to present' do
-        let(:pre_condition) do
-          <<-PUPPET
-            class { 'nodejs':
-              nodejs_package_name => 'node-package-name',
-              npm_package_name    => 'npm-package-name',
-              npm_package_ensure  => present,
-            }
-          PUPPET
+      context 'with show_diff set to true' do
+        let(:title) { 'proxy' }
+        let :params do
+          {
+            show_diff: true,
+            value: 'proxy.domain',
+          }
         end
+
+        it do
+          is_expected.to contain_ini_setting('nodejs npm global_config_entry proxy').with(
+            show_diff: true,
+          )
+        end
+      end
+
+      context 'with a boolean value' do
         let(:title) { 'prefer-online' }
         let :params do
           {
-            value: 'true',
+            value: true,
           }
         end
 
-        it 'npm config set prefer-online should be executed and require npm package' do
-          is_expected.to contain_exec('npm_config present prefer-online').with('command' => "#{npm_path} config set prefer-online true --global").that_requires('Package[npm-package-name]')
-        end
-
-        it 'npm config set prefer-online should not require node package' do
-          is_expected.not_to contain_exec('npm_config present prefer-online').with('command' => "#{npm_path} config set prefer-online true --global").that_requires('Package[node-package-name]')
+        it do
+          is_expected.to contain_ini_setting('nodejs npm global_config_entry prefer-online').with(
+            value: true,
+          )
         end
       end
 
-      context 'with ensure npm package set to absent and repo class set to nodesource' do
-        let(:pre_condition) do
-          <<-PUPPET
-            class { 'nodejs':
-              nodejs_package_name => 'node-package-name',
-              npm_package_ensure  => absent,
-              repo_class          => 'nodejs::repo::nodesource',
-            }
-          PUPPET
-        end
-        let(:title) { 'loglevel' }
+      context 'with config_path in the root home' do
+        let(:title) { 'proxy' }
         let :params do
           {
-            value: 'debug',
+            config_path: '/root/.npmrc',
+            value: 'proxy.domain',
           }
         end
 
-        it 'npm config set loglevel should be executed and require nodejs package' do
-          is_expected.to contain_exec('npm_config present loglevel').with('command' => "#{npm_path} config set loglevel debug --global").that_requires('Package[node-package-name]')
-        end
+        it { is_expected.to raise_error(Puppet::Error, %r{managed by nodejs::install}) }
       end
 
-      context 'with ensure npm package set to absent and repo class set to something else' do
-        let(:pre_condition) do
-          <<-PUPPET
-            class something_else { }
-            class { 'nodejs':
-              nodejs_package_name => 'node-package-name',
-              npm_package_name    => 'npm-package-name',
-              npm_package_ensure  => absent,
-              repo_class          => '::something_else',
-            }
-          PUPPET
-        end
-        let(:title) { 'init-version' }
+      context 'with a relative npm_path' do
+        let(:pre_condition) { "class { 'nodejs': npm_path => 'npm' }" }
+        let(:title) { 'proxy' }
+        let(:params) { { value: 'proxy.domain' } }
+
+        it { is_expected.to raise_error(Puppet::Error, %r{is not an absolute path}) }
+      end
+
+      context 'with ensure absent' do
+        let(:title) { 'color' }
+        let(:params) { { ensure: 'absent' } }
+
+        it { is_expected.not_to contain_exec('nodejs npm global_config_entry mkdir /usr/etc') }
+        it { is_expected.to contain_ini_setting('nodejs npm global_config_entry color').that_requires('Class[Nodejs]') }
+      end
+
+      context 'with ensure absent and a value' do
+        let(:title) { 'color' }
+        let(:params) { { ensure: 'absent', value: 'red' } }
+
+        it { is_expected.to raise_error(Puppet::Error, %r{'value' must not be set}) }
+      end
+
+      context 'on Windows' do
+        let(:facts) { os_facts.merge(os: os_facts[:os].merge(family: 'windows', windows: { system32: 'C:\\Windows\\system32' })) }
+        let(:title) { 'proxy' }
+        let(:params) { { value: 'proxy.domain' } }
+
+        it { is_expected.to raise_error(Puppet::Error, %r{not supported on Windows}) }
+      end
+
+      context 'with ensure present and no value' do
+        let(:title) { 'proxy' }
         let :params do
           {
-            value: '0.0.1',
+            ensure: 'present',
           }
         end
 
-        it 'npm config set init-version should be executed' do
-          is_expected.to contain_exec('npm_config present init-version').with('command' => "#{npm_path} config set init-version 0.0.1 --global")
-        end
-
-        it 'npm config set init-version should not require npm package' do
-          is_expected.not_to contain_exec('npm_config present init-version').with('command' => "#{npm_path} config set init-version 0.0.1 --global").that_requires('Package[npm-package-name]')
-        end
-
-        it 'npm config set init-version should not require node package' do
-          is_expected.not_to contain_exec('npm_config present init-version').with('command' => "#{npm_path} config set init-version 0.0.1 --global").that_requires('Package[node-package-name]')
-        end
+        it { is_expected.to raise_error(Puppet::Error, %r{'value' is required}) }
       end
     end
   end

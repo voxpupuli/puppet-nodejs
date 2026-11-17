@@ -173,7 +173,7 @@ describe 'nodejs' do
     end
   end
 
-  context 'set global_config_entry secret' do
+  context 'set global_config_entry' do
     before(:context) { purge_node }
 
     include_examples 'cleanup'
@@ -183,45 +183,57 @@ describe 'nodejs' do
         <<-PUPPET
         class { 'nodejs': }
         nodejs::npm::global_config_entry { '//path.to.registry/:_authToken':
-          ensure  => present,
-          value   => 'cGFzc3dvcmQ=',
-          require => Package[nodejs],
+          ensure => present,
+          value  => 'cGFzc3dvcmQ=',
+        }
+        nodejs::npm::global_config_entry { 'https-proxy':
+          ensure => present,
+          value  => 'http://proxy.example.com:3128/',
         }
         PUPPET
       end
     end
 
+    describe 'npmrc' do
+      it 'writes the settings in ini format' do
+        npmrc = shell('cat $(npm config get globalconfig)').stdout
+        expect(npmrc).to match(%r{^//path\.to\.registry/:_authToken = cGFzc3dvcmQ=$})
+      end
+    end
+
     describe 'npm config' do
-      it 'contains the global_config_entry secret' do
-        npm_output = shell('cat $(/usr/bin/npm config get globalconfig)')
-        expect(npm_output.stdout).to match '//path.to.registry/:_authToken="cGFzc3dvcmQ="'
+      it 'reads back the global_config_entry proxy' do
+        expect(shell('npm config get https-proxy').stdout).to match 'proxy.example.com'
       end
     end
   end
 
-  context 'set global_config_entry secret unquoted' do
-    before(:context) { purge_node }
-
-    include_examples 'cleanup'
-
-    it_behaves_like 'an idempotent resource' do
-      let(:manifest) do
-        <<-PUPPET
+  context 'remove global_config_entry' do
+    it 'removes an existing entry and stays idempotent' do
+      apply_manifest(<<-PUPPET, catch_failures: true)
         class { 'nodejs': }
-        nodejs::npm::global_config_entry { '//path.to.registry/:_authToken':
-          ensure  => present,
-          value   => 'cGFzc3dvcmQ',
-          require => Package[nodejs],
+        nodejs::npm::global_config_entry { 'https-proxy':
+          ensure => present,
+          value  => 'http://proxy.example.com:3128/',
         }
-        PUPPET
-      end
-    end
+      PUPPET
 
-    describe 'npm config' do
-      it 'contains the global_config_entry secret' do
-        npm_output = shell('cat $(/usr/bin/npm config get globalconfig)')
-        expect(npm_output.stdout).to match '//path.to.registry/:_authToken=cGFzc3dvcmQ'
-      end
+      apply_manifest(<<-PUPPET, catch_failures: true)
+        class { 'nodejs': }
+        nodejs::npm::global_config_entry { 'https-proxy':
+          ensure => absent,
+        }
+      PUPPET
+
+      apply_manifest(<<-PUPPET, catch_changes: true)
+        class { 'nodejs': }
+        nodejs::npm::global_config_entry { 'https-proxy':
+          ensure => absent,
+        }
+      PUPPET
+
+      npmrc = shell('cat $(npm config get globalconfig)').stdout
+      expect(npmrc).not_to match(%r{^https-proxy})
     end
   end
 end

@@ -1,78 +1,72 @@
 # See README.md for usage information.
 define nodejs::npm::global_config_entry (
   Enum['present', 'absent'] $ensure = 'present',
-  $config_setting                   = $title,
-  $cmd_exe_path                     = $nodejs::cmd_exe_path,
-  $npm_path                         = $nodejs::npm_path,
-  $value                            = undef,
+  String[1] $config_setting = $title,
+  Optional[Variant[Boolean, Numeric, String[1]]] $value = undef,
+  Optional[Stdlib::Absolutepath] $config_path = undef,
+  Boolean $show_diff = false,
 ) {
+  if $facts['os']['family'] == 'windows' {
+    fail("${module_name}::npm::global_config_entry is not supported on Windows")
+  }
+
   include nodejs
 
-  case $ensure {
-    'absent': {
-      $command = "config delete ${config_setting} --global"
-
-      # If this is a secret key, determine if it is set properly outside of NPM
-      # https://github.com/voxpupuli/puppet-nodejs/issues/326
-      if $config_setting =~ /(_|:_)/ {
-        $onlyif_command = $facts['os']['family'] ? {
-          'Windows' => "${cmd_exe_path} /C FOR /F %G IN ('${npm_path} config get globalconfig') DO IF EXIST %G (FINDSTR /B /C:\"${$config_setting}\" %G) ELSE (EXIT 1)",
-          default   => "test -f $(${npm_path} config get globalconfig) && grep -qe \"^${$config_setting}\" $(${npm_path} config get globalconfig)",
-        }
-      }
-      else {
-        $onlyif_command = $facts['os']['family'] ? {
-          'Windows' => "${cmd_exe_path} /C ${npm_path} get --global| FINDSTR /B \"${config_setting}\"",
-          default   => "${npm_path} get --global | grep -e \"^${config_setting}\"",
-        }
-      }
-    }
-    default: {
-      $command = "config set ${config_setting} ${value} --global"
-
-      # If this is a secret key, determine if it is set properly outside of NPM
-      # https://github.com/voxpupuli/puppet-nodejs/issues/326
-      if $config_setting =~ /(_|:_)/ {
-        $onlyif_command = $facts['os']['family'] ? {
-          'Windows' => "${cmd_exe_path} /V /C FOR /F %G IN ('${npm_path} config get globalconfig') DO IF EXIST %G (FINDSTR /B /C:\"${$config_setting}=\\\"${$value}\\\"\" %G & IF !ERRORLEVEL! EQU 0 ( EXIT 1 ) ELSE ( EXIT 0 )) ELSE ( EXIT 0 )",
-          default   => "! test -f $(${npm_path} config get globalconfig) || ! grep -qe '^${$config_setting}=\"\\?${$value}\"\\?$' $(${npm_path} config get globalconfig)",
-        }
-      }
-      else {
-        $onlyif_command = $facts['os']['family'] ? {
-          'Windows' => "${cmd_exe_path} /C FOR /F %i IN ('${npm_path} get ${config_setting} --global') DO IF \"%i\" NEQ \"${value}\" ( EXIT 0 ) ELSE ( EXIT 1 )",
-          default   => "test \"$(${npm_path} get ${config_setting} --global | tr -d '\n')\" != \"${value}\"",
-        }
-      }
-    }
+  if $ensure == 'present' and $value == undef {
+    fail("${module_name}::npm::global_config_entry[${title}]: 'value' is required when 'ensure' is set to 'present'")
   }
 
-  if $nodejs::npm_package_ensure != 'absent' {
-    $exec_require = "Package[${nodejs::npm_package_name}]"
-  } elsif $nodejs::repo_class == 'nodejs::repo::nodesource' {
-    $exec_require = "Package[${nodejs::nodejs_package_name}]"
+  if $ensure == 'absent' and $value != undef {
+    fail("${module_name}::npm::global_config_entry[${title}]: 'value' must not be set when 'ensure' is set to 'absent'")
+  }
+
+  # npm keeps its global configuration in `<prefix>/etc/npmrc`, where <prefix>
+  # is the parent of the directory that holds the npm binary. The fact is
+  # authoritative (the path can be moved with the globalconfig setting or the
+  # NPM_CONFIG_GLOBALCONFIG environment variable), but it is not available when
+  # npm is installed by the very catalog that sets the entry, so derive a
+  # fallback from the configured binary.
+  $npm_binary = regsubst($nodejs::npm_path, '^"(.*)"$', '\1')
+  $fallback_config_path = "${dirname(dirname($npm_binary))}/etc/npmrc"
+  $resolved_config_path = pick($config_path, $facts['npm_globalconfig_path'], $fallback_config_path)
+
+  # A relative npm_path, such as a bare 'npm', would derive a relative path
+  # from the working directory of the agent.
+  if $resolved_config_path !~ /^\// {
+    fail("${module_name}::npm::global_config_entry[${title}]: '${resolved_config_path}' is not an absolute path, set config_path")
+  }
+
+  $config_dir = dirname($resolved_config_path)
+
+  if $resolved_config_path == "${facts['root_home']}/.npmrc" {
+    fail("${module_name}::npm::global_config_entry[${title}]: ${resolved_config_path} is managed by nodejs::install (npmrc_config), use nodejs::npmrc_config instead")
+  }
+
+  if $ensure == 'present' {
+    # ini_setting cannot create a missing parent directory, and on a fresh
+    # node `<prefix>/etc` does not exist yet (e.g. /usr/etc for the
+    # distribution packages). Create it only when missing: an existing
+    # directory such as /etc or /root is never touched, so its owner and mode
+    # stay as they are.
+    # Several entries share one directory, so declare the exec idempotently.
+    ensure_resource('exec', "nodejs npm global_config_entry mkdir ${config_dir}", {
+      'command' => ['mkdir', '-p', $config_dir],
+      'creates' => $config_dir,
+      'path'    => ['/bin', '/usr/bin'],
+      'require' => Class['nodejs'],
+    })
+
+    $ini_require = [Class['nodejs'], Exec["nodejs npm global_config_entry mkdir ${config_dir}"]]
   } else {
-    $exec_require = undef
+    $ini_require = [Class['nodejs']]
   }
 
-  #Determine exec provider
-  $provider = $facts['os']['family'] ? {
-    'Windows' => 'windows',
-    default   => 'shell',
-  }
-
-  # set a sensible path on Unix
-  $exec_path = $facts['os']['family'] ? {
-    'Windows' => undef,
-    'Darwin'  => ['/bin', '/usr/bin', '/opt/local/bin', '/usr/local/bin'],
-    default    => ['/bin', '/usr/bin', '/usr/local/bin'],
-  }
-
-  exec { "npm_config ${ensure} ${title}":
-    command  => "${npm_path} ${command}",
-    path     => $exec_path,
-    provider => $provider,
-    onlyif   => $onlyif_command,
-    require  => $exec_require,
+  ini_setting { "nodejs npm global_config_entry ${title}":
+    ensure    => $ensure,
+    path      => $resolved_config_path,
+    setting   => $config_setting,
+    value     => $value,
+    show_diff => $show_diff,
+    require   => $ini_require,
   }
 }
